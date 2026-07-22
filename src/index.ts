@@ -1,4 +1,23 @@
 export { runScan, type ScanProgress, type ScanResult } from "./scan.js";
+export {
+  inspectEnvironment,
+  waitForEnvironmentRender,
+  type EnvironmentHealthOptions,
+  type EnvironmentRenderObservation,
+} from "./environment/health.js";
+export {
+  discoverProject,
+  loadProjectProfile,
+  writeProjectProfile,
+  type ProjectProfile,
+  type RuntimeCommand,
+} from "./project/discovery.js";
+export {
+  RuntimeManager,
+  runBuildCommand,
+  type ManagedRuntimeOptions,
+  type RuntimeSnapshot,
+} from "./runtime/manager.js";
 export { launchBrowser, launchChromium, type BrowserName, type BrowserRuntimeOptions } from "./browser/runtime.js";
 export {
   runBrowserMatrix,

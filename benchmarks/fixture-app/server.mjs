@@ -122,6 +122,30 @@ export function createFixtureServer() {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
       return response.end(html("Recorder secret control", `<form id="login"><label>Email <input name="email" type="email" placeholder="Email"></label><label>Password <input name="password" type="password" placeholder="Password"></label><button>Login</button></form>`, `login.addEventListener('submit',event=>{event.preventDefault();notice.className='toast';notice.textContent='Login complete'})`));
     }
+    if (url.pathname === "/environment-control") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(`<!doctype html><html><head><meta charset="utf-8"><title>Healthy environment</title><link rel="stylesheet" href="/environment.css"></head><body><main><h1>Healthy application</h1><button id="ready">Ready control</button></main><script src="/environment.js"></script></body></html>`);
+    }
+    if (url.pathname === "/environment.js") {
+      response.writeHead(200, { "content-type": "application/javascript; charset=utf-8" });
+      return response.end(`document.documentElement.dataset.bootstrapped='true';`);
+    }
+    if (url.pathname === "/environment.css") {
+      response.writeHead(200, { "content-type": "text/css; charset=utf-8" });
+      return response.end(`body{font:16px system-ui}`);
+    }
+    if (url.pathname === "/environment-invalid") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(`<!doctype html><html><head><meta charset="utf-8"><title>Broken environment</title></head><body><div id="root"></div><script src="/missing-bundle.js"></script></body></html>`);
+    }
+    if (url.pathname === "/delayed-bootstrap") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(`<!doctype html><html><head><meta charset="utf-8"><title>Delayed bootstrap</title></head><body><main id="root"><p>Application shell is loading.</p><p>The browser document is valid but interactive controls are not mounted yet.</p><p>Discovery must wait for runtime readiness.</p></main><p id="status">Closed</p><script>setTimeout(()=>{document.getElementById('root').insertAdjacentHTML('beforeend','<button id="delayed">Open delayed panel</button>');document.getElementById('delayed').onclick=()=>{document.getElementById('status').textContent='Delayed panel opened'}},800)</script></body></html>`);
+    }
+    if (url.pathname === "/missing-bundle.js") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(`<!doctype html><title>SPA fallback instead of JavaScript</title>`);
+    }
     response.writeHead(404, { "content-type": "text/html; charset=utf-8" });
     return response.end(html("404", "<p>This route is intentionally missing.</p>"));
   });

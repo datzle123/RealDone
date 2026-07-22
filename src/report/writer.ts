@@ -71,6 +71,9 @@ export async function writeReport(
     writeFile(path.join(reportDirectory, "findings.json"), `${JSON.stringify(report.findings, null, 2)}\n`),
     writeFile(path.join(reportDirectory, "scan.json"), `${JSON.stringify(report, null, 2)}\n`),
     writeCleanupLedger(reportDirectory, createCleanupLedger(report)),
+    ...(report.environment
+      ? [writeFile(path.join(reportDirectory, "environment.json"), `${JSON.stringify(report.environment, null, 2)}\n`)]
+      : []),
   ]);
   return report;
 }

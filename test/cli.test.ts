@@ -25,6 +25,7 @@ test("CLI exposes every release command and the package version", async () => {
   const help = await cli("--help");
   assert.equal(commandPassed(help), true, help.stderr);
   for (const command of [
+    "init",
     "scan",
     "cleanup",
     "record",
@@ -45,7 +46,7 @@ test("CLI exposes every release command and the package version", async () => {
 test("CLI help exposes deep and advanced verification controls", async () => {
   const scan = await cli("scan", "--help");
   assert.equal(commandPassed(scan), true, scan.stderr);
-  for (const option of ["--deep", "--trace", "--video", "--policy", "--storage-state", "--browser-path"]) {
+  for (const option of ["--deep", "--trace", "--video", "--policy", "--storage-state", "--browser-path", "--manage-runtime", "--environment-timeout"]) {
     assert.ok(scan.stdout.includes(option), `scan help is missing ${option}`);
   }
 

@@ -54,6 +54,10 @@ export interface BenchmarkMetrics {
   actionDiscoveryRate: number;
   verdictAccuracy: number;
   detectorAccuracy: number;
+  expectationCoverage: number;
+  benchmarkTruncated: boolean;
+  environmentValidity: number;
+  cleanupSuccess: number | null;
   reproductionSuccessRate: number | null;
   reproductionsAttempted: number;
   scanTimeMs: number;
@@ -118,6 +122,10 @@ export function evaluateReport(
     actionDiscoveryRate: ratio(evaluations.filter((item) => item.discovered).length, expectations.length),
     verdictAccuracy: ratio(evaluations.filter((item) => item.verdictCorrect).length, expectations.length),
     detectorAccuracy: ratio(evaluations.filter((item) => item.detectorCodesCorrect).length, expectations.length),
+    expectationCoverage: ratio(evaluations.filter((item) => item.discovered).length, expectations.length),
+    benchmarkTruncated: Boolean(report.completeness?.truncated),
+    environmentValidity: !report.environment || report.environment.status === "VALID" ? 1 : 0,
+    cleanupSuccess: null,
     reproductionSuccessRate: null,
     reproductionsAttempted: 0,
     scanTimeMs,

@@ -25,8 +25,11 @@ Scan: \`${metrics.scanId}\`
 | Recall | ${percent(metrics.recall)} |
 | False-positive rate | ${percent(metrics.falsePositiveRate)} |
 | Action discovery | ${percent(metrics.actionDiscoveryRate)} |
+| Expectation coverage | ${percent(metrics.expectationCoverage)} |
 | Verdict accuracy | ${percent(metrics.verdictAccuracy)} |
 | Detector accuracy | ${percent(metrics.detectorAccuracy)} |
+| Environment validity | ${percent(metrics.environmentValidity)} |
+| Benchmark truncated | ${metrics.benchmarkTruncated ? "yes" : "no"} |
 | Reproduction success | ${replay} |
 | Scan time | ${metrics.scanTimeMs}ms |
 | Memory delta | ${metrics.memoryDeltaMb}MB |
@@ -41,8 +44,10 @@ export function renderBenchmarkDashboard(metrics: BenchmarkMetrics): string {
     ["Recall", percent(metrics.recall), metrics.recall],
     ["False-positive rate", percent(metrics.falsePositiveRate), 1 - metrics.falsePositiveRate],
     ["Discovery", percent(metrics.actionDiscoveryRate), metrics.actionDiscoveryRate],
+    ["Expectation coverage", percent(metrics.expectationCoverage), metrics.expectationCoverage],
     ["Verdict accuracy", percent(metrics.verdictAccuracy), metrics.verdictAccuracy],
     ["Detector accuracy", percent(metrics.detectorAccuracy), metrics.detectorAccuracy],
+    ["Environment validity", percent(metrics.environmentValidity), metrics.environmentValidity],
     [
       "Reproduction success",
       metrics.reproductionSuccessRate === null ? "not run" : percent(metrics.reproductionSuccessRate),

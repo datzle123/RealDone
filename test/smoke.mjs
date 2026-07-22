@@ -14,6 +14,7 @@ import { captureBaseline } from "../dist/baseline/manifest.js";
 import { runRegressionGate } from "../dist/baseline/regression.js";
 import { commandPassed, runCommand } from "../dist/agent/command.js";
 import { runAgentVerification } from "../dist/agent/pipeline.js";
+import { runScan } from "../dist/scan.js";
 
 async function startFixture() {
   const child = spawn(process.execPath, [path.resolve("benchmarks/fixture-app/server.mjs")], {
@@ -82,7 +83,11 @@ try {
   assert.equal(result.metrics.actionDiscoveryRate, 1);
   assert.equal(result.metrics.verdictAccuracy, 1);
   assert.equal(result.metrics.detectorAccuracy, 1);
+  assert.equal(result.metrics.expectationCoverage, 1);
+  assert.equal(result.metrics.benchmarkTruncated, false);
+  assert.equal(result.metrics.environmentValidity, 1);
   assert.equal(result.metrics.reproductionSuccessRate, 1);
+  assert.equal(result.report.environment?.status, "VALID");
   for (const artifact of [
     "report.html",
     "summary.json",
@@ -98,6 +103,68 @@ try {
   assert.ok((await readdir(path.join(result.reportDirectory, "screenshots"))).length > 0);
   assert.ok((await readdir(path.join(result.reportDirectory, "network"))).length > 0);
   assert.ok((await readdir(path.join(result.reportDirectory, "reproductions"))).length > 0);
+  await access(path.join(result.reportDirectory, "environment.json"));
+
+  const environmentControl = await runScan({
+    ...scan,
+    targetUrl: `${fixture.url}/environment-control`,
+    outputRoot: path.join(outputRoot, "environment-control"),
+    maxPages: 1,
+    maxActions: 0,
+    environmentTimeoutMs: 3_000,
+  });
+  assert.equal(environmentControl.exitCode, 0);
+  assert.equal(environmentControl.report.environment?.status, "VALID");
+  assert.equal(environmentControl.report.environment?.assets.failed, 0);
+
+  const environmentInvalid = await runScan({
+    ...scan,
+    targetUrl: `${fixture.url}/environment-invalid`,
+    outputRoot: path.join(outputRoot, "environment-invalid"),
+    maxPages: 1,
+    maxActions: 0,
+    environmentTimeoutMs: 3_000,
+  });
+  assert.equal(environmentInvalid.exitCode, 2);
+  assert.equal(environmentInvalid.report.environment?.status, "ENVIRONMENT_INVALID");
+  assert.equal(environmentInvalid.report.findings.length, 0);
+  assert.ok(environmentInvalid.report.environment?.findings.some((finding) => finding.code === "RD1001"));
+  await access(path.join(environmentInvalid.reportDirectory, "environment.json"));
+
+  const delayedBootstrap = await runScan({
+    ...scan,
+    targetUrl: `${fixture.url}/delayed-bootstrap`,
+    outputRoot: path.join(outputRoot, "delayed-bootstrap"),
+    maxPages: 1,
+    maxActions: 1,
+    environmentTimeoutMs: 3_000,
+  });
+  assert.equal(delayedBootstrap.exitCode, 0);
+  assert.equal(delayedBootstrap.report.environment?.status, "VALID");
+  assert.equal(delayedBootstrap.report.summary.verdicts.VERIFIED, 1);
+
+  const managedScan = await runCommand({
+    executable: process.execPath,
+    args: [
+      "dist/cli.js",
+      "scan",
+      "--manage-runtime",
+      "--project", path.resolve("benchmarks/managed-app"),
+      "--health-endpoint", "/health",
+      "--max-pages", "1",
+      "--max-actions", "1",
+      "--environment-timeout", "8000",
+      "--output", path.join(outputRoot, "managed-scan"),
+      "--json",
+      ...(process.env.REALDONE_BROWSER_PATH ? ["--browser-path", process.env.REALDONE_BROWSER_PATH] : []),
+    ],
+    cwd: process.cwd(),
+    timeoutMs: 30_000,
+  });
+  assert.equal(commandPassed(managedScan), true, managedScan.stderr);
+  const managedSummary = JSON.parse(managedScan.stdout);
+  assert.equal(managedSummary.environmentStatus, "VALID");
+  assert.equal(managedSummary.verdicts.VERIFIED, 1);
   const cliScan = await runCommand({
     executable: process.execPath,
     args: [

@@ -7,6 +7,7 @@ import { isTransientBrowserError, withRetry } from "../core/retry.js";
 import type { ActionSpec, ExecutionEvidence, FilledField, ScanOptions } from "../types.js";
 import { attachEvidence, captureState, collectUiClaims } from "./evidence.js";
 import { resolveSemanticLocator, SemanticTargetNotFoundError } from "./locator.js";
+import { waitForEnvironmentRender } from "../environment/health.js";
 
 async function fillForm(page: Page, action: ActionSpec, canary: string): Promise<FilledField[]> {
   const filled: FilledField[] = [];
@@ -105,7 +106,7 @@ export async function executeAction(
       () => page.goto(action.pageUrl, { waitUntil: "domcontentloaded", timeout: options.timeoutMs }),
       { retries: options.maxRetries, shouldRetry: isTransientBrowserError },
     );
-    await page.waitForTimeout(Math.min(options.settleMs, 1_000));
+    await waitForEnvironmentRender(page, Math.min(options.timeoutMs, 5_000), options.settleMs, true);
     const resolved = await resolveSemanticLocator(page, action.fingerprint, options.maxRetries);
     const locator = resolved.locator;
     evidence.locatorResolution = resolved.diagnostics;
@@ -145,7 +146,7 @@ export async function executeAction(
 
     if (action.kind === "mutation") {
       await page.reload({ waitUntil: "domcontentloaded", timeout: options.timeoutMs });
-      await page.waitForTimeout(options.settleMs);
+      await waitForEnvironmentRender(page, Math.min(options.timeoutMs, 5_000), options.settleMs, true);
       evidence.afterRefresh = await captureState(page, canary, startedAt);
       const targetVisibleAfterRefresh = await targetIsVisible(page, evidence.targetText);
       if (targetVisibleAfterRefresh !== undefined) evidence.targetVisibleAfterRefresh = targetVisibleAfterRefresh;
@@ -164,7 +165,7 @@ export async function executeAction(
             () => freshPage.goto(persistenceUrl, { waitUntil: "domcontentloaded", timeout: options.timeoutMs }),
             { retries: options.maxRetries, shouldRetry: isTransientBrowserError },
           );
-          await freshPage.waitForTimeout(options.settleMs);
+          await waitForEnvironmentRender(freshPage, Math.min(options.timeoutMs, 5_000), options.settleMs, true);
           evidence.afterNewContext = await captureState(freshPage, canary, startedAt);
           const targetVisibleAfterNewContext = await targetIsVisible(freshPage, evidence.targetText);
           if (targetVisibleAfterNewContext !== undefined) {

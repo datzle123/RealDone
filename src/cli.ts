@@ -16,6 +16,8 @@ import { recordFlow } from "./record/recorder.js";
 import { runScan, type ScanProgress } from "./scan.js";
 import { verifyContract } from "./contracts/verifier.js";
 import { exportPlaywrightTest } from "./export/playwright.js";
+import { discoverProject, writeProjectProfile, type ProjectProfile } from "./project/discovery.js";
+import { RuntimeManager, runBuildCommand } from "./runtime/manager.js";
 import type { ScanOptions } from "./types.js";
 
 function positiveInteger(value: string): number {
@@ -41,6 +43,19 @@ function browserName(value: string): BrowserName {
 
 function collectBrowser(value: string, previous: BrowserName[]): BrowserName[] {
   return [...previous, browserName(value)];
+}
+
+type RuntimeMode = "development" | "production" | "docker";
+
+function runtimeMode(value: string): RuntimeMode {
+  if (value === "development" || value === "production" || value === "docker") return value;
+  throw new Error(`Expected development, production, or docker; received: ${value}`);
+}
+
+function commandForMode(profile: ProjectProfile, mode: RuntimeMode) {
+  if (mode === "development") return profile.commands.development;
+  if (mode === "production") return profile.commands.production;
+  return profile.commands.docker;
 }
 
 function roleStates(values: string[], baseDirectory = process.cwd()): Record<string, string> {
@@ -92,9 +107,26 @@ program
   .showHelpAfterError();
 
 program
+  .command("init")
+  .description("Discover a web project and write a managed-runtime profile")
+  .argument("[directory]", "project directory", ".")
+  .option("--out <file>", "project profile path")
+  .option("--json", "print the discovered profile as JSON", false)
+  .action(async (directory: string, values: Record<string, unknown>) => {
+    const projectRoot = path.resolve(directory);
+    const profile = await discoverProject(projectRoot);
+    const output = path.resolve(String(values.out ?? path.join(projectRoot, ".realdone", "project.json")));
+    await writeProjectProfile(profile, output);
+    if (values.json) process.stdout.write(`${JSON.stringify(profile, null, 2)}\n`);
+    else {
+      process.stdout.write(`\nREALDONE PROJECT\n\nFramework:        ${profile.framework}\nPackage manager:  ${profile.packageManager}\nDevelopment:      ${profile.commands.development ? [profile.commands.development.executable, ...profile.commands.development.args].join(" ") : "not found"}\nBuild:            ${profile.commands.build ? [profile.commands.build.executable, ...profile.commands.build.args].join(" ") : "not found"}\nLocal URL:        ${profile.localUrl}\nHealth endpoint:  ${profile.healthEndpoint}\nDatabase:         ${profile.databases.join(", ") || "not detected"}\nAuth:             ${profile.authProviders.join(", ") || "not detected"}\nTests:            ${profile.testFrameworks.join(", ") || "not detected"}\nProfile:          ${output}\n`);
+    }
+  });
+
+program
   .command("scan")
   .description("Discover safe visible actions, execute them, and verify their effects")
-  .argument("<url>", "application URL")
+  .argument("[url]", "application URL; optional with --manage-runtime")
   .option("--max-pages <number>", "maximum pages to discover", positiveInteger)
   .option("--max-actions <number>", "maximum actions to execute", positiveInteger)
   .option("--timeout <milliseconds>", "navigation and action timeout", positiveInteger, 10_000)
@@ -108,15 +140,26 @@ program
   .option("--allow-host <hostname>", "allow mutations on an explicit staging host", collect, [])
   .option("--storage-state <file>", "Playwright storage state for authenticated pages")
   .option("--browser-path <file>", "use an existing Chromium/Chrome executable")
+  .option("--project <directory>", "project root for discovery and managed runtime")
+  .option("--manage-runtime", "start and stop the target project around the scan", false)
+  .option("--runtime-mode <mode>", "managed runtime mode: development, production, or docker", runtimeMode, "development")
+  .option("--runtime-restarts <number>", "restart target crashes up to this count", nonNegativeInteger, 1)
+  .option("--health-endpoint <path>", "application health endpoint")
+  .option("--environment-timeout <milliseconds>", "environment bootstrap and render timeout", positiveInteger, 10_000)
+  .option("--accept-environment-risk", "continue after recording an invalid environment", false)
   .option("--policy <file>", "JSON action policy and budget file")
   .option("--deep", "confirm mutation persistence in a fresh browser context", false)
   .option("--trace", "capture a Playwright trace for every executed action", false)
   .option("--video", "capture browser video for every executed action", false)
   .option("--json", "print the machine-readable summary", false)
-  .action(async (url: string, values: Record<string, unknown>) => {
+  .action(async (url: string | undefined, values: Record<string, unknown>) => {
     const policy = values.policy ? await loadActionPolicy(path.resolve(String(values.policy))) : undefined;
+    const projectRoot = values.project || values.manageRuntime ? path.resolve(String(values.project ?? ".")) : undefined;
+    const profile = projectRoot ? await discoverProject(projectRoot) : undefined;
+    const targetUrl = url ?? profile?.localUrl;
+    if (!targetUrl) throw new Error("A target URL is required unless --project/--manage-runtime can discover one.");
     const options: ScanOptions = {
-      targetUrl: url,
+      targetUrl,
       outputRoot: path.resolve(String(values.output)),
       headed: Boolean(values.headed),
       allowHosts: [...new Set([...(values.allowHost as string[]), ...(policy?.allowHosts ?? [])])],
@@ -132,11 +175,42 @@ program
       deep: Boolean(values.deep),
       trace: Boolean(values.trace),
       video: Boolean(values.video),
+      environmentTimeoutMs: Number(values.environmentTimeout),
+      acceptEnvironmentRisk: Boolean(values.acceptEnvironmentRisk),
+      ...(values.healthEndpoint || profile?.healthEndpoint
+        ? { healthEndpoint: String(values.healthEndpoint ?? profile?.healthEndpoint) }
+        : {}),
       ...(policy ? { policy } : {}),
       ...(values.storageState ? { storageStatePath: path.resolve(String(values.storageState)) } : {}),
       ...(values.browserPath ? { executablePath: path.resolve(String(values.browserPath)) } : {}),
     };
-    const result = await runScan(options, progressLine);
+    let manager: RuntimeManager | undefined;
+    if (values.manageRuntime) {
+      if (!profile || !projectRoot) throw new Error("--manage-runtime requires a discoverable project.");
+      const mode = values.runtimeMode as RuntimeMode;
+      const command = commandForMode(profile, mode);
+      if (!command) throw new Error(`No ${mode} runtime command was discovered in ${projectRoot}.`);
+      if (mode === "production" && profile.commands.build) {
+        progressLine({ stage: "runtime", message: "Building target project for production" });
+        await runBuildCommand(profile.commands.build, projectRoot);
+      }
+      manager = new RuntimeManager({
+        cwd: projectRoot,
+        command,
+        healthUrl: new URL(String(values.healthEndpoint ?? profile.healthEndpoint), targetUrl).toString(),
+        healthTimeoutMs: Number(values.environmentTimeout),
+        restartLimit: Number(values.runtimeRestarts),
+        logFile: path.join(projectRoot, ".realdone", "runtime.log"),
+        ...(mode === "docker"
+          ? { stopCommand: { executable: "docker", args: ["compose", "down"], source: "managed docker cleanup" } }
+          : {}),
+      });
+      progressLine({ stage: "runtime", message: `Starting managed ${mode} runtime` });
+      await manager.start();
+    }
+    const result = await runScan(options, progressLine).finally(async () => {
+      await manager?.stop();
+    });
     if (values.json) process.stdout.write(`${JSON.stringify(result.report.summary, null, 2)}\n`);
     else printSummary(result.reportDirectory, result.report);
     process.exitCode = result.exitCode;
@@ -312,15 +386,18 @@ program
     );
     const metric = (value: number): string => `${(value * 100).toFixed(1)}%`;
     process.stdout.write(
-      `\nREALDONE BENCHMARK\n\nprecision: ${metric(result.metrics.precision)}\nrecall: ${metric(result.metrics.recall)}\nfalse-positive rate: ${metric(result.metrics.falsePositiveRate)}\ndiscovery: ${metric(result.metrics.actionDiscoveryRate)}\nverdict accuracy: ${metric(result.metrics.verdictAccuracy)}\ndetector accuracy: ${metric(result.metrics.detectorAccuracy)}\nreproduction success: ${result.metrics.reproductionSuccessRate === null ? "not run" : metric(result.metrics.reproductionSuccessRate)}\nscan time: ${result.metrics.scanTimeMs}ms\nmemory delta: ${result.metrics.memoryDeltaMb}MB\n\nReport: ${path.join(result.reportDirectory, "benchmark.json")}\n`,
+      `\nREALDONE BENCHMARK\n\nprecision: ${metric(result.metrics.precision)}\nrecall: ${metric(result.metrics.recall)}\nfalse-positive rate: ${metric(result.metrics.falsePositiveRate)}\ndiscovery: ${metric(result.metrics.actionDiscoveryRate)}\nexpectation coverage: ${metric(result.metrics.expectationCoverage)}\nverdict accuracy: ${metric(result.metrics.verdictAccuracy)}\ndetector accuracy: ${metric(result.metrics.detectorAccuracy)}\nenvironment validity: ${metric(result.metrics.environmentValidity)}\ntruncated: ${result.metrics.benchmarkTruncated ? "yes" : "no"}\nreproduction success: ${result.metrics.reproductionSuccessRate === null ? "not run" : metric(result.metrics.reproductionSuccessRate)}\nscan time: ${result.metrics.scanTimeMs}ms\nmemory delta: ${result.metrics.memoryDeltaMb}MB\n\nReport: ${path.join(result.reportDirectory, "benchmark.json")}\n`,
     );
     const passed =
       result.metrics.precision === 1 &&
       result.metrics.recall === 1 &&
       result.metrics.falsePositiveRate === 0 &&
       result.metrics.actionDiscoveryRate === 1 &&
+      result.metrics.expectationCoverage === 1 &&
       result.metrics.verdictAccuracy === 1 &&
       result.metrics.detectorAccuracy === 1 &&
+      result.metrics.environmentValidity === 1 &&
+      !result.metrics.benchmarkTruncated &&
       (result.metrics.reproductionSuccessRate === null || result.metrics.reproductionSuccessRate === 1);
     process.exitCode = passed ? 0 : 1;
   });

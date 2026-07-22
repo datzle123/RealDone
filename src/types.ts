@@ -31,7 +31,48 @@ export type DetectorCode =
   | "RD203"
   | "RD301"
   | "RD302"
-  | "RD303";
+  | "RD303"
+  | "RD1001"
+  | "RD1002"
+  | "RD1003"
+  | "RD1004"
+  | "RD1005";
+
+export type EnvironmentStatus = "VALID" | "ENVIRONMENT_INVALID" | "BLOCKED";
+
+export interface EnvironmentFinding {
+  code: Extract<DetectorCode, "RD1001" | "RD1002" | "RD1003" | "RD1004" | "RD1005">;
+  title: string;
+  detail: string;
+  url?: string;
+}
+
+export interface EnvironmentHealth {
+  status: EnvironmentStatus;
+  checkedAt: string;
+  durationMs: number;
+  targetUrl: string;
+  routesChecked?: number;
+  invalidRoutes?: number;
+  mainDocument?: {
+    status?: number;
+    contentType?: string;
+  };
+  assets: {
+    checked: number;
+    scripts: number;
+    stylesheets: number;
+    failed: number;
+  };
+  render: {
+    bodyTextLength: number;
+    visibleElements: number;
+    interactiveElements: number;
+    ready: boolean;
+  };
+  findings: EnvironmentFinding[];
+  acceptedRisk: boolean;
+}
 
 export interface SemanticFingerprint {
   selector: string;
@@ -211,6 +252,7 @@ export interface ScanSummary {
   actionsVerified: number;
   actionsSkipped: number;
   verdicts: Record<Verdict, number>;
+  environmentStatus?: EnvironmentStatus;
 }
 
 export interface ScanReport {
@@ -223,6 +265,11 @@ export interface ScanReport {
   summary: ScanSummary;
   pages: DiscoveredPage[];
   findings: Finding[];
+  environment?: EnvironmentHealth;
+  completeness?: {
+    truncated: boolean;
+    reasons: Array<"max-pages" | "max-actions" | "max-duration">;
+  };
 }
 
 export interface PublicScanOptions {
@@ -238,6 +285,8 @@ export interface PublicScanOptions {
   deep?: boolean;
   trace?: boolean;
   video?: boolean;
+  environmentTimeoutMs?: number;
+  acceptEnvironmentRisk?: boolean;
 }
 
 export interface ScanOptions extends PublicScanOptions {
@@ -250,6 +299,7 @@ export interface ScanOptions extends PublicScanOptions {
   onlyActionId?: string;
   replayAction?: ActionSpec;
   policy?: ActionPolicy;
+  healthEndpoint?: string;
 }
 
 export interface ActionPolicyRule {

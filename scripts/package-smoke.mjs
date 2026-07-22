@@ -65,7 +65,7 @@ try {
   await run(process.execPath, [
     "--input-type=module",
     "--eval",
-    "import { runScan, recordFlow, verifyContract, definePlugin } from 'realdone'; if (![runScan, recordFlow, verifyContract, definePlugin].every(value => typeof value === 'function')) throw new Error('Public SDK export missing');",
+    "import { runScan, recordFlow, verifyContract, definePlugin, inspectEnvironment, discoverProject, RuntimeManager } from 'realdone'; if (![runScan, recordFlow, verifyContract, definePlugin, inspectEnvironment, discoverProject, RuntimeManager].every(value => typeof value === 'function')) throw new Error('Public SDK export missing');",
   ]);
 
   const cli = await run(process.execPath, [path.join(packageRoot, "dist", "cli.js"), "--version"]);

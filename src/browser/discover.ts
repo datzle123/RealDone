@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import type { Browser, Page } from "playwright";
 import { classifyAction } from "../core/classify.js";
 import { isTransientBrowserError, withRetry } from "../core/retry.js";
+import { waitForEnvironmentRender } from "../environment/health.js";
 import type {
   ActionSpec,
   DiscoveredPage,
@@ -267,11 +268,17 @@ export interface DiscoveryOptions {
   storageStatePath?: string;
 }
 
-export async function discoverSite(
+export interface DiscoveryResult {
+  pages: DiscoveredPage[];
+  truncated: boolean;
+  reasons: Array<"max-pages" | "max-duration">;
+}
+
+export async function discoverSiteDetailed(
   browser: Browser,
   targetUrl: string,
   options: DiscoveryOptions,
-): Promise<DiscoveredPage[]> {
+): Promise<DiscoveryResult> {
   const origin = new URL(targetUrl).origin;
   const context = await browser.newContext(
     options.storageStatePath ? { storageState: options.storageStatePath } : {},
@@ -291,7 +298,7 @@ export async function discoverSite(
           () => page.goto(url, { waitUntil: "domcontentloaded", timeout: options.timeoutMs }),
           { retries: options.maxRetries, shouldRetry: isTransientBrowserError },
         );
-        await page.waitForTimeout(Math.min(options.settleMs, 1_000));
+        await waitForEnvironmentRender(page, Math.min(options.timeoutMs, 5_000), options.settleMs, true);
         const actions = await discoverActions(page);
         pages.push({ url: page.url(), title: await page.title(), actions });
         for (const action of actions) {
@@ -312,5 +319,16 @@ export async function discoverSite(
   } finally {
     await context.close();
   }
-  return pages;
+  const reasons: DiscoveryResult["reasons"] = [];
+  if (queue.length > 0 && pages.length >= options.maxPages) reasons.push("max-pages");
+  if (queue.length > 0 && Date.now() >= options.deadline) reasons.push("max-duration");
+  return { pages, truncated: reasons.length > 0, reasons };
+}
+
+export async function discoverSite(
+  browser: Browser,
+  targetUrl: string,
+  options: DiscoveryOptions,
+): Promise<DiscoveredPage[]> {
+  return (await discoverSiteDetailed(browser, targetUrl, options)).pages;
 }
