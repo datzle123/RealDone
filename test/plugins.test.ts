@@ -79,7 +79,7 @@ test("plugin host terminates a provider that exceeds its deadline", async () => 
       export default {
         apiVersion: '1.0',
         name: 'storage-timeout',
-        async verifyProvider() { await new Promise(() => {}); }
+        async verifyProvider() { await new Promise((resolve) => setTimeout(resolve, 10000)); }
       };
     `, "storage");
     const host = await PluginHost.load([manifest], { timeoutMs: 30, memoryLimitMb: 32 });

@@ -8,7 +8,7 @@
 | Operating systems | Ubuntu, Windows, macOS |
 | Browsers | Playwright Chromium, Firefox, WebKit |
 | PostgreSQL adapter | PostgreSQL 17 service in CI |
-| Package managers | pnpm 11 for repository development; npm-compatible published package |
+| Package managers | pnpm 10 for repository development; npm-compatible published package |
 | Module format | Node ESM with generated declarations and source maps |
 
 The Ubuntu full gate runs PostgreSQL integration, all three browser engines, browser/agent/provider smoke, dependency audit, and package creation. Windows and macOS run typecheck, unit/failure-mode tests, and production build on Node 20/22.

@@ -55,7 +55,7 @@
     "url": "https://github.com/datzle123/RealDone/issues"
   },
   "homepage": "https://github.com/datzle123/RealDone#readme",
-  "packageManager": "pnpm@11.9.0",
+  "packageManager": "pnpm@10.34.5",
   "engines": {
     "node": ">=20.16"
   },
