@@ -1,15 +1,36 @@
 import { mkdir } from "node:fs/promises";
 import path from "node:path";
-import type { Browser, Locator, Page } from "playwright";
+import type { Browser, Frame, Locator, Page } from "playwright";
 import { createCanary, valueForField } from "../core/canary.js";
-import { isSensitiveKey } from "../core/redact.js";
+import { isSensitiveKey, safeUrl } from "../core/redact.js";
 import { isTransientBrowserError, withRetry } from "../core/retry.js";
 import type { ActionSpec, ExecutionEvidence, FilledField, ScanOptions } from "../types.js";
 import { attachEvidence, captureState, collectUiClaims } from "./evidence.js";
 import { resolveSemanticLocator, SemanticTargetNotFoundError } from "./locator.js";
 import { waitForEnvironmentRender } from "../environment/health.js";
+import { prepareDynamicActions } from "./discover.js";
 
-async function fillForm(page: Page, action: ActionSpec, canary: string): Promise<FilledField[]> {
+type InteractionScope = Page | Frame;
+
+function scopeFor(page: Page, action: ActionSpec): InteractionScope {
+  const frameUrl = action.fingerprint.frameUrl;
+  if (!frameUrl) return page;
+  const exact = page.frames().find((frame) => frame.url() === frameUrl);
+  if (exact) return exact;
+  const expected = new URL(frameUrl);
+  const matching = page.frames().find((frame) => {
+    try {
+      const candidate = new URL(frame.url());
+      return candidate.origin === expected.origin && candidate.pathname === expected.pathname;
+    } catch {
+      return false;
+    }
+  });
+  if (!matching) throw new Error(`The same-origin iframe ${frameUrl} was not available in the execution context.`);
+  return matching;
+}
+
+async function fillForm(page: InteractionScope, action: ActionSpec, canary: string): Promise<FilledField[]> {
   const filled: FilledField[] = [];
   for (const field of action.fields) {
     if (field.disabled) continue;
@@ -52,7 +73,7 @@ async function nearestTargetText(locator: Locator): Promise<string | undefined> 
     .catch(() => undefined);
 }
 
-async function targetIsVisible(page: Page, targetText?: string): Promise<boolean | undefined> {
+async function targetIsVisible(page: InteractionScope, targetText?: string): Promise<boolean | undefined> {
   if (!targetText) return undefined;
   return page.locator("body").innerText().then((text) => text.includes(targetText)).catch(() => undefined);
 }
@@ -81,6 +102,7 @@ export async function executeAction(
     filledFields: [],
     dialogs: [],
     downloads: [],
+    popupUrls: [],
   };
   const reportDirectory = path.dirname(screenshotDirectory);
   const traceDirectory = path.join(reportDirectory, "traces");
@@ -107,19 +129,36 @@ export async function executeAction(
       { retries: options.maxRetries, shouldRetry: isTransientBrowserError },
     );
     await waitForEnvironmentRender(page, Math.min(options.timeoutMs, 5_000), options.settleMs, true);
-    const resolved = await resolveSemanticLocator(page, action.fingerprint, options.maxRetries);
+    await prepareDynamicActions(page);
+    const targetScope = scopeFor(page, action);
+    if (targetScope !== page) await prepareDynamicActions(targetScope);
+    const resolved = await resolveSemanticLocator(targetScope, action.fingerprint, options.maxRetries);
     const locator = resolved.locator;
     evidence.locatorResolution = resolved.diagnostics;
-    evidence.before = await captureState(page, canary, startedAt);
+    evidence.before = await captureState(targetScope, canary, startedAt);
     if (action.intent === "delete") {
       const targetText = await nearestTargetText(locator);
       if (targetText) evidence.targetText = targetText;
     }
     attached = attachEvidence(page, startedAt, evidence);
-    evidence.filledFields = await fillForm(page, action, canary);
+    evidence.filledFields = await fillForm(targetScope, action, canary);
+    evidence.beforeAction = await captureState(targetScope, canary, startedAt);
 
     if (action.activation === "enter") {
       await locator.press("Enter", { timeout: options.timeoutMs });
+    } else if (action.activation === "check") {
+      await locator.check({ timeout: options.timeoutMs });
+    } else if (action.activation === "select") {
+      const option = await locator.evaluate((element) => {
+        const select = element as HTMLSelectElement;
+        return [...select.options].find((item) => !item.disabled && item.value)?.value;
+      });
+      if (!option) throw new Error("No usable option was available for the discovered select action.");
+      await locator.selectOption(option, { timeout: options.timeoutMs });
+    } else if (action.activation === "hover") {
+      await locator.hover({ timeout: options.timeoutMs });
+    } else if (action.activation === "contextmenu") {
+      await locator.click({ button: "right", timeout: options.timeoutMs });
     } else if (action.fingerprint.tag === "form" || action.activation === "submit") {
       const submit = locator.locator('button[type="submit"], input[type="submit"], button:not([type])').first();
       if ((await submit.count()) > 0) await submit.click({ timeout: options.timeoutMs });
@@ -128,16 +167,27 @@ export async function executeAction(
       await locator.click({ timeout: options.timeoutMs });
     }
 
+    if (action.kind === "mutation") {
+      evidence.targetDisabledAfter = await locator.isDisabled({ timeout: 250 }).catch(() => false);
+    }
+
     await page.waitForLoadState("domcontentloaded", { timeout: Math.min(options.timeoutMs, 3_000) }).catch(() => undefined);
+    evidence.networkSettled = await attached.waitForIdle(Math.min(options.timeoutMs, 3_000));
     await page.waitForTimeout(options.settleMs);
-    evidence.after = await captureState(page, canary, startedAt);
-    evidence.uiClaims = await collectUiClaims(page, startedAt);
-    const targetVisibleAfter = await targetIsVisible(page, evidence.targetText);
+    const statusTarget = targetScope.locator(action.fingerprint.selector).first();
+    if ((await statusTarget.count()) > 0) {
+      evidence.targetBusyAfter = await statusTarget.getAttribute("aria-busy", { timeout: 250 }).then((value) => value === "true").catch(() => false);
+    }
+    evidence.popupUrls = context.pages().filter((candidate) => candidate !== page).map((candidate) => safeUrl(candidate.url()));
+    evidence.after = await captureState(targetScope, canary, startedAt);
+    evidence.uiClaims = await collectUiClaims(targetScope, startedAt);
+    const targetVisibleAfter = await targetIsVisible(targetScope, evidence.targetText);
     if (targetVisibleAfter !== undefined) evidence.targetVisibleAfter = targetVisibleAfter;
 
     const hasWrite = evidence.network.some((request) => ["POST", "PUT", "PATCH", "DELETE"].includes(request.method));
     const hasFailure = evidence.network.some((request) => request.failure || (request.status ?? 0) >= 400);
-    const noVisibleChange = evidence.before.domHash === evidence.after.domHash && evidence.before.url === evidence.after.url;
+    const actionBaseline = evidence.beforeAction ?? evidence.before;
+    const noVisibleChange = actionBaseline.domHash === evidence.after.domHash && actionBaseline.url === evidence.after.url;
     if (action.kind === "mutation" || hasWrite || hasFailure || noVisibleChange || evidence.pageErrors.length > 0) {
       const screenshotPath = path.join(screenshotDirectory, screenshotName(action, "after"));
       await page.screenshot({ path: screenshotPath, fullPage: true });
@@ -147,8 +197,9 @@ export async function executeAction(
     if (action.kind === "mutation") {
       await page.reload({ waitUntil: "domcontentloaded", timeout: options.timeoutMs });
       await waitForEnvironmentRender(page, Math.min(options.timeoutMs, 5_000), options.settleMs, true);
-      evidence.afterRefresh = await captureState(page, canary, startedAt);
-      const targetVisibleAfterRefresh = await targetIsVisible(page, evidence.targetText);
+      const refreshedScope = scopeFor(page, action);
+      evidence.afterRefresh = await captureState(refreshedScope, canary, startedAt);
+      const targetVisibleAfterRefresh = await targetIsVisible(refreshedScope, evidence.targetText);
       if (targetVisibleAfterRefresh !== undefined) evidence.targetVisibleAfterRefresh = targetVisibleAfterRefresh;
       const refreshPath = path.join(screenshotDirectory, screenshotName(action, "refresh"));
       await page.screenshot({ path: refreshPath, fullPage: true });
@@ -166,8 +217,9 @@ export async function executeAction(
             { retries: options.maxRetries, shouldRetry: isTransientBrowserError },
           );
           await waitForEnvironmentRender(freshPage, Math.min(options.timeoutMs, 5_000), options.settleMs, true);
-          evidence.afterNewContext = await captureState(freshPage, canary, startedAt);
-          const targetVisibleAfterNewContext = await targetIsVisible(freshPage, evidence.targetText);
+          const freshScope = scopeFor(freshPage, action);
+          evidence.afterNewContext = await captureState(freshScope, canary, startedAt);
+          const targetVisibleAfterNewContext = await targetIsVisible(freshScope, evidence.targetText);
           if (targetVisibleAfterNewContext !== undefined) {
             evidence.targetVisibleAfterNewContext = targetVisibleAfterNewContext;
           }

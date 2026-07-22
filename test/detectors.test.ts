@@ -92,6 +92,43 @@ test("detects duplicate write submissions", () => {
   assert.ok(result.detectorMatches.some((item) => item.code === "RD003"));
 });
 
+test("detects stuck loading and pending network work", () => {
+  const result = detect(
+    { ...action, kind: "local", intent: "interact", label: "Load forever" },
+    evidence({ targetBusyAfter: true, networkSettled: false, network: [] }),
+  );
+  assert.equal(result.verdict, "BROKEN");
+  assert.ok(result.detectorMatches.some((item) => item.code === "RD004"));
+});
+
+test("adds broken-navigation evidence for failed documents", () => {
+  const result = detect(
+    { ...action, kind: "navigation", intent: "navigate", label: "Open missing page" },
+    evidence({
+      after: state(100, "before", false),
+      network: [{ id: "net-doc", method: "GET", url: "http://localhost/missing", resourceType: "document", startedAt: 20, status: 404, ok: false }],
+    }),
+  );
+  assert.equal(result.verdict, "BROKEN");
+  assert.ok(result.detectorMatches.some((item) => item.code === "RD005"));
+});
+
+test("links duplicate writes to a control that remained enabled", () => {
+  const request = { id: "net-1", method: "POST", url: "http://localhost/api/customers", resourceType: "fetch", startedAt: 50, status: 201, ok: true };
+  const result = detect(action, evidence({ network: [request, { ...request, id: "net-2" }], targetDisabledAfter: false }));
+  assert.ok(result.detectorMatches.some((item) => item.code === "RD006"));
+});
+
+test("detects a discovered Enter action with no effect", () => {
+  const before = state(0, "same", false);
+  const result = detect(
+    { ...action, activation: "enter", label: "New message" },
+    evidence({ before, after: state(100, "same", false), afterRefresh: state(400, "same", false), network: [] }),
+  );
+  assert.equal(result.verdict, "BROKEN");
+  assert.ok(result.detectorMatches.some((item) => item.code === "RD007"));
+});
+
 test("detects fake deletion when a removed target returns", () => {
   const result = detect(
     { ...action, intent: "delete", risk: "destructive", label: "Delete customer" },

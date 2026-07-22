@@ -8,26 +8,35 @@ import type {
 
 const WRITE_METHODS = new Set(["POST", "PUT", "PATCH", "DELETE"]);
 
+function actionNetwork(evidence: ExecutionEvidence): ExecutionEvidence["network"] {
+  const actionFinishedAt = evidence.after?.at;
+  return actionFinishedAt === undefined
+    ? evidence.network
+    : evidence.network.filter((request) => request.startedAt <= actionFinishedAt);
+}
+
 function storageHash(evidence: ExecutionEvidence["before"]): string {
   if (!evidence) return "";
   return JSON.stringify(evidence.storage);
 }
 
 function hasObservableEffect(evidence: ExecutionEvidence): boolean {
-  if (!evidence.before || !evidence.after) return false;
+  const before = evidence.beforeAction ?? evidence.before;
+  if (!before || !evidence.after) return false;
   return (
-    evidence.before.domHash !== evidence.after.domHash ||
-    evidence.before.url !== evidence.after.url ||
-    storageHash(evidence.before) !== storageHash(evidence.after) ||
-    evidence.network.length > 0 ||
+    before.domHash !== evidence.after.domHash ||
+    before.url !== evidence.after.url ||
+    storageHash(before) !== storageHash(evidence.after) ||
+    actionNetwork(evidence).length > 0 ||
     evidence.dialogs.length > 0 ||
-    evidence.downloads.length > 0
+    evidence.downloads.length > 0 ||
+    (evidence.popupUrls?.length ?? 0) > 0
   );
 }
 
 function duplicateWrites(evidence: ExecutionEvidence): string | undefined {
   const counts = new Map<string, number>();
-  for (const request of evidence.network.filter((entry) => WRITE_METHODS.has(entry.method))) {
+  for (const request of actionNetwork(evidence).filter((entry) => WRITE_METHODS.has(entry.method))) {
     let pathname = request.url;
     try {
       pathname = new URL(request.url).pathname;
@@ -53,9 +62,10 @@ interface DetectionResult {
 
 export function detect(action: ActionSpec, evidence: ExecutionEvidence): DetectionResult {
   const matches: DetectorMatch[] = [];
-  const writeRequests = evidence.network.filter((request) => WRITE_METHODS.has(request.method));
+  const observedActionNetwork = actionNetwork(evidence);
+  const writeRequests = observedActionNetwork.filter((request) => WRITE_METHODS.has(request.method));
   const failedWrites = writeRequests.filter((request) => request.failure || (request.status ?? 0) >= 400);
-  const hardFailures = evidence.network.filter(
+  const hardFailures = observedActionNetwork.filter(
     (request) =>
       (request.failure || (request.status ?? 0) >= 400) &&
       ["document", "xhr", "fetch"].includes(request.resourceType),
@@ -82,6 +92,9 @@ export function detect(action: ActionSpec, evidence: ExecutionEvidence): Detecti
       ),
     );
   }
+  if (action.kind === "navigation" && ((evidence.executionError && !evidence.targetNotFound) || hardFailures.some((request) => request.resourceType === "document"))) {
+    matches.push(match("RD005", "Broken navigation", "The navigation target failed to load successfully."));
+  }
   if (failedWrites.length > 0 && successClaim) {
     matches.push(
       match(
@@ -95,9 +108,21 @@ export function detect(action: ActionSpec, evidence: ExecutionEvidence): Detecti
   }
   if (duplicate) {
     matches.push(match("RD003", "Duplicate submission", `One action produced multiple ${duplicate} requests.`));
+    if (evidence.targetDisabledAfter === false) {
+      matches.push(match("RD006", "Disabled-after-click failure", "The action remained enabled while duplicate writes were submitted."));
+    }
+  }
+  if (
+    evidence.targetBusyAfter === true ||
+    ((evidence.after?.busyControls ?? 0) > ((evidence.beforeAction ?? evidence.before)?.busyControls ?? 0) && evidence.networkSettled === false)
+  ) {
+    matches.push(match("RD004", "Stuck loading", "The action remained busy after the configured settle/network-idle window."));
   }
   if (!effect && !evidence.executionError) {
     matches.push(match("RD002", "No observable effect", "No DOM, URL, network, storage, dialog, or download effect was observed."));
+    if (action.activation === "enter") {
+      matches.push(match("RD007", "Keyboard action missed", "The discovered Enter action produced no observable effect."));
+    }
   }
 
   const canaryAppeared = evidence.after?.canaryPresent === true;
@@ -112,7 +137,7 @@ export function detect(action: ActionSpec, evidence: ExecutionEvidence): Detecti
     evidence.targetVisibleAfter === false &&
     evidence.targetVisibleAfterRefresh === false &&
     evidence.targetVisibleAfterNewContext === true;
-  if (action.kind === "mutation" && failedWrites.length === 0 && canaryAppeared && evidence.afterRefresh && !canarySurvived) {
+  if (action.kind === "mutation" && effect && failedWrites.length === 0 && canaryAppeared && evidence.afterRefresh && !canarySurvived) {
     matches.push(match("RD101", "Refresh disappearance", "The generated canary appeared after the action and disappeared after reload."));
     if (action.intent === "create") matches.push(match("RD201", "Fake create", "The created resource was not persistent."));
     if (action.intent === "update") matches.push(match("RD202", "Fake update", "The updated value was not persistent."));
@@ -135,7 +160,7 @@ export function detect(action: ActionSpec, evidence: ExecutionEvidence): Detecti
   if (matches.some((item) => item.code === "RD302" || item.code === "RD301")) {
     return { verdict: "CONTRADICTORY", evidenceLevel: canarySurvived ? 5 : 1, reason: matches.find((item) => item.code === "RD302")?.detail ?? matches.find((item) => item.code === "RD301")?.detail ?? first?.detail ?? "Contradictory evidence", detectorMatches: matches };
   }
-  if (matches.some((item) => item.code === "RD001" || item.code === "RD303" || item.code === "RD003")) {
+  if (matches.some((item) => ["RD001", "RD003", "RD004", "RD005", "RD006", "RD007", "RD303"].includes(item.code))) {
     return { verdict: "BROKEN", evidenceLevel: writeRequests.length > 0 ? 2 : 1, reason: first?.detail ?? "Broken action", detectorMatches: matches };
   }
   if (matches.some((item) => ["RD101", "RD201", "RD202", "RD203"].includes(item.code))) {
@@ -159,7 +184,7 @@ export function detect(action: ActionSpec, evidence: ExecutionEvidence): Detecti
     if (accepted) return { verdict: "UNCERTAIN", evidenceLevel: 3, reason: "The backend accepted a write, but the canary could not be read back from the UI.", detectorMatches: matches };
     return { verdict: "UNCERTAIN", evidenceLevel: effect ? 1 : 0, reason: "An effect was observed, but persistence could not be established.", detectorMatches: matches };
   }
-  if (effect) return { verdict: "VERIFIED", evidenceLevel: evidence.network.length > 0 ? 2 : 1, reason: "The action produced an observable effect.", detectorMatches: matches };
+  if (effect) return { verdict: "VERIFIED", evidenceLevel: observedActionNetwork.length > 0 ? 2 : 1, reason: "The action produced an observable effect.", detectorMatches: matches };
   return { verdict: "UNCERTAIN", evidenceLevel: 0, reason: "There was not enough evidence to classify the action.", detectorMatches: matches };
 }
 

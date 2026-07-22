@@ -1,4 +1,4 @@
-import type { Page, Request, Response } from "playwright";
+import type { Frame, Page, Request, Response } from "playwright";
 import { hashText, redactText, safeUrl } from "../core/redact.js";
 import type {
   ConsoleEvidence,
@@ -19,10 +19,12 @@ export interface EvidenceSink {
 export interface AttachedEvidence {
   detach: () => void;
   flush: () => Promise<void>;
+  waitForIdle: (timeoutMs: number) => Promise<boolean>;
 }
 
 export function attachEvidence(page: Page, startedAt: number, sink: EvidenceSink): AttachedEvidence {
   const requests = new WeakMap<Request, NetworkEvidence>();
+  const active = new Set<Request>();
   const pending: Promise<void>[] = [];
   let sequence = 0;
   const now = (): number => Date.now() - startedAt;
@@ -36,6 +38,7 @@ export function attachEvidence(page: Page, startedAt: number, sink: EvidenceSink
       startedAt: now(),
     };
     requests.set(request, entry);
+    active.add(request);
     sink.network.push(entry);
   };
   const onResponse = (response: Response): void => {
@@ -74,6 +77,7 @@ export function attachEvidence(page: Page, startedAt: number, sink: EvidenceSink
   const onFinished = (request: Request): void => {
     const entry = requests.get(request);
     if (entry) entry.finishedAt = now();
+    active.delete(request);
   };
   const onFailed = (request: Request): void => {
     const entry = requests.get(request);
@@ -81,6 +85,7 @@ export function attachEvidence(page: Page, startedAt: number, sink: EvidenceSink
     entry.finishedAt = now();
     entry.ok = false;
     entry.failure = redactText(request.failure()?.errorText ?? "Request failed");
+    active.delete(request);
   };
   const onConsole = (message: { type(): string; text(): string }): void => {
     if (["error", "warning", "warn"].includes(message.type())) {
@@ -108,6 +113,20 @@ export function attachEvidence(page: Page, startedAt: number, sink: EvidenceSink
   page.on("download", onDownload);
 
   return {
+    waitForIdle: async (timeoutMs) => {
+      const deadline = Date.now() + timeoutMs;
+      let quietSince = active.size === 0 ? Date.now() : undefined;
+      while (Date.now() < deadline) {
+        if (active.size === 0) {
+          quietSince ??= Date.now();
+          if (Date.now() - quietSince >= 100) return true;
+        } else {
+          quietSince = undefined;
+        }
+        await new Promise((resolve) => setTimeout(resolve, 25));
+      }
+      return active.size === 0;
+    },
     flush: async () => {
       await Promise.allSettled(pending);
     },
@@ -136,7 +155,7 @@ function digestStorage(
 }
 
 export async function captureState(
-  page: Page,
+  page: Page | Frame,
   canary: string,
   startedAt: number,
 ): Promise<StateSnapshot> {
@@ -169,17 +188,21 @@ export async function captureState(
       bodyText,
       controlText,
       canaryPresent: `${bodyText}\n${controlText}`.toLowerCase().includes(needle.toLowerCase()),
+      busyControls: controls.filter((control) => control.busy === "true").length,
+      disabledControls: controls.filter((control) => control.disabled).length,
       local: Object.entries(localStorage),
       session: Object.entries(sessionStorage),
     };
   }, canary);
-  const cookies = await page.context().cookies(page.url());
+  const cookies = await ("context" in page ? page.context() : page.page().context()).cookies(page.url());
   return {
     at: Date.now() - startedAt,
     url: safeUrl(state.url),
     title: state.title.slice(0, 300),
     domHash: hashText(`${state.bodyText}\n${state.controlText}`),
     canaryPresent: state.canaryPresent,
+    busyControls: state.busyControls,
+    disabledControls: state.disabledControls,
     storage: {
       local: digestStorage(state.local, canary),
       session: digestStorage(state.session, canary),
@@ -188,7 +211,7 @@ export async function captureState(
   };
 }
 
-export async function collectUiClaims(page: Page, startedAt: number): Promise<UiClaim[]> {
+export async function collectUiClaims(page: Page | Frame, startedAt: number): Promise<UiClaim[]> {
   const candidates = await page
     .locator('[role="status"], [role="alert"], .toast, .notification, .alert, [data-toast], [data-notification]')
     .evaluateAll((elements) =>
