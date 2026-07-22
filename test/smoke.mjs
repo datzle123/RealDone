@@ -51,11 +51,11 @@ try {
     allowDestructive: true,
     allowExternal: false,
     mutationAllowed: true,
-    maxPages: 28,
-    maxActions: 100,
+    maxPages: 36,
+    maxActions: 120,
     timeoutMs: 8_000,
     settleMs: 250,
-    maxDurationMs: 240_000,
+    maxDurationMs: 300_000,
     maxRetries: 2,
     deep: true,
     allowIframes: true,
@@ -75,9 +75,13 @@ try {
   for (const code of ["RD004", "RD005", "RD006", "RD007", "RD008"]) {
     assert.ok(result.report.findings.some((finding) => finding.detectorMatches.some((item) => item.code === code)), `${code} was not observed`);
   }
+  for (const code of ["RD103", "RD104", "RD204", "RD205", "RD304", "RD305"]) {
+    assert.ok(result.report.findings.some((finding) => finding.detectorMatches.some((item) => item.code === code)), `${code} was not observed`);
+  }
   assert.ok(result.report.findings.some((finding) => finding.verdict === "VERIFIED"));
   assert.ok(result.report.findings.some((finding) => finding.verdict === "BROWSER_LOCAL" && finding.detectorMatches.some((item) => item.code === "RD102")));
   assert.ok(result.report.findings.some((finding) => finding.action.activation === "enter" && finding.detectorMatches.some((item) => item.code === "RD201")));
+  assert.ok(result.report.findings.some((finding) => finding.detectorMatches.some((item) => item.code === "RD104") && finding.evidence.persistenceScope === "MEMORY_ONLY"));
   assert.ok(result.report.findings.some((finding) => finding.action.label === "Back" && finding.verdict === "UNCERTAIN" && finding.evidence.targetNotFound && !finding.evidence.locatorResolution?.chosenStrategy));
   assert.ok(result.report.findings.some((finding) => finding.action.label === "Use current domain" && finding.verdict === "VERIFIED"));
   assert.ok(result.report.findings.some((finding) => finding.action.label === "Do nothing nearby" && finding.verdict === "NO_EFFECT" && finding.evidence.filledFields.length === 0));
@@ -87,6 +91,23 @@ try {
   assert.ok(result.report.findings.some((finding) => finding.action.label === "Download report" && finding.verdict === "VERIFIED" && finding.evidence.downloads.includes("realdone-export.csv")));
   assert.ok(result.report.findings.some((finding) => finding.action.label === "Open row menu" && finding.verdict === "VERIFIED" && finding.action.activation === "contextmenu"));
   assert.ok(result.report.findings.some((finding) => finding.action.label === "Enable embedded setting" && finding.verdict === "VERIFIED" && finding.action.fingerprint.frameUrl));
+  const snapshotFinding = result.report.findings.find((finding) => finding.action.label.includes("Save snapshot locally"));
+  assert.equal(snapshotFinding?.verdict, "BROWSER_LOCAL");
+  assert.equal(snapshotFinding?.evidence.persistenceScope, "BROWSER_LOCAL");
+  assert.ok((snapshotFinding?.evidence.after?.storage.cookies?.length ?? 0) > 0);
+  assert.ok((snapshotFinding?.evidence.after?.storage.indexedDb?.some((database) => database.stores.some((store) => store.count > 0)) ?? false));
+  assert.equal(snapshotFinding?.evidence.afterHardRefresh?.canaryPresent, true);
+  assert.equal(snapshotFinding?.evidence.afterNewTab?.canaryPresent, true);
+  assert.ok((snapshotFinding?.evidence.after?.semanticDom?.controls.length ?? 0) > 0);
+  const sessionFinding = result.report.findings.find((finding) => finding.action.pageUrl.endsWith("/session-control") && finding.action.label.includes("Save for this session"));
+  assert.equal(sessionFinding?.verdict, "BROWSER_LOCAL");
+  assert.equal(sessionFinding?.evidence.persistenceScope, "SESSION_PERSISTENT");
+  const backendFinding = result.report.findings.find((finding) => finding.action.label.includes("Create customer") && finding.action.pageUrl.endsWith("/real-create"));
+  assert.equal(backendFinding?.evidence.apiReadBack?.canaryPresent, true);
+  assert.equal(backendFinding?.evidence.persistenceScope, "BACKEND_PERSISTENT");
+  const webSocketFinding = result.report.findings.find((finding) => finding.action.label === "Open live channel");
+  assert.equal(webSocketFinding?.verdict, "VERIFIED");
+  assert.ok(webSocketFinding?.evidence.webSockets?.some((socket) => socket.receivedFrames > 0));
   assert.equal(result.metrics.precision, 1);
   assert.equal(result.metrics.recall, 1);
   assert.equal(result.metrics.falsePositiveRate, 0);
@@ -163,6 +184,7 @@ try {
       "--health-endpoint", "/health",
       "--max-pages", "1",
       "--max-actions", "1",
+      "--deep",
       "--environment-timeout", "8000",
       "--output", path.join(outputRoot, "managed-scan"),
       "--json",
@@ -175,6 +197,11 @@ try {
   const managedSummary = JSON.parse(managedScan.stdout);
   assert.equal(managedSummary.environmentStatus, "VALID");
   assert.equal(managedSummary.verdicts.VERIFIED, 1);
+  const managedReportNames = await readdir(path.join(outputRoot, "managed-scan"), { withFileTypes: true });
+  const managedReportDirectory = path.join(outputRoot, "managed-scan", managedReportNames.find((entry) => entry.isDirectory()).name);
+  const managedReport = JSON.parse(await readFile(path.join(managedReportDirectory, "scan.json"), "utf8"));
+  assert.equal(managedReport.findings[0]?.evidence.afterAppRestart?.canaryPresent, true);
+  assert.equal(managedReport.findings[0]?.evidence.apiReadBack?.canaryPresent, true);
   const cliScan = await runCommand({
     executable: process.execPath,
     args: [
@@ -295,6 +322,7 @@ try {
   recordedClick.expected.push({
     type: "persistence",
     value: "RECORDED_CUSTOMER",
+    strategies: ["reload", "hard-reload", "new-tab", "clean-context", "logout-login"],
   });
   await writeBehaviorContract(recording.contractFile, recording.contract);
   const verification = await verifyContract(recording.contractFile, {
@@ -316,7 +344,9 @@ try {
   });
   assert.equal(verification.verification.passed, true);
   assert.ok(verification.verification.steps.some((step) => step.assertions.some((assertion) => assertion.evidenceLevel === 7 && assertion.passed)));
+  assert.ok(verification.verification.steps.some((step) => step.assertions.some((assertion) => assertion.persistenceScope === "CROSS_USER_CONFIRMED" && assertion.passed)));
   assert.ok(verification.verification.steps.some((step) => step.assertions.some((assertion) => assertion.providerEvidence?.passed)));
+  assert.ok(verification.verification.steps.some((step) => step.assertions.some((assertion) => assertion.persistenceScope === "SOURCE_OF_TRUTH_CONFIRMED" && assertion.passed)));
   assert.equal(verification.verification.performance?.passed, true);
   assert.equal(verification.verification.deep, true);
   assert.ok((verification.verification.artifacts?.traces.length ?? 0) > 0);

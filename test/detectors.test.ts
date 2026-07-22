@@ -129,6 +129,43 @@ test("detects a discovered Enter action with no effect", () => {
   assert.ok(result.detectorMatches.some((item) => item.code === "RD007"));
 });
 
+test("distinguishes new-session, memory-only, and app-restart persistence failures", () => {
+  const newSession = detect(action, evidence({ afterNewContext: state(700, "fresh", false), network: [] }));
+  assert.ok(newSession.detectorMatches.some((item) => item.code === "RD103"));
+
+  const memoryOnly = detect(action, evidence({ afterRefresh: state(400, "before", false), network: [] }));
+  assert.ok(memoryOnly.detectorMatches.some((item) => item.code === "RD104"));
+
+  const appRestart = detect(action, evidence({
+    afterHardRefresh: state(500, "hard", true),
+    afterAppRestart: state(900, "restart", false),
+  }));
+  assert.ok(appRestart.detectorMatches.some((item) => item.code === "RD105"));
+});
+
+test("detects partial and wrong-resource API update read-backs", () => {
+  const partial = detect(
+    { ...action, intent: "update", label: "Save profile" },
+    evidence({ apiReadBack: { url: "http://localhost/api/profile", status: 200, ok: true, canaryPresent: true, expectedFieldValues: 2, matchedFieldValues: 1 } }),
+  );
+  assert.ok(partial.detectorMatches.some((item) => item.code === "RD204"));
+
+  const wrong = detect(
+    { ...action, intent: "update", label: "Save profile" },
+    evidence({ apiReadBack: { url: "http://localhost/api/profile", status: 200, ok: true, canaryPresent: false, expectedFieldValues: 2, matchedFieldValues: 0 } }),
+  );
+  assert.equal(wrong.verdict, "BROKEN");
+  assert.ok(wrong.detectorMatches.some((item) => item.code === "RD205"));
+});
+
+test("detects redirects to hard-coded success endpoints without a write", () => {
+  const after = { ...state(100, "success", true), url: "http://localhost/success-complete" };
+  const result = detect(action, evidence({ after, afterRefresh: { ...after, at: 400 }, network: [] }));
+  assert.equal(result.verdict, "CONTRADICTORY");
+  assert.ok(result.detectorMatches.some((item) => item.code === "RD304"));
+  assert.ok(result.detectorMatches.some((item) => item.code === "RD305"));
+});
+
 test("detects fake deletion when a removed target returns", () => {
   const result = detect(
     { ...action, intent: "delete", risk: "destructive", label: "Delete customer" },

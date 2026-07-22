@@ -1,6 +1,7 @@
 import type {
   ActionSpec,
   DetectorMatch,
+  EvidenceLevel,
   ExecutionEvidence,
   Finding,
   Verdict,
@@ -30,6 +31,7 @@ function hasObservableEffect(evidence: ExecutionEvidence): boolean {
     actionNetwork(evidence).length > 0 ||
     evidence.dialogs.length > 0 ||
     evidence.downloads.length > 0 ||
+    (evidence.webSockets?.length ?? 0) > 0 ||
     (evidence.popupUrls?.length ?? 0) > 0
   );
 }
@@ -55,7 +57,7 @@ function match(code: DetectorMatch["code"], title: string, detail: string): Dete
 
 interface DetectionResult {
   verdict: Verdict;
-  evidenceLevel: number;
+  evidenceLevel: EvidenceLevel;
   reason: string;
   detectorMatches: DetectorMatch[];
 }
@@ -131,7 +133,8 @@ export function detect(action: ActionSpec, evidence: ExecutionEvidence): Detecti
     action.kind === "mutation" &&
     canarySurvived &&
     evidence.afterNewContext !== undefined &&
-    !evidence.afterNewContext.canaryPresent;
+    !evidence.afterNewContext.canaryPresent &&
+    !(evidence.apiReadBack?.ok && evidence.apiReadBack.canaryPresent);
   const browserLocalDelete =
     action.intent === "delete" &&
     evidence.targetVisibleAfter === false &&
@@ -139,6 +142,7 @@ export function detect(action: ActionSpec, evidence: ExecutionEvidence): Detecti
     evidence.targetVisibleAfterNewContext === true;
   if (action.kind === "mutation" && effect && failedWrites.length === 0 && canaryAppeared && evidence.afterRefresh && !canarySurvived) {
     matches.push(match("RD101", "Refresh disappearance", "The generated canary appeared after the action and disappeared after reload."));
+    matches.push(match("RD104", "Memory-only state", "The result existed immediately after the action but not after reload."));
     if (action.intent === "create") matches.push(match("RD201", "Fake create", "The created resource was not persistent."));
     if (action.intent === "update") matches.push(match("RD202", "Fake update", "The updated value was not persistent."));
   }
@@ -150,20 +154,54 @@ export function detect(action: ActionSpec, evidence: ExecutionEvidence): Detecti
     matches.push(match("RD203", "Fake delete", "The resource disappeared from the current DOM and returned after reload."));
   }
   if (browserLocalCanary || browserLocalDelete) {
-    matches.push(match("RD102", "New-session disappearance", "The result survived reload in the current browser context but was absent in a fresh context."));
+    matches.push(match("RD102", "Browser-local persistence", "The result survived reload in the current browser context but was absent in a fresh context."));
+    matches.push(match("RD103", "New-session disappearance", "A new browser session could not observe the result confirmed in the original session."));
+  }
+  if (
+    action.kind === "mutation" &&
+    evidence.afterAppRestart &&
+    (evidence.afterHardRefresh?.canaryPresent || evidence.afterRefresh?.canaryPresent) &&
+    !evidence.afterAppRestart.canaryPresent
+  ) {
+    matches.push(match("RD105", "App-restart disappearance", "The result survived browser reloads but disappeared after the managed application restarted."));
+  }
+  if (
+    action.intent === "update" &&
+    evidence.apiReadBack?.ok &&
+    (evidence.apiReadBack.expectedFieldValues ?? 0) > 1 &&
+    (evidence.apiReadBack.matchedFieldValues ?? 0) > 0 &&
+    (evidence.apiReadBack.matchedFieldValues ?? 0) < (evidence.apiReadBack.expectedFieldValues ?? 0)
+  ) {
+    matches.push(match("RD204", "Partial update", "API read-back confirmed only part of the generated multi-field update."));
+  }
+  if (
+    action.intent === "update" &&
+    evidence.apiReadBack?.ok &&
+    (evidence.apiReadBack.expectedFieldValues ?? 0) > 0 &&
+    evidence.apiReadBack.matchedFieldValues === 0 &&
+    canaryAppeared
+  ) {
+    matches.push(match("RD205", "Wrong resource update", "The UI showed the generated update but API read-back returned none of its field values."));
+  }
+  const redirectedToSuccess = action.kind === "mutation" &&
+    evidence.before && evidence.after && evidence.before.url !== evidence.after.url &&
+    /\b(success|complete|completed|done)\b/i.test(new URL(evidence.after.url).pathname);
+  if (redirectedToSuccess && writeRequests.length === 0) {
+    matches.push(match("RD304", "False success redirect", "The action navigated to a success-like route without an observed write."));
+    matches.push(match("RD305", "Hard-coded success endpoint", "A success endpoint was reachable without backend mutation evidence."));
   }
   if (successClaim && writeRequests.length === 0 && action.kind === "mutation" && !browserLocalCanary && !browserLocalDelete) {
     matches.push(match("RD301", "Success before proof", "The interface reported success without an observed write request."));
   }
 
   const first = matches[0];
-  if (matches.some((item) => item.code === "RD302" || item.code === "RD301")) {
+  if (matches.some((item) => ["RD301", "RD302", "RD304", "RD305"].includes(item.code))) {
     return { verdict: "CONTRADICTORY", evidenceLevel: canarySurvived ? 5 : 1, reason: matches.find((item) => item.code === "RD302")?.detail ?? matches.find((item) => item.code === "RD301")?.detail ?? first?.detail ?? "Contradictory evidence", detectorMatches: matches };
   }
-  if (matches.some((item) => ["RD001", "RD003", "RD004", "RD005", "RD006", "RD007", "RD303"].includes(item.code))) {
+  if (matches.some((item) => ["RD001", "RD003", "RD004", "RD005", "RD006", "RD007", "RD205", "RD303"].includes(item.code))) {
     return { verdict: "BROKEN", evidenceLevel: writeRequests.length > 0 ? 2 : 1, reason: first?.detail ?? "Broken action", detectorMatches: matches };
   }
-  if (matches.some((item) => ["RD101", "RD201", "RD202", "RD203"].includes(item.code))) {
+  if (matches.some((item) => ["RD101", "RD104", "RD105", "RD201", "RD202", "RD203", "RD204"].includes(item.code))) {
     return { verdict: "EPHEMERAL", evidenceLevel: writeRequests.length > 0 ? 3 : 1, reason: matches.find((item) => item.code === "RD101")?.detail ?? matches.find((item) => item.code === "RD203")?.detail ?? first?.detail ?? "Ephemeral state", detectorMatches: matches };
   }
   if (matches.some((item) => item.code === "RD102")) {

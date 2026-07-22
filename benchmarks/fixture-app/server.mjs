@@ -1,9 +1,11 @@
 import { createServer } from "node:http";
+import { createHash } from "node:crypto";
 import { pathToFileURL } from "node:url";
 
 const state = {
   customers: [],
   invoices: [],
+  profiles: { partial: {}, wrong: { displayName: "Other user", role: "viewer" } },
   selectorShiftLoads: 0,
   breakCreate: false,
 };
@@ -24,7 +26,7 @@ async function body(request) {
 }
 
 export function createFixtureServer() {
-  return createServer(async (request, response) => {
+  const server = createServer(async (request, response) => {
     const url = new URL(request.url ?? "/", "http://fixture.local");
     if (request.method === "POST" && url.pathname === "/api/customers") {
       const value = await body(request);
@@ -40,7 +42,23 @@ export function createFixtureServer() {
     if (request.method === "PATCH" && url.pathname === "/api/settings") {
       return json(response, 500, { error: "intentional fixture failure" });
     }
+    if (request.method === "PATCH" && url.pathname === "/api/profiles/partial") {
+      const value = await body(request);
+      state.profiles.partial = { displayName: String(value.displayName ?? "") };
+      return json(response, 200, state.profiles.partial);
+    }
+    if (request.method === "PATCH" && url.pathname === "/api/profiles/wrong") {
+      await body(request);
+      return json(response, 200, { accepted: true });
+    }
+    if (request.method === "GET" && url.pathname === "/api/profiles/partial") return json(response, 200, state.profiles.partial);
+    if (request.method === "GET" && url.pathname === "/api/profiles/wrong") return json(response, 200, state.profiles.wrong);
     if (request.method === "GET" && url.pathname === "/api/customers") return json(response, 200, state.customers);
+    if (request.method === "GET" && /^\/api\/customers\/\d+$/.test(url.pathname)) {
+      const index = Number(url.pathname.split("/").at(-1)) - 1;
+      const name = state.customers[index];
+      return name === undefined ? json(response, 404, { error: "not found" }) : json(response, 200, { id: index + 1, name });
+    }
     if (request.method === "POST" && url.pathname === "/__control__/break-create") {
       state.breakCreate = true;
       return json(response, 200, { breakCreate: true });
@@ -60,7 +78,7 @@ export function createFixtureServer() {
 
     if (url.pathname === "/") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
-      return response.end(html("RealDone benchmark fixtures", `<p>Each page contains one known behavior.</p><nav><a href="/fake-create">Fake create</a><a href="/fake-update">Fake update</a><a href="/real-create">Real create control</a><a href="/enter-submit">Enter-submit create</a><a href="/keyboard-no-effect">Keyboard no-effect</a><a href="/browser-local">Browser-local control</a><a href="/success-despite-failure">False success</a><a href="/duplicate-submit">Duplicate submit</a><a href="/fake-delete">Fake delete</a><a href="/no-effect">No effect</a><a href="/stuck-loading">Stuck loading</a><a href="/loading-control">Loading control</a><a href="/native-controls">Native controls</a><a href="/popup-control">Popup control</a><a href="/download-control">Download control</a><a href="/context-control">Context control</a><a href="/iframe-control">Iframe control</a><a href="/dynamic-actions">Dynamic actions</a><a href="/complex-recording">Complex recording boundary</a><a href="/unrelated-fields">Unrelated fields control</a><a href="/selector-shift">Selector survival control</a><a href="/stateful-action">Stateful action control</a><a href="/live-control-state">Live control-state control</a><a href="/missing">Broken navigation</a></nav>`));
+      return response.end(html("RealDone benchmark fixtures", `<p>Each page contains one known behavior.</p><nav><a href="/fake-create">Fake create</a><a href="/fake-update">Fake update</a><a href="/partial-update">Partial update</a><a href="/wrong-update">Wrong update</a><a href="/false-success-redirect">False success redirect</a><a href="/real-create">Real create control</a><a href="/enter-submit">Enter-submit create</a><a href="/keyboard-no-effect">Keyboard no-effect</a><a href="/browser-local">Browser-local control</a><a href="/session-control">Session control</a><a href="/snapshot-control">Snapshot control</a><a href="/success-despite-failure">False success</a><a href="/duplicate-submit">Duplicate submit</a><a href="/fake-delete">Fake delete</a><a href="/no-effect">No effect</a><a href="/stuck-loading">Stuck loading</a><a href="/loading-control">Loading control</a><a href="/native-controls">Native controls</a><a href="/popup-control">Popup control</a><a href="/download-control">Download control</a><a href="/websocket-control">WebSocket control</a><a href="/context-control">Context control</a><a href="/iframe-control">Iframe control</a><a href="/dynamic-actions">Dynamic actions</a><a href="/complex-recording">Complex recording boundary</a><a href="/unrelated-fields">Unrelated fields control</a><a href="/selector-shift">Selector survival control</a><a href="/stateful-action">Stateful action control</a><a href="/live-control-state">Live control-state control</a><a href="/missing">Broken navigation</a></nav>`));
     }
     if (url.pathname === "/fake-create") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
@@ -73,6 +91,14 @@ export function createFixtureServer() {
     if (url.pathname === "/browser-local") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
       return response.end(html("Browser-local persistence", `<form id="draft"><label>Draft name <input name="name" required></label><button type="submit">Save draft locally</button></form><p id="current"></p>`, `const key='realdone-browser-local';function load(){current.textContent=localStorage.getItem(key)||''}load();draft.addEventListener('submit',e=>{e.preventDefault();localStorage.setItem(key,draft.name.value);load();notice.className='toast';notice.textContent='Draft saved locally'})`));
+    }
+    if (url.pathname === "/session-control") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Session persistence", `<form id="session-form"><label>Session value <input name="value" required></label><button type="submit">Save for this session</button></form><p id="session-state"></p>`, `const key='realdone-session';const form=document.getElementById('session-form');const show=()=>document.getElementById('session-state').textContent=sessionStorage.getItem(key)||'';show();form.addEventListener('submit',e=>{e.preventDefault();sessionStorage.setItem(key,form.elements.value.value);show()})`));
+    }
+    if (url.pathname === "/snapshot-control") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Snapshot control", `<form id="snapshot"><label>Snapshot value <input name="value" required></label><button type="submit">Save snapshot locally</button></form><p id="snapshot-state"></p>`, `const key='realdone-snapshot';const form=document.getElementById('snapshot');const show=()=>{document.getElementById('snapshot-state').textContent=localStorage.getItem(key)||''};show();form.addEventListener('submit',e=>{e.preventDefault();const value=form.elements.value.value;localStorage.setItem(key,value);document.cookie='rd_snapshot='+encodeURIComponent(value)+'; path=/';const open=indexedDB.open('realdone-fixture',1);open.onupgradeneeded=()=>open.result.createObjectStore('snapshots',{autoIncrement:true});open.onsuccess=()=>{const tx=open.result.transaction('snapshots','readwrite');tx.objectStore('snapshots').add({value});tx.oncomplete=()=>{open.result.close();show()}}})`));
     }
     if (url.pathname === "/enter-submit") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
@@ -93,6 +119,22 @@ export function createFixtureServer() {
     if (url.pathname === "/fake-update") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
       return response.end(html("Fake update", `<form id="profile"><label>Display name <input name="displayName" value="Alice" required></label><button type="submit">Save profile</button></form><p id="current">Alice</p>`, `profile.addEventListener('submit',e=>{e.preventDefault();current.textContent=profile.displayName.value;notice.className='toast';notice.textContent='Profile saved successfully'})`));
+    }
+    if (url.pathname === "/partial-update") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Partial update", `<form id="partial"><label>Display name <input name="displayName" required></label><label>Role name <input name="role" required></label><button type="submit">Save partial profile</button></form><p id="profile-state"></p>`, `document.getElementById('partial').addEventListener('submit',async e=>{e.preventDefault();const form=document.getElementById('partial');const value={displayName:form.displayName.value,role:form.role.value};await fetch('/api/profiles/partial',{method:'PATCH',headers:{'content-type':'application/json'},body:JSON.stringify(value)});document.getElementById('profile-state').textContent=value.displayName+' '+value.role})`));
+    }
+    if (url.pathname === "/wrong-update") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Wrong resource update", `<form id="wrong"><label>Display name <input name="displayName" required></label><label>Role name <input name="role" required></label><button type="submit">Save wrong profile</button></form><p id="wrong-state"></p>`, `document.getElementById('wrong').addEventListener('submit',async e=>{e.preventDefault();const form=document.getElementById('wrong');const value={displayName:form.displayName.value,role:form.role.value};await fetch('/api/profiles/wrong',{method:'PATCH',headers:{'content-type':'application/json'},body:JSON.stringify(value)});document.getElementById('wrong-state').textContent=value.displayName+' '+value.role})`));
+    }
+    if (url.pathname === "/false-success-redirect") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("False success redirect", `<form id="redirect"><label>Order name <input name="name" required></label><button type="submit">Complete order</button></form>`, `document.getElementById('redirect').addEventListener('submit',e=>{e.preventDefault();location.href='/success-complete'})`));
+    }
+    if (url.pathname === "/success-complete") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Success complete", `<p>Order completed successfully.</p>`));
     }
     if (url.pathname === "/success-despite-failure") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
@@ -137,6 +179,10 @@ export function createFixtureServer() {
     if (url.pathname === "/download-file") {
       response.writeHead(200, { "content-type": "text/csv", "content-disposition": "attachment; filename=realdone-export.csv" });
       return response.end(`id,name\n1,RD_EXPORT_CONTROL\n`);
+    }
+    if (url.pathname === "/websocket-control") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("WebSocket control", `<button id="socket">Open live channel</button><p id="socket-state">Closed</p>`, `document.getElementById('socket').onclick=()=>{const protocol=location.protocol==='https:'?'wss:':'ws:';const channel=new WebSocket(protocol+'//'+location.host+'/fixture-socket');channel.onmessage=event=>{document.getElementById('socket-state').textContent=event.data};channel.onopen=()=>channel.send('client-ready')}`));
     }
     if (url.pathname === "/context-control") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
@@ -201,6 +247,16 @@ export function createFixtureServer() {
     response.writeHead(404, { "content-type": "text/html; charset=utf-8" });
     return response.end(html("404", "<p>This route is intentionally missing.</p>"));
   });
+  server.on("upgrade", (request, socket) => {
+    if (request.url !== "/fixture-socket" || !request.headers["sec-websocket-key"]) return socket.destroy();
+    const accept = createHash("sha1")
+      .update(`${request.headers["sec-websocket-key"]}258EAFA5-E914-47DA-95CA-C5AB0DC85B11`)
+      .digest("base64");
+    socket.write(`HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: ${accept}\r\n\r\n`);
+    const payload = Buffer.from("Live channel opened");
+    socket.write(Buffer.concat([Buffer.from([0x81, payload.length]), payload]));
+  });
+  return server;
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

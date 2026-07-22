@@ -16,6 +16,27 @@
       "expectedCodes": ["RD202", "RD301"]
     },
     {
+      "id": "partial-update",
+      "match": { "pagePath": "/partial-update", "label": "Save partial profile" },
+      "shouldFlag": true,
+      "expectedVerdict": "EPHEMERAL",
+      "expectedCodes": ["RD204"]
+    },
+    {
+      "id": "wrong-resource-update",
+      "match": { "pagePath": "/wrong-update", "label": "Save wrong profile" },
+      "shouldFlag": true,
+      "expectedVerdict": "BROKEN",
+      "expectedCodes": ["RD205"]
+    },
+    {
+      "id": "false-success-redirect",
+      "match": { "pagePath": "/false-success-redirect", "label": "Complete order" },
+      "shouldFlag": true,
+      "expectedVerdict": "CONTRADICTORY",
+      "expectedCodes": ["RD304", "RD305"]
+    },
+    {
       "id": "real-create-control",
       "match": { "pagePath": "/real-create", "label": "Create customer" },
       "shouldFlag": false,
@@ -28,6 +49,27 @@
       "shouldFlag": false,
       "expectedVerdict": "BROWSER_LOCAL",
       "expectedCodes": ["RD102"]
+    },
+    {
+      "id": "snapshot-scope-control",
+      "match": { "pagePath": "/snapshot-control", "label": "Save snapshot locally" },
+      "shouldFlag": false,
+      "expectedVerdict": "BROWSER_LOCAL",
+      "expectedCodes": ["RD102", "RD103"]
+    },
+    {
+      "id": "session-scope-control",
+      "match": { "pagePath": "/session-control", "label": "Session value Save for this session" },
+      "shouldFlag": false,
+      "expectedVerdict": "BROWSER_LOCAL",
+      "expectedCodes": ["RD102", "RD103"]
+    },
+    {
+      "id": "websocket-evidence-control",
+      "match": { "pagePath": "/websocket-control", "label": "Open live channel" },
+      "shouldFlag": false,
+      "expectedVerdict": "VERIFIED",
+      "expectedCodes": []
     },
     {
       "id": "enter-submit-create",
