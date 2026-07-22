@@ -5,5 +5,9 @@
   "entry": "./index.mjs",
   "providers": [
     { "name": "storage-fixture-provider", "kind": "storage" }
-  ]
+  ],
+  "permissions": {
+    "environment": [],
+    "networkHosts": []
+  }
 }

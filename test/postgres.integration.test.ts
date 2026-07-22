@@ -5,6 +5,7 @@ import path from "node:path";
 import test from "node:test";
 import { Pool } from "pg";
 import { PostgresSourceAdapter } from "../src/adapters/postgres/index.js";
+import { diffSourceSnapshots } from "../src/adapters/types.js";
 import { postgresAdapterConfigSchema } from "../src/adapters/postgres/config.js";
 import { runCleanup, writeCleanupLedger } from "../src/cleanup/ledger.js";
 
@@ -64,6 +65,15 @@ test("PostgreSQL adapter confirms Level 6 evidence and performs idempotent keyed
     assert.equal(present.matchedRows, 1);
     assert.equal(present.evidenceLevel, 6);
     assert.equal(present.transaction, "read-only");
+
+    const schema = (await adapter.discoverSchema("customers"))[0];
+    assert.deepEqual(schema?.primaryKey, ["id"]);
+    assert.deepEqual(schema?.fields.map((field) => field.name), ["id", "email", "name"]);
+    const before = await adapter.snapshot("customers", 10_000);
+    await pool.query("UPDATE public.realdone_customers SET display_name = $1 WHERE id = $2", [`${marker}_UPDATED`, id]);
+    const after = await adapter.snapshot("customers", 10_000);
+    assert.equal(diffSourceSnapshots(before, after).changed.length, 1);
+    await pool.query("UPDATE public.realdone_customers SET display_name = $1 WHERE id = $2", [marker, id]);
 
     const injection = await adapter.verify({
       type: "source",

@@ -9,6 +9,7 @@ test("project discovery finds runtime, framework, routes, database, auth, and te
   const root = await mkdtemp(path.join(tmpdir(), "realdone-project-"));
   try {
     await mkdir(path.join(root, "app", "customers", "[id]"), { recursive: true });
+    await mkdir(path.join(root, "data"), { recursive: true });
     await Promise.all([
       writeFile(path.join(root, "package.json"), JSON.stringify({
         packageManager: "pnpm@10.34.5",
@@ -28,6 +29,7 @@ test("project discovery finds runtime, framework, routes, database, auth, and te
       })),
       writeFile(path.join(root, "pnpm-lock.yaml"), "lockfileVersion: '9.0'\n"),
       writeFile(path.join(root, ".env.example"), "DATABASE_URL=never-copy-this-value\n"),
+      writeFile(path.join(root, "data", "application.sqlite"), ""),
       writeFile(path.join(root, "Dockerfile"), "FROM scratch\n"),
       writeFile(path.join(root, "app", "customers", "[id]", "page.tsx"), "export default function Page() { return null }\n"),
     ]);
@@ -40,6 +42,7 @@ test("project discovery finds runtime, framework, routes, database, auth, and te
     assert.deepEqual(profile.commands.build?.args, ["build"]);
     assert.ok(profile.routes.includes("/customers/:param"));
     assert.deepEqual(profile.databases, ["SQLite", "Supabase"]);
+    assert.deepEqual(profile.databaseFiles, ["data/application.sqlite"]);
     assert.deepEqual(profile.authProviders, ["Supabase Auth"]);
     assert.deepEqual(profile.testFrameworks, ["Playwright", "Vitest"]);
     assert.deepEqual(profile.environmentFiles, [".env.example"]);

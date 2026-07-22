@@ -1,4 +1,4 @@
-export type ProviderKind = "payment" | "email" | "storage";
+export type ProviderKind = "payment" | "email" | "storage" | "oauth";
 export type ProviderScalar = string | number | boolean | null;
 
 export type ProviderReference =

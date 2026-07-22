@@ -4,10 +4,13 @@ import path from "node:path";
 import { request } from "playwright";
 import { z } from "zod";
 import { createPostgresAdapterFromFile } from "../adapters/postgres/index.js";
-import type { SourceCleanupTarget } from "../adapters/types.js";
+import { SqliteSourceAdapter } from "../adapters/sqlite/index.js";
+import { createSourceAdapterFromFile } from "../adapters/registry.js";
+import type { SourceAdapterKind, SourceCleanupTarget, SourceOfTruthAdapter } from "../adapters/types.js";
 import type { BehaviorContract } from "../contracts/schema.js";
 import { isMutationHostAllowed, validateTarget } from "../core/safety.js";
 import { withRetry } from "../core/retry.js";
+import { PluginHost } from "../plugins/host.js";
 import type { Finding, NetworkEvidence, ScanReport } from "../types.js";
 
 export type CleanupStatus = "pending" | "manual" | "cleaned" | "failed";
@@ -21,7 +24,8 @@ export interface CleanupResource {
   createdAt: string;
   sourceUrl: string;
   cleanupUrl?: string;
-  strategy?: "http" | "postgresql";
+  strategy?: "http" | SourceAdapterKind;
+  database?: SourceCleanupTarget;
   postgres?: SourceCleanupTarget;
   resourceId?: string;
   dependsOn: string[];
@@ -47,7 +51,20 @@ const resourceSchema = z.object({
   createdAt: z.string(),
   sourceUrl: z.string(),
   cleanupUrl: z.string().optional(),
-  strategy: z.enum(["http", "postgresql"]).optional(),
+  strategy: z.enum(["http", "postgresql", "sqlite", "prisma", "supabase", "firebase", "mongodb", "custom"]).optional(),
+  database: z
+    .object({
+      adapter: z.enum(["postgresql", "sqlite", "prisma", "supabase", "firebase", "mongodb", "custom"]),
+      connector: z.string().regex(/^[a-z][a-z0-9-]*$/).optional(),
+      resource: z.string(),
+      filters: z.array(
+        z.union([
+          z.object({ field: z.string(), value: z.union([z.string(), z.number(), z.boolean(), z.null()]) }),
+          z.object({ field: z.string(), env: z.string() }),
+        ]),
+      ),
+    })
+    .optional(),
   postgres: z
     .object({
       adapter: z.literal("postgresql"),
@@ -139,7 +156,7 @@ export function createContractCleanupLedger(
 ): CleanupLedger {
   const createdAt = new Date().toISOString();
   const resources = contract.cleanup.flatMap((cleanup, index): CleanupResource[] => {
-    if (!("adapter" in cleanup) || cleanup.adapter !== "postgresql") return [];
+    if (!("adapter" in cleanup)) return [];
     const digest = createHash("sha256")
       .update(`${contract.id}|${cleanup.resource}|${JSON.stringify(cleanup.filters)}`)
       .digest("hex")
@@ -148,15 +165,16 @@ export function createContractCleanupLedger(
       .flatMap((filter) => ("value" in filter && typeof filter.value === "string" ? [filter.value] : []))
       .find((value) => /^RD_/i.test(value)) ?? "[contract cleanup]";
     return [{
-      id: `cleanup-pg-${digest}`,
+      id: `cleanup-db-${digest}`,
       findingId: contract.id,
       actionId: `contract-cleanup-${index + 1}`,
       type: cleanup.resource,
       canary,
       createdAt,
-      sourceUrl: `postgresql:${cleanup.resource}`,
-      strategy: "postgresql",
-      postgres: cleanup,
+      sourceUrl: `${cleanup.adapter}:${cleanup.resource}`,
+      strategy: cleanup.adapter,
+      database: cleanup,
+      ...(cleanup.adapter === "postgresql" ? { postgres: cleanup } : {}),
       dependsOn: [],
       status: "pending",
       attempts: 0,
@@ -191,6 +209,11 @@ export interface CleanupOptions {
   retries: number;
   storageStatePath?: string;
   postgresConfigPath?: string;
+  sqlitePath?: string;
+  databaseConfigPaths?: string[];
+  pluginManifests?: string[];
+  pluginTimeoutMs?: number;
+  pluginMemoryLimitMb?: number;
   confirmDatabase?: boolean;
 }
 
@@ -218,24 +241,53 @@ export async function runCleanup(reportDirectory: string, options: CleanupOption
   const context = await request.newContext(
     options.storageStatePath ? { storageState: options.storageStatePath } : {},
   );
-  const hasPostgres = ledger.resources.some((resource) => resource.status === "pending" && resource.strategy === "postgresql");
-  const postgres = hasPostgres && options.confirmDatabase && options.postgresConfigPath
-    ? await createPostgresAdapterFromFile(options.postgresConfigPath)
+  const databaseAdapters = new Map<SourceAdapterKind, SourceOfTruthAdapter>();
+  if (options.confirmDatabase && options.postgresConfigPath) {
+    databaseAdapters.set("postgresql", await createPostgresAdapterFromFile(options.postgresConfigPath));
+  }
+  if (options.confirmDatabase && options.sqlitePath) {
+    databaseAdapters.set("sqlite", new SqliteSourceAdapter(options.sqlitePath, { allowCleanup: true }));
+  }
+  if (options.confirmDatabase) {
+    for (const configFile of options.databaseConfigPaths ?? []) {
+      const adapter = await createSourceAdapterFromFile(configFile);
+      if (databaseAdapters.has(adapter.kind)) {
+        await adapter.close();
+        await Promise.all([...databaseAdapters.values()].map((configured) => configured.close()));
+        throw new Error(`Duplicate cleanup adapter configuration: ${adapter.kind}`);
+      }
+      databaseAdapters.set(adapter.kind, adapter);
+    }
+  }
+  const plugins = options.confirmDatabase && (options.pluginManifests?.length ?? 0) > 0
+    ? await PluginHost.load(options.pluginManifests ?? [], {
+        ...(options.pluginTimeoutMs === undefined ? {} : { timeoutMs: options.pluginTimeoutMs }),
+        ...(options.pluginMemoryLimitMb === undefined ? {} : { memoryLimitMb: options.pluginMemoryLimitMb }),
+      })
     : undefined;
   try {
     const resources = [...ledger.resources].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
     for (const resource of resources) {
       if (resource.status !== "pending") continue;
-      if (resource.strategy === "postgresql" && !options.confirmDatabase) continue;
-      if (resource.strategy !== "postgresql" && !resource.cleanupUrl) continue;
+      const databaseStrategy = resource.strategy && resource.strategy !== "http" ? resource.strategy : undefined;
+      if (databaseStrategy && !options.confirmDatabase) continue;
+      if (!databaseStrategy && !resource.cleanupUrl) continue;
       resource.attempts += 1;
       resource.lastAttemptAt = new Date().toISOString();
       try {
-        if (resource.strategy === "postgresql") {
-          if (!postgres || !resource.postgres) {
-            throw new Error("PostgreSQL cleanup requires --postgres-config and a valid database ledger target.");
+        if (databaseStrategy) {
+          const target = resource.database ?? resource.postgres;
+          if (!target) {
+            throw new Error(`${databaseStrategy} cleanup requires its adapter option and a valid database ledger target.`);
           }
-          await postgres.cleanup(resource.postgres, { confirmed: true });
+          if (databaseStrategy === "prisma" || databaseStrategy === "custom") {
+            if (!plugins) throw new Error(`${databaseStrategy} cleanup requires --plugin and a valid source connector.`);
+            await plugins.cleanupSource(target, { confirmed: true });
+          } else {
+            const adapter = databaseAdapters.get(databaseStrategy);
+            if (!adapter) throw new Error(`${databaseStrategy} cleanup requires its adapter option and a valid database ledger target.`);
+            await adapter.cleanup(target, { confirmed: true });
+          }
           resource.status = "cleaned";
           delete resource.error;
           await writeCleanupLedger(reportDirectory, ledger);
@@ -267,7 +319,7 @@ export async function runCleanup(reportDirectory: string, options: CleanupOption
     }
   } finally {
     await context.dispose();
-    await postgres?.close();
+    await Promise.all([...databaseAdapters.values()].map((adapter) => adapter.close()));
   }
   return resultFor(ledger);
 }

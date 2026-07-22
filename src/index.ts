@@ -80,6 +80,8 @@ export {
   type ResolvedPluginManifest,
 } from "./plugins/schema.js";
 export type * from "./providers/types.js";
+export { BuiltinProviderHost } from "./providers/builtin.js";
+export { providerAdapterConfigSchema, loadProviderAdapterConfig, type ProviderAdapterConfig, type BuiltinProviderConfig } from "./providers/config.js";
 export {
   evaluatePerformance,
   loadPerformanceBudget,
@@ -114,6 +116,19 @@ export {
   type PostgresAdapterConfig,
   type PostgresResourceConfig,
 } from "./adapters/postgres/config.js";
+export {
+  SqliteSourceAdapter,
+  compileSqliteTarget,
+  type CompiledSqliteTarget,
+  type SqliteAdapterOptions,
+} from "./adapters/sqlite/index.js";
+export { createSourceAdapterFromFile } from "./adapters/registry.js";
+export { SupabaseSourceAdapter, createSupabaseAdapterFromFile } from "./adapters/supabase/index.js";
+export { supabaseAdapterConfigSchema, loadSupabaseAdapterConfig, type SupabaseAdapterConfig } from "./adapters/supabase/config.js";
+export { FirebaseSourceAdapter, createFirebaseAdapterFromFile } from "./adapters/firebase/index.js";
+export { firebaseAdapterConfigSchema, loadFirebaseAdapterConfig, type FirebaseAdapterConfig } from "./adapters/firebase/config.js";
+export { MongoSourceAdapter, createMongoAdapterFromFile } from "./adapters/mongodb/index.js";
+export { mongoAdapterConfigSchema, loadMongoAdapterConfig, type MongoAdapterConfig } from "./adapters/mongodb/config.js";
 export type * from "./adapters/types.js";
 export { detect, findingFromEvidence } from "./detectors/index.js";
 export { classifyAction } from "./core/classify.js";

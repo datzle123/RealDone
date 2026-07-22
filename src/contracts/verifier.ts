@@ -2,7 +2,10 @@ import { randomBytes } from "node:crypto";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import type { Browser, BrowserContext, Locator, Page, Video } from "playwright";
-import { createPostgresAdapterFromFile, type PostgresSourceAdapter } from "../adapters/postgres/index.js";
+import { createPostgresAdapterFromFile } from "../adapters/postgres/index.js";
+import { SqliteSourceAdapter } from "../adapters/sqlite/index.js";
+import { createSourceAdapterFromFile } from "../adapters/registry.js";
+import type { SourceAdapterKind, SourceOfTruthAdapter } from "../adapters/types.js";
 import { attachEvidence, type EvidenceSink } from "../browser/evidence.js";
 import { resolveSemanticLocator } from "../browser/locator.js";
 import { launchBrowser, type BrowserName } from "../browser/runtime.js";
@@ -10,6 +13,7 @@ import { createContractCleanupLedger, writeCleanupLedger } from "../cleanup/ledg
 import { classifyAction } from "../core/classify.js";
 import { redactText, safeUrl } from "../core/redact.js";
 import { PluginHost } from "../plugins/host.js";
+import { BuiltinProviderHost } from "../providers/builtin.js";
 import { evaluatePerformance, loadPerformanceBudget } from "../performance/budget.js";
 import { actionSkipReason } from "../core/safety.js";
 import type { NetworkEvidence } from "../types.js";
@@ -29,6 +33,9 @@ export interface VerifyContractOptions {
   executablePath?: string;
   storageStatePath?: string;
   postgresConfigPath?: string;
+  sqlitePath?: string;
+  databaseConfigPaths?: string[];
+  providerConfigPaths?: string[];
   browserName?: BrowserName;
   roleStorageStates?: Record<string, string>;
   pluginManifests?: string[];
@@ -147,9 +154,10 @@ async function verifyExpectation(
   page: Page,
   expectation: ContractExpectation,
   sink: EvidenceSink,
-  postgres?: PostgresSourceAdapter,
+  sourceAdapters?: Map<SourceAdapterKind, SourceOfTruthAdapter>,
   rolePage?: (role: string) => Promise<Page>,
   plugins?: PluginHost,
+  builtinProviders?: BuiltinProviderHost,
   freshRolePage?: (role?: string) => Promise<Page>,
   deep = false,
   stepRole = "default",
@@ -262,21 +270,25 @@ async function verifyExpectation(
     }
     case "source": {
       const reportExpectation = redactSourceExpectation(expectation);
-      if (!postgres) {
+      const sourceAdapter = sourceAdapters?.get(expectation.adapter);
+      const pluginSource = expectation.adapter === "prisma" || expectation.adapter === "custom";
+      if (!sourceAdapter && (!plugins || !pluginSource)) {
         return {
           expectation: reportExpectation,
           passed: false,
-          detail: "PostgreSQL source expectation requires --postgres-config.",
+          detail: `${expectation.adapter} source expectation requires its explicit adapter option.`,
           evidenceLevel: 6,
         };
       }
       try {
-        const sourceEvidence = await postgres.verify(expectation);
+        const sourceEvidence = sourceAdapter
+          ? await sourceAdapter.verify(expectation)
+          : await plugins!.verifySource(expectation);
         const maximum = expectation.maxMatches === undefined ? "" : `, maximum ${expectation.maxMatches}`;
         return {
           expectation: reportExpectation,
           passed: sourceEvidence.passed,
-          detail: `PostgreSQL ${expectation.resource}: ${sourceEvidence.matchedRows} row(s), expected ${expectation.state}${maximum}`,
+          detail: `${expectation.adapter} ${expectation.resource}: ${sourceEvidence.matchedRows} row(s), expected ${expectation.state}${maximum}`,
           evidenceLevel: 6,
           sourceEvidence,
           ...(sourceEvidence.passed ? { persistenceScope: "SOURCE_OF_TRUTH_CONFIRMED" as const } : {}),
@@ -285,14 +297,15 @@ async function verifyExpectation(
         return {
           expectation: reportExpectation,
           passed: false,
-          detail: `PostgreSQL source check failed: ${redactText(error instanceof Error ? error.message : String(error))}`,
+          detail: `${expectation.adapter} source check failed: ${redactText(error instanceof Error ? error.message : String(error))}`,
           evidenceLevel: 6,
         };
       }
     }
     case "provider": {
       const reportExpectation = redactProviderExpectation(expectation);
-      if (!plugins) {
+      const builtin = builtinProviders?.has(expectation.provider) ?? false;
+      if (!plugins && !builtin) {
         return {
           expectation: reportExpectation,
           passed: false,
@@ -301,7 +314,9 @@ async function verifyExpectation(
         };
       }
       try {
-        const providerEvidence = await plugins.verifyProvider(expectation);
+        const providerEvidence = builtin
+          ? await builtinProviders!.verifyProvider(expectation)
+          : await plugins!.verifyProvider(expectation);
         return {
           expectation: reportExpectation,
           passed: providerEvidence.passed,
@@ -513,15 +528,31 @@ export async function verifyContract(
     ...(options.trace ? [mkdir(path.join(outputDirectory, "traces"), { recursive: true })] : []),
     ...(options.video ? [mkdir(path.join(outputDirectory, "videos"), { recursive: true })] : []),
   ]);
-  const needsPostgres = contract.steps.some((step) => step.expected.some((expectation) => expectation.type === "source"));
-  const postgres = needsPostgres && options.postgresConfigPath
-    ? await createPostgresAdapterFromFile(options.postgresConfigPath)
-    : undefined;
+  const sourceKinds = new Set(contract.steps.flatMap((step) => step.expected.flatMap((expectation) => expectation.type === "source" ? [expectation.adapter] : [])));
+  const sourceAdapters = new Map<SourceAdapterKind, SourceOfTruthAdapter>();
+  if (sourceKinds.has("postgresql") && options.postgresConfigPath) {
+    sourceAdapters.set("postgresql", await createPostgresAdapterFromFile(options.postgresConfigPath));
+  }
+  if (sourceKinds.has("sqlite") && options.sqlitePath) {
+    sourceAdapters.set("sqlite", new SqliteSourceAdapter(options.sqlitePath));
+  }
+  for (const configFile of options.databaseConfigPaths ?? []) {
+    const adapter = await createSourceAdapterFromFile(configFile);
+    if (sourceAdapters.has(adapter.kind)) {
+      await adapter.close();
+      await Promise.all([...sourceAdapters.values()].map((configured) => configured.close()));
+      throw new Error(`Duplicate source adapter configuration: ${adapter.kind}`);
+    }
+    sourceAdapters.set(adapter.kind, adapter);
+  }
   const plugins = (options.pluginManifests?.length ?? 0) > 0
     ? await PluginHost.load(options.pluginManifests ?? [], {
         ...(options.pluginTimeoutMs === undefined ? {} : { timeoutMs: options.pluginTimeoutMs }),
         ...(options.pluginMemoryLimitMb === undefined ? {} : { memoryLimitMb: options.pluginMemoryLimitMb }),
       })
+    : undefined;
+  const builtinProviders = (options.providerConfigPaths?.length ?? 0) > 0
+    ? await BuiltinProviderHost.load(options.providerConfigPaths ?? [])
     : undefined;
   const verificationStarted = Date.now();
   const memoryBefore = process.memoryUsage().rss;
@@ -600,9 +631,10 @@ export async function verifyContract(
             page,
             expectation,
             sink,
-            postgres,
+            sourceAdapters,
             rolePages.page,
             plugins,
+            builtinProviders,
             rolePages.freshPage,
             Boolean(options.deep),
             role,
@@ -641,7 +673,7 @@ export async function verifyContract(
   } finally {
     artifacts = await rolePages.close();
     await browser.close();
-    await postgres?.close();
+    await Promise.all([...sourceAdapters.values()].map((adapter) => adapter.close()));
   }
   const verification: ContractVerification = {
     schemaVersion: "1.0",

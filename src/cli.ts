@@ -232,7 +232,12 @@ program
   .option("--retries <number>", "retries for transient cleanup failures", nonNegativeInteger, 2)
   .option("--storage-state <file>", "Playwright storage state for authenticated DELETE requests")
   .option("--postgres-config <file>", "PostgreSQL source adapter config")
-  .option("--confirm-database", "allow transaction-protected PostgreSQL ledger cleanup", false)
+  .option("--sqlite <file>", "SQLite database file for zero-config source checks")
+  .option("--database-config <file>", "database adapter config; repeat for multiple adapters", collect, [])
+  .option("--plugin <manifest>", "Prisma/custom source plugin manifest; repeat for multiple plugins", collect, [])
+  .option("--plugin-timeout <milliseconds>", "per-plugin cleanup timeout", positiveInteger, 5_000)
+  .option("--plugin-memory <megabytes>", "per-plugin worker memory limit", positiveInteger, 64)
+  .option("--confirm-database", "allow transaction-protected database ledger cleanup", false)
   .action(async (values: Record<string, unknown>) => {
     const result = await runCleanup(path.resolve(String(values.reportDir)), {
       confirm: Boolean(values.confirm),
@@ -240,12 +245,17 @@ program
       retries: Number(values.retries),
       ...(values.storageState ? { storageStatePath: path.resolve(String(values.storageState)) } : {}),
       ...(values.postgresConfig ? { postgresConfigPath: path.resolve(String(values.postgresConfig)) } : {}),
+      ...(values.sqlite ? { sqlitePath: path.resolve(String(values.sqlite)) } : {}),
+      databaseConfigPaths: (values.databaseConfig as string[]).map((file) => path.resolve(file)),
+      pluginManifests: (values.plugin as string[]).map((file) => path.resolve(file)),
+      pluginTimeoutMs: Number(values.pluginTimeout),
+      pluginMemoryLimitMb: Number(values.pluginMemory),
       confirmDatabase: Boolean(values.confirmDatabase),
     });
     process.stdout.write(`Cleanup ledger\n\ncleaned: ${result.cleaned}\nfailed: ${result.failed}\nmanual: ${result.manual}\npending: ${result.pending}\n`);
     if (!values.confirm && result.pending > 0) process.stdout.write("\nDry run only. Re-run with --confirm to execute safe cleanup targets.\n");
-    if (values.confirm && !values.confirmDatabase && result.ledger.resources.some((resource) => resource.strategy === "postgresql" && resource.status === "pending")) {
-      process.stdout.write("\nPostgreSQL targets remain pending. Database cleanup also requires --confirm-database and --postgres-config.\n");
+    if (values.confirm && !values.confirmDatabase && result.ledger.resources.some((resource) => resource.strategy !== "http" && resource.status === "pending")) {
+      process.stdout.write("\nDatabase targets remain pending. Database cleanup also requires --confirm-database and the matching adapter option.\n");
     }
     if (result.failed > 0) process.exitCode = 1;
   });
@@ -304,6 +314,9 @@ program
   .option("--browser <name>", "browser engine: chromium, firefox, or webkit", browserName, "chromium")
   .option("--role-state <role=file>", "override a named role's Playwright storage state", collect, [])
   .option("--postgres-config <file>", "PostgreSQL source adapter config for Level 6 assertions")
+  .option("--sqlite <file>", "SQLite database file for zero-config Level 6 assertions")
+  .option("--database-config <file>", "database adapter config; repeat for multiple adapters", collect, [])
+  .option("--provider-config <file>", "maintained provider adapter config; repeat for multiple files", collect, [])
   .option("--plugin <manifest>", "provider plugin manifest; repeat for multiple plugins", collect, [])
   .option("--plugin-timeout <milliseconds>", "per-plugin verification timeout", positiveInteger, 5_000)
   .option("--plugin-memory <megabytes>", "per-plugin worker memory limit", positiveInteger, 64)
@@ -334,6 +347,9 @@ program
       ...(values.storageState ? { storageStatePath: path.resolve(String(values.storageState)) } : {}),
       ...(values.browserPath ? { executablePath: path.resolve(String(values.browserPath)) } : {}),
       ...(values.postgresConfig ? { postgresConfigPath: path.resolve(String(values.postgresConfig)) } : {}),
+      ...(values.sqlite ? { sqlitePath: path.resolve(String(values.sqlite)) } : {}),
+      databaseConfigPaths: (values.databaseConfig as string[]).map((file) => path.resolve(file)),
+      providerConfigPaths: (values.providerConfig as string[]).map((file) => path.resolve(file)),
     });
     process.stdout.write(`\n${result.verification.passed ? "VERIFIED" : "REGRESSION"}: ${result.verification.contractName}\nReport: ${path.join(result.outputDirectory, "report.html")}\n`);
     process.exitCode = result.exitCode;
@@ -428,6 +444,9 @@ program
   .option("--browser <name>", "browser engine: chromium, firefox, or webkit", browserName, "chromium")
   .option("--role-state <role=file>", "override a named role's Playwright storage state", collect, [])
   .option("--postgres-config <file>", "PostgreSQL source adapter config for Level 6 assertions")
+  .option("--sqlite <file>", "SQLite database file for zero-config Level 6 assertions")
+  .option("--database-config <file>", "database adapter config; repeat for multiple adapters", collect, [])
+  .option("--provider-config <file>", "maintained provider adapter config; repeat for multiple files", collect, [])
   .option("--plugin <manifest>", "provider plugin manifest; repeat for multiple plugins", collect, [])
   .option("--plugin-timeout <milliseconds>", "per-plugin verification timeout", positiveInteger, 5_000)
   .option("--plugin-memory <megabytes>", "per-plugin worker memory limit", positiveInteger, 64)
@@ -462,6 +481,9 @@ program
         ...(values.storageState ? { storageStatePath: path.resolve(String(values.storageState)) } : {}),
         ...(values.browserPath ? { executablePath: path.resolve(String(values.browserPath)) } : {}),
         ...(values.postgresConfig ? { postgresConfigPath: path.resolve(String(values.postgresConfig)) } : {}),
+        ...(values.sqlite ? { sqlitePath: path.resolve(String(values.sqlite)) } : {}),
+        databaseConfigPaths: (values.databaseConfig as string[]).map((file) => path.resolve(file)),
+        providerConfigPaths: (values.providerConfig as string[]).map((file) => path.resolve(file)),
       },
       Boolean(values.verify),
     );
@@ -489,6 +511,9 @@ program
   .option("--browser <name>", "browser engine: chromium, firefox, or webkit", browserName, "chromium")
   .option("--role-state <role=file>", "override a named role's Playwright storage state", collect, [])
   .option("--postgres-config <file>", "PostgreSQL source adapter config for Level 6 assertions")
+  .option("--sqlite <file>", "SQLite database file for zero-config Level 6 assertions")
+  .option("--database-config <file>", "database adapter config; repeat for multiple adapters", collect, [])
+  .option("--provider-config <file>", "maintained provider adapter config; repeat for multiple files", collect, [])
   .option("--plugin <manifest>", "provider plugin manifest; repeat for multiple plugins", collect, [])
   .option("--plugin-timeout <milliseconds>", "per-plugin verification timeout", positiveInteger, 5_000)
   .option("--plugin-memory <megabytes>", "per-plugin worker memory limit", positiveInteger, 64)
@@ -524,6 +549,9 @@ program
         ...(values.storageState ? { storageStatePath: path.resolve(String(values.storageState)) } : {}),
         ...(values.browserPath ? { executablePath: path.resolve(String(values.browserPath)) } : {}),
         ...(values.postgresConfig ? { postgresConfigPath: path.resolve(String(values.postgresConfig)) } : {}),
+        ...(values.sqlite ? { sqlitePath: path.resolve(String(values.sqlite)) } : {}),
+        databaseConfigPaths: (values.databaseConfig as string[]).map((file) => path.resolve(file)),
+        providerConfigPaths: (values.providerConfig as string[]).map((file) => path.resolve(file)),
       },
     });
     process.stdout.write(`\nREALDONE CI\n\nselected: ${result.report.selectedContracts}\nregressions: ${result.report.regressions}\nexpected changes: ${result.report.expectedChanges}\nReport: ${path.join(result.outputDirectory, "summary.md")}\n`);
@@ -548,6 +576,9 @@ program
   .option("--role-state <role=file>", "override a named role's Playwright storage state", collect, [])
   .option("--browser-path <file>", "existing Chromium/Chrome executable for the Chromium entry")
   .option("--postgres-config <file>", "PostgreSQL source adapter config")
+  .option("--sqlite <file>", "SQLite database file for zero-config source checks")
+  .option("--database-config <file>", "database adapter config; repeat for multiple adapters", collect, [])
+  .option("--provider-config <file>", "maintained provider adapter config; repeat for multiple files", collect, [])
   .option("--plugin <manifest>", "provider plugin manifest; repeat for multiple plugins", collect, [])
   .option("--plugin-timeout <milliseconds>", "per-plugin verification timeout", positiveInteger, 5_000)
   .option("--plugin-memory <megabytes>", "per-plugin worker memory limit", positiveInteger, 64)
@@ -582,6 +613,9 @@ program
         ...(values.storageState ? { storageStatePath: path.resolve(String(values.storageState)) } : {}),
         ...(values.browserPath ? { executablePath: path.resolve(String(values.browserPath)) } : {}),
         ...(values.postgresConfig ? { postgresConfigPath: path.resolve(String(values.postgresConfig)) } : {}),
+        ...(values.sqlite ? { sqlitePath: path.resolve(String(values.sqlite)) } : {}),
+        databaseConfigPaths: (values.databaseConfig as string[]).map((file) => path.resolve(file)),
+        providerConfigPaths: (values.providerConfig as string[]).map((file) => path.resolve(file)),
       },
     );
     process.stdout.write(`\nREALDONE BROWSER MATRIX\n\n${result.report.entries.map((entry) => `${entry.browser}: ${entry.passed ? "passed" : "failed"}`).join("\n")}\nReport: ${path.join(result.outputDirectory, "matrix.html")}\n`);
@@ -641,6 +675,9 @@ program
   .option("--browser <name>", "browser engine: chromium, firefox, or webkit", browserName, "chromium")
   .option("--role-state <role=file>", "override a named role's Playwright storage state", collect, [])
   .option("--postgres-config <file>", "PostgreSQL source adapter config")
+  .option("--sqlite <file>", "SQLite database file for zero-config source checks")
+  .option("--database-config <file>", "database adapter config; repeat for multiple adapters", collect, [])
+  .option("--provider-config <file>", "maintained provider adapter config; repeat for multiple files", collect, [])
   .option("--plugin <manifest>", "provider plugin manifest; repeat for multiple plugins", collect, [])
   .option("--plugin-timeout <milliseconds>", "per-plugin verification timeout", positiveInteger, 5_000)
   .option("--plugin-memory <megabytes>", "per-plugin worker memory limit", positiveInteger, 64)
@@ -694,6 +731,9 @@ program
         ...(values.storageState ? { storageStatePath: path.resolve(workingDirectory, String(values.storageState)) } : {}),
         ...(values.browserPath ? { executablePath: path.resolve(String(values.browserPath)) } : {}),
         ...(values.postgresConfig ? { postgresConfigPath: path.resolve(workingDirectory, String(values.postgresConfig)) } : {}),
+        ...(values.sqlite ? { sqlitePath: path.resolve(workingDirectory, String(values.sqlite)) } : {}),
+        databaseConfigPaths: (values.databaseConfig as string[]).map((file) => path.resolve(workingDirectory, file)),
+        providerConfigPaths: (values.providerConfig as string[]).map((file) => path.resolve(workingDirectory, file)),
       },
     });
     process.stdout.write(`\nREALDONE AGENT VERIFICATION\n\nbaseline: ${result.report.baselinePassed ? "passed" : "failed"}\nchanged files: ${result.report.changedFiles.length}\nbehavior: ${result.report.behaviorPassed ? "passed" : "failed"}\nresult: ${result.report.passed ? "VERIFIED" : "NOT COMPLETE"}\nReport: ${path.join(result.outputDirectory, "agent-verification.json")}\n`);

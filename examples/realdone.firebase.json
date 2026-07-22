@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "1.0",
+  "adapter": "firebase",
+  "projectId": "your-test-project",
+  "databaseId": "(default)",
+  "tokenEnv": "REALDONE_FIREBASE_OAUTH_TOKEN",
+  "allowProduction": true,
+  "allowCleanup": false,
+  "timeoutMs": 5000,
+  "resources": {
+    "customers": {
+      "target": "customers",
+      "fields": {
+        "id": { "target": "__name__", "type": "string", "nullable": false },
+        "email": { "target": "email", "type": "string" },
+        "deletedAt": { "target": "deletedAt", "type": "timestamp" }
+      },
+      "primaryKey": ["id"],
+      "softDeleteFields": ["deletedAt"],
+      "cleanupMaxRows": 1
+    }
+  }
+}

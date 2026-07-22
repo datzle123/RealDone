@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "1.0",
+  "providers": {
+    "stripe-test": {
+      "adapter": "stripe",
+      "secretEnv": "REALDONE_STRIPE_TEST_KEY"
+    },
+    "resend-test": {
+      "adapter": "resend",
+      "tokenEnv": "REALDONE_RESEND_API_KEY",
+      "allowProduction": true
+    },
+    "exports-s3": {
+      "adapter": "s3",
+      "accessKeyEnv": "REALDONE_AWS_ACCESS_KEY_ID",
+      "secretKeyEnv": "REALDONE_AWS_SECRET_ACCESS_KEY",
+      "region": "us-east-1",
+      "bucket": "realdone-test-exports",
+      "allowProduction": true
+    },
+    "oauth-test": {
+      "adapter": "oauth",
+      "introspectionUrl": "https://auth.example.test/oauth/introspect",
+      "clientIdEnv": "REALDONE_OAUTH_CLIENT_ID",
+      "clientSecretEnv": "REALDONE_OAUTH_CLIENT_SECRET"
+    }
+  }
+}

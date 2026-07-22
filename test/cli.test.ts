@@ -52,7 +52,13 @@ test("CLI help exposes deep and advanced verification controls", async () => {
 
   const verify = await cli("verify", "--help");
   assert.equal(commandPassed(verify), true, verify.stderr);
-  for (const option of ["--deep", "--trace", "--video", "--browser", "--role-state", "--postgres-config", "--plugin", "--performance-budget"]) {
+  for (const option of ["--deep", "--trace", "--video", "--browser", "--role-state", "--postgres-config", "--sqlite", "--database-config", "--provider-config", "--plugin", "--performance-budget"]) {
     assert.ok(verify.stdout.includes(option), `verify help is missing ${option}`);
+  }
+
+  const cleanup = await cli("cleanup", "--help");
+  assert.equal(commandPassed(cleanup), true, cleanup.stderr);
+  for (const option of ["--confirm", "--confirm-database", "--postgres-config", "--sqlite", "--database-config", "--plugin"]) {
+    assert.ok(cleanup.stdout.includes(option), `cleanup help is missing ${option}`);
   }
 });

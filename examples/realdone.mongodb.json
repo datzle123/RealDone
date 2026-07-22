@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "1.0",
+  "adapter": "mongodb",
+  "connectionEnv": "REALDONE_MONGODB_URL",
+  "database": "realdone_test",
+  "tls": { "mode": "require" },
+  "allowProduction": true,
+  "allowCleanup": false,
+  "timeoutMs": 5000,
+  "resources": {
+    "customers": {
+      "target": "customers",
+      "fields": {
+        "id": { "target": "_id", "type": "objectId", "nullable": false },
+        "email": { "target": "email", "type": "string" },
+        "deletedAt": { "target": "deletedAt", "type": "date" }
+      },
+      "primaryKey": ["id"],
+      "softDeleteFields": ["deletedAt"],
+      "cleanupMaxRows": 1
+    }
+  }
+}

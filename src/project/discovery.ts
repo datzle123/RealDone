@@ -24,6 +24,7 @@ export interface ProjectProfile {
   healthEndpoint: string;
   routes: string[];
   databases: string[];
+  databaseFiles: string[];
   authProviders: string[];
   testFrameworks: string[];
   environmentFiles: string[];
@@ -188,6 +189,7 @@ export async function discoverProject(directory = process.cwd()): Promise<Projec
   const buildCommand = buildScript ? scriptCommand(packageManager, buildScript) : undefined;
   const routes = [...new Set(files.map(routeFromFile).filter((route): route is string => Boolean(route)))].sort().slice(0, 200);
   const environmentFiles = files.filter((file) => /^\.env(?:\.[\w-]+)?(?:\.example|\.sample)?$/.test(file)).sort();
+  const databaseFiles = files.filter((file) => /(?:^|\/)[^/]+\.(?:db|sqlite|sqlite3)$/i.test(file)).sort().slice(0, 100);
   const docker = topFiles.has("Dockerfile") || topFiles.has("docker-compose.yml") || topFiles.has("compose.yml") || topFiles.has("compose.yaml");
   const healthEndpoint = routes.find((route) => /\/(?:api\/)?health$/.test(route)) ?? "/";
 
@@ -215,6 +217,7 @@ export async function discoverProject(directory = process.cwd()): Promise<Projec
       ["Firebase", ["firebase", "firebase-admin"]],
       ["MongoDB", ["mongodb", "mongoose"]],
     ]),
+    databaseFiles,
     authProviders: detectByDependency(dependencies, [
       ["Auth.js/NextAuth", ["next-auth", "@auth/core"]],
       ["Clerk", ["@clerk/nextjs", "@clerk/clerk-react"]],

@@ -1,0 +1,14 @@
+{
+  "apiVersion": "1.0",
+  "name": "prisma-source",
+  "version": "1.0.0",
+  "entry": "./index.mjs",
+  "providers": [],
+  "sources": [
+    { "name": "project-prisma", "kind": "prisma" }
+  ],
+  "permissions": {
+    "environment": ["REALDONE_PRISMA_BRIDGE_MODULE"],
+    "networkHosts": []
+  }
+}

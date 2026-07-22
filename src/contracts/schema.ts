@@ -156,7 +156,8 @@ const sourceFilterSchema = z.union([
 
 const sourceExpectationSchema = z.object({
   type: z.literal("source"),
-  adapter: z.literal("postgresql"),
+  adapter: z.enum(["postgresql", "sqlite", "prisma", "supabase", "firebase", "mongodb", "custom"]),
+  connector: z.string().regex(/^[a-z][a-z0-9-]*$/).optional(),
   resource: z.string().min(1),
   filters: z.array(sourceFilterSchema).min(1),
   state: z.enum(["present", "absent"]),
@@ -200,7 +201,7 @@ const providerScalarSchema = z.union([z.string(), z.number(), z.boolean(), z.nul
 const providerExpectationSchema = z.object({
   type: z.literal("provider"),
   provider: z.string().regex(/^[a-z][a-z0-9-]*$/),
-  kind: z.enum(["payment", "email", "storage"]),
+  kind: z.enum(["payment", "email", "storage", "oauth"]),
   operation: z.string().min(1),
   resource: z.string().min(1),
   reference: z.union([
@@ -231,7 +232,8 @@ const expectationSchema = z.discriminatedUnion("type", [
 const cleanupSchema = z.union([
   z.object({ type: z.enum(["ledger", "request"]), value: z.string() }),
   z.object({
-    adapter: z.literal("postgresql"),
+    adapter: z.enum(["postgresql", "sqlite", "prisma", "supabase", "firebase", "mongodb", "custom"]),
+    connector: z.string().regex(/^[a-z][a-z0-9-]*$/).optional(),
     resource: z.string().min(1),
     filters: z.array(sourceFilterSchema).min(1),
   }),

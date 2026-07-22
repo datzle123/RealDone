@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "1.0",
+  "adapter": "supabase",
+  "url": "https://your-test-project.supabase.co",
+  "keyEnv": "REALDONE_SUPABASE_SERVICE_KEY",
+  "schema": "public",
+  "allowProduction": true,
+  "allowCleanup": false,
+  "timeoutMs": 5000,
+  "resources": {
+    "customers": {
+      "target": "customers",
+      "fields": {
+        "id": { "target": "id", "type": "uuid", "nullable": false },
+        "email": { "target": "email", "type": "text", "nullable": false },
+        "deletedAt": { "target": "deleted_at", "type": "timestamptz" }
+      },
+      "primaryKey": ["id"],
+      "softDeleteFields": ["deletedAt"],
+      "cleanupMaxRows": 1
+    }
+  }
+}

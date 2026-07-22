@@ -3,6 +3,7 @@ import path from "node:path";
 import { z } from "zod";
 
 const pluginNameSchema = z.string().regex(/^[a-z][a-z0-9-]*$/);
+const environmentNameSchema = z.string().regex(/^[A-Z_][A-Z0-9_]*$/);
 
 export const pluginManifestSchema = z.object({
   apiVersion: z.literal("1.0"),
@@ -11,8 +12,16 @@ export const pluginManifestSchema = z.object({
   entry: z.string().min(1),
   providers: z.array(z.object({
     name: pluginNameSchema,
-    kind: z.enum(["payment", "email", "storage"]),
+    kind: z.enum(["payment", "email", "storage", "oauth"]),
   })).default([]),
+  sources: z.array(z.object({
+    name: pluginNameSchema,
+    kind: z.enum(["prisma", "custom"]),
+  })).default([]),
+  permissions: z.object({
+    environment: z.array(environmentNameSchema).default([]),
+    networkHosts: z.array(z.string().min(1)).default([]),
+  }).default({ environment: [], networkHosts: [] }),
 });
 
 export type PluginManifest = z.infer<typeof pluginManifestSchema>;
