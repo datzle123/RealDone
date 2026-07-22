@@ -4,6 +4,18 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 
 ## [Unreleased]
 
+### Added
+
+- `realdone init` project discovery for framework, package manager, lifecycle commands, port, conventional routes, SQLite/PostgreSQL/provider hints, auth/test tooling and environment filenames, including bounded monorepo workspaces.
+- `scan --manage-runtime` lifecycle ownership with development/production/Docker modes, HTTP health checks, bounded crash restarts, secret-redacted logs and cross-platform process cleanup.
+- A first-class environment health gate and portable `environment.json` evidence for RD1001–RD1005, covering main-document/static-root, script/stylesheet status and content type, bootstrap/render readiness, test-data health endpoints and invalid auth states.
+- Broken-environment and healthy controls plus a managed-app fixture exercised through the real CLI/browser path.
+
+### Changed
+
+- Discovered routes with JavaScript/CSS served as HTML are excluded from application-defect execution and their incoming navigation actions are `SKIPPED` with environment evidence.
+- Benchmark output now gates explicit expectation coverage, truncation and environment validity in addition to precision, recall, verdict, detector and replay accuracy.
+
 ## [1.2.0] - 2026-07-22
 
 ### Added

@@ -7,10 +7,12 @@ This is the matrix for the currently shipped subset. The normative complete scop
 | Capability | Runtime evidence | Automated gate |
 | --- | --- | --- |
 | Safe browser scan | Discovers routes/actions, fills fields, executes permitted actions | fixture browser smoke |
+| Project discovery and managed runtime | Detects package/runtime hints, starts, health-checks, restarts, logs and stops a target process | project/runtime unit tests plus managed-app CLI smoke |
+| Environment validity | HTML, critical assets/content types, bootstrap/render, health endpoint and auth state produce separate `VALID`/`ENVIRONMENT_INVALID`/`BLOCKED` evidence | broken/static-root, delayed-bootstrap and healthy browser controls plus TodoMVC defect copy |
 | External-app behavior | Enter-submit, history-dependent targets, live control state, hash routes and auth contracts run without project-specific selectors | fixtures plus pinned TodoMVC, Actual Budget and Conduit workflows |
 | Core verdicts and RD001–RD303 | Broken, no-effect, duplicate, refresh/new-session disappearance, fake CRUD, false/silent success | detector unit tests plus broken/correct fixtures |
 | Browser-local scope | Canary survives reload but disappears in a fresh context, producing `BROWSER_LOCAL` + `RD102` | deep localStorage fixture and CLI smoke |
-| Evidence reports | HTML, scan/summary/finding JSON, screenshots, network logs, cleanup ledger, reproductions | artifact existence checks in browser smoke |
+| Evidence reports | HTML, scan/summary/finding/environment JSON, screenshots, network logs, cleanup ledger, reproductions | artifact existence checks in browser smoke |
 | Trace and video | Portable Playwright trace ZIP and browser video linked from reports | opt-in CLI and contract smoke |
 | Replay and cleanup | Finding reproduces with the same verdict; cleanup supports dry-run and confirmed idempotent execution | benchmark replay sample and cleanup smoke |
 | Flow recording | Human-driven interactions become a schema-valid contract plus masked rrweb evidence | recorder browser smoke |
@@ -37,6 +39,7 @@ pnpm audit --audit-level high
 pnpm exec playwright install chromium
 pnpm smoke
 pnpm pack
+pnpm smoke:package ./realdone-*.tgz
 ```
 
 Hosted CI additionally gates PostgreSQL 17, Chromium/Firefox/WebKit, Ubuntu/Windows/macOS, Node 20/22, package creation, and the full Chromium browser smoke on every OS family. A subset release tag is created only after the hosted run succeeds. A future full-product release also requires every gate in specification §29 and every status row to be `IMPLEMENTED`.

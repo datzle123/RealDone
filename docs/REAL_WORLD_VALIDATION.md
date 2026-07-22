@@ -73,6 +73,10 @@ The first intentional-defect Conduit copy also caught an over-broad nearby-field
 
 The duplicate-write action created two SQLite rows while the cleanup ledger initially tracked only the first successful POST. Cleanup generation now emits one dependency-safe entry per created response ID, so duplicate findings do not leave the second resource behind.
 
+### TodoMVC invalid static-root control
+
+The intentional TodoMVC defect copy exposed a harness error: its `Demo` link opened an unbuilt TypeScript React example, while the generic SPA server returned `index.html` for missing JavaScript and CSS. The original scanner counted that navigation as application `BROKEN`. With the environment gate, the same live scan reports `ENVIRONMENT_INVALID`, four RD1001 asset/content-type findings, and marks `Demo` `SKIPPED`; the intentional `EPHEMERAL`, `CONTRADICTORY`, and `NO_EFFECT` controls remain detected and there are zero application `BROKEN` findings. This demonstrates that environment findings are separated without hiding the planted product defects.
+
 ## Product changes driven by this run
 
 The first scan exposed that RealDone only treated forms, links, and buttons as actions. TodoMVC creates an item through a standalone input's Enter key, so RealDone initially missed the primary behavior. The runtime now:

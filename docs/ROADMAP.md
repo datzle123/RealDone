@@ -23,7 +23,7 @@ Gate:
 - Pinned external TodoMVC scan plus finding replay is published with before/after limitations.
 - Typecheck, unit, browser smoke, audit, pack/import, YAML/Bash validation, and hosted OS/Node/browser matrix pass.
 
-## Phase A — environment validity and managed runtime
+## Phase A — environment validity and managed runtime (release candidate)
 
 Mapped specification: §6–7, §15, §18 group K, §29.
 
@@ -34,6 +34,8 @@ Gate:
 - Asset, bootstrap, static-root and auth/test-data health checks produce `ENVIRONMENT_INVALID` or `BLOCKED`.
 - Environment findings are excluded from application-defect precision/recall.
 - Broken-environment fixtures and correct application-defect controls pass on all supported OS families.
+
+Implementation and local acceptance are complete. Phase completion remains contingent on the hosted Ubuntu/Windows/macOS matrix for the pushed commit, per the status policy above.
 
 ## Phase B — complete action and execution coverage
 

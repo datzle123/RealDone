@@ -8,10 +8,10 @@
 | Operating systems | Ubuntu, Windows, macOS |
 | Browsers | Playwright Chromium, Firefox, WebKit |
 | PostgreSQL adapter | PostgreSQL 17 service in CI |
-| Package managers | pnpm 10 for repository development; npm-compatible published package |
+| Package managers | pnpm 10 for repository development; managed targets discovered for npm, pnpm, Yarn and Bun; npm-compatible published package |
 | Module format | Node ESM with generated declarations and source maps |
 
-The Ubuntu full gate runs PostgreSQL integration, all three browser engines, browser/agent/provider smoke, dependency audit, and package creation. Windows and macOS run typecheck, unit/failure-mode tests, production build, Chromium installation, and the complete single-browser smoke on Node 20/22.
+The Ubuntu full gate runs PostgreSQL integration, all three browser engines, browser/agent/provider smoke, managed-runtime/environment fixtures, dependency audit, and package creation. Windows and macOS run typecheck, unit/failure-mode tests, production build, managed-runtime/environment smoke, Chromium installation, and the complete single-browser smoke on Node 20/22.
 
 Chromium accepts a custom executable through `--browser-path`. Firefox and WebKit use Playwright-managed binaries so RealDone does not accidentally launch an incompatible system browser.
 

@@ -45,6 +45,15 @@ pnpm build
 node dist/cli.js scan http://localhost:3000
 ```
 
+RealDone can also discover and own the target lifecycle instead of requiring a second terminal:
+
+```bash
+node dist/cli.js init ../my-app
+node dist/cli.js scan --project ../my-app --manage-runtime
+```
+
+The managed form detects the framework, package manager, commands, port, database/auth hints, starts the app, waits for health, captures redacted logs, restarts a bounded crash, scans, and stops the process.
+
 Or point RealDone at an installed Chrome/Chromium:
 
 ```bash
@@ -89,6 +98,8 @@ realdone replay RD-014 --report-dir .realdone/reports/<scan-id>
 | `UNCERTAIN` | Something happened, but the available evidence cannot prove the intended behavior. |
 | `SKIPPED` | Safety policy, credentials, scan budget, or unsupported input prevented execution. |
 
+Environment validity is reported separately as `VALID`, `ENVIRONMENT_INVALID`, or `BLOCKED`. RD1001–RD1005 findings never enter application-defect precision/recall.
+
 ## Phase 1 detectors
 
 - `RD001` broken action
@@ -102,13 +113,20 @@ realdone replay RD-014 --report-dir .realdone/reports/<scan-id>
 - `RD301` success before proof
 - `RD302` success despite failure
 - `RD303` silent failure
+- `RD1001` invalid static root
+- `RD1002` critical asset missing
+- `RD1003` bootstrap failure
+- `RD1004` invalid test-data environment
+- `RD1005` misconfigured auth state
 
 RealDone deliberately prefers a small number of reproducible findings over a large number of guesses.
 
 ## CLI
 
 ```text
-realdone scan <url>
+realdone init [project-directory]
+
+realdone scan [url]
   --max-pages <n>          discovery budget (default 8)
   --max-actions <n>        execution budget (default 24)
   --storage-state <file>   authenticated Playwright state
@@ -117,6 +135,13 @@ realdone scan <url>
   --allow-destructive      opt in to destructive actions
   --allow-external         opt in to external effects
   --browser-path <file>    existing Chrome/Chromium executable
+  --project <directory>    discover project/runtime configuration
+  --manage-runtime         start, health-check, and stop the target app
+  --runtime-mode <mode>    development, production, or docker
+  --runtime-restarts <n>   bounded target crash restarts
+  --health-endpoint <path> explicit app health endpoint
+  --environment-timeout   asset/bootstrap/render health budget
+  --accept-environment-risk continue after acknowledging an invalid environment
   --policy <file>          rules, overrides, hosts, and budgets
   --deep                   confirm mutations in a fresh browser context
   --trace                  capture a Playwright trace per executed action
@@ -150,7 +175,9 @@ Reports never store authorization headers, cookie values, password values, token
 
 ```mermaid
 flowchart LR
-  CLI["CLI"] --> Runtime["Browser runtime"]
+  CLI["CLI"] --> Manager["Project discovery + managed runtime"]
+  Manager --> Health["Environment health gate"]
+  Health --> Runtime["Browser runtime"]
   Runtime --> Engines["Chromium / Firefox / WebKit"]
   Runtime --> Discovery["Route + action discovery"]
   Discovery --> Policy["Safety policy"]
@@ -272,7 +299,7 @@ RealDone is also exercised against external open-source applications rather than
 
 Releases `v0.1.0` through `v1.1.0` delivered the tested foundation: scanning, evidence, replay, recording/contracts, baseline/CI, PostgreSQL, coding-agent adapters, roles, provider contracts, multi-browser execution, plugins, and budgets. Some of those capabilities remain `PARTIAL` against the broader normative specification.
 
-The active `v1.2.0` phase adds real-world Enter-submit coverage, safer external navigation, stricter verdict priority, and TodoMVC validation. Remaining phases cover environment validity/runtime management, broader action execution, complete evidence/persistence semantics, the full detector catalog, adapters/providers, and full-product qualification. See the [roadmap](docs/ROADMAP.md) and [current status](docs/PRODUCT_STATUS.md); phase completion requires executable evidence and a green hosted gate.
+The active release adds real-world Enter-submit coverage, safer external navigation, strict verdict priority, managed runtime discovery, and a first-class environment health gate. Remaining phases cover broader action execution, complete evidence/persistence semantics, the full detector catalog, adapters/providers, and full-product qualification. See the [roadmap](docs/ROADMAP.md) and [current status](docs/PRODUCT_STATUS.md); phase completion requires executable evidence and a green hosted gate.
 
 ## Contributing
 

@@ -2,6 +2,24 @@
 
 Advanced features are opt-in. Default `scan` remains one Chromium worker with no database, provider, plugin, extra role, video, or AI requirement.
 
+## Project discovery, managed runtime, and environment validity
+
+Create a reviewable runtime profile without reading environment values:
+
+```bash
+realdone init ../my-app
+```
+
+The generated `.realdone/project.json` records framework/package-manager hints, development/build/production/Docker commands, port, conventional routes, database/auth/test-framework hints, and environment filenames. Start and clean up the target automatically around a scan:
+
+```bash
+realdone scan --project ../my-app --manage-runtime
+realdone scan --project ../my-app --manage-runtime --runtime-mode production
+realdone scan --project ../my-app --manage-runtime --runtime-mode docker
+```
+
+Before action discovery, RealDone checks the main HTML document, same-origin scripts/stylesheets, content types, bootstrap errors, configured health endpoint, auth-state readability, and render readiness. It repeats the static-root/bootstrap check for discovered routes. A JavaScript or CSS URL receiving an HTML SPA fallback produces `ENVIRONMENT_INVALID` and RD1001/RD1002 instead of an application `BROKEN` finding. The report stores this evidence in `environment.json`; `--accept-environment-risk` is the explicit override when the operator has independently confirmed the harness is representative.
+
 ## Deep fresh-context verification
 
 Standard mutation scans reload the current page. Deep mode adds an independent browser context using only the configured initial auth state:
