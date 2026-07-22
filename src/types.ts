@@ -89,6 +89,7 @@ export interface FormFieldSpec {
 export interface ActionSpec {
   id: string;
   pageUrl: string;
+  activation?: "click" | "submit" | "enter";
   kind: ActionKind;
   intent: ActionIntent;
   risk: RiskLevel;

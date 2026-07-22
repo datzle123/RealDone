@@ -50,8 +50,8 @@ try {
     allowDestructive: true,
     allowExternal: false,
     mutationAllowed: true,
-    maxPages: 10,
-    maxActions: 30,
+    maxPages: 12,
+    maxActions: 40,
     timeoutMs: 8_000,
     settleMs: 250,
     maxDurationMs: 90_000,
@@ -65,17 +65,19 @@ try {
     verifyReplays: true,
     maxReplays: 2,
   });
-  assert.ok(result.report.summary.pagesDiscovered >= 10);
+  assert.ok(result.report.summary.pagesDiscovered >= 11);
   assert.ok(result.report.findings.some((finding) => finding.detectorMatches.some((item) => item.code === "RD201")));
   assert.ok(result.report.findings.some((finding) => finding.detectorMatches.some((item) => item.code === "RD302")));
   assert.ok(result.report.findings.some((finding) => finding.detectorMatches.some((item) => item.code === "RD003")));
   assert.ok(result.report.findings.some((finding) => finding.detectorMatches.some((item) => item.code === "RD203")));
   assert.ok(result.report.findings.some((finding) => finding.verdict === "VERIFIED"));
   assert.ok(result.report.findings.some((finding) => finding.verdict === "BROWSER_LOCAL" && finding.detectorMatches.some((item) => item.code === "RD102")));
+  assert.ok(result.report.findings.some((finding) => finding.action.activation === "enter" && finding.detectorMatches.some((item) => item.code === "RD201")));
   assert.equal(result.metrics.precision, 1);
   assert.equal(result.metrics.recall, 1);
   assert.equal(result.metrics.falsePositiveRate, 0);
   assert.equal(result.metrics.actionDiscoveryRate, 1);
+  assert.equal(result.metrics.verdictAccuracy, 1);
   assert.equal(result.metrics.detectorAccuracy, 1);
   assert.equal(result.metrics.reproductionSuccessRate, 1);
   for (const artifact of [

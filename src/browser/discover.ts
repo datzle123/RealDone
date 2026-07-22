@@ -32,6 +32,7 @@ interface RawAction {
   type?: string;
   ordinal: number;
   isForm: boolean;
+  activation: "click" | "submit" | "enter";
   fields: RawField[];
 }
 
@@ -80,6 +81,7 @@ function toAction(pageUrl: string, raw: RawAction): ActionSpec {
     id: stableActionId(pageUrl, raw),
     pageUrl,
     label: label.slice(0, 180),
+    activation: raw.activation,
     ...classification,
     fingerprint,
     fields: raw.fields.map((field): FormFieldSpec => ({ ...field })),
@@ -88,7 +90,7 @@ function toAction(pageUrl: string, raw: RawAction): ActionSpec {
 
 export async function discoverActions(page: Page): Promise<ActionSpec[]> {
   const raw = await page
-    .locator("form, a[href], button, input[type=submit], input[type=button], [role=button]")
+    .locator("form, a[href], button, input[type=submit], input[type=button], input:not([type]), input[type=text], input[type=search], input[type=email], input[type=url], [role=button]")
     .evaluateAll((elements): RawAction[] => {
       const visible = (element: Element): boolean => {
         const node = element as HTMLElement;
@@ -172,20 +174,37 @@ export async function discoverActions(page: Page): Promise<ActionSpec[]> {
       const candidates = elements.filter((element) => {
         if (!visible(element)) return false;
         if (element.tagName.toLowerCase() !== "form" && element.closest("form")) return false;
+        if (element instanceof HTMLInputElement && !["submit", "button"].includes(element.type)) {
+          const metadata = [
+            element.id,
+            element.name,
+            element.className,
+            element.getAttribute("data-testid") ?? "",
+            element.getAttribute("aria-label") ?? "",
+            element.placeholder,
+          ].join(" ");
+          if (!/\b(new|add|create|save|todo|task|comment|message|search|query)\b/i.test(metadata)) return false;
+        }
         return true;
       });
 
       return candidates.map((element, ordinal): RawAction => {
         const tag = element.tagName.toLowerCase();
-        const isForm = tag === "form";
-        const form = isForm ? (element as HTMLFormElement) : undefined;
+        const enterInput = element instanceof HTMLInputElement && !["submit", "button"].includes(element.type);
+        const inputMetadata = enterInput
+          ? [element.id, element.name, element.className, element.getAttribute("data-testid") ?? "", element.getAttribute("aria-label") ?? "", element.placeholder].join(" ")
+          : "";
+        const isForm = tag === "form" || (enterInput && /\b(new|add|create|save|todo|task|comment|message)\b/i.test(inputMetadata));
+        const form = tag === "form" ? (element as HTMLFormElement) : undefined;
         const fields = form
           ? [...form.querySelectorAll("input, textarea, select")]
               .map(fieldFor)
               .filter((field): field is RawField => Boolean(field))
-          : [];
-        const name = accessibleName(element) || (form ? `Submit ${form.getAttribute("name") ?? "form"}` : "");
-        const role = element.getAttribute("role") || (tag === "a" ? "link" : tag === "button" ? "button" : undefined);
+          : enterInput
+            ? [fieldFor(element)].filter((field): field is RawField => Boolean(field))
+            : [];
+        const name = accessibleName(element) || element.getAttribute("placeholder") || (form ? `Submit ${form.getAttribute("name") ?? "form"}` : "");
+        const role = element.getAttribute("role") || (tag === "a" ? "link" : tag === "button" ? "button" : enterInput ? (element.type === "search" ? "searchbox" : "textbox") : undefined);
         const href = element instanceof HTMLAnchorElement ? element.href : undefined;
         const type = element instanceof HTMLInputElement || element instanceof HTMLButtonElement ? element.type : undefined;
         const testId = element.getAttribute("data-testid");
@@ -194,6 +213,7 @@ export async function discoverActions(page: Page): Promise<ActionSpec[]> {
           tag,
           ordinal,
           isForm,
+          activation: form ? "submit" : enterInput ? "enter" : "click",
           fields,
           ...(role ? { role } : {}),
           ...(name ? { accessibleName: name.slice(0, 240) } : {}),

@@ -84,7 +84,10 @@ test("detects a false success when the write fails", () => {
 
 test("detects duplicate write submissions", () => {
   const request = { id: "net-1", method: "POST", url: "http://localhost/api/customers", resourceType: "fetch", startedAt: 50, finishedAt: 80, status: 201, ok: true };
-  const result = detect(action, evidence({ network: [request, { ...request, id: "net-2", startedAt: 55 }] }));
+  const result = detect(action, evidence({
+    network: [request, { ...request, id: "net-2", startedAt: 55 }],
+    afterRefresh: state(400, "before", false),
+  }));
   assert.equal(result.verdict, "BROKEN");
   assert.ok(result.detectorMatches.some((item) => item.code === "RD003"));
 });

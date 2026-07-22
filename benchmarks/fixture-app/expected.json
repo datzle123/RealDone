@@ -30,6 +30,13 @@
       "expectedCodes": ["RD102"]
     },
     {
+      "id": "enter-submit-create",
+      "match": { "pagePath": "/enter-submit", "label": "New Todo Input" },
+      "shouldFlag": true,
+      "expectedVerdict": "EPHEMERAL",
+      "expectedCodes": ["RD101", "RD201"]
+    },
+    {
       "id": "false-success",
       "match": { "pagePath": "/success-despite-failure", "label": "Save settings" },
       "shouldFlag": true,
@@ -47,7 +54,7 @@
       "id": "fake-delete",
       "match": { "pagePath": "/fake-delete", "label": "Delete customer" },
       "shouldFlag": true,
-      "expectedVerdict": "EPHEMERAL",
+      "expectedVerdict": "CONTRADICTORY",
       "expectedCodes": ["RD203"]
     },
     {

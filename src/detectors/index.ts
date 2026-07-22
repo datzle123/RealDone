@@ -129,11 +129,11 @@ export function detect(action: ActionSpec, evidence: ExecutionEvidence): Detecti
   if (matches.some((item) => item.code === "RD302" || item.code === "RD301")) {
     return { verdict: "CONTRADICTORY", evidenceLevel: canarySurvived ? 5 : 1, reason: matches.find((item) => item.code === "RD302")?.detail ?? matches.find((item) => item.code === "RD301")?.detail ?? first?.detail ?? "Contradictory evidence", detectorMatches: matches };
   }
-  if (matches.some((item) => ["RD101", "RD201", "RD202", "RD203"].includes(item.code))) {
-    return { verdict: "EPHEMERAL", evidenceLevel: writeRequests.length > 0 ? 3 : 1, reason: matches.find((item) => item.code === "RD101")?.detail ?? matches.find((item) => item.code === "RD203")?.detail ?? first?.detail ?? "Ephemeral state", detectorMatches: matches };
-  }
   if (matches.some((item) => item.code === "RD001" || item.code === "RD303" || item.code === "RD003")) {
     return { verdict: "BROKEN", evidenceLevel: writeRequests.length > 0 ? 2 : 1, reason: first?.detail ?? "Broken action", detectorMatches: matches };
+  }
+  if (matches.some((item) => ["RD101", "RD201", "RD202", "RD203"].includes(item.code))) {
+    return { verdict: "EPHEMERAL", evidenceLevel: writeRequests.length > 0 ? 3 : 1, reason: matches.find((item) => item.code === "RD101")?.detail ?? matches.find((item) => item.code === "RD203")?.detail ?? first?.detail ?? "Ephemeral state", detectorMatches: matches };
   }
   if (matches.some((item) => item.code === "RD102")) {
     return { verdict: "BROWSER_LOCAL", evidenceLevel: 5, reason: matches.find((item) => item.code === "RD102")?.detail ?? "Browser-local persistence", detectorMatches: matches };

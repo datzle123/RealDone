@@ -117,7 +117,9 @@ export async function executeAction(
     attached = attachEvidence(page, startedAt, evidence);
     evidence.filledFields = await fillForm(page, action, canary);
 
-    if (action.fingerprint.tag === "form") {
+    if (action.activation === "enter") {
+      await locator.press("Enter", { timeout: options.timeoutMs });
+    } else if (action.fingerprint.tag === "form" || action.activation === "submit") {
       const submit = locator.locator('button[type="submit"], input[type="submit"], button:not([type])').first();
       if ((await submit.count()) > 0) await submit.click({ timeout: options.timeoutMs });
       else await locator.evaluate((form) => (form as HTMLFormElement).requestSubmit());

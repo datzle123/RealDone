@@ -46,3 +46,20 @@ test("blocks production-like, destructive, and external actions by default", () 
 test("rejects unsupported target protocols", () => {
   assert.throws(() => validateTarget("file:///tmp/app"), /http/);
 });
+
+test("blocks cross-origin navigation unless external actions are explicitly allowed", () => {
+  const action = {
+    id: "external-docs",
+    pageUrl: "http://localhost:3000",
+    activation: "click" as const,
+    kind: "navigation" as const,
+    intent: "navigate" as const,
+    risk: "safe" as const,
+    label: "Project website",
+    fingerprint: { selector: "a", tag: "a", href: "https://example.com", ordinal: 0 },
+    fields: [],
+  };
+  const policy = { target: new URL(action.pageUrl), allowHosts: [], allowDestructive: false, allowExternal: false };
+  assert.match(actionSkipReason(action, policy) ?? "", /Cross-origin navigation blocked/);
+  assert.equal(actionSkipReason(action, { ...policy, allowExternal: true }), undefined);
+});

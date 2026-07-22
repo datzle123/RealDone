@@ -31,6 +31,16 @@ export function validateTarget(input: string): URL {
 }
 
 export function actionSkipReason(action: ActionSpec, policy: SafetyPolicy): string | undefined {
+  if (action.kind === "navigation" && action.fingerprint.href && !policy.allowExternal) {
+    try {
+      const destination = new URL(action.fingerprint.href, action.pageUrl);
+      if (destination.origin !== new URL(action.pageUrl).origin) {
+        return "Cross-origin navigation blocked by the default safety policy. Use --allow-external explicitly.";
+      }
+    } catch {
+      return "Invalid navigation target blocked by the default safety policy.";
+    }
+  }
   if (!isMutationHostAllowed(policy.target, policy.allowHosts) && action.kind === "mutation") {
     return "Production-like host: mutation actions are discovery-only. Use --allow-host explicitly for staging.";
   }
