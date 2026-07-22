@@ -53,7 +53,7 @@ Phase B gate is complete. Implementation/local acceptance, external Actual/TodoM
 
 ## Phase C — evidence, snapshot and persistence semantics
 
-Contributes evidence to: §12–17, detector groups B–D. `PRODUCT_STATUS.md` remains authoritative; automatic provider linkage now has local browser evidence, while its hosted qualification is still pending.
+Contributes evidence to: §12–17, detector groups B–D. `PRODUCT_STATUS.md` remains authoritative; automatic provider linkage is hosted-qualified, while replay preservation of its configuration remains a §12–13 gap.
 
 Gate:
 
@@ -116,4 +116,4 @@ Gate:
 - All 15 release gates in §29 are executable and green on Windows, macOS and Linux.
 - Every row in `PRODUCT_STATUS.md` is `IMPLEMENTED`; only then may RealDone be called a completed full product.
 
-Current progress: the shared-core MCP surface, bounded performance primitives, artifact/schema safety checks, and the last committed fingerprint-bound TodoMVC/Actual/Conduit set passed all 15 gates on hosted run `29936393146`. Automatic provider linkage and its refreshed external evidence pass local gates but still await a hosted run. Phase G also remains open because authenticated Codex/Claude cycles, broader external cases, arbitrary external-effect safety, and §32 are still open in `PRODUCT_STATUS.md`.
+Current progress: causal automatic provider linkage, the shared-core MCP surface, bounded performance primitives, artifact/schema safety checks, and fingerprint-bound TodoMVC/Actual/Conduit evidence passed all 15 gates on hosted run `29940370416`. Phase G remains open because provider-aware replay, authenticated Codex/Claude cycles, broader external cases, arbitrary external-effect safety, and §32 are still open in `PRODUCT_STATUS.md`.

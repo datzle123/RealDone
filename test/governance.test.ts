@@ -40,7 +40,7 @@ test("normative product truth is linked, consistent, and shipped", async () => {
     PARTIAL: rows.filter((row) => row.state === "PARTIAL").length,
     PLANNED: rows.filter((row) => row.state === "PLANNED").length,
   };
-  assert.deepEqual(counts, { IMPLEMENTED: 16, PARTIAL: 5, PLANNED: 1 });
+  assert.deepEqual(counts, { IMPLEMENTED: 17, PARTIAL: 4, PLANNED: 1 });
   assert.ok(status.includes(`Area coverage:** **${counts.IMPLEMENTED}/${rows.length} \`IMPLEMENTED\``));
   assert.match(status, /Detector catalog: \*\*58\/58 production-classified and gated\*\*/);
   for (const area of ["§4 Record and verify", "§19–20 Contracts and replay", "§21 Report", "§22 Database adapters", "§23 Provider adapters", "§26 Benchmark"]) {

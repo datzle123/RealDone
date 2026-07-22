@@ -98,7 +98,7 @@ Review policies before testing any environment with real users or money.
 RealDone is a tested open-source preview, not yet the completed full product.
 
 - Phase gates A–F and all 15 normative release gates are hosted-CI green.
-- 16 of 22 normative product areas are `IMPLEMENTED`.
+- 17 of 22 normative product areas are `IMPLEMENTED`.
 - Authenticated coding-agent qualification, broader external cases, and the remaining full-product areas are still open.
 
 [`PRODUCT_STATUS.md`](docs/PRODUCT_STATUS.md) is the only area-completeness ledger. [`PRODUCT_SPECIFICATION.md`](docs/PRODUCT_SPECIFICATION.md) is the full source of truth. A completed roadmap phase is not the same as a completed full product.
