@@ -5,14 +5,14 @@ RealDone is a deterministic runtime verifier. Its core does not need an LLM, dat
 ## Runtime pipeline
 
 1. **Runtime manager** launches one isolated Chromium process.
-2. **Route and action discovery** crawls same-origin pages and fingerprints visible forms, links, and buttons.
+2. **Route and action discovery** crawls same-origin pages and fingerprints visible forms, links, buttons, and semantically likely standalone Enter-submit inputs.
 3. **Safety policy** classifies actions as safe, external, or destructive and enforces host policy.
 4. **Test data generator** creates unique canaries based on field semantics.
 5. **Safe action executor** re-opens each page in an isolated context, resolves the action, fills supported fields, and performs one interaction.
 6. **Evidence collector** records request/response timing, console/page errors, URL/DOM/storage digests, UI claims, dialogs, and downloads.
-7. **Persistence verifier** reloads mutation pages and searches for the same canary or deleted target.
+7. **Persistence verifier** reloads mutation pages and, in deep mode, repeats the read-back in a fresh browser context.
 8. **Detector engine** converts factual evidence into stable detector matches and a verdict.
-9. **Report/replay layer** writes HTML, JSON, network logs, screenshots, and one deterministic reproduction contract per finding.
+9. **Report/replay layer** writes HTML, JSON, network logs, screenshots, optional trace/video, and one deterministic reproduction contract per finding.
 
 The reliability layer wraps the pipeline with a global deadline, per-operation retry bounds, weighted locator diagnostics, checked-in action policy, cleanup ledger, and benchmark evaluator. Retries never repeat an action after the click/submit boundary because that could create duplicate mutations.
 

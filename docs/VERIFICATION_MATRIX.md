@@ -2,9 +2,12 @@
 
 This matrix maps RealDone's public behavior to an executable release gate. A feature is not marked complete merely because an API or type exists; the gate must exercise its observable result or a fail-closed boundary.
 
+This is the matrix for the currently shipped subset. The normative complete scope and 15 full-product release gates live in [`PRODUCT_SPECIFICATION.md`](PRODUCT_SPECIFICATION.md); [`PRODUCT_STATUS.md`](PRODUCT_STATUS.md) records missing and partial areas. Passing this matrix alone must not be described as completing specification §32.
+
 | Capability | Runtime evidence | Automated gate |
 | --- | --- | --- |
 | Safe browser scan | Discovers routes/actions, fills fields, executes permitted actions | fixture browser smoke |
+| Enter-submit controls | Discovers standalone TodoMVC-style inputs, fills a canary, and presses Enter | enter-submit fixture plus external TodoMVC scan |
 | Core verdicts and RD001–RD303 | Broken, no-effect, duplicate, refresh/new-session disappearance, fake CRUD, false/silent success | detector unit tests plus broken/correct fixtures |
 | Browser-local scope | Canary survives reload but disappears in a fresh context, producing `BROWSER_LOCAL` + `RD102` | deep localStorage fixture and CLI smoke |
 | Evidence reports | HTML, scan/summary/finding JSON, screenshots, network logs, cleanup ledger, reproductions | artifact existence checks in browser smoke |
@@ -21,7 +24,7 @@ This matrix maps RealDone's public behavior to an executable release gate. A fea
 | Coding-agent verification | Baseline, agent command, rebuild, affected flows, integrity checks, evidence-based follow-up | agent unit and end-to-end smoke |
 | Performance budgets | Total time, slowest step, and memory violations fail verification | deterministic unit and browser smoke |
 | Public CLI | Every release command parses; advanced options remain visible and cross-platform | CLI tests on Node 20/22 and three OS families |
-| Package and SDK | CLI, ESM entrypoint, declarations, docs, examples, and license notices ship in tarball | pack and package-import smoke |
+| Package and SDK | CLI, ESM entrypoint, declarations, normative docs, examples, and license notices ship in tarball | `pnpm smoke:package <tarball>` after pack |
 
 ## Release gate
 
@@ -36,7 +39,7 @@ pnpm smoke
 pnpm pack
 ```
 
-Hosted CI additionally gates PostgreSQL 17, Chromium/Firefox/WebKit, Ubuntu/Windows/macOS, Node 20/22, package creation, and the full Chromium browser smoke on every OS family. A release tag is created only after the hosted run succeeds.
+Hosted CI additionally gates PostgreSQL 17, Chromium/Firefox/WebKit, Ubuntu/Windows/macOS, Node 20/22, package creation, and the full Chromium browser smoke on every OS family. A subset release tag is created only after the hosted run succeeds. A future full-product release also requires every gate in specification §29 and every status row to be `IMPLEMENTED`.
 
 ## Product boundaries
 

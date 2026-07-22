@@ -28,6 +28,10 @@ Visible action
 → Reproducible finding
 ```
 
+## Product truth and current status
+
+The normative [`Full Product Functional and Quality Specification`](docs/PRODUCT_SPECIFICATION.md) defines the complete RealDone scope and release bar for maintainers, contributors, and coding agents. The evidence-based [`product status`](docs/PRODUCT_STATUS.md) records what is implemented, partial, or planned. RealDone already ships useful, tested releases, but it is **not yet complete against the full-product definition in specification §32**.
+
 ## Five-minute start
 
 ```bash
@@ -138,7 +142,7 @@ Recorded verification supports `--browser`, repeated `--role-state role=file`, r
 
 ## Safe by default
 
-Full verification is enabled automatically only for `localhost`, `127.0.0.1`, `.test`, and `.local`. Other hosts are discovery-only unless explicitly allowlisted. Payment, email, SMS, invite, upload/export, refund, account deletion, and similar effects are blocked unless the matching opt-in flag is supplied.
+Full verification is enabled automatically only for `localhost`, `127.0.0.1`, `.test`, and `.local`. Other hosts are discovery-only unless explicitly allowlisted. Payment, email, SMS, invite, upload/export, refund, account deletion, and similar effects are blocked unless the matching opt-in flag is supplied. Cross-origin navigation links are also skipped unless `--allow-external` is explicit.
 
 Reports never store authorization headers, cookie values, password values, tokens, API keys, or database URLs. Storage is represented by key names and short hashes.
 
@@ -192,7 +196,7 @@ See [Behavior contracts](docs/CONTRACTS.md) for editing assertions, secret handl
 
 ```yaml
 - uses: actions/checkout@v6
-- uses: datzle123/RealDone@v1.1.0
+- uses: datzle123/RealDone@v1.2.0
   with:
     baseline: .realdone/baseline.json
     contracts: .realdone/flows
@@ -262,17 +266,13 @@ Run the full browser smoke test with `pnpm smoke`. It also verifies selector sur
 
 The [functional verification matrix](docs/VERIFICATION_MATRIX.md) maps every public capability to its executable release gate and records the product's intentional boundaries.
 
+RealDone is also exercised against external open-source applications rather than fixtures alone. See the [TodoMVC real-world validation](docs/REAL_WORLD_VALIDATION.md) for a reproducible scan and replay that found both ephemeral and browser-local persistence behavior.
+
 ## Roadmap
 
-- ✅ **v0.1 Core proof** — scanner, evidence, persistence, report, replay, public fixtures.
-- ✅ **v0.2 Reliability** — semantic fingerprints, cleanup ledger, retry/policy/budget, precision/recall harness.
-- ✅ **v0.3 Flow recorder** — recorded flows, behavior contracts, auth state, deterministic replay.
-- ✅ **v0.4 Baseline + CI** — behavior diff, regression gate, GitHub Action, Playwright export.
-- ✅ **v0.5 PostgreSQL adapter** — source-of-truth verification and transaction-aware cleanup.
-- ✅ **v0.6 Agent verification** — Codex/Claude/generic runners, affected-flow verification, evidence-based fix prompts.
-- ✅ **v1.0 Advanced verification** — multi-role, providers, multi-browser, plugin SDK, performance budgets, hardening.
+Releases `v0.1.0` through `v1.1.0` delivered the tested foundation: scanning, evidence, replay, recording/contracts, baseline/CI, PostgreSQL, coding-agent adapters, roles, provider contracts, multi-browser execution, plugins, and budgets. Some of those capabilities remain `PARTIAL` against the broader normative specification.
 
-Every phase has a test gate and its own release tag. Detailed acceptance criteria live in [the roadmap](docs/ROADMAP.md).
+The active `v1.2.0` phase adds real-world Enter-submit coverage, safer external navigation, stricter verdict priority, and TodoMVC validation. Remaining phases cover environment validity/runtime management, broader action execution, complete evidence/persistence semantics, the full detector catalog, adapters/providers, and full-product qualification. See the [roadmap](docs/ROADMAP.md) and [current status](docs/PRODUCT_STATUS.md); phase completion requires executable evidence and a green hosted gate.
 
 ## Contributing
 

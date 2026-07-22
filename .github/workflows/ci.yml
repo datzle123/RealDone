@@ -44,6 +44,7 @@ jobs:
       - run: pnpm exec playwright install --with-deps chromium firefox webkit
       - run: pnpm smoke
       - run: pnpm pack --pack-destination .
+      - run: pnpm smoke:package ./realdone-*.tgz
 
   compatibility:
     name: compatibility (${{ matrix.os }}, Node ${{ matrix.node }})

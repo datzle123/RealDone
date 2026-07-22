@@ -1,6 +1,6 @@
 # Compatibility matrix
 
-`v1.1.0` is release-gated on the matrix below.
+`v1.2.0` is release-gated on the matrix below.
 
 | Surface | Release gate |
 | --- | --- |

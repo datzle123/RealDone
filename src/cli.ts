@@ -88,7 +88,7 @@ const program = new Command();
 program
   .name("realdone")
   .description("Behavioral verification for AI-built web applications")
-  .version("1.1.0")
+  .version("1.2.0")
   .showHelpAfterError();
 
 program
@@ -317,7 +317,9 @@ program
     const passed =
       result.metrics.precision === 1 &&
       result.metrics.recall === 1 &&
+      result.metrics.falsePositiveRate === 0 &&
       result.metrics.actionDiscoveryRate === 1 &&
+      result.metrics.verdictAccuracy === 1 &&
       result.metrics.detectorAccuracy === 1 &&
       (result.metrics.reproductionSuccessRate === null || result.metrics.reproductionSuccessRate === 1);
     process.exitCode = passed ? 0 : 1;

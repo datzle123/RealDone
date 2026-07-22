@@ -42,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: datzle123/RealDone@v1.1.0
+      - uses: datzle123/RealDone@v1.2.0
         with:
           baseline: .realdone/baseline.json
           contracts: .realdone/flows

@@ -4,6 +4,21 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-07-22
+
+### Added
+
+- Discovery and execution for standalone text/search inputs activated with Enter, including TodoMVC-style `.new-todo` controls.
+- Public enter-submit regression fixture and real-world validation against the 28k-star MIT TodoMVC repository.
+- Default safety block for cross-origin navigation links unless `--allow-external` is explicit.
+- Normative full-product specification, evidence-based product-status snapshot, phase roadmap, and coding-agent governance enforced by an automated documentation/package gate.
+- Installed-tarball smoke coverage for public SDK exports, CLI version, declarations, normative docs, examples, licenses, and notices.
+
+### Changed
+
+- Benchmark release gates now require 100% verdict accuracy and a 0% false-positive rate in addition to discovery, precision, recall, detector, and replay metrics.
+- Duplicate submissions remain `BROKEN` even when the resulting UI state is also non-persistent.
+
 ## [1.1.0] - 2026-07-22
 
 ### Added

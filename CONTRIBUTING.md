@@ -2,6 +2,10 @@
 
 RealDone values findings that are correct, explainable, and reproducible.
 
+## Product source of truth
+
+Read [`docs/PRODUCT_SPECIFICATION.md`](docs/PRODUCT_SPECIFICATION.md), [`docs/PRODUCT_STATUS.md`](docs/PRODUCT_STATUS.md), and [`docs/ROADMAP.md`](docs/ROADMAP.md) before proposing product scope. The specification wins when another document conflicts. A capability is not complete because a type, skeleton, fixture-only path, or README claim exists; it needs observable production behavior and an executable gate.
+
 ## Development setup
 
 ```bash
@@ -28,8 +32,12 @@ Recorder changes must preserve input masking, auth-state warnings, contract sche
 
 ## Pull requests
 
+- Identify the affected normative specification sections and roadmap phase.
 - Keep changes scoped and add/update tests.
-- Run `pnpm check` and `pnpm smoke`.
+- Run `pnpm check`, `pnpm audit --audit-level high`, `pnpm smoke`, and `pnpm pack`.
 - Update `CHANGELOG.md` for user-visible changes.
+- Update `docs/PRODUCT_STATUS.md` only when executable evidence changes its facts.
 - Add third-party licenses to `THIRD_PARTY_NOTICES.md`.
 - Never commit credentials, auth state, reports containing real user data, or production URLs.
+
+The full-product release bar is the 15-gate checklist in specification §29. Missing gates keep the affected capability `PARTIAL`; they are not documentation waivers.

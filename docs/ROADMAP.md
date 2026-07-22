@@ -1,95 +1,105 @@
 # Roadmap and phase gates
 
-Each phase is releasable: implementation, documentation, automated tests, changelog, Git tag, and GitHub push are part of its definition of done.
+The normative destination is [`PRODUCT_SPECIFICATION.md`](PRODUCT_SPECIFICATION.md); the evidence-based current state is [`PRODUCT_STATUS.md`](PRODUCT_STATUS.md). Phases define implementation order only. They never remove later scope or turn a partial module into a completed capability.
 
-## Phase 1 — Core proof (`v0.1.0`)
+## Status policy
 
-Goal: catch fake create/update/delete and false-success behavior with reproducible evidence.
+A phase is complete only when its production behavior, broken fixtures, correct controls, deterministic replay where applicable, documentation, changelog, package surface, and hosted gates all pass. Each completed phase is committed and pushed independently. A version tag and GitHub release are created only after hosted cross-platform CI is green.
 
-Acceptance gate:
+## Released foundation (`v0.1.0`–`v1.1.0`)
 
-- CLI `scan` and `replay`.
-- Chromium runtime, same-origin discovery, forms/buttons/links.
-- Network, console, page, DOM, URL, storage, UI-claim evidence.
-- Canary generation and refresh verification.
-- RD001–RD303 core detectors.
-- Local HTML/JSON report, screenshots, network logs, reproduction contracts.
-- Public broken fixtures and correct controls.
-- Unit/type/build/browser-smoke checks.
+These releases established browser scanning, evidence reports, replay and cleanup, semantic recording/contracts, baseline/CI, PostgreSQL read-back, coding-agent adapters, multi-role/provider contracts, multi-browser execution, plugin isolation, and performance budgets. They remain supported, but some are `PARTIAL` against the expanded full-product specification. Historical release completion is not the same as §32 full-product completion.
 
-## Phase 2 — Reliability (`v0.2.0`)
+## Active release — real-world correctness (`v1.2.0`)
 
-Goal: make the same finding reproducible across ordinary UI change and repeated scans.
+Mapped specification: §8.2, §16, §25–29.
 
-Acceptance gate:
+Gate:
 
-- Weighted semantic element fingerprints and resolver diagnostics.
-- Cleanup ledger with dependency order and idempotent cleanup.
-- Bounded retry policy for transient navigation/locator/network states.
-- Action classifier overrides and allow/deny policy file.
-- Global/page/action scan budgets.
-- Precision, recall, false-positive, reproduction, cleanup, time, memory, and selector-survival metrics.
+- General standalone Enter-submit discovery and execution; no TodoMVC-specific selector.
+- Cross-origin navigation fail-closed unless explicitly allowed.
+- Verdict priority prevents persistence findings from hiding duplicate/runtime failures.
+- Benchmark gates 100% fixture expectation coverage, verdict/detector correctness, precision/recall, zero false positives, and replay.
+- Pinned external TodoMVC scan plus finding replay is published with before/after limitations.
+- Typecheck, unit, browser smoke, audit, pack/import, YAML/Bash validation, and hosted OS/Node/browser matrix pass.
 
-## Phase 3 — Flow recorder (`v0.3.0`)
+## Phase A — environment validity and managed runtime
 
-Goal: let a user teach a complex flow once and replay it deterministically.
+Mapped specification: §6–7, §15, §18 group K, §29.
 
-Acceptance gate:
+Gate:
 
-- Headed browser recorder for click/fill/check/select/navigation.
-- Human-readable, schema-validated behavior contract.
-- Auth storage-state capture with explicit secret warning.
-- Contract assertions and cleanup steps.
-- Deterministic `verify` command with per-step evidence.
+- `realdone init` discovers framework, package manager, commands, port, routes, database/auth hints and test environment.
+- Runtime Manager starts, health-checks, logs, restarts and reliably cleans up the target process.
+- Asset, bootstrap, static-root and auth/test-data health checks produce `ENVIRONMENT_INVALID` or `BLOCKED`.
+- Environment findings are excluded from application-defect precision/recall.
+- Broken-environment fixtures and correct application-defect controls pass on all supported OS families.
 
-## Phase 4 — Baseline and CI (`v0.4.0`)
+## Phase B — complete action and execution coverage
 
-Goal: turn verified behavior into a regression gate.
+Mapped specification: §8–11, detector group A.
 
-Acceptance gate:
+Gate:
 
-- Versioned behavior manifest and baseline capture.
-- Behavioral diff with expected change vs regression.
-- CI exit policy and compact PR summary.
-- Reusable GitHub Action.
-- Playwright test export for recorded contracts.
-- Affected-flow selection from routes/endpoints/files.
+- Keyboard, implicit submit, hover/context, dynamic/lazy/virtualized, scroll, popup/tab and policy-allowed iframe actions are discoverable.
+- Upload, download, drag/drop, rich text and multi-step actions are either safely executed or explicitly routed to recording.
+- Test data honors constraints and relationships while retaining unique cleanup-safe canaries.
+- Executor handles pending requests, dialogs, stale pages/locators and retry idempotency without duplicate effects.
+- RD004–RD008 have broken fixtures, correct controls and deterministic evidence.
 
-## Phase 5 — PostgreSQL adapter (`v0.5.0`)
+## Phase C — complete evidence, snapshot and persistence semantics
 
-Goal: provide Level 6 source-of-truth evidence for one ecosystem.
+Mapped specification: §12–17, detector groups B–D.
 
-Acceptance gate:
+Gate:
 
-- Read-only-by-default PostgreSQL adapter using parameterized values and allowlisted identifiers.
-- Canary read-back with scoped table/column mapping.
-- Transaction-aware cleanup ledger integration.
-- Secret redaction and TLS configuration.
-- Docker-based integration fixture and failure-mode tests.
+- Snapshot schema covers redacted DOM, cookies, storage, IndexedDB, network, console, WebSocket, downloads and optional adapter evidence.
+- Hard reload, new tab, clean context, logout/login, app restart, API read-back, database/provider and cross-user strategies are orchestrated consistently.
+- Every persistence scope and verdict has an executable fixture/control and stable report schema.
+- Verdict priority and Levels 0–7 are uniform across scan, contract, replay, baseline and report engines.
+- Remaining persistence/CRUD/success-integrity detectors in groups B–D are gated.
 
-## Phase 6 — Agent verification (`v0.6.0`)
+## Phase D — auth, authorization, file, provider and regression detectors
 
-Goal: verify coding-agent claims against observable application behavior.
+Mapped specification: §18 groups E–J, §24.
 
-Acceptance gate:
+Gate:
 
-- Generic command adapter plus Codex and Claude Code presets.
-- Baseline → agent run → rebuild → affected-flow verification pipeline.
-- Changed-file/route/endpoint flow selection.
-- Evidence-based follow-up fix prompts.
-- Agent output is never accepted as verification evidence.
+- RD401–RD905 are implemented only with observable evidence, broken fixtures and correct controls.
+- Multi-role verification covers UI, API, direct routes, cross-tenant access, revocation and session invalidation.
+- File/export/payment/provider findings require content or provider proof rather than UI claims.
+- Expected changes and regressions are first-class verdict/report outcomes.
 
-## Phase 7 — Advanced verification (`v1.0.0`)
+## Phase E — behavior contracts, replay and report completeness
 
-Goal: support high-value verification without making the default scan heavy.
+Mapped specification: §19–21, §26.
 
-Status: complete.
+Gate:
 
-Acceptance gate:
+- Recorder and semantic resolver cover complex flows without coordinate-only or fragile-selector contracts.
+- Replay returns every normative reproduction outcome and separates environment change from product change.
+- Report artifact layout and timelines cover every evidence type and finding class.
+- Benchmark exposes and gates truncation, expectation coverage, cleanup success and environment validity in addition to correctness metrics.
 
-- Multi-role contracts and Level 7 cross-user confirmation.
-- Provider contract for payment sandbox, test inbox, and object storage.
-- Chromium/Firefox/WebKit matrix.
-- Stable plugin SDK and plugin isolation/timeouts.
-- Threat model, compatibility matrix, performance budgets, docs site-ready content.
-- Full benchmark dashboard and release hardening.
+## Phase F — source-of-truth and provider ecosystem
+
+Mapped specification: §22–25.
+
+Gate:
+
+- PostgreSQL remains the production-like reference adapter; zero-setup SQLite plus Prisma, Supabase, Firebase, MongoDB and custom adapter contracts pass integration fixtures.
+- Stripe test mode, email test inboxes, S3/Supabase Storage, OAuth and custom providers have maintained sandboxed adapters.
+- Read-only defaults, TLS, parameterization, secret redaction, production guards and cleanup ledgers pass security tests.
+- Plugin SDK compatibility and isolation are versioned and documented with real example plugins.
+
+## Phase G — coding-agent and full-product qualification
+
+Mapped specification: §4.6, §27–32.
+
+Gate:
+
+- Codex, Claude and generic adapters are validated on real baseline → change → rebuild → affected-flow → follow-up cycles.
+- External case studies cover backend CRUD, PostgreSQL, Supabase, auth, upload, export, multi-role, AI-generated apps and multi-step flows.
+- Incremental selection, snapshot deduplication, trace-on-failure, bounded workers and timeout behavior meet published budgets.
+- All 15 release gates in §29 are executable and green on Windows, macOS and Linux.
+- Every row in `PRODUCT_STATUS.md` is `IMPLEMENTED`; only then may RealDone be called a completed full product.
