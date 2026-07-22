@@ -77,6 +77,8 @@ The duplicate-write action created two SQLite rows while the cleanup ledger init
 
 The intentional TodoMVC defect copy exposed a harness error: its `Demo` link opened an unbuilt TypeScript React example, while the generic SPA server returned `index.html` for missing JavaScript and CSS. The original scanner counted that navigation as application `BROKEN`. With the environment gate, the same live scan reports `ENVIRONMENT_INVALID`, four RD1001 asset/content-type findings, and marks `Demo` `SKIPPED`; the intentional `EPHEMERAL`, `CONTRADICTORY`, and `NO_EFFECT` controls remain detected and there are zero application `BROKEN` findings. This demonstrates that environment findings are separated without hiding the planted product defects.
 
+After Phase B expanded discovery/execution, both external controls were rerun: Actual Budget remained `VALID` with 6 `VERIFIED`, 1 history-dependent `UNCERTAIN`, 3 policy `SKIPPED`, and zero defect verdicts; the TodoMVC defect copy retained exactly its planted `EPHEMERAL`, `CONTRADICTORY`, and `NO_EFFECT` outcomes while the invalid Demo target stayed environment-scoped. The broader control surface introduced no external regression.
+
 ## Product changes driven by this run
 
 The first scan exposed that RealDone only treated forms, links, and buttons as actions. TodoMVC creates an item through a standalone input's Enter key, so RealDone initially missed the primary behavior. The runtime now:

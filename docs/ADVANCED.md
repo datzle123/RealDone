@@ -20,6 +20,18 @@ realdone scan --project ../my-app --manage-runtime --runtime-mode docker
 
 Before action discovery, RealDone checks the main HTML document, same-origin scripts/stylesheets, content types, bootstrap errors, configured health endpoint, auth-state readability, and render readiness. It repeats the static-root/bootstrap check for discovered routes. A JavaScript or CSS URL receiving an HTML SPA fallback produces `ENVIRONMENT_INVALID` and RD1001/RD1002 instead of an application `BROKEN` finding. The report stores this evidence in `environment.json`; `--accept-environment-risk` is the explicit override when the operator has independently confirmed the harness is representative.
 
+Automatic discovery prepares hover-revealed and scroll/lazy content, executes native checkbox/select and context-menu actions, and records popup/download evidence. Same-origin iframe execution is explicit:
+
+```bash
+realdone scan http://localhost:3000 --allow-iframe
+```
+
+Upload, canvas, rich-text and drag/drop controls are still discovered but produce a safe RD008 recorded-flow boundary. Record the exact file/content/gesture once instead of letting the scanner guess:
+
+```bash
+realdone record http://localhost:3000 --name "Upload and approve receipt"
+```
+
 ## Deep fresh-context verification
 
 Standard mutation scans reload the current page. Deep mode adds an independent browser context using only the configured initial auth state:

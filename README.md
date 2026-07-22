@@ -105,6 +105,11 @@ Environment validity is reported separately as `VALID`, `ENVIRONMENT_INVALID`, o
 - `RD001` broken action
 - `RD002` no observable effect
 - `RD003` duplicate submission
+- `RD004` stuck loading
+- `RD005` broken navigation
+- `RD006` disabled-after-click failure
+- `RD007` keyboard action missed
+- `RD008` action discovery/recording boundary
 - `RD101` refresh disappearance
 - `RD102` new-session disappearance
 - `RD201` fake create
@@ -142,6 +147,7 @@ realdone scan [url]
   --health-endpoint <path> explicit app health endpoint
   --environment-timeout   asset/bootstrap/render health budget
   --accept-environment-risk continue after acknowledging an invalid environment
+  --allow-iframe          opt in to same-origin iframe actions
   --policy <file>          rules, overrides, hosts, and budgets
   --deep                   confirm mutations in a fresh browser context
   --trace                  capture a Playwright trace per executed action

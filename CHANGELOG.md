@@ -10,11 +10,16 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 - `scan --manage-runtime` lifecycle ownership with development/production/Docker modes, HTTP health checks, bounded crash restarts, secret-redacted logs and cross-platform process cleanup.
 - A first-class environment health gate and portable `environment.json` evidence for RD1001–RD1005, covering main-document/static-root, script/stylesheet status and content type, bootstrap/render readiness, test-data health endpoints and invalid auth states.
 - Broken-environment and healthy controls plus a managed-app fixture exercised through the real CLI/browser path.
+- Dynamic action preparation for hover-revealed and lazy scroll content, native checkbox/select actions, context menus, popups, downloads, and opt-in same-origin iframe execution.
+- RD004 stuck loading, RD005 broken navigation, RD006 disabled-after-click failure, RD007 keyboard-action missed, and RD008 recorded-flow discovery boundary with broken fixtures and correct controls.
+- Constraint-aware test values for min/max/step, min/max length and common deterministic pattern forms.
 
 ### Changed
 
 - Discovered routes with JavaScript/CSS served as HTML are excluded from application-defect execution and their incoming navigation actions are `SKIPPED` with environment evidence.
 - Benchmark output now gates explicit expectation coverage, truncation and environment validity in addition to precision, recall, verdict, detector and replay accuracy.
+- Executor evidence separates field preparation from the user action, scopes network observations before persistence reloads, waits for bounded network idle, and avoids stale post-navigation locator waits.
+- Complex upload, canvas, rich-text and drag/drop actions are surfaced as recorded-flow requirements instead of guessed automatic interactions.
 
 ## [1.2.0] - 2026-07-22
 

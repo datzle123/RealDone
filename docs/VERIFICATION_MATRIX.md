@@ -10,7 +10,8 @@ This is the matrix for the currently shipped subset. The normative complete scop
 | Project discovery and managed runtime | Detects package/runtime hints, starts, health-checks, restarts, logs and stops a target process | project/runtime unit tests plus managed-app CLI smoke |
 | Environment validity | HTML, critical assets/content types, bootstrap/render, health endpoint and auth state produce separate `VALID`/`ENVIRONMENT_INVALID`/`BLOCKED` evidence | broken/static-root, delayed-bootstrap and healthy browser controls plus TodoMVC defect copy |
 | External-app behavior | Enter-submit, history-dependent targets, live control state, hash routes and auth contracts run without project-specific selectors | fixtures plus pinned TodoMVC, Actual Budget and Conduit workflows |
-| Core verdicts and RD001–RD303 | Broken, no-effect, duplicate, refresh/new-session disappearance, fake CRUD, false/silent success | detector unit tests plus broken/correct fixtures |
+| Core verdicts and RD001–RD303 | Broken, no-effect, duplicate, stuck loading/navigation/disabled/keyboard/discovery boundaries, refresh/new-session disappearance, fake CRUD, false/silent success | detector unit tests plus broken/correct fixtures |
+| Dynamic and complex actions | Hover/lazy scroll, native controls, context menu, popup, download and opt-in same-origin iframe execute; upload/canvas/rich-text/drag require recording | browser benchmark fixtures and deterministic RD008 boundaries |
 | Browser-local scope | Canary survives reload but disappears in a fresh context, producing `BROWSER_LOCAL` + `RD102` | deep localStorage fixture and CLI smoke |
 | Evidence reports | HTML, scan/summary/finding/environment JSON, screenshots, network logs, cleanup ledger, reproductions | artifact existence checks in browser smoke |
 | Trace and video | Portable Playwright trace ZIP and browser video linked from reports | opt-in CLI and contract smoke |

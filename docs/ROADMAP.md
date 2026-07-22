@@ -37,7 +37,7 @@ Gate:
 
 Implementation and local acceptance are complete. Phase completion remains contingent on the hosted Ubuntu/Windows/macOS matrix for the pushed commit, per the status policy above.
 
-## Phase B — complete action and execution coverage
+## Phase B — complete action and execution coverage (release candidate)
 
 Mapped specification: §8–11, detector group A.
 
@@ -48,6 +48,8 @@ Gate:
 - Test data honors constraints and relationships while retaining unique cleanup-safe canaries.
 - Executor handles pending requests, dialogs, stale pages/locators and retry idempotency without duplicate effects.
 - RD004–RD008 have broken fixtures, correct controls and deterministic evidence.
+
+Implementation and local acceptance are complete, including external Actual/TodoMVC regression scans. Phase completion remains contingent on the hosted matrix for the pushed current head.
 
 ## Phase C — complete evidence, snapshot and persistence semantics
 
