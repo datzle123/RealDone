@@ -62,10 +62,13 @@ function toAction(pageUrl: string, raw: RawAction): ActionSpec {
     `${raw.tag} action`
   ).trim();
   const initialClassification = classifyAction(label, raw.tag, raw.href, raw.isForm);
+  const hasPasswordField = raw.fields.some((field) => field.type === "password");
   const hasExternalTargetField = raw.fields.some((field) =>
     field.type === "url" || /^https?:\/\//i.test(field.placeholder ?? ""),
   );
-  const classification = hasExternalTargetField && /\b(connect|sync|server|endpoint|webhook)\b/i.test(label)
+  const classification = raw.isForm && hasPasswordField
+    ? { kind: "mutation" as const, intent: "submit" as const, risk: "safe" as const }
+    : hasExternalTargetField && /\b(connect|sync|server|endpoint|webhook)\b/i.test(label)
     ? { kind: "external" as const, intent: "external" as const, risk: "external" as const }
     : raw.type === "file"
       ? { kind: "external" as const, intent: "external" as const, risk: "external" as const }

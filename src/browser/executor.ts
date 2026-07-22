@@ -2,9 +2,9 @@ import { mkdir } from "node:fs/promises";
 import path from "node:path";
 import type { Browser, Frame, Locator, Page } from "playwright";
 import { createCanary, valueForField } from "../core/canary.js";
-import { isSensitiveKey, safeUrl } from "../core/redact.js";
+import { hashText, isSensitiveKey, safeUrl } from "../core/redact.js";
 import { isTransientBrowserError, withRetry } from "../core/retry.js";
-import type { ActionSpec, ExecutionEvidence, FilledField, ScanOptions } from "../types.js";
+import type { ActionSpec, ExecutionEvidence, FilledField, ScanOptions, UploadEvidence } from "../types.js";
 import { attachEvidence, captureState, collectUiClaims } from "./evidence.js";
 import { resolveSemanticLocator, SemanticTargetNotFoundError } from "./locator.js";
 import { waitForEnvironmentRender } from "../environment/health.js";
@@ -30,7 +30,7 @@ function scopeFor(page: Page, action: ActionSpec): InteractionScope {
   return matching;
 }
 
-async function fillForm(page: InteractionScope, action: ActionSpec, canary: string): Promise<FilledField[]> {
+async function fillForm(page: InteractionScope, action: ActionSpec, canary: string, uploads: UploadEvidence[]): Promise<FilledField[]> {
   const filled: FilledField[] = [];
   for (const [fieldIndex, field] of action.fields.entries()) {
     if (field.disabled) continue;
@@ -38,7 +38,13 @@ async function fillForm(page: InteractionScope, action: ActionSpec, canary: stri
     const locator = page.locator(field.selector).first();
     if ((await locator.count()) === 0 || !(await locator.isVisible().catch(() => false))) continue;
     try {
-      if (plan.check) {
+      if (field.type === "file") {
+        const fileName = `${canary}_${fieldIndex + 1}.txt`;
+        const contents = `RealDone upload evidence ${canary}_${fieldIndex + 1}`;
+        await locator.setInputFiles({ name: fileName, mimeType: "text/plain", buffer: Buffer.from(contents) }, { timeout: 2_000 });
+        uploads.push({ fileName, contentType: "text/plain", size: Buffer.byteLength(contents), contentHash: hashText(contents), containsCanary: true });
+        filled.push({ selector: field.selector, name: field.name ?? field.label ?? field.type, type: field.type, value: fileName, redacted: false });
+      } else if (plan.check) {
         await locator.check({ timeout: 2_000 });
         filled.push({ selector: field.selector, name: field.name ?? field.label ?? field.type, type: field.type, value: "true", redacted: false });
       } else if (plan.selectFirstUsable) {
@@ -151,6 +157,8 @@ export async function executeAction(
     filledFields: [],
     dialogs: [],
     downloads: [],
+    downloadEvidence: [],
+    uploads: [],
     popupUrls: [],
   };
   const reportDirectory = path.dirname(screenshotDirectory);
@@ -190,7 +198,7 @@ export async function executeAction(
       if (targetText) evidence.targetText = targetText;
     }
     attached = attachEvidence(page, startedAt, evidence);
-    evidence.filledFields = await fillForm(targetScope, action, canary);
+    evidence.filledFields = await fillForm(targetScope, action, canary, evidence.uploads ??= []);
     evidence.beforeAction = await captureState(targetScope, canary, startedAt);
 
     if (action.activation === "enter") {

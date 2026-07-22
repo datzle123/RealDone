@@ -29,6 +29,9 @@ export function classifyAction(
   if (update.test(label)) {
     return { kind: "mutation", intent: "update", risk: "safe" };
   }
+  if (/\b(search|find|filter|query)\b/i.test(label)) {
+    return { kind: "local", intent: "interact", risk: "safe" };
+  }
   if (isForm) {
     return { kind: "mutation", intent: "submit", risk: "safe" };
   }

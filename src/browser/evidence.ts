@@ -1,7 +1,11 @@
-import type { Frame, Page, Request, Response, WebSocket } from "playwright";
+import { createHash } from "node:crypto";
+import path from "node:path";
+import type { Download, Frame, Page, Request, Response, WebSocket } from "playwright";
 import { hashText, redactText, safeUrl } from "../core/redact.js";
 import type {
   ConsoleEvidence,
+  DownloadEvidence,
+  FilledField,
   NetworkEvidence,
   StateSnapshot,
   StorageEntryDigest,
@@ -15,6 +19,9 @@ export interface EvidenceSink {
   pageErrors: string[];
   dialogs: string[];
   downloads: string[];
+  downloadEvidence?: DownloadEvidence[];
+  canary?: string;
+  filledFields?: FilledField[];
   webSockets?: WebSocketEvidence[];
 }
 
@@ -101,8 +108,49 @@ export function attachEvidence(page: Page, startedAt: number, sink: EvidenceSink
     sink.dialogs.push(`${dialog.type()}: ${redactText(dialog.message()).slice(0, 500)}`);
     void dialog.accept("RD_TEST");
   };
-  const onDownload = (download: { suggestedFilename(): string }): void => {
-    sink.downloads.push(download.suggestedFilename());
+  const onDownload = (download: Download): void => {
+    const fileName = download.suggestedFilename();
+    sink.downloads.push(fileName);
+    sink.downloadEvidence ??= [];
+    const entry: DownloadEvidence = { fileName };
+    sink.downloadEvidence.push(entry);
+    const inspect = (async () => {
+      const failure = await download.failure().catch(() => "Download inspection failed.");
+      if (failure) {
+        entry.failure = redactText(failure).slice(0, 500);
+        return;
+      }
+      const stream = await download.createReadStream().catch(() => undefined);
+      if (!stream) {
+        entry.failure = "The browser did not expose the downloaded content.";
+        return;
+      }
+      const chunks: Buffer[] = [];
+      let captured = 0;
+      let size = 0;
+      for await (const chunk of stream) {
+        const value = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
+        size += value.length;
+        if (captured < 5_000_000) {
+          const bounded = value.subarray(0, 5_000_000 - captured);
+          chunks.push(bounded);
+          captured += bounded.length;
+        }
+      }
+      const content = Buffer.concat(chunks);
+      const textContent = content.toString("utf8");
+      const expectedValues = (sink.filledFields ?? []).filter((field) => !field.redacted && !["true", "false"].includes(field.value));
+      entry.size = size;
+      entry.contentHash = createHash("sha256").update(content).digest("hex");
+      entry.containsCanary = Boolean(sink.canary && textContent.toLowerCase().includes(sink.canary.toLowerCase()));
+      entry.expectedFieldValues = expectedValues.length;
+      entry.matchedFieldValues = expectedValues.filter((field) => textContent.includes(field.value)).length;
+      const contentType = new Map([
+        [".csv", "text/csv"], [".json", "application/json"], [".pdf", "application/pdf"], [".txt", "text/plain"], [".zip", "application/zip"],
+      ]).get(path.extname(fileName).toLowerCase());
+      if (contentType) entry.contentType = contentType;
+    })();
+    pending.push(inspect);
   };
   const onWebSocket = (socket: WebSocket): void => {
     const entry: WebSocketEvidence = {
@@ -181,6 +229,16 @@ export async function captureState(
   const state = await page.evaluate(async (needle) => {
     const normalize = (value: string): string => value.replace(/\s+/g, " ").trim();
     const bodyText = normalize(document.body?.innerText ?? "").slice(0, 100_000);
+    const jwtExpired = (value: string): boolean => {
+      const parts = value.split(".");
+      if (parts.length !== 3) return false;
+      try {
+        const payload = JSON.parse(atob((parts[1] ?? "").replaceAll("-", "+").replaceAll("_", "/"))) as { exp?: number };
+        return typeof payload.exp === "number" && payload.exp * 1_000 <= Date.now();
+      } catch {
+        return false;
+      }
+    };
     const controls = [...document.querySelectorAll("input, textarea, select, button")]
       .slice(0, 2_000)
       .map((element) => {
@@ -201,6 +259,10 @@ export async function captureState(
         };
       });
     const controlText = JSON.stringify(controls);
+    const storageEntries = [...Object.entries(localStorage), ...Object.entries(sessionStorage)];
+    const authStorage = storageEntries.filter(([key, value]) => /auth|session|token|jwt|credential/i.test(key) || value.split(".").length === 3);
+    const normalizedUrl = location.pathname.toLowerCase();
+    const normalizedText = bodyText.toLowerCase();
     const indexedDb: Array<{ name: string; version: number; stores: Array<{ name: string; count: number }> }> = [];
     if (globalThis.indexedDB && typeof indexedDB.databases === "function") {
       const databases = await indexedDB.databases().catch(() => []);
@@ -235,6 +297,17 @@ export async function captureState(
       controlText,
       controls,
       canaryPresent: `${bodyText}\n${controlText}`.toLowerCase().includes(needle.toLowerCase()),
+      bodyCanaryPresent: bodyText.toLowerCase().includes(needle.toLowerCase()),
+      temporaryBlobUrls: [...document.querySelectorAll("a[href], img[src], video[src], audio[src], source[src]")]
+        .filter((element) => (element.getAttribute("href") ?? element.getAttribute("src") ?? "").startsWith("blob:"))
+        .length,
+      auth: {
+        storageArtifacts: authStorage.length,
+        expiredStorageArtifacts: authStorage.filter(([, value]) => jwtExpired(value)).length,
+        privateContent: /\b(account|profile|settings|private|member|tenant|billing|dashboard)\b/.test(normalizedText) || /\/(account|profile|settings|private|member|tenant|billing|dashboard)(\/|$)/.test(normalizedUrl),
+        adminContent: /\badmin(istration|istrator)?\b/.test(normalizedText) || /\/admin(\/|$)/.test(normalizedUrl),
+        accessDenied: /\b(unauthorized|forbidden|access denied|sign in required|login required)\b/.test(normalizedText),
+      },
       busyControls: controls.filter((control) => control.busy === "true").length,
       disabledControls: controls.filter((control) => control.disabled).length,
       local: Object.entries(localStorage),
@@ -249,8 +322,18 @@ export async function captureState(
     title: state.title.slice(0, 300),
     domHash: hashText(`${state.bodyText}\n${state.controlText}`),
     canaryPresent: state.canaryPresent,
+    bodyCanaryPresent: state.bodyCanaryPresent,
+    temporaryBlobUrls: state.temporaryBlobUrls,
+    auth: {
+      artifacts: state.auth.storageArtifacts + cookies.filter((cookie) => /auth|session|token|jwt|credential/i.test(cookie.name)).length,
+      expiredArtifacts: state.auth.expiredStorageArtifacts + cookies.filter((cookie) => cookie.expires > 0 && cookie.expires * 1_000 <= Date.now()).length,
+      privateContent: state.auth.privateContent,
+      adminContent: state.auth.adminContent,
+      accessDenied: state.auth.accessDenied,
+    },
     semanticDom: {
       textHash: hashText(state.bodyText),
+      text: redactText(state.bodyText).slice(0, 20_000),
       controls: state.controls.map((control) => ({
         tag: control.tag,
         type: control.type,

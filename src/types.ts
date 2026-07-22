@@ -46,6 +46,36 @@ export type DetectorCode =
   | "RD303"
   | "RD304"
   | "RD305"
+  | "RD401"
+  | "RD402"
+  | "RD403"
+  | "RD404"
+  | "RD405"
+  | "RD501"
+  | "RD502"
+  | "RD503"
+  | "RD504"
+  | "RD505"
+  | "RD601"
+  | "RD602"
+  | "RD603"
+  | "RD604"
+  | "RD605"
+  | "RD701"
+  | "RD702"
+  | "RD703"
+  | "RD704"
+  | "RD705"
+  | "RD801"
+  | "RD802"
+  | "RD803"
+  | "RD804"
+  | "RD805"
+  | "RD901"
+  | "RD902"
+  | "RD903"
+  | "RD904"
+  | "RD905"
   | "RD1001"
   | "RD1002"
   | "RD1003"
@@ -221,6 +251,7 @@ export interface IndexedDbDigest {
 
 export interface SemanticDomDigest {
   textHash: string;
+  text: string;
   controls: Array<{
     tag: string;
     type: string;
@@ -233,6 +264,25 @@ export interface SemanticDomDigest {
     selected?: string;
     busy?: string;
   }>;
+}
+
+export interface UploadEvidence {
+  fileName: string;
+  contentType: string;
+  size: number;
+  contentHash: string;
+  containsCanary: boolean;
+}
+
+export interface DownloadEvidence {
+  fileName: string;
+  contentType?: string;
+  size?: number;
+  contentHash?: string;
+  containsCanary?: boolean;
+  expectedFieldValues?: number;
+  matchedFieldValues?: number;
+  failure?: string;
 }
 
 export interface UiClaim {
@@ -254,6 +304,15 @@ export interface StateSnapshot {
   title: string;
   semanticDom?: SemanticDomDigest;
   canaryPresent: boolean;
+  bodyCanaryPresent?: boolean;
+  temporaryBlobUrls?: number;
+  auth?: {
+    artifacts: number;
+    expiredArtifacts: number;
+    privateContent: boolean;
+    adminContent: boolean;
+    accessDenied: boolean;
+  };
   busyControls?: number;
   disabledControls?: number;
   storage: {
@@ -311,6 +370,8 @@ export interface ExecutionEvidence {
   filledFields: FilledField[];
   dialogs: string[];
   downloads: string[];
+  downloadEvidence?: DownloadEvidence[];
+  uploads?: UploadEvidence[];
   popupUrls?: string[];
   webSockets?: WebSocketEvidence[];
   apiReadBack?: ApiReadBackEvidence;
