@@ -15,6 +15,7 @@ import { runRegressionGate } from "../dist/baseline/regression.js";
 import { commandPassed, runCommand } from "../dist/agent/command.js";
 import { runAgentVerification } from "../dist/agent/pipeline.js";
 import { runScan } from "../dist/scan.js";
+import { runReplay } from "../dist/replay.js";
 
 async function startFixture() {
   const child = spawn(process.execPath, [path.resolve("benchmarks/fixture-app/server.mjs")], {
@@ -123,6 +124,7 @@ try {
   assert.equal(result.metrics.benchmarkTruncated, false);
   assert.equal(result.metrics.environmentValidity, 1);
   assert.equal(result.metrics.reproductionSuccessRate, 1);
+  assert.equal(result.metrics.cleanupSuccess, 1);
   assert.equal(result.report.environment?.status, "VALID");
   for (const artifact of [
     "report.html",
@@ -139,7 +141,76 @@ try {
   assert.ok((await readdir(path.join(result.reportDirectory, "screenshots"))).length > 0);
   assert.ok((await readdir(path.join(result.reportDirectory, "network"))).length > 0);
   assert.ok((await readdir(path.join(result.reportDirectory, "reproductions"))).length > 0);
+  for (const directory of ["snapshots", "console", "websockets", "uploads", "downloads", "contracts"]) {
+    assert.ok((await readdir(path.join(result.reportDirectory, directory))).length > 0, `${directory} artifacts were not written`);
+  }
   await access(path.join(result.reportDirectory, "environment.json"));
+  const staticSearchFinding = result.report.findings.find((finding) => finding.detectorMatches.some((match) => match.code === "RD403"));
+  assert.ok(staticSearchFinding);
+  const reproducedReplay = await runReplay(staticSearchFinding.id, {
+    reportDirectory: result.reportDirectory,
+    outputRoot: path.join(outputRoot, "explicit-replays"),
+    headed: false,
+    ...(process.env.REALDONE_BROWSER_PATH ? { executablePath: process.env.REALDONE_BROWSER_PATH } : {}),
+  });
+  assert.equal(reproducedReplay.replay.outcome, "FINDING_REPRODUCED");
+  assert.equal(reproducedReplay.exitCode, 0);
+  await access(path.join(reproducedReplay.reportDirectory, "replay.json"));
+  const sourceReproduction = JSON.parse(
+    await readFile(path.join(result.reportDirectory, "reproductions", `${staticSearchFinding.id}.json`), "utf8"),
+  );
+  const writeReplayScenario = async (name, reproduction) => {
+    const directory = path.join(outputRoot, "replay-scenarios", name);
+    await mkdir(path.join(directory, "reproductions"), { recursive: true });
+    await writeFile(
+      path.join(directory, "reproductions", `${staticSearchFinding.id}.json`),
+      `${JSON.stringify(reproduction, null, 2)}\n`,
+    );
+    return directory;
+  };
+  const replayOptions = {
+    outputRoot: path.join(outputRoot, "scenario-replays"),
+    headed: false,
+    ...(process.env.REALDONE_BROWSER_PATH ? { executablePath: process.env.REALDONE_BROWSER_PATH } : {}),
+  };
+  const environmentScenario = await writeReplayScenario("environment-changed", {
+    ...sourceReproduction,
+    targetUrl: `${fixture.url}/environment-invalid`,
+  });
+  const environmentReplay = await runReplay(staticSearchFinding.id, {
+    ...replayOptions,
+    reportDirectory: environmentScenario,
+  });
+  assert.equal(environmentReplay.replay.outcome, "ENVIRONMENT_CHANGED");
+  assert.equal(environmentReplay.exitCode, 2);
+  const missingTargetScenario = await writeReplayScenario("target-not-found", {
+    ...sourceReproduction,
+    action: {
+      ...sourceReproduction.action,
+      fingerprint: {
+        selector: "#realdone-missing-target",
+        tag: "button",
+        ordinal: 0,
+        candidates: [{ strategy: "css", weight: 100, selector: "#realdone-missing-target" }],
+      },
+    },
+  });
+  const missingTargetReplay = await runReplay(staticSearchFinding.id, {
+    ...replayOptions,
+    reportDirectory: missingTargetScenario,
+  });
+  assert.equal(missingTargetReplay.replay.outcome, "TARGET_ACTION_NOT_FOUND");
+  assert.equal(missingTargetReplay.exitCode, 2);
+  const uncertainReproduction = structuredClone(sourceReproduction);
+  delete uncertainReproduction.sourceVerdict;
+  delete uncertainReproduction.sourceDetectorCodes;
+  const uncertainScenario = await writeReplayScenario("uncertain", uncertainReproduction);
+  const uncertainReplay = await runReplay(staticSearchFinding.id, {
+    ...replayOptions,
+    reportDirectory: uncertainScenario,
+  });
+  assert.equal(uncertainReplay.replay.outcome, "REPLAY_UNCERTAIN");
+  assert.equal(uncertainReplay.exitCode, 2);
 
   const environmentControl = await runScan({
     ...scan,
@@ -236,7 +307,8 @@ try {
   const selectorFinding = result.report.findings.find((finding) => finding.action.label.includes("Toggle resilient"));
   assert.equal(selectorFinding?.evidence.locatorResolution?.chosenStrategy, "role");
   const cleanupDryRun = await runCleanup(result.reportDirectory, { confirm: false, allowHosts: [], retries: 1 });
-  assert.ok(cleanupDryRun.pending > 0);
+  assert.equal(cleanupDryRun.pending, 0);
+  assert.ok(cleanupDryRun.cleaned >= 1);
   const cleanup = await runCleanup(result.reportDirectory, { confirm: true, allowHosts: [], retries: 1 });
   assert.equal(cleanup.failed, 0);
   assert.ok(cleanup.cleaned >= 1);
@@ -285,6 +357,54 @@ try {
   const passwordStep = secretRecording.contract.steps.find((step) => step.type === "fill" && step.secretEnv);
   assert.equal(passwordStep?.secretEnv, "REALDONE_PASSWORD");
   assert.equal(passwordStep?.fingerprint?.accessibleName, "Password");
+  const complexUploadFile = path.join(outputRoot, "complex-upload.txt");
+  await writeFile(complexUploadFile, "RD_COMPLEX_UPLOAD_CONTENT\n");
+  const complexRecording = await recordFlow(
+    {
+      targetUrl: `${fixture.url}/recorder-complex`,
+      name: "Complex semantic recorder",
+      outputFile: path.join(flowDirectory, "complex-recorder.json"),
+      headed: false,
+      timeoutMs: 8_000,
+      settleMs: 300,
+      ...(process.env.REALDONE_BROWSER_PATH ? { executablePath: process.env.REALDONE_BROWSER_PATH } : {}),
+    },
+    async (page) => {
+      await page.locator("#complex-upload").setInputFiles(complexUploadFile);
+      await page.locator("#rich-editor").fill("Recorded rich description");
+      await page.locator("#command").fill("run");
+      await page.locator("#command").press("Enter");
+      const popupPromise = page.waitForEvent("popup");
+      await page.locator("#open-popup").click();
+      const popup = await popupPromise;
+      await popup.waitForLoadState("domcontentloaded");
+      await popup.close();
+      const downloadPromise = page.waitForEvent("download");
+      await page.locator("#complex-download").click();
+      await downloadPromise;
+      await page.locator("#drag-source").dragTo(page.locator("#drag-target"));
+    },
+  );
+  for (const type of ["upload", "richtext", "press", "drag"]) {
+    assert.ok(complexRecording.contract.steps.some((step) => step.type === type), `Complex recorder missed ${type}`);
+  }
+  assert.ok(complexRecording.contract.steps.some((step) => step.expected.some((expectation) => expectation.type === "popup")));
+  assert.ok(complexRecording.contract.steps.some((step) => step.expected.some((expectation) => expectation.type === "download")));
+  process.env.REALDONE_UPLOAD_RECEIPT_FILE = complexUploadFile;
+  const complexVerification = await verifyContract(complexRecording.contractFile, {
+    outputRoot: path.join(outputRoot, "complex-verifications"),
+    headed: false,
+    timeoutMs: 8_000,
+    settleMs: 300,
+    maxRetries: 2,
+    continueOnFailure: false,
+    allowDestructive: false,
+    allowExternal: false,
+    allowHosts: [],
+    ...(process.env.REALDONE_BROWSER_PATH ? { executablePath: process.env.REALDONE_BROWSER_PATH } : {}),
+  });
+  delete process.env.REALDONE_UPLOAD_RECEIPT_FILE;
+  assert.equal(complexVerification.verification.passed, true);
   recording.contract.roles = {
     observer: { description: "Independent observer", authState: { path: "auth.json" } },
   };
@@ -480,6 +600,16 @@ try {
     assert.deepEqual(matrix.report.entries.map((entry) => entry.browser), ["chromium", "firefox", "webkit"]);
   }
   await fetch(`${fixture.url}/__control__/break-create`, { method: "POST" });
+  const realCreateFinding = result.report.findings.find((finding) => finding.action.pageUrl.endsWith("/real-create") && finding.action.label.includes("Create customer"));
+  assert.ok(realCreateFinding);
+  const changedReplay = await runReplay(realCreateFinding.id, {
+    reportDirectory: result.reportDirectory,
+    outputRoot: path.join(outputRoot, "changed-replays"),
+    headed: false,
+    ...(process.env.REALDONE_BROWSER_PATH ? { executablePath: process.env.REALDONE_BROWSER_PATH } : {}),
+  });
+  assert.equal(changedReplay.replay.outcome, "FINDING_NO_LONGER_REPRODUCED");
+  assert.equal(changedReplay.exitCode, 1);
   const redGate = await runRegressionGate({
     baselineFile,
     contractInputs: [],
