@@ -283,7 +283,15 @@ try {
   const managedReport = JSON.parse(await readFile(path.join(managedReportDirectory, "scan.json"), "utf8"));
   assert.equal(managedReport.findings[0]?.evidence.afterAppRestart?.canaryPresent, true);
   assert.equal(managedReport.findings[0]?.evidence.apiReadBack?.canaryPresent, true);
-  const managedProject = path.resolve("benchmarks/managed-app");
+  const managedProject = path.join(outputRoot, "mcp-managed-app");
+  await mkdir(managedProject, { recursive: true });
+  await writeFile(path.join(managedProject, "package.json"), JSON.stringify({
+    name: "realdone-mcp-managed-smoke",
+    private: true,
+    packageManager: "npm@10.9.0",
+    scripts: { start: "node server.mjs --port 41238" },
+  }, null, 2));
+  await writeFile(path.join(managedProject, "server.mjs"), await readFile(path.resolve("benchmarks/managed-app/server.mjs")));
   const mcpClient = new Client({ name: "realdone-smoke", version: "1.0.0" });
   const mcpTransport = new StdioClientTransport({
     command: process.execPath,
@@ -297,13 +305,13 @@ try {
       name: "scan",
       arguments: { maxPages: 1, maxActions: 2, maxDurationMs: 60_000, traceOnFailure: true },
     });
-    assert.equal(mcpScan.isError, undefined);
+    assert.equal(mcpScan.isError, undefined, JSON.stringify(mcpScan.content));
     assert.equal(mcpScan.structuredContent?.passed, true);
     assert.equal(mcpScan.structuredContent?.summary.environmentStatus, "VALID");
   } finally {
     await mcpClient.close();
   }
-  await assert.rejects(() => fetch("http://127.0.0.1:41237/health"), /fetch failed/);
+  await assert.rejects(() => fetch("http://127.0.0.1:41238/health"), /fetch failed/);
   const cliScan = await runCommand({
     executable: process.execPath,
     args: [

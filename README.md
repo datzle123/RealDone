@@ -26,9 +26,10 @@ git clone https://github.com/datzle123/RealDone.git
 cd RealDone
 corepack enable
 pnpm install
-pnpm exec playwright install chromium
 pnpm build
 ```
+
+Chromium is downloaded automatically on the first scan if it is missing.
 
 Start the web app you want to check, then run:
 

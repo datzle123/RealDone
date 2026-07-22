@@ -17,4 +17,6 @@ The Ubuntu full gate runs PostgreSQL integration, all three browser engines, bro
 
 Chromium accepts a custom executable through `--browser-path`. Firefox and WebKit use Playwright-managed binaries so RealDone does not accidentally launch an incompatible system browser.
 
+The requested Playwright browser is downloaded automatically on first use when it is missing. Set `REALDONE_SKIP_BROWSER_INSTALL=1` to disable bootstrap and install browsers manually.
+
 Codex and Claude Code integrations are command presets, not embedded SDKs. RealDone verifies the current documented non-interactive argument contracts; installed agent authentication and provider availability remain the user's responsibility.

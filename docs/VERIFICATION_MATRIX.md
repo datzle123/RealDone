@@ -31,7 +31,7 @@ This is the matrix for the currently shipped subset, not a product-status ledger
 | Browser matrix | Same contract runs in Chromium, Firefox, and WebKit with aggregate evidence | hosted three-engine smoke |
 | Coding-agent verification | Baseline, agent command, rebuild, affected flows, integrity checks, evidence-based follow-up | agent unit and end-to-end smoke |
 | Performance budgets | Total time, slowest step, and memory violations fail verification | deterministic unit and browser smoke |
-| Public CLI | Every release command parses; advanced options remain visible and cross-platform | CLI tests on Node 20/22 and three OS families |
+| Public CLI | Every release command parses; advanced options remain visible and cross-platform; a clean browser directory bootstraps Chromium on first scan and reuses it afterward | CLI tests on Node 20/22 and three OS families plus clean-tarball first-run acceptance |
 | Package and SDK | CLI, ESM entrypoint, declarations, normative docs, examples, and license notices ship in tarball | `pnpm smoke:package <tarball>` after pack |
 
 ## Release gate
