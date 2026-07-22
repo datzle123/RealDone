@@ -119,6 +119,8 @@ realdone scan <url>
 realdone replay <finding-id> [--report-dir <scan-directory>]
 realdone cleanup --report-dir <scan-directory> [--confirm]
 realdone benchmark <url> --expected <expectations.json> [--verify-replays]
+realdone record <url> --name "Create customer"
+realdone verify .realdone/flows/create-customer.json
 ```
 
 ## Safe by default
@@ -155,6 +157,21 @@ node dist/cli.js scan http://localhost:3000 --policy examples/realdone.policy.js
 
 Mutations that expose a resource ID or `Location` header are added to `cleanup-ledger.json`. Cleanup is a dry run unless `--confirm` is supplied, accepts `404` as already-cleaned, and reuses optional Playwright auth state without copying secrets into the ledger.
 
+## Record once, verify deterministically
+
+For multi-step or authenticated flows, teach RealDone once:
+
+```bash
+realdone record http://localhost:3000 --name "Create invoice" \
+  --save-auth .realdone/auth/admin.json
+
+realdone verify .realdone/flows/create-invoice.json
+```
+
+The recorder captures compact interaction steps with semantic locators and inferred request/status/text expectations. rrweb is used only as masked local session evidence; deterministic verification uses the RealDone behavior contract, not rrweb replay. Password-like inputs become environment-variable references and auth state stays under the ignored `.realdone/` directory by default.
+
+See [Behavior contracts](docs/CONTRACTS.md) for editing assertions, secret handling, and safety flags.
+
 ## Public benchmark fixtures
 
 The repository includes intentionally broken and correct controls for fake create, real persistence, false success, duplicate submission, fake deletion, no-effect actions, and broken navigation.
@@ -171,7 +188,7 @@ Run the full browser smoke test with `pnpm smoke`. It also verifies selector sur
 
 - ✅ **v0.1 Core proof** — scanner, evidence, persistence, report, replay, public fixtures.
 - ✅ **v0.2 Reliability** — semantic fingerprints, cleanup ledger, retry/policy/budget, precision/recall harness.
-- **v0.3 Flow recorder** — recorded flows, behavior contracts, auth state, deterministic replay.
+- ✅ **v0.3 Flow recorder** — recorded flows, behavior contracts, auth state, deterministic replay.
 - **v0.4 Baseline + CI** — behavior diff, regression gate, GitHub Action, Playwright export.
 - **v0.5 PostgreSQL adapter** — source-of-truth verification and cleanup.
 - **v0.6 Agent verification** — Codex/Claude adapters, affected-flow selection, fix prompts.

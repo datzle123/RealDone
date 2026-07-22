@@ -6,6 +6,8 @@ import { spawn } from "node:child_process";
 import { once } from "node:events";
 import { runBenchmark } from "../dist/benchmark/evaluate.js";
 import { runCleanup } from "../dist/cleanup/ledger.js";
+import { recordFlow } from "../dist/record/recorder.js";
+import { verifyContract } from "../dist/contracts/verifier.js";
 
 async function startFixture() {
   const child = spawn(process.execPath, [path.resolve("benchmarks/fixture-app/server.mjs")], {
@@ -73,6 +75,40 @@ try {
   const cleanup = await runCleanup(result.reportDirectory, { confirm: true, allowHosts: [], retries: 1 });
   assert.equal(cleanup.failed, 0);
   assert.ok(cleanup.cleaned >= 1);
+  const flowDirectory = path.join(outputRoot, "flows");
+  const recording = await recordFlow(
+    {
+      targetUrl: `${fixture.url}/real-create`,
+      name: "Create customer",
+      outputFile: path.join(flowDirectory, "create-customer.json"),
+      headed: false,
+      timeoutMs: 8_000,
+      settleMs: 300,
+      saveStorageStatePath: path.join(flowDirectory, "auth.json"),
+      ...(process.env.REALDONE_BROWSER_PATH ? { executablePath: process.env.REALDONE_BROWSER_PATH } : {}),
+    },
+    async (page) => {
+      await page.getByLabel("Customer name").fill("RECORDED_CUSTOMER");
+      await page.getByRole("button", { name: "Create customer" }).click();
+      await page.waitForTimeout(500);
+    },
+  );
+  assert.ok(recording.contract.steps.some((step) => step.type === "fill"));
+  assert.ok(recording.contract.steps.some((step) => step.type === "click"));
+  assert.ok((recording.contract.artifacts?.rrwebEventCount ?? 0) > 0);
+  const verification = await verifyContract(recording.contractFile, {
+    outputRoot: path.join(outputRoot, "verifications"),
+    headed: false,
+    timeoutMs: 8_000,
+    settleMs: 300,
+    maxRetries: 2,
+    continueOnFailure: false,
+    allowDestructive: false,
+    allowExternal: false,
+    allowHosts: [],
+    ...(process.env.REALDONE_BROWSER_PATH ? { executablePath: process.env.REALDONE_BROWSER_PATH } : {}),
+  });
+  assert.equal(verification.verification.passed, true);
   process.stdout.write(`Smoke scan passed: ${path.join(result.reportDirectory, "report.html")}\n`);
 } finally {
   await fixture.stop();

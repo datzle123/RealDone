@@ -5,7 +5,9 @@ import { runBenchmark } from "./benchmark/evaluate.js";
 import { runCleanup } from "./cleanup/ledger.js";
 import { loadActionPolicy } from "./core/policy.js";
 import { runReplay } from "./replay.js";
+import { recordFlow } from "./record/recorder.js";
 import { runScan, type ScanProgress } from "./scan.js";
+import { verifyContract } from "./contracts/verifier.js";
 import type { ScanOptions } from "./types.js";
 
 function positiveInteger(value: string): number {
@@ -29,6 +31,21 @@ function progressLine(progress: ScanProgress): void {
   process.stderr.write(`realdone ${progress.stage}${counter}  ${progress.message}\n`);
 }
 
+function recorderStopSignal(durationSeconds?: number): Promise<void> {
+  if (durationSeconds) {
+    return new Promise((resolve) => setTimeout(resolve, durationSeconds * 1_000));
+  }
+  return new Promise((resolve) => {
+    const finish = (): void => {
+      process.stdin.pause();
+      resolve();
+    };
+    process.once("SIGINT", finish);
+    process.stdin.resume();
+    process.stdin.once("data", finish);
+  });
+}
+
 function printSummary(reportDirectory: string, report: Awaited<ReturnType<typeof runScan>>["report"]): void {
   const { summary } = report;
   process.stdout.write(`\nREALDONE SCAN\n\n`);
@@ -46,7 +63,7 @@ const program = new Command();
 program
   .name("realdone")
   .description("Behavioral verification for AI-built web applications")
-  .version("0.2.0")
+  .version("0.3.0")
   .showHelpAfterError();
 
 program
@@ -112,6 +129,75 @@ program
     process.stdout.write(`Cleanup ledger\n\ncleaned: ${result.cleaned}\nfailed: ${result.failed}\nmanual: ${result.manual}\npending: ${result.pending}\n`);
     if (!values.confirm && result.pending > 0) process.stdout.write("\nDry run only. Re-run with --confirm to execute safe cleanup URLs.\n");
     if (result.failed > 0) process.exitCode = 1;
+  });
+
+program
+  .command("record")
+  .description("Record one human-driven flow as a deterministic behavior contract")
+  .argument("<url>", "application URL")
+  .requiredOption("--name <name>", "human-readable flow name")
+  .option("--out <file>", "contract JSON path")
+  .option("--headless", "record without showing Chromium (automation only)", false)
+  .option("--duration <seconds>", "stop automatically after a duration", positiveInteger)
+  .option("--timeout <milliseconds>", "initial navigation timeout", positiveInteger, 15_000)
+  .option("--settle <milliseconds>", "outcome capture delay", positiveInteger, 500)
+  .option("--storage-state <file>", "start from existing Playwright auth state")
+  .option("--save-auth <file>", "save final auth state (contains sensitive cookies)")
+  .option("--browser-path <file>", "existing Chromium/Chrome executable")
+  .action(async (url: string, values: Record<string, unknown>) => {
+    const name = String(values.name);
+    const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "flow";
+    const outputFile = path.resolve(String(values.out ?? path.join(".realdone", "flows", `${slug}.json`)));
+    if (!values.duration) process.stderr.write("realdone record  Use the browser, then press Enter or Ctrl+C here to save the flow.\n");
+    const result = await recordFlow({
+      targetUrl: url,
+      name,
+      outputFile,
+      headed: !Boolean(values.headless),
+      timeoutMs: Number(values.timeout),
+      settleMs: Number(values.settle),
+      stopSignal: recorderStopSignal(values.duration ? Number(values.duration) : undefined),
+      ...(values.storageState ? { storageStatePath: path.resolve(String(values.storageState)) } : {}),
+      ...(values.saveAuth ? { saveStorageStatePath: path.resolve(String(values.saveAuth)) } : {}),
+      ...(values.browserPath ? { executablePath: path.resolve(String(values.browserPath)) } : {}),
+    });
+    process.stdout.write(`\nRecorded ${result.contract.steps.length} steps\nContract: ${result.contractFile}\nrrweb evidence: ${result.rrwebFile} (${result.contract.artifacts?.rrwebEventCount ?? 0} events)\n`);
+    if (result.contract.steps.some((step) => step.secretEnv)) {
+      process.stdout.write("Secret inputs were redacted. Set the referenced environment variables before verify.\n");
+    }
+  });
+
+program
+  .command("verify")
+  .description("Replay a recorded behavior contract and check its expectations")
+  .argument("<contract>", "behavior contract JSON")
+  .option("--output <directory>", "verification report root", ".realdone/verifications")
+  .option("--headed", "show Chromium", false)
+  .option("--timeout <milliseconds>", "step timeout", positiveInteger, 10_000)
+  .option("--settle <milliseconds>", "settle delay after each step", positiveInteger, 500)
+  .option("--retries <number>", "semantic locator retries", nonNegativeInteger, 2)
+  .option("--continue", "continue after a failed step", false)
+  .option("--allow-destructive", "allow recorded destructive actions", false)
+  .option("--allow-external", "allow recorded external effects", false)
+  .option("--allow-host <hostname>", "allow recorded mutations on staging", collect, [])
+  .option("--storage-state <file>", "override contract auth state")
+  .option("--browser-path <file>", "existing Chromium/Chrome executable")
+  .action(async (contract: string, values: Record<string, unknown>) => {
+    const result = await verifyContract(path.resolve(contract), {
+      outputRoot: path.resolve(String(values.output)),
+      headed: Boolean(values.headed),
+      timeoutMs: Number(values.timeout),
+      settleMs: Number(values.settle),
+      maxRetries: Number(values.retries),
+      continueOnFailure: Boolean(values.continue),
+      allowDestructive: Boolean(values.allowDestructive),
+      allowExternal: Boolean(values.allowExternal),
+      allowHosts: values.allowHost as string[],
+      ...(values.storageState ? { storageStatePath: path.resolve(String(values.storageState)) } : {}),
+      ...(values.browserPath ? { executablePath: path.resolve(String(values.browserPath)) } : {}),
+    });
+    process.stdout.write(`\n${result.verification.passed ? "VERIFIED" : "REGRESSION"}: ${result.verification.contractName}\nReport: ${path.join(result.outputDirectory, "report.html")}\n`);
+    process.exitCode = result.exitCode;
   });
 
 program

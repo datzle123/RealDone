@@ -47,3 +47,7 @@ Later phases add four interfaces around the core evidence model:
 - `RealDonePlugin`: register action classifiers, input providers, verifiers, detectors, and reporters.
 
 Each extension must remain optional and must fail closed when it cannot establish evidence.
+
+### Recorder boundary
+
+rrweb supplies masked raw session evidence only. RealDone separately records a compact, versioned behavior contract. Verification resolves each semantic fingerprint, performs one step, observes network/UI outcomes, checks explicit expectations, and stops after the first failure by default. This separation prevents an implementation detail of the session recorder from becoming the regression contract.

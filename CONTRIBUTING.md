@@ -24,6 +24,8 @@ Every detector change should include:
 
 Do not infer business intent when observable evidence is insufficient. Return `UNCERTAIN` and explain which verifier or contract would resolve it.
 
+Recorder changes must preserve input masking, auth-state warnings, contract schema compatibility, and the separation between raw rrweb evidence and deterministic RealDone steps.
+
 ## Pull requests
 
 - Keep changes scoped and add/update tests.

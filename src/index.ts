@@ -1,5 +1,21 @@
 export { runScan, type ScanProgress, type ScanResult } from "./scan.js";
 export { runReplay, type ReplayOptions } from "./replay.js";
+export { recordFlow, type RecordOptions, type RecordResult } from "./record/recorder.js";
+export {
+  behaviorContractSchema,
+  loadBehaviorContract,
+  writeBehaviorContract,
+  type BehaviorContract,
+  type BehaviorStep,
+  type ContractExpectation,
+  type ContractVerification,
+  type StepVerification,
+} from "./contracts/schema.js";
+export {
+  verifyContract,
+  type VerifyContractOptions,
+  type VerifyContractResult,
+} from "./contracts/verifier.js";
 export {
   evaluateReport,
   loadBenchmarkExpectations,

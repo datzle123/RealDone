@@ -13,3 +13,5 @@ Include the smallest safe reproduction, affected version, expected safety bounda
 ## Safety boundary
 
 RealDone drives a real browser. The default policy limits mutations to local/test hosts and blocks destructive and external effects. Opt-in flags are explicit authorization, not a guarantee that an action is harmless. Use disposable test data and staging credentials.
+
+Recorded password-like inputs are replaced by environment-variable references and rrweb runs with all input masking enabled. Playwright auth-state files contain sensitive cookies and may grant account access; keep them under the ignored `.realdone/` directory, never commit them, and rotate staging credentials after suspected exposure.

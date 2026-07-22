@@ -1,6 +1,6 @@
 {
   "name": "realdone",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Behavioral verification for AI-built web applications",
   "type": "module",
   "bin": {
@@ -43,6 +43,7 @@
   "dependencies": {
     "commander": "^14.0.2",
     "playwright": "^1.61.1",
+    "rrweb": "2.1.0",
     "zod": "4.4.3"
   },
   "devDependencies": {

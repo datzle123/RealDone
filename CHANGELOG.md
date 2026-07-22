@@ -4,6 +4,19 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-07-22
+
+### Added
+
+- Headed `record` workflow for navigation, click, fill, check, and select interactions.
+- Masked rrweb session evidence batched locally instead of streamed event-by-event.
+- Versioned, Zod-validated behavior contract schema with weighted semantic fingerprints.
+- Automatic write-request, response-status, URL, and visible-status expectations.
+- Password/secret redaction through explicit environment-variable references.
+- Optional Playwright auth-state capture and deterministic `verify` command.
+- Per-step verification JSON/HTML report with fail-closed execution and locator diagnostics.
+- Recorded-flow safety enforcement for production-like, destructive, and external actions.
+
 ## [0.2.0] - 2026-07-22
 
 ### Added
