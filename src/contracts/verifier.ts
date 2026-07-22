@@ -2,10 +2,13 @@ import { randomBytes } from "node:crypto";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import type { Locator, Page } from "playwright";
+import { createPostgresAdapterFromFile, type PostgresSourceAdapter } from "../adapters/postgres/index.js";
 import { attachEvidence, type EvidenceSink } from "../browser/evidence.js";
 import { resolveSemanticLocator } from "../browser/locator.js";
 import { launchChromium } from "../browser/runtime.js";
+import { createContractCleanupLedger, writeCleanupLedger } from "../cleanup/ledger.js";
 import { classifyAction } from "../core/classify.js";
+import { redactText } from "../core/redact.js";
 import { actionSkipReason } from "../core/safety.js";
 import type { NetworkEvidence } from "../types.js";
 import { loadBehaviorContract, type BehaviorStep, type ContractExpectation, type ContractVerification, type StepVerification } from "./schema.js";
@@ -23,6 +26,7 @@ export interface VerifyContractOptions {
   allowHosts: string[];
   executablePath?: string;
   storageStatePath?: string;
+  postgresConfigPath?: string;
 }
 
 export interface VerifyContractResult {
@@ -86,29 +90,75 @@ function networkMatches(network: NetworkEvidence[], expectation: Extract<Contrac
   });
 }
 
+function redactSourceExpectation(
+  expectation: Extract<ContractExpectation, { type: "source" }>,
+): Extract<ContractExpectation, { type: "source" }> {
+  return {
+    ...expectation,
+    filters: expectation.filters.map((filter) =>
+      "env" in filter ? filter : { field: filter.field, value: "[REDACTED]" },
+    ),
+  };
+}
+
 async function verifyExpectation(
   page: Page,
   expectation: ContractExpectation,
   network: NetworkEvidence[],
-): Promise<{ passed: boolean; detail: string }> {
+  postgres?: PostgresSourceAdapter,
+): Promise<StepVerification["assertions"][number]> {
   switch (expectation.type) {
     case "request": {
       const passed = networkMatches(network, expectation);
-      return { passed, detail: `${expectation.method} ${expectation.urlPattern}${expectation.status ? ` → ${expectation.status}` : ""}` };
+      return {
+        expectation,
+        passed,
+        detail: `${expectation.method} ${expectation.urlPattern}${expectation.status ? ` → ${expectation.status}` : ""}`,
+        evidenceLevel: expectation.status === undefined ? 2 : 3,
+      };
     }
     case "url": {
       const pathname = new URL(page.url()).pathname;
       const passed = new RegExp(expectation.pattern).test(pathname);
-      return { passed, detail: `URL ${pathname} matches ${expectation.pattern}` };
+      return { expectation, passed, detail: `URL ${pathname} matches ${expectation.pattern}`, evidenceLevel: 1 };
     }
     case "text": {
       const passed = await page.getByText(expectation.value, { exact: true }).last().isVisible().catch(() => false);
-      return { passed, detail: `Visible text: ${expectation.value}` };
+      return { expectation, passed, detail: `Visible text: ${expectation.value}`, evidenceLevel: 1 };
     }
     case "persistence": {
       await page.reload({ waitUntil: "domcontentloaded" });
       const passed = await page.getByText(expectation.value, { exact: false }).last().isVisible().catch(() => false);
-      return { passed, detail: `Text persisted after reload: ${expectation.value}` };
+      return { expectation, passed, detail: `Text persisted after reload: ${expectation.value}`, evidenceLevel: 5 };
+    }
+    case "source": {
+      const reportExpectation = redactSourceExpectation(expectation);
+      if (!postgres) {
+        return {
+          expectation: reportExpectation,
+          passed: false,
+          detail: "PostgreSQL source expectation requires --postgres-config.",
+          evidenceLevel: 6,
+        };
+      }
+      try {
+        const sourceEvidence = await postgres.verify(expectation);
+        const maximum = expectation.maxMatches === undefined ? "" : `, maximum ${expectation.maxMatches}`;
+        return {
+          expectation: reportExpectation,
+          passed: sourceEvidence.passed,
+          detail: `PostgreSQL ${expectation.resource}: ${sourceEvidence.matchedRows} row(s), expected ${expectation.state}${maximum}`,
+          evidenceLevel: 6,
+          sourceEvidence,
+        };
+      } catch (error) {
+        return {
+          expectation: reportExpectation,
+          passed: false,
+          detail: `PostgreSQL source check failed: ${redactText(error instanceof Error ? error.message : String(error))}`,
+          evidenceLevel: 6,
+        };
+      }
     }
   }
 }
@@ -126,6 +176,10 @@ export async function verifyContract(
     ? path.resolve(path.dirname(absoluteContract), contract.authState.path)
     : undefined;
   const storageStatePath = options.storageStatePath ?? contractStorage;
+  const needsPostgres = contract.steps.some((step) => step.expected.some((expectation) => expectation.type === "source"));
+  const postgres = needsPostgres && options.postgresConfigPath
+    ? await createPostgresAdapterFromFile(options.postgresConfigPath)
+    : undefined;
   const browser = await launchChromium({
     headed: options.headed,
     ...(options.executablePath ? { executablePath: options.executablePath } : {}),
@@ -175,10 +229,9 @@ export async function verifyContract(
         await page.waitForLoadState("domcontentloaded", { timeout: Math.min(options.timeoutMs, 3_000) }).catch(() => undefined);
         await page.waitForTimeout(options.settleMs);
         await attached.flush();
-        const assertions = [];
+        const assertions: StepVerification["assertions"] = [];
         for (const expectation of step.expected) {
-          const outcome = await verifyExpectation(page, expectation, sink.network);
-          assertions.push({ expectation, ...outcome });
+          assertions.push(await verifyExpectation(page, expectation, sink.network, postgres));
         }
         const passed = assertions.every((assertion) => assertion.passed) && sink.pageErrors.length === 0;
         results.push({
@@ -210,6 +263,7 @@ export async function verifyContract(
   } finally {
     await context.close();
     await browser.close();
+    await postgres?.close();
   }
   const verification: ContractVerification = {
     schemaVersion: "1.0",
@@ -224,6 +278,7 @@ export async function verifyContract(
   await Promise.all([
     writeFile(path.join(outputDirectory, "verification.json"), `${JSON.stringify(verification, null, 2)}\n`),
     writeFile(path.join(outputDirectory, "report.html"), renderContractVerification(verification)),
+    writeCleanupLedger(outputDirectory, createContractCleanupLedger(contract, id)),
   ]);
   return { verification, outputDirectory, exitCode: verification.passed ? 0 : 1 };
 }

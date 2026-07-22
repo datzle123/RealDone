@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "1.0",
+  "adapter": "postgresql",
+  "connectionEnv": "REALDONE_DATABASE_URL",
+  "tls": {
+    "mode": "verify-full",
+    "caEnv": "REALDONE_DATABASE_CA"
+  },
+  "connectionTimeoutMs": 5000,
+  "statementTimeoutMs": 5000,
+  "allowCleanup": false,
+  "resources": {
+    "customers": {
+      "schema": "public",
+      "table": "customers",
+      "columns": {
+        "id": "id",
+        "email": "email",
+        "name": "display_name"
+      },
+      "cleanupKey": ["id"],
+      "cleanupMaxRows": 1
+    }
+  }
+}

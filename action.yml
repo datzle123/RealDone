@@ -34,6 +34,10 @@ inputs:
     description: Explicit staging hostname for mutations
     required: false
     default: ""
+  postgres-config:
+    description: Optional PostgreSQL adapter config path for Level 6 assertions
+    required: false
+    default: ""
 
 runs:
   using: composite
@@ -57,10 +61,12 @@ runs:
         RD_OUTPUT: ${{ inputs.output }}
         RD_WORKING_DIRECTORY: ${{ inputs.working-directory }}
         RD_ALLOW_HOST: ${{ inputs.allow-host }}
+        RD_POSTGRES_CONFIG: ${{ inputs.postgres-config }}
       run: |
         cd "$GITHUB_WORKSPACE/$RD_WORKING_DIRECTORY"
         args=(ci --baseline "$RD_BASELINE" --contracts "$RD_CONTRACTS" --output "$RD_OUTPUT")
         if [[ -n "$RD_ALLOW_HOST" ]]; then args+=(--allow-host "$RD_ALLOW_HOST"); fi
+        if [[ -n "$RD_POSTGRES_CONFIG" ]]; then args+=(--postgres-config "$RD_POSTGRES_CONFIG"); fi
         while IFS= read -r changed; do
           if [[ -n "$changed" ]]; then args+=(--changed-file "$changed"); fi
         done <<< "$RD_CHANGED_FILES"

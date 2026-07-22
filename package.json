@@ -1,6 +1,6 @@
 {
   "name": "realdone",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Behavioral verification for AI-built web applications",
   "type": "module",
   "bin": {
@@ -18,7 +18,9 @@
     "smoke": "pnpm build && node test/smoke.mjs",
     "check": "pnpm typecheck && pnpm test && pnpm build",
     "fixture": "node benchmarks/fixture-app/server.mjs",
-    "capture-report": "node scripts/capture-report.mjs"
+    "capture-report": "node scripts/capture-report.mjs",
+    "postgres:up": "docker compose -f benchmarks/postgres/docker-compose.yml up -d --wait",
+    "test:postgres": "node --import tsx --test test/postgres.integration.test.ts"
   },
   "keywords": [
     "playwright",
@@ -49,7 +51,11 @@
   },
   "devDependencies": {
     "@types/node": "^24.10.0",
+    "@types/pg": "8.20.0",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3"
+  },
+  "optionalDependencies": {
+    "pg": "8.22.0"
   }
 }

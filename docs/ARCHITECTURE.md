@@ -55,3 +55,9 @@ rrweb supplies masked raw session evidence only. RealDone separately records a c
 ### Baseline boundary
 
 The baseline stores canonical contract hashes and compact pass/fail assertion outcomes, not browser traces or credentials. The regression gate verifies current behavior first, then uses a structured manifest delta to explain contract changes. A changed contract is not automatically a regression; pass-to-fail and missing passing contracts are.
+
+### Source-of-truth boundary
+
+The first `SourceOfTruthAdapter` implementation targets PostgreSQL and is loaded only when a contract contains a `source` expectation and verification receives `--postgres-config`. Credentials and CA material come from named environment variables and never enter contracts, manifests, ledgers, or reports. Read-back runs in a `READ ONLY` transaction. Dynamic values use PostgreSQL parameters; identifiers can only come from validated resource mappings.
+
+Database cleanup is a separate read-write transaction and is intentionally harder to enable than verification. It requires `--confirm`, `--confirm-database`, `allowCleanup: true`, and the exact configured cleanup-key fields. A zero-row delete is successful so rerunning cleanup remains idempotent.

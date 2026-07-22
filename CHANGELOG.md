@@ -4,6 +4,17 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-07-22
+
+### Added
+
+- Optional node-postgres adapter for Level 6 source-of-truth assertions in behavior contracts.
+- Read-only verification transactions, parameterized filter values, and allowlisted schema/table/column mappings.
+- Exact present/absent and maximum-match checks with value-free source evidence in JSON/HTML reports.
+- TLS modes, environment-only credentials and CA material, bounded connection/statement timeouts, and database-error redaction.
+- PostgreSQL cleanup targets in verification ledgers with explicit CLI, config, and key-field gates.
+- PostgreSQL 17 Docker fixture plus unit, injection, failure-mode, cleanup, and CI integration coverage.
+
 ## [0.4.0] - 2026-07-22
 
 ### Added

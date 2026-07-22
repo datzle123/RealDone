@@ -42,12 +42,27 @@ export {
   type RegressionReport,
 } from "./baseline/regression.js";
 export { exportPlaywrightTest, renderPlaywrightTest } from "./export/playwright.js";
+export {
+  PostgresSourceAdapter,
+  compilePostgresTarget,
+  createPostgresAdapterFromFile,
+  type CompiledPostgresTarget,
+} from "./adapters/postgres/index.js";
+export {
+  assertSafeIdentifier,
+  loadPostgresAdapterConfig,
+  postgresAdapterConfigSchema,
+  type PostgresAdapterConfig,
+  type PostgresResourceConfig,
+} from "./adapters/postgres/config.js";
+export type * from "./adapters/types.js";
 export { detect, findingFromEvidence } from "./detectors/index.js";
 export { classifyAction } from "./core/classify.js";
 export { loadActionPolicy, applyActionPolicy } from "./core/policy.js";
 export { validateTarget, isMutationHostAllowed } from "./core/safety.js";
 export {
   createCleanupLedger,
+  createContractCleanupLedger,
   readCleanupLedger,
   runCleanup,
   type CleanupLedger,

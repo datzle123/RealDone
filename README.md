@@ -121,6 +121,7 @@ realdone cleanup --report-dir <scan-directory> [--confirm]
 realdone benchmark <url> --expected <expectations.json> [--verify-replays]
 realdone record <url> --name "Create customer"
 realdone verify .realdone/flows/create-customer.json
+realdone verify .realdone/flows/create-customer.json --postgres-config .realdone/postgres.json
 realdone baseline .realdone/flows --out .realdone/baseline.json
 realdone ci --baseline .realdone/baseline.json --contracts .realdone/flows
 realdone export-playwright <contract.json> --out tests/flow.spec.ts
@@ -181,13 +182,19 @@ See [Behavior contracts](docs/CONTRACTS.md) for editing assertions, secret handl
 
 ```yaml
 - uses: actions/checkout@v6
-- uses: datzle123/RealDone@v0.4.0
+- uses: datzle123/RealDone@v0.5.0
   with:
     baseline: .realdone/baseline.json
     contracts: .realdone/flows
 ```
 
 RealDone writes a concise contract table to GitHub Step Summary. See [Baseline and CI](docs/CI.md) for changed-file selection, source scopes, and Playwright export.
+
+## PostgreSQL source-of-truth evidence
+
+Recorded contracts can add an optional `source` assertion that confirms a canary directly in PostgreSQL. Verification uses a read-only transaction, parameterized values, allowlisted identifiers, bounded timeouts, environment-only credentials, and explicit TLS policy. A passing source assertion is reported as Level 6 evidence.
+
+Database cleanup is recorded in the same local ledger but requires separate CLI and config confirmation plus an allowlisted key. See [PostgreSQL source verification](docs/POSTGRESQL.md).
 
 ## Public benchmark fixtures
 
@@ -207,7 +214,7 @@ Run the full browser smoke test with `pnpm smoke`. It also verifies selector sur
 - ✅ **v0.2 Reliability** — semantic fingerprints, cleanup ledger, retry/policy/budget, precision/recall harness.
 - ✅ **v0.3 Flow recorder** — recorded flows, behavior contracts, auth state, deterministic replay.
 - ✅ **v0.4 Baseline + CI** — behavior diff, regression gate, GitHub Action, Playwright export.
-- **v0.5 PostgreSQL adapter** — source-of-truth verification and cleanup.
+- ✅ **v0.5 PostgreSQL adapter** — source-of-truth verification and transaction-aware cleanup.
 - **v0.6 Agent verification** — Codex/Claude adapters, affected-flow selection, fix prompts.
 - **v1.0 Advanced verification** — multi-role, providers, multi-browser, plugin SDK, hardening.
 

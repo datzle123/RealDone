@@ -1,5 +1,6 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { z } from "zod";
+import type { SourceCleanupTarget, SourceEvidence, SourceExpectation } from "../adapters/types.js";
 import type { LocatorResolution, SemanticFingerprint } from "../types.js";
 
 export type ContractStepType = "navigate" | "click" | "fill" | "check" | "select";
@@ -8,7 +9,12 @@ export type ContractExpectation =
   | { type: "request"; method: string; urlPattern: string; status?: number }
   | { type: "url"; pattern: string }
   | { type: "text"; value: string }
-  | { type: "persistence"; value: string };
+  | { type: "persistence"; value: string }
+  | SourceExpectation;
+
+export type ContractCleanup =
+  | { type: "ledger" | "request"; value: string }
+  | SourceCleanupTarget;
 
 export interface BehaviorStep {
   id: string;
@@ -34,7 +40,7 @@ export interface BehaviorContract {
   steps: BehaviorStep[];
   authState?: { path: string };
   artifacts?: { rrweb: string; rrwebEventCount: number };
-  cleanup: Array<{ type: "ledger" | "request"; value: string }>;
+  cleanup: ContractCleanup[];
   source: { browser: string; recordedBy: "realdone" };
 }
 
@@ -45,7 +51,13 @@ export interface StepVerification {
   durationMs: number;
   reason: string;
   locatorResolution?: LocatorResolution;
-  assertions: Array<{ expectation: ContractExpectation; passed: boolean; detail: string }>;
+  assertions: Array<{
+    expectation: ContractExpectation;
+    passed: boolean;
+    detail: string;
+    evidenceLevel: number;
+    sourceEvidence?: SourceEvidence;
+  }>;
 }
 
 export interface ContractVerification {
@@ -83,11 +95,37 @@ const fingerprintSchema = z.object({
   candidates: z.array(candidateSchema).optional(),
 });
 
+const sourceScalarSchema = z.union([z.string(), z.number(), z.boolean(), z.null()]);
+
+const sourceFilterSchema = z.union([
+  z.object({ field: z.string().min(1), value: sourceScalarSchema }),
+  z.object({ field: z.string().min(1), env: z.string().regex(/^[A-Z_][A-Z0-9_]*$/) }),
+]);
+
+const sourceExpectationSchema = z.object({
+  type: z.literal("source"),
+  adapter: z.literal("postgresql"),
+  resource: z.string().min(1),
+  filters: z.array(sourceFilterSchema).min(1),
+  state: z.enum(["present", "absent"]),
+  maxMatches: z.number().int().nonnegative().optional(),
+});
+
 const expectationSchema = z.discriminatedUnion("type", [
   z.object({ type: z.literal("request"), method: z.string(), urlPattern: z.string(), status: z.number().int().optional() }),
   z.object({ type: z.literal("url"), pattern: z.string() }),
   z.object({ type: z.literal("text"), value: z.string() }),
   z.object({ type: z.literal("persistence"), value: z.string() }),
+  sourceExpectationSchema,
+]);
+
+const cleanupSchema = z.union([
+  z.object({ type: z.enum(["ledger", "request"]), value: z.string() }),
+  z.object({
+    adapter: z.literal("postgresql"),
+    resource: z.string().min(1),
+    filters: z.array(sourceFilterSchema).min(1),
+  }),
 ]);
 
 const stepSchema = z.object({
@@ -114,7 +152,7 @@ export const behaviorContractSchema = z.object({
   steps: z.array(stepSchema).min(1),
   authState: z.object({ path: z.string() }).optional(),
   artifacts: z.object({ rrweb: z.string(), rrwebEventCount: z.number().int().nonnegative() }).optional(),
-  cleanup: z.array(z.object({ type: z.enum(["ledger", "request"]), value: z.string() })).default([]),
+  cleanup: z.array(cleanupSchema).default([]),
   source: z.object({ browser: z.string(), recordedBy: z.literal("realdone") }),
 });
 

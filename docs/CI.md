@@ -42,14 +42,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: datzle123/RealDone@v0.4.0
+      - uses: datzle123/RealDone@v0.5.0
         with:
           baseline: .realdone/baseline.json
           contracts: .realdone/flows
           allow-host: staging.example.test
+          postgres-config: .realdone/postgres.json
 ```
 
-When `GITHUB_STEP_SUMMARY` is available, RealDone writes a compact contract/result table to the pull request job summary.
+Provide the PostgreSQL connection URL and optional CA as masked workflow environment secrets named by the adapter config. The action input contains only the config path. When `GITHUB_STEP_SUMMARY` is available, RealDone writes a compact contract/result table to the pull request job summary.
 
 ## Playwright export
 
@@ -58,4 +59,4 @@ realdone export-playwright .realdone/flows/create-customer.json \
   --out tests/create-customer.spec.ts
 ```
 
-Exported tests use user-facing locators where possible and preserve request/status, URL, text, persistence, and secret-environment expectations.
+Exported tests use user-facing locators where possible and preserve request/status, URL, text, persistence, and secret-environment expectations. Level 6 source assertions remain in the RealDone contract and are emitted as comments because a plain Playwright test has no source-adapter policy.

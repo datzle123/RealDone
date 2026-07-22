@@ -44,6 +44,9 @@ function assertionLines(step: BehaviorStep): string[] {
         `  await expect(page.getByText(${literal(expectation.value)}, { exact: false }).last()).toBeVisible();`,
       ];
     }
+    if (expectation.type === "source") {
+      return [`  // Level 6 PostgreSQL assertion remains in the RealDone contract (${expectation.resource}).`];
+    }
     return [];
   });
 }

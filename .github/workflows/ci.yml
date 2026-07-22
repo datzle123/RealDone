@@ -12,6 +12,22 @@ jobs:
   check:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    env:
+      REALDONE_POSTGRES_TEST_URL: postgres://realdone:realdone@127.0.0.1:5432/realdone
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: realdone
+          POSTGRES_USER: realdone
+          POSTGRES_PASSWORD: realdone
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U realdone -d realdone"
+          --health-interval 2s
+          --health-timeout 3s
+          --health-retries 15
     steps:
       - uses: actions/checkout@v6
       - uses: pnpm/action-setup@v6

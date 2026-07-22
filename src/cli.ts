@@ -67,7 +67,7 @@ const program = new Command();
 program
   .name("realdone")
   .description("Behavioral verification for AI-built web applications")
-  .version("0.4.0")
+  .version("0.5.0")
   .showHelpAfterError();
 
 program
@@ -123,15 +123,22 @@ program
   .option("--allow-host <hostname>", "explicitly allow cleanup on a staging host", collect, [])
   .option("--retries <number>", "retries for transient cleanup failures", nonNegativeInteger, 2)
   .option("--storage-state <file>", "Playwright storage state for authenticated DELETE requests")
+  .option("--postgres-config <file>", "PostgreSQL source adapter config")
+  .option("--confirm-database", "allow transaction-protected PostgreSQL ledger cleanup", false)
   .action(async (values: Record<string, unknown>) => {
     const result = await runCleanup(path.resolve(String(values.reportDir)), {
       confirm: Boolean(values.confirm),
       allowHosts: values.allowHost as string[],
       retries: Number(values.retries),
       ...(values.storageState ? { storageStatePath: path.resolve(String(values.storageState)) } : {}),
+      ...(values.postgresConfig ? { postgresConfigPath: path.resolve(String(values.postgresConfig)) } : {}),
+      confirmDatabase: Boolean(values.confirmDatabase),
     });
     process.stdout.write(`Cleanup ledger\n\ncleaned: ${result.cleaned}\nfailed: ${result.failed}\nmanual: ${result.manual}\npending: ${result.pending}\n`);
-    if (!values.confirm && result.pending > 0) process.stdout.write("\nDry run only. Re-run with --confirm to execute safe cleanup URLs.\n");
+    if (!values.confirm && result.pending > 0) process.stdout.write("\nDry run only. Re-run with --confirm to execute safe cleanup targets.\n");
+    if (values.confirm && !values.confirmDatabase && result.ledger.resources.some((resource) => resource.strategy === "postgresql" && resource.status === "pending")) {
+      process.stdout.write("\nPostgreSQL targets remain pending. Database cleanup also requires --confirm-database and --postgres-config.\n");
+    }
     if (result.failed > 0) process.exitCode = 1;
   });
 
@@ -186,6 +193,7 @@ program
   .option("--allow-host <hostname>", "allow recorded mutations on staging", collect, [])
   .option("--storage-state <file>", "override contract auth state")
   .option("--browser-path <file>", "existing Chromium/Chrome executable")
+  .option("--postgres-config <file>", "PostgreSQL source adapter config for Level 6 assertions")
   .action(async (contract: string, values: Record<string, unknown>) => {
     const result = await verifyContract(path.resolve(contract), {
       outputRoot: path.resolve(String(values.output)),
@@ -199,6 +207,7 @@ program
       allowHosts: values.allowHost as string[],
       ...(values.storageState ? { storageStatePath: path.resolve(String(values.storageState)) } : {}),
       ...(values.browserPath ? { executablePath: path.resolve(String(values.browserPath)) } : {}),
+      ...(values.postgresConfig ? { postgresConfigPath: path.resolve(String(values.postgresConfig)) } : {}),
     });
     process.stdout.write(`\n${result.verification.passed ? "VERIFIED" : "REGRESSION"}: ${result.verification.contractName}\nReport: ${path.join(result.outputDirectory, "report.html")}\n`);
     process.exitCode = result.exitCode;
@@ -278,6 +287,7 @@ program
   .option("--allow-host <hostname>", "allow recorded mutations on staging", collect, [])
   .option("--storage-state <file>", "override contract auth state")
   .option("--browser-path <file>", "existing Chromium/Chrome executable")
+  .option("--postgres-config <file>", "PostgreSQL source adapter config for Level 6 assertions")
   .action(async (contracts: string[], values: Record<string, unknown>) => {
     const output = path.resolve(String(values.out));
     const manifest = await captureBaseline(
@@ -295,6 +305,7 @@ program
         allowHosts: values.allowHost as string[],
         ...(values.storageState ? { storageStatePath: path.resolve(String(values.storageState)) } : {}),
         ...(values.browserPath ? { executablePath: path.resolve(String(values.browserPath)) } : {}),
+        ...(values.postgresConfig ? { postgresConfigPath: path.resolve(String(values.postgresConfig)) } : {}),
       },
       Boolean(values.verify),
     );
@@ -319,6 +330,7 @@ program
   .option("--allow-host <hostname>", "allow recorded mutations on staging", collect, [])
   .option("--storage-state <file>", "override contract auth state")
   .option("--browser-path <file>", "existing Chromium/Chrome executable")
+  .option("--postgres-config <file>", "PostgreSQL source adapter config for Level 6 assertions")
   .action(async (values: Record<string, unknown>) => {
     const result = await runRegressionGate({
       baselineFile: path.resolve(String(values.baseline)),
@@ -337,6 +349,7 @@ program
         allowHosts: values.allowHost as string[],
         ...(values.storageState ? { storageStatePath: path.resolve(String(values.storageState)) } : {}),
         ...(values.browserPath ? { executablePath: path.resolve(String(values.browserPath)) } : {}),
+        ...(values.postgresConfig ? { postgresConfigPath: path.resolve(String(values.postgresConfig)) } : {}),
       },
     });
     process.stdout.write(`\nREALDONE CI\n\nselected: ${result.report.selectedContracts}\nregressions: ${result.report.regressions}\nexpected changes: ${result.report.expectedChanges}\nReport: ${path.join(result.outputDirectory, "summary.md")}\n`);

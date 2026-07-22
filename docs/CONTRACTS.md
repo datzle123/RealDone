@@ -48,6 +48,21 @@ Contracts may also include explicit persistence expectations that reload the pag
 }
 ```
 
+For Level 6 evidence, add a PostgreSQL source expectation. Resource and field names are aliases from the adapter config; the contract cannot supply raw SQL identifiers.
+
+```json
+{
+  "type": "source",
+  "adapter": "postgresql",
+  "resource": "customers",
+  "filters": [{ "field": "email", "value": "rd-test@example.test" }],
+  "state": "present",
+  "maxMatches": 1
+}
+```
+
+Source filter values may use `{ "field": "id", "env": "RD_CUSTOMER_ID" }` when a value must not be stored. See [PostgreSQL source verification](POSTGRESQL.md) for the config, TLS, and cleanup gates.
+
 ## Secrets
 
 Password-like fields never store their value. The contract contains `secretEnv`, for example `REALDONE_PASSWORD`. Set it only for the verification process:
@@ -59,7 +74,8 @@ REALDONE_PASSWORD="..." realdone verify .realdone/flows/login.json
 ## Verify
 
 ```bash
-realdone verify .realdone/flows/create-customer.json
+realdone verify .realdone/flows/create-customer.json \
+  --postgres-config .realdone/postgres.json
 ```
 
 Verification stops after the first failed step unless `--continue` is supplied. Production-like mutation hosts require `--allow-host`; destructive and external actions require `--allow-destructive` or `--allow-external` respectively.
