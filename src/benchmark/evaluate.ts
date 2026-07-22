@@ -4,6 +4,7 @@ import { z } from "zod";
 import { runReplay } from "../replay.js";
 import { runScan, type ScanProgress, type ScanResult } from "../scan.js";
 import type { Finding, ScanOptions, ScanReport, Verdict } from "../types.js";
+import { renderBenchmarkDashboard, renderBenchmarkMarkdown } from "./dashboard.js";
 
 const expectationSchema = z.object({
   schemaVersion: z.literal("1.0"),
@@ -182,9 +183,10 @@ export async function runBenchmark(
     metrics.reproductionsAttempted = candidates.length;
     metrics.reproductionSuccessRate = candidates.length === 0 ? 1 : successes / candidates.length;
   }
-  await writeFile(
-    path.join(scanResult.reportDirectory, "benchmark.json"),
-    `${JSON.stringify(metrics, null, 2)}\n`,
-  );
+  await Promise.all([
+    writeFile(path.join(scanResult.reportDirectory, "benchmark.json"), `${JSON.stringify(metrics, null, 2)}\n`),
+    writeFile(path.join(scanResult.reportDirectory, "benchmark.html"), renderBenchmarkDashboard(metrics)),
+    writeFile(path.join(scanResult.reportDirectory, "benchmark.md"), renderBenchmarkMarkdown(metrics)),
+  ]);
   return { ...scanResult, metrics };
 }

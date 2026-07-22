@@ -2,7 +2,7 @@
 
 ## Supported versions
 
-Until the `v1.0.0` release, security fixes are applied to the latest release line.
+Security fixes are applied to the latest `1.x` release line.
 
 ## Reporting a vulnerability
 
@@ -19,3 +19,5 @@ Recorded password-like inputs are replaced by environment-variable references an
 PostgreSQL credentials and CA material must be provided through the environment names referenced by the adapter config. Prefer a dedicated least-privilege read-only role. Source verification also opens a read-only transaction. Database cleanup is a separate opt-in path requiring CLI confirmation, config permission, exact allowlisted key fields, and a maximum-row rollback guard; use it only against disposable local or staging data.
 
 Agent verification executes a real coding agent and rebuild command in the selected Git worktree. It refuses pre-existing changes by default, uses argument-array process spawning instead of a shell, bounds execution time and captured output, and redacts known/environment-provided secrets from logs. Use a disposable branch or worktree, least-privilege agent credentials, and review local `.realdone/agent-runs` logs before sharing them; arbitrary application output can still be sensitive.
+
+Provider plugins are trusted executable code. Worker threads bound a call's time and memory but are not a security sandbox; a plugin retains the process's filesystem, environment, and network authority. Install only reviewed plugins and use least-privilege sandbox credentials. The complete boundary analysis is in the [threat model](docs/THREAT_MODEL.md).

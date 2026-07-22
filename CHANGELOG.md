@@ -4,6 +4,23 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-07-22
+
+### Added
+
+- Named-role behavior contracts with separate authenticated browser contexts and Level 7 cross-role confirmation.
+- Chromium, Firefox, and WebKit verification plus the `matrix` command and JSON/Markdown/HTML matrix evidence.
+- Stable Plugin SDK v1 for trusted payment-sandbox, test-inbox, and object-storage provider checks.
+- Worker-per-call plugin execution with manifest validation, deadlines, memory limits, evidence validation, and secret redaction.
+- Explicit verification performance budgets covering total duration, slowest step, and memory growth.
+- Benchmark Markdown and HTML dashboards alongside the machine-readable metrics.
+- Threat model, advanced verification, plugin, performance, and release compatibility documentation.
+
+### Changed
+
+- Release CI now gates PostgreSQL 17, all three browser engines, dependency audit, package creation, and Node 20/22 builds on Ubuntu, Windows, and macOS.
+- GitHub Action inputs expose browser, role-state, provider-plugin, and performance-budget verification controls.
+
 ## [0.6.0] - 2026-07-22
 
 ### Added

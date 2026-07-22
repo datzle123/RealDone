@@ -1,4 +1,11 @@
 export { runScan, type ScanProgress, type ScanResult } from "./scan.js";
+export { launchBrowser, launchChromium, type BrowserName, type BrowserRuntimeOptions } from "./browser/runtime.js";
+export {
+  runBrowserMatrix,
+  type BrowserMatrixEntry,
+  type BrowserMatrixReport,
+  type BrowserMatrixResult,
+} from "./browser/matrix.js";
 export { runReplay, type ReplayOptions } from "./replay.js";
 export { recordFlow, type RecordOptions, type RecordResult } from "./record/recorder.js";
 export {
@@ -6,9 +13,11 @@ export {
   loadBehaviorContract,
   writeBehaviorContract,
   type BehaviorContract,
+  type BehaviorRole,
   type BehaviorStep,
   type ContractExpectation,
   type ContractVerification,
+  type CrossRoleExpectation,
   type StepVerification,
 } from "./contracts/schema.js";
 export {
@@ -42,6 +51,24 @@ export {
   type RegressionReport,
 } from "./baseline/regression.js";
 export { exportPlaywrightTest, renderPlaywrightTest } from "./export/playwright.js";
+export { definePlugin, type RealDonePlugin } from "./plugins/sdk.js";
+export { PluginHost } from "./plugins/host.js";
+export {
+  loadPluginManifest,
+  pluginManifestSchema,
+  type PluginManifest,
+  type ResolvedPluginManifest,
+} from "./plugins/schema.js";
+export type * from "./providers/types.js";
+export {
+  evaluatePerformance,
+  loadPerformanceBudget,
+  performanceBudgetSchema,
+  type PerformanceBudget,
+  type PerformanceEvaluation,
+  type PerformanceMeasurement,
+} from "./performance/budget.js";
+export { renderBenchmarkDashboard, renderBenchmarkMarkdown } from "./benchmark/dashboard.js";
 export { runCommand, commandPassed, type CommandResult, type CommandSpec } from "./agent/command.js";
 export { createAgentCommand, parseAgentPreset, type AgentPreset, type AgentCommandOptions } from "./agent/presets.js";
 export { renderFollowUpPrompt, type FollowUpInput } from "./agent/followup.js";

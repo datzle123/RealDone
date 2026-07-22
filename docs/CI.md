@@ -42,15 +42,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: datzle123/RealDone@v0.6.0
+      - uses: datzle123/RealDone@v1.0.0
         with:
           baseline: .realdone/baseline.json
           contracts: .realdone/flows
           allow-host: staging.example.test
           postgres-config: .realdone/postgres.json
+          browser: chromium
+          role-states: |
+            support=.realdone/auth/support.json
+          plugins: |
+            .realdone/plugins/test-inbox/realdone.plugin.json
+          performance-budget: .realdone/performance.json
 ```
 
 Provide the PostgreSQL connection URL and optional CA as masked workflow environment secrets named by the adapter config. The action input contains only the config path. When `GITHUB_STEP_SUMMARY` is available, RealDone writes a compact contract/result table to the pull request job summary.
+
+The action accepts one `browser` per job (`chromium`, `firefox`, or `webkit`). Use a job matrix when every engine must gate a pull request. `role-states` and `plugins` are newline-separated; secret values remain in environment variables or Playwright auth-state files rather than action inputs. Set `install-browser: "false"` only when the selected Playwright browser is already installed.
 
 ## Playwright export
 

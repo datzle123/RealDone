@@ -27,15 +27,39 @@ inputs:
     required: false
     default: .
   install-browser:
-    description: Install Chromium and OS dependencies
+    description: Install the selected Playwright browser and OS dependencies
     required: false
     default: "true"
+  browser:
+    description: Browser engine used for verification (chromium, firefox, or webkit)
+    required: false
+    default: chromium
   allow-host:
     description: Explicit staging hostname for mutations
     required: false
     default: ""
   postgres-config:
     description: Optional PostgreSQL adapter config path for Level 6 assertions
+    required: false
+    default: ""
+  role-states:
+    description: Newline-separated role=storage-state-file overrides
+    required: false
+    default: ""
+  plugins:
+    description: Newline-separated provider plugin manifest paths
+    required: false
+    default: ""
+  plugin-timeout:
+    description: Per-plugin verification timeout in milliseconds
+    required: false
+    default: "5000"
+  plugin-memory:
+    description: Per-plugin worker memory limit in megabytes
+    required: false
+    default: "64"
+  performance-budget:
+    description: Optional verification performance budget JSON path
     required: false
     default: ""
 
@@ -48,10 +72,17 @@ runs:
         corepack enable
         corepack pnpm --dir "$GITHUB_ACTION_PATH" install --frozen-lockfile
         corepack pnpm --dir "$GITHUB_ACTION_PATH" build
-    - name: Install Chromium
+    - name: Install selected browser
       if: inputs.install-browser == 'true'
       shell: bash
-      run: corepack pnpm --dir "$GITHUB_ACTION_PATH" exec playwright install --with-deps chromium
+      env:
+        RD_BROWSER: ${{ inputs.browser }}
+      run: |
+        case "$RD_BROWSER" in
+          chromium|firefox|webkit) ;;
+          *) echo "Unsupported RealDone browser: $RD_BROWSER" >&2; exit 2 ;;
+        esac
+        corepack pnpm --dir "$GITHUB_ACTION_PATH" exec playwright install --with-deps "$RD_BROWSER"
     - name: Verify behavior baseline
       shell: bash
       env:
@@ -62,11 +93,26 @@ runs:
         RD_WORKING_DIRECTORY: ${{ inputs.working-directory }}
         RD_ALLOW_HOST: ${{ inputs.allow-host }}
         RD_POSTGRES_CONFIG: ${{ inputs.postgres-config }}
+        RD_BROWSER: ${{ inputs.browser }}
+        RD_ROLE_STATES: ${{ inputs.role-states }}
+        RD_PLUGINS: ${{ inputs.plugins }}
+        RD_PLUGIN_TIMEOUT: ${{ inputs.plugin-timeout }}
+        RD_PLUGIN_MEMORY: ${{ inputs.plugin-memory }}
+        RD_PERFORMANCE_BUDGET: ${{ inputs.performance-budget }}
       run: |
         cd "$GITHUB_WORKSPACE/$RD_WORKING_DIRECTORY"
-        args=(ci --baseline "$RD_BASELINE" --contracts "$RD_CONTRACTS" --output "$RD_OUTPUT")
+        args=(ci --baseline "$RD_BASELINE" --contracts "$RD_CONTRACTS" --output "$RD_OUTPUT" --browser "$RD_BROWSER")
         if [[ -n "$RD_ALLOW_HOST" ]]; then args+=(--allow-host "$RD_ALLOW_HOST"); fi
         if [[ -n "$RD_POSTGRES_CONFIG" ]]; then args+=(--postgres-config "$RD_POSTGRES_CONFIG"); fi
+        if [[ -n "$RD_PERFORMANCE_BUDGET" ]]; then args+=(--performance-budget "$RD_PERFORMANCE_BUDGET"); fi
+        if [[ -n "$RD_PLUGIN_TIMEOUT" ]]; then args+=(--plugin-timeout "$RD_PLUGIN_TIMEOUT"); fi
+        if [[ -n "$RD_PLUGIN_MEMORY" ]]; then args+=(--plugin-memory "$RD_PLUGIN_MEMORY"); fi
+        while IFS= read -r role_state; do
+          if [[ -n "$role_state" ]]; then args+=(--role-state "$role_state"); fi
+        done <<< "$RD_ROLE_STATES"
+        while IFS= read -r plugin; do
+          if [[ -n "$plugin" ]]; then args+=(--plugin "$plugin"); fi
+        done <<< "$RD_PLUGINS"
         while IFS= read -r changed; do
           if [[ -n "$changed" ]]; then args+=(--changed-file "$changed"); fi
         done <<< "$RD_CHANGED_FILES"

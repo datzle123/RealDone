@@ -83,6 +83,8 @@ Acceptance gate:
 
 Goal: support high-value verification without making the default scan heavy.
 
+Status: complete.
+
 Acceptance gate:
 
 - Multi-role contracts and Level 7 cross-user confirmation.

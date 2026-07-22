@@ -8,6 +8,8 @@ import { runBenchmark } from "../dist/benchmark/evaluate.js";
 import { runCleanup } from "../dist/cleanup/ledger.js";
 import { recordFlow } from "../dist/record/recorder.js";
 import { verifyContract } from "../dist/contracts/verifier.js";
+import { writeBehaviorContract } from "../dist/contracts/schema.js";
+import { runBrowserMatrix } from "../dist/browser/matrix.js";
 import { captureBaseline } from "../dist/baseline/manifest.js";
 import { runRegressionGate } from "../dist/baseline/regression.js";
 import { commandPassed, runCommand } from "../dist/agent/command.js";
@@ -100,6 +102,46 @@ try {
   assert.ok(recording.contract.steps.some((step) => step.type === "fill"));
   assert.ok(recording.contract.steps.some((step) => step.type === "click"));
   assert.ok((recording.contract.artifacts?.rrwebEventCount ?? 0) > 0);
+  recording.contract.roles = {
+    observer: { description: "Independent observer", authState: { path: "auth.json" } },
+  };
+  const pluginDirectory = path.join(outputRoot, "plugins", "fixture-storage");
+  await mkdir(pluginDirectory, { recursive: true });
+  const pluginManifest = path.join(pluginDirectory, "realdone.plugin.json");
+  await writeFile(path.join(pluginDirectory, "index.mjs"), `
+    export default {
+      apiVersion: '1.0',
+      name: 'fixture-storage',
+      verifyProvider(expectation) {
+        return { found: expectation.reference.value === 'RECORDED_CUSTOMER', detail: 'fixture object exists' };
+      }
+    };
+  `);
+  await writeFile(pluginManifest, JSON.stringify({
+    apiVersion: "1.0",
+    name: "fixture-storage",
+    version: "1.0.0",
+    entry: "./index.mjs",
+    providers: [{ name: "fixture-storage-provider", kind: "storage" }],
+  }));
+  const recordedClick = recording.contract.steps.find((step) => step.type === "click");
+  assert.ok(recordedClick);
+  recordedClick.expected.push({
+    type: "cross-role",
+    role: "observer",
+    pageUrl: `${fixture.url}/real-create`,
+    assertion: { type: "text", value: "RECORDED_CUSTOMER", state: "visible" },
+  });
+  recordedClick.expected.push({
+    type: "provider",
+    provider: "fixture-storage-provider",
+    kind: "storage",
+    operation: "exists",
+    resource: "customer-object",
+    reference: { value: "RECORDED_CUSTOMER" },
+    state: "confirmed",
+  });
+  await writeBehaviorContract(recording.contractFile, recording.contract);
   const verification = await verifyContract(recording.contractFile, {
     outputRoot: path.join(outputRoot, "verifications"),
     headed: false,
@@ -110,9 +152,14 @@ try {
     allowDestructive: false,
     allowExternal: false,
     allowHosts: [],
+    pluginManifests: [pluginManifest],
+    performanceBudgetFile: path.resolve("examples/realdone.performance.json"),
     ...(process.env.REALDONE_BROWSER_PATH ? { executablePath: process.env.REALDONE_BROWSER_PATH } : {}),
   });
   assert.equal(verification.verification.passed, true);
+  assert.ok(verification.verification.steps.some((step) => step.assertions.some((assertion) => assertion.evidenceLevel === 7 && assertion.passed)));
+  assert.ok(verification.verification.steps.some((step) => step.assertions.some((assertion) => assertion.providerEvidence?.passed)));
+  assert.equal(verification.verification.performance?.passed, true);
   const verifyOptions = {
     outputRoot: path.join(outputRoot, "baseline-runs"),
     headed: false,
@@ -123,6 +170,8 @@ try {
     allowDestructive: false,
     allowExternal: false,
     allowHosts: [],
+    pluginManifests: [pluginManifest],
+    performanceBudgetFile: path.resolve("examples/realdone.performance.json"),
     ...(process.env.REALDONE_BROWSER_PATH ? { executablePath: process.env.REALDONE_BROWSER_PATH } : {}),
   };
   const baselineFile = path.join(outputRoot, "baseline.json");
@@ -168,6 +217,14 @@ try {
   assert.equal(agentGate.report.behaviorPassed, true);
   assert.equal(agentGate.report.changedFiles.length, 0);
   assert.equal(agentGate.report.evidencePolicy, "agent-output-is-not-verification-evidence");
+  if (process.env.REALDONE_BROWSER_MATRIX === "1") {
+    const matrix = await runBrowserMatrix(recording.contractFile, ["chromium", "firefox", "webkit"], {
+      ...verifyOptions,
+      outputRoot: path.join(outputRoot, "matrix"),
+    });
+    assert.equal(matrix.exitCode, 0);
+    assert.deepEqual(matrix.report.entries.map((entry) => entry.browser), ["chromium", "firefox", "webkit"]);
+  }
   await fetch(`${fixture.url}/__control__/break-create`, { method: "POST" });
   const redGate = await runRegressionGate({
     baselineFile,

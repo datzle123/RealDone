@@ -11,9 +11,10 @@ permissions:
 jobs:
   check:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     env:
       REALDONE_POSTGRES_TEST_URL: postgres://realdone:realdone@127.0.0.1:5432/realdone
+      REALDONE_BROWSER_MATRIX: "1"
     services:
       postgres:
         image: postgres:17-alpine
@@ -39,5 +40,37 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm check
-      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm audit --audit-level high
+      - run: pnpm exec playwright install --with-deps chromium firefox webkit
       - run: pnpm smoke
+      - run: pnpm pack --pack-destination .
+
+  compatibility:
+    name: compatibility (${{ matrix.os }}, Node ${{ matrix.node }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            node: 20
+          - os: windows-latest
+            node: 20
+          - os: windows-latest
+            node: 22
+          - os: macos-latest
+            node: 20
+          - os: macos-latest
+            node: 22
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 11.9.0
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node }}
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm check

@@ -4,6 +4,8 @@ import { Command, Option } from "commander";
 import { loadTask, runAgentVerification } from "./agent/pipeline.js";
 import { parseAgentPreset } from "./agent/presets.js";
 import { runBenchmark } from "./benchmark/evaluate.js";
+import { runBrowserMatrix } from "./browser/matrix.js";
+import type { BrowserName } from "./browser/runtime.js";
 import { captureBaseline, loadBehaviorManifest } from "./baseline/manifest.js";
 import { selectAffectedContracts } from "./baseline/affected.js";
 import { runRegressionGate } from "./baseline/regression.js";
@@ -30,6 +32,23 @@ function nonNegativeInteger(value: string): number {
 
 function collect(value: string, previous: string[]): string[] {
   return [...previous, value];
+}
+
+function browserName(value: string): BrowserName {
+  if (value === "chromium" || value === "firefox" || value === "webkit") return value;
+  throw new Error(`Expected chromium, firefox, or webkit; received: ${value}`);
+}
+
+function collectBrowser(value: string, previous: BrowserName[]): BrowserName[] {
+  return [...previous, browserName(value)];
+}
+
+function roleStates(values: string[], baseDirectory = process.cwd()): Record<string, string> {
+  return Object.fromEntries(values.map((value) => {
+    const separator = value.indexOf("=");
+    if (separator <= 0 || separator === value.length - 1) throw new Error(`Expected role=storage-state-file; received: ${value}`);
+    return [value.slice(0, separator), path.resolve(baseDirectory, value.slice(separator + 1))];
+  }));
 }
 
 function progressLine(progress: ScanProgress): void {
@@ -69,7 +88,7 @@ const program = new Command();
 program
   .name("realdone")
   .description("Behavioral verification for AI-built web applications")
-  .version("0.6.0")
+  .version("1.0.0")
   .showHelpAfterError();
 
 program
@@ -195,7 +214,13 @@ program
   .option("--allow-host <hostname>", "allow recorded mutations on staging", collect, [])
   .option("--storage-state <file>", "override contract auth state")
   .option("--browser-path <file>", "existing Chromium/Chrome executable")
+  .option("--browser <name>", "browser engine: chromium, firefox, or webkit", browserName, "chromium")
+  .option("--role-state <role=file>", "override a named role's Playwright storage state", collect, [])
   .option("--postgres-config <file>", "PostgreSQL source adapter config for Level 6 assertions")
+  .option("--plugin <manifest>", "provider plugin manifest; repeat for multiple plugins", collect, [])
+  .option("--plugin-timeout <milliseconds>", "per-plugin verification timeout", positiveInteger, 5_000)
+  .option("--plugin-memory <megabytes>", "per-plugin worker memory limit", positiveInteger, 64)
+  .option("--performance-budget <file>", "verification performance budget JSON")
   .action(async (contract: string, values: Record<string, unknown>) => {
     const result = await verifyContract(path.resolve(contract), {
       outputRoot: path.resolve(String(values.output)),
@@ -207,6 +232,12 @@ program
       allowDestructive: Boolean(values.allowDestructive),
       allowExternal: Boolean(values.allowExternal),
       allowHosts: values.allowHost as string[],
+      browserName: values.browser as BrowserName,
+      roleStorageStates: roleStates(values.roleState as string[]),
+      pluginManifests: (values.plugin as string[]).map((file) => path.resolve(file)),
+      pluginTimeoutMs: Number(values.pluginTimeout),
+      pluginMemoryLimitMb: Number(values.pluginMemory),
+      ...(values.performanceBudget ? { performanceBudgetFile: path.resolve(String(values.performanceBudget)) } : {}),
       ...(values.storageState ? { storageStatePath: path.resolve(String(values.storageState)) } : {}),
       ...(values.browserPath ? { executablePath: path.resolve(String(values.browserPath)) } : {}),
       ...(values.postgresConfig ? { postgresConfigPath: path.resolve(String(values.postgresConfig)) } : {}),
@@ -289,7 +320,13 @@ program
   .option("--allow-host <hostname>", "allow recorded mutations on staging", collect, [])
   .option("--storage-state <file>", "override contract auth state")
   .option("--browser-path <file>", "existing Chromium/Chrome executable")
+  .option("--browser <name>", "browser engine: chromium, firefox, or webkit", browserName, "chromium")
+  .option("--role-state <role=file>", "override a named role's Playwright storage state", collect, [])
   .option("--postgres-config <file>", "PostgreSQL source adapter config for Level 6 assertions")
+  .option("--plugin <manifest>", "provider plugin manifest; repeat for multiple plugins", collect, [])
+  .option("--plugin-timeout <milliseconds>", "per-plugin verification timeout", positiveInteger, 5_000)
+  .option("--plugin-memory <megabytes>", "per-plugin worker memory limit", positiveInteger, 64)
+  .option("--performance-budget <file>", "verification performance budget JSON")
   .action(async (contracts: string[], values: Record<string, unknown>) => {
     const output = path.resolve(String(values.out));
     const manifest = await captureBaseline(
@@ -305,6 +342,12 @@ program
         allowDestructive: Boolean(values.allowDestructive),
         allowExternal: Boolean(values.allowExternal),
         allowHosts: values.allowHost as string[],
+        browserName: values.browser as BrowserName,
+        roleStorageStates: roleStates(values.roleState as string[]),
+        pluginManifests: (values.plugin as string[]).map((file) => path.resolve(file)),
+        pluginTimeoutMs: Number(values.pluginTimeout),
+        pluginMemoryLimitMb: Number(values.pluginMemory),
+        ...(values.performanceBudget ? { performanceBudgetFile: path.resolve(String(values.performanceBudget)) } : {}),
         ...(values.storageState ? { storageStatePath: path.resolve(String(values.storageState)) } : {}),
         ...(values.browserPath ? { executablePath: path.resolve(String(values.browserPath)) } : {}),
         ...(values.postgresConfig ? { postgresConfigPath: path.resolve(String(values.postgresConfig)) } : {}),
@@ -332,7 +375,13 @@ program
   .option("--allow-host <hostname>", "allow recorded mutations on staging", collect, [])
   .option("--storage-state <file>", "override contract auth state")
   .option("--browser-path <file>", "existing Chromium/Chrome executable")
+  .option("--browser <name>", "browser engine: chromium, firefox, or webkit", browserName, "chromium")
+  .option("--role-state <role=file>", "override a named role's Playwright storage state", collect, [])
   .option("--postgres-config <file>", "PostgreSQL source adapter config for Level 6 assertions")
+  .option("--plugin <manifest>", "provider plugin manifest; repeat for multiple plugins", collect, [])
+  .option("--plugin-timeout <milliseconds>", "per-plugin verification timeout", positiveInteger, 5_000)
+  .option("--plugin-memory <megabytes>", "per-plugin worker memory limit", positiveInteger, 64)
+  .option("--performance-budget <file>", "verification performance budget JSON")
   .action(async (values: Record<string, unknown>) => {
     const result = await runRegressionGate({
       baselineFile: path.resolve(String(values.baseline)),
@@ -349,12 +398,70 @@ program
         allowDestructive: Boolean(values.allowDestructive),
         allowExternal: Boolean(values.allowExternal),
         allowHosts: values.allowHost as string[],
+        browserName: values.browser as BrowserName,
+        roleStorageStates: roleStates(values.roleState as string[]),
+        pluginManifests: (values.plugin as string[]).map((file) => path.resolve(file)),
+        pluginTimeoutMs: Number(values.pluginTimeout),
+        pluginMemoryLimitMb: Number(values.pluginMemory),
+        ...(values.performanceBudget ? { performanceBudgetFile: path.resolve(String(values.performanceBudget)) } : {}),
         ...(values.storageState ? { storageStatePath: path.resolve(String(values.storageState)) } : {}),
         ...(values.browserPath ? { executablePath: path.resolve(String(values.browserPath)) } : {}),
         ...(values.postgresConfig ? { postgresConfigPath: path.resolve(String(values.postgresConfig)) } : {}),
       },
     });
     process.stdout.write(`\nREALDONE CI\n\nselected: ${result.report.selectedContracts}\nregressions: ${result.report.regressions}\nexpected changes: ${result.report.expectedChanges}\nReport: ${path.join(result.outputDirectory, "summary.md")}\n`);
+    process.exitCode = result.exitCode;
+  });
+
+program
+  .command("matrix")
+  .description("Verify one behavior contract across Chromium, Firefox, and WebKit")
+  .argument("<contract>", "behavior contract JSON")
+  .option("--browser <name>", "browser to include; repeat to select a subset", collectBrowser, [])
+  .option("--output <directory>", "browser matrix report root", ".realdone/matrix")
+  .option("--headed", "show browsers", false)
+  .option("--timeout <milliseconds>", "step timeout", positiveInteger, 10_000)
+  .option("--settle <milliseconds>", "settle delay", positiveInteger, 500)
+  .option("--retries <number>", "semantic locator retries", nonNegativeInteger, 2)
+  .option("--continue", "continue after a failed step", false)
+  .option("--allow-destructive", "allow recorded destructive actions", false)
+  .option("--allow-external", "allow recorded external effects", false)
+  .option("--allow-host <hostname>", "allow recorded mutations on staging", collect, [])
+  .option("--storage-state <file>", "override default-role auth state")
+  .option("--role-state <role=file>", "override a named role's Playwright storage state", collect, [])
+  .option("--browser-path <file>", "existing Chromium/Chrome executable for the Chromium entry")
+  .option("--postgres-config <file>", "PostgreSQL source adapter config")
+  .option("--plugin <manifest>", "provider plugin manifest; repeat for multiple plugins", collect, [])
+  .option("--plugin-timeout <milliseconds>", "per-plugin verification timeout", positiveInteger, 5_000)
+  .option("--plugin-memory <megabytes>", "per-plugin worker memory limit", positiveInteger, 64)
+  .option("--performance-budget <file>", "verification performance budget JSON")
+  .action(async (contract: string, values: Record<string, unknown>) => {
+    const browsers = values.browser as BrowserName[];
+    const result = await runBrowserMatrix(
+      path.resolve(contract),
+      browsers.length > 0 ? browsers : ["chromium", "firefox", "webkit"],
+      {
+        outputRoot: path.resolve(String(values.output)),
+        headed: Boolean(values.headed),
+        timeoutMs: Number(values.timeout),
+        settleMs: Number(values.settle),
+        maxRetries: Number(values.retries),
+        continueOnFailure: Boolean(values.continue),
+        allowDestructive: Boolean(values.allowDestructive),
+        allowExternal: Boolean(values.allowExternal),
+        allowHosts: values.allowHost as string[],
+        browserName: "chromium",
+        roleStorageStates: roleStates(values.roleState as string[]),
+        pluginManifests: (values.plugin as string[]).map((file) => path.resolve(file)),
+        pluginTimeoutMs: Number(values.pluginTimeout),
+        pluginMemoryLimitMb: Number(values.pluginMemory),
+        ...(values.performanceBudget ? { performanceBudgetFile: path.resolve(String(values.performanceBudget)) } : {}),
+        ...(values.storageState ? { storageStatePath: path.resolve(String(values.storageState)) } : {}),
+        ...(values.browserPath ? { executablePath: path.resolve(String(values.browserPath)) } : {}),
+        ...(values.postgresConfig ? { postgresConfigPath: path.resolve(String(values.postgresConfig)) } : {}),
+      },
+    );
+    process.stdout.write(`\nREALDONE BROWSER MATRIX\n\n${result.report.entries.map((entry) => `${entry.browser}: ${entry.passed ? "passed" : "failed"}`).join("\n")}\nReport: ${path.join(result.outputDirectory, "matrix.html")}\n`);
     process.exitCode = result.exitCode;
   });
 
@@ -408,7 +515,13 @@ program
   .option("--allow-host <hostname>", "allow recorded mutations on staging", collect, [])
   .option("--storage-state <file>", "override contract auth state")
   .option("--browser-path <file>", "existing Chromium/Chrome executable")
+  .option("--browser <name>", "browser engine: chromium, firefox, or webkit", browserName, "chromium")
+  .option("--role-state <role=file>", "override a named role's Playwright storage state", collect, [])
   .option("--postgres-config <file>", "PostgreSQL source adapter config")
+  .option("--plugin <manifest>", "provider plugin manifest; repeat for multiple plugins", collect, [])
+  .option("--plugin-timeout <milliseconds>", "per-plugin verification timeout", positiveInteger, 5_000)
+  .option("--plugin-memory <megabytes>", "per-plugin worker memory limit", positiveInteger, 64)
+  .option("--performance-budget <file>", "verification performance budget JSON")
   .action(async (presetValue: string, values: Record<string, unknown>) => {
     const workingDirectory = path.resolve(String(values.workingDirectory));
     const task = await loadTask(
@@ -443,6 +556,12 @@ program
         allowDestructive: Boolean(values.allowDestructive),
         allowExternal: Boolean(values.allowExternal),
         allowHosts: values.allowHost as string[],
+        browserName: values.browser as BrowserName,
+        roleStorageStates: roleStates(values.roleState as string[], workingDirectory),
+        pluginManifests: (values.plugin as string[]).map((file) => path.resolve(workingDirectory, file)),
+        pluginTimeoutMs: Number(values.pluginTimeout),
+        pluginMemoryLimitMb: Number(values.pluginMemory),
+        ...(values.performanceBudget ? { performanceBudgetFile: path.resolve(workingDirectory, String(values.performanceBudget)) } : {}),
         ...(values.storageState ? { storageStatePath: path.resolve(workingDirectory, String(values.storageState)) } : {}),
         ...(values.browserPath ? { executablePath: path.resolve(String(values.browserPath)) } : {}),
         ...(values.postgresConfig ? { postgresConfigPath: path.resolve(workingDirectory, String(values.postgresConfig)) } : {}),

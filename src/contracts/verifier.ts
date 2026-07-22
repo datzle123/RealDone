@@ -1,14 +1,16 @@
 import { randomBytes } from "node:crypto";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
-import type { Locator, Page } from "playwright";
+import type { Browser, BrowserContext, Locator, Page } from "playwright";
 import { createPostgresAdapterFromFile, type PostgresSourceAdapter } from "../adapters/postgres/index.js";
 import { attachEvidence, type EvidenceSink } from "../browser/evidence.js";
 import { resolveSemanticLocator } from "../browser/locator.js";
-import { launchChromium } from "../browser/runtime.js";
+import { launchBrowser, type BrowserName } from "../browser/runtime.js";
 import { createContractCleanupLedger, writeCleanupLedger } from "../cleanup/ledger.js";
 import { classifyAction } from "../core/classify.js";
 import { redactText } from "../core/redact.js";
+import { PluginHost } from "../plugins/host.js";
+import { evaluatePerformance, loadPerformanceBudget } from "../performance/budget.js";
 import { actionSkipReason } from "../core/safety.js";
 import type { NetworkEvidence } from "../types.js";
 import { loadBehaviorContract, type BehaviorStep, type ContractExpectation, type ContractVerification, type StepVerification } from "./schema.js";
@@ -27,6 +29,12 @@ export interface VerifyContractOptions {
   executablePath?: string;
   storageStatePath?: string;
   postgresConfigPath?: string;
+  browserName?: BrowserName;
+  roleStorageStates?: Record<string, string>;
+  pluginManifests?: string[];
+  pluginTimeoutMs?: number;
+  pluginMemoryLimitMb?: number;
+  performanceBudgetFile?: string;
 }
 
 export interface VerifyContractResult {
@@ -101,11 +109,25 @@ function redactSourceExpectation(
   };
 }
 
+function redactProviderExpectation(
+  expectation: Extract<ContractExpectation, { type: "provider" }>,
+): Extract<ContractExpectation, { type: "provider" }> {
+  return {
+    ...expectation,
+    reference: "env" in expectation.reference ? expectation.reference : { value: "[REDACTED]" },
+    ...(expectation.parameters ? {
+      parameters: Object.fromEntries(Object.keys(expectation.parameters).map((key) => [key, "[REDACTED]"])),
+    } : {}),
+  };
+}
+
 async function verifyExpectation(
   page: Page,
   expectation: ContractExpectation,
   network: NetworkEvidence[],
   postgres?: PostgresSourceAdapter,
+  rolePage?: (role: string) => Promise<Page>,
+  plugins?: PluginHost,
 ): Promise<StepVerification["assertions"][number]> {
   switch (expectation.type) {
     case "request": {
@@ -160,7 +182,112 @@ async function verifyExpectation(
         };
       }
     }
+    case "provider": {
+      const reportExpectation = redactProviderExpectation(expectation);
+      if (!plugins) {
+        return {
+          expectation: reportExpectation,
+          passed: false,
+          detail: `Provider expectation requires a plugin manifest: ${expectation.provider}`,
+          evidenceLevel: 6,
+        };
+      }
+      try {
+        const providerEvidence = await plugins.verifyProvider(expectation);
+        return {
+          expectation: reportExpectation,
+          passed: providerEvidence.passed,
+          detail: `${expectation.kind} provider ${expectation.provider}: ${providerEvidence.detail}`,
+          evidenceLevel: 6,
+          providerEvidence,
+        };
+      } catch (error) {
+        return {
+          expectation: reportExpectation,
+          passed: false,
+          detail: `Provider check failed: ${redactText(error instanceof Error ? error.message : String(error))}`,
+          evidenceLevel: 6,
+        };
+      }
+    }
+    case "cross-role": {
+      if (!rolePage) {
+        return { expectation, passed: false, detail: "Cross-role verifier is unavailable.", evidenceLevel: 7 };
+      }
+      try {
+        const target = await rolePage(expectation.role);
+        await target.goto(expectation.pageUrl, { waitUntil: "domcontentloaded" });
+        if (expectation.assertion.type === "url") {
+          const current = target.url();
+          const passed = new RegExp(expectation.assertion.pattern).test(current);
+          return {
+            expectation,
+            passed,
+            detail: `Role ${expectation.role} URL ${current} matches ${expectation.assertion.pattern}`,
+            evidenceLevel: 7,
+          };
+        }
+        const visible = await target.getByText(expectation.assertion.value, { exact: false }).last().isVisible().catch(() => false);
+        const passed = expectation.assertion.state === "visible" ? visible : !visible;
+        return {
+          expectation,
+          passed,
+          detail: `Role ${expectation.role}: text ${expectation.assertion.state} (${expectation.assertion.value})`,
+          evidenceLevel: 7,
+        };
+      } catch (error) {
+        return {
+          expectation,
+          passed: false,
+          detail: `Cross-role check failed for ${expectation.role}: ${redactText(error instanceof Error ? error.message : String(error))}`,
+          evidenceLevel: 7,
+        };
+      }
+    }
   }
+}
+
+interface RolePages {
+  page(role?: string): Promise<Page>;
+  close(): Promise<void>;
+}
+
+function createRolePages(
+  browser: Browser,
+  contractFile: string,
+  contract: Awaited<ReturnType<typeof loadBehaviorContract>>,
+  options: VerifyContractOptions,
+): RolePages {
+  const opened = new Map<string, { context: BrowserContext; page: Page }>();
+  const contractDirectory = path.dirname(contractFile);
+  const storageFor = (role: string): string | undefined => {
+    if (role === "default") {
+      const contractStorage = contract.authState?.path
+        ? path.resolve(contractDirectory, contract.authState.path)
+        : undefined;
+      return options.storageStatePath ?? contractStorage;
+    }
+    const override = options.roleStorageStates?.[role];
+    if (override) return path.resolve(override);
+    const configured = contract.roles?.[role]?.authState.path;
+    return configured ? path.resolve(contractDirectory, configured) : undefined;
+  };
+  return {
+    page: async (role = "default") => {
+      const existing = opened.get(role);
+      if (existing) return existing.page;
+      if (role !== "default" && !contract.roles?.[role]) throw new Error(`Unknown behavior role: ${role}`);
+      const storageState = storageFor(role);
+      const context = await browser.newContext(storageState ? { storageState } : {});
+      const page = await context.newPage();
+      opened.set(role, { context, page });
+      return page;
+    },
+    close: async () => {
+      await Promise.allSettled([...opened.values()].map(({ context }) => context.close()));
+      opened.clear();
+    },
+  };
 }
 
 export async function verifyContract(
@@ -169,33 +296,42 @@ export async function verifyContract(
 ): Promise<VerifyContractResult> {
   const absoluteContract = path.resolve(contractFile);
   const contract = await loadBehaviorContract(absoluteContract);
+  const performanceBudget = options.performanceBudgetFile
+    ? await loadPerformanceBudget(options.performanceBudgetFile)
+    : undefined;
   const id = verificationId();
   const outputDirectory = path.resolve(options.outputRoot, id);
   await mkdir(outputDirectory, { recursive: true });
-  const contractStorage = contract.authState?.path
-    ? path.resolve(path.dirname(absoluteContract), contract.authState.path)
-    : undefined;
-  const storageStatePath = options.storageStatePath ?? contractStorage;
   const needsPostgres = contract.steps.some((step) => step.expected.some((expectation) => expectation.type === "source"));
   const postgres = needsPostgres && options.postgresConfigPath
     ? await createPostgresAdapterFromFile(options.postgresConfigPath)
     : undefined;
-  const browser = await launchChromium({
+  const plugins = (options.pluginManifests?.length ?? 0) > 0
+    ? await PluginHost.load(options.pluginManifests ?? [], {
+        ...(options.pluginTimeoutMs === undefined ? {} : { timeoutMs: options.pluginTimeoutMs }),
+        ...(options.pluginMemoryLimitMb === undefined ? {} : { memoryLimitMb: options.pluginMemoryLimitMb }),
+      })
+    : undefined;
+  const verificationStarted = Date.now();
+  const memoryBefore = process.memoryUsage().rss;
+  const browser = await launchBrowser({
     headed: options.headed,
+    browserName: options.browserName ?? "chromium",
     ...(options.executablePath ? { executablePath: options.executablePath } : {}),
   });
-  const context = await browser.newContext(storageStatePath ? { storageState: storageStatePath } : {});
-  const page = await context.newPage();
+  const rolePages = createRolePages(browser, absoluteContract, contract, options);
   const startedAt = new Date();
   const results: StepVerification[] = [];
   let blocked = false;
   try {
     for (const step of contract.steps) {
       const stepStarted = Date.now();
+      const role = step.role ?? "default";
       if (blocked) {
-        results.push({ stepId: step.id, type: step.type, status: "skipped", durationMs: 0, reason: "A previous step failed.", assertions: [] });
+        results.push({ stepId: step.id, type: step.type, role, status: "skipped", durationMs: 0, reason: "A previous step failed.", assertions: [] });
         continue;
       }
+      const page = await rolePages.page(role);
       const sink = emptySink();
       const attached = attachEvidence(page, stepStarted, sink);
       let resolution: Awaited<ReturnType<typeof resolveSemanticLocator>> | undefined;
@@ -231,12 +367,13 @@ export async function verifyContract(
         await attached.flush();
         const assertions: StepVerification["assertions"] = [];
         for (const expectation of step.expected) {
-          assertions.push(await verifyExpectation(page, expectation, sink.network, postgres));
+          assertions.push(await verifyExpectation(page, expectation, sink.network, postgres, rolePages.page, plugins));
         }
         const passed = assertions.every((assertion) => assertion.passed) && sink.pageErrors.length === 0;
         results.push({
           stepId: step.id,
           type: step.type,
+          role,
           status: passed ? "passed" : "failed",
           durationMs: Date.now() - stepStarted,
           reason: passed ? "Step and recorded expectations passed." : sink.pageErrors[0] ?? "One or more recorded expectations failed.",
@@ -248,6 +385,7 @@ export async function verifyContract(
         results.push({
           stepId: step.id,
           type: step.type,
+          role,
           status: "failed",
           durationMs: Date.now() - stepStarted,
           reason: error instanceof Error ? error.message : String(error),
@@ -261,7 +399,7 @@ export async function verifyContract(
       }
     }
   } finally {
-    await context.close();
+    await rolePages.close();
     await browser.close();
     await postgres?.close();
   }
@@ -270,11 +408,22 @@ export async function verifyContract(
     verificationId: id,
     contractId: contract.id,
     contractName: contract.name,
+    browser: options.browserName ?? "chromium",
+    roles: ["default", ...Object.keys(contract.roles ?? {}).sort()],
     startedAt: startedAt.toISOString(),
     finishedAt: new Date().toISOString(),
-    passed: results.every((step) => step.status === "passed"),
+    passed: false,
     steps: results,
   };
+  const performance = performanceBudget
+    ? evaluatePerformance(performanceBudget, {
+        verificationMs: Date.now() - verificationStarted,
+        maxStepMs: Math.max(0, ...results.map((step) => step.durationMs)),
+        memoryDeltaMb: Math.round(((process.memoryUsage().rss - memoryBefore) / 1024 / 1024) * 100) / 100,
+      })
+    : undefined;
+  verification.passed = results.every((step) => step.status === "passed") && (performance?.passed ?? true);
+  if (performance) verification.performance = performance;
   await Promise.all([
     writeFile(path.join(outputDirectory, "verification.json"), `${JSON.stringify(verification, null, 2)}\n`),
     writeFile(path.join(outputDirectory, "report.html"), renderContractVerification(verification)),

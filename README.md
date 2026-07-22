@@ -17,7 +17,7 @@
 
 AI coding agents are very good at making a feature *look* finished: the button clicks, a spinner appears, a success toast fires, and a new row shows up. None of those things prove the feature exists beyond the current browser state.
 
-RealDone runs your application in Chromium and builds an evidence chain:
+RealDone runs your application in a real browser and builds an evidence chain. Quick scans default to Chromium; recorded contracts can also be release-gated in Firefox and WebKit:
 
 ```text
 Visible action
@@ -122,11 +122,14 @@ realdone benchmark <url> --expected <expectations.json> [--verify-replays]
 realdone record <url> --name "Create customer"
 realdone verify .realdone/flows/create-customer.json
 realdone verify .realdone/flows/create-customer.json --postgres-config .realdone/postgres.json
+realdone matrix .realdone/flows/create-customer.json
 realdone baseline .realdone/flows --out .realdone/baseline.json
 realdone ci --baseline .realdone/baseline.json --contracts .realdone/flows
 realdone export-playwright <contract.json> --out tests/flow.spec.ts
 realdone run codex --task-file task.md --contracts .realdone/flows
 ```
+
+Recorded verification supports `--browser`, repeated `--role-state role=file`, repeated `--plugin manifest.json`, and `--performance-budget budget.json`. Advanced features stay opt-in, so the default scan remains one Chromium worker with no database, provider, plugin, extra-role, or AI dependency.
 
 ## Safe by default
 
@@ -138,7 +141,8 @@ Reports never store authorization headers, cookie values, password values, token
 
 ```mermaid
 flowchart LR
-  CLI["CLI"] --> Runtime["Chromium runtime"]
+  CLI["CLI"] --> Runtime["Browser runtime"]
+  Runtime --> Engines["Chromium / Firefox / WebKit"]
   Runtime --> Discovery["Route + action discovery"]
   Discovery --> Policy["Safety policy"]
   Policy --> Executor["Safe action executor"]
@@ -183,7 +187,7 @@ See [Behavior contracts](docs/CONTRACTS.md) for editing assertions, secret handl
 
 ```yaml
 - uses: actions/checkout@v6
-- uses: datzle123/RealDone@v0.6.0
+- uses: datzle123/RealDone@v1.0.0
   with:
     baseline: .realdone/baseline.json
     contracts: .realdone/flows
@@ -210,6 +214,31 @@ realdone run codex \
 
 The agent's completion message is kept only as an operational log. Pass/fail comes from the independent build and RealDone evidence. Failures produce a reusable `follow-up.md`. See [Coding-agent verification](docs/AGENT_VERIFICATION.md).
 
+## Advanced verification
+
+Important flows can use named roles with separate Playwright storage states. One role performs the mutation and another independently observes its effect; a passing cross-role assertion is Level 7 evidence.
+
+```bash
+realdone verify .realdone/flows/create-customer.json \
+  --role-state support=.realdone/auth/support.json
+
+realdone matrix .realdone/flows/create-customer.json
+```
+
+`matrix` runs a contract against Chromium, Firefox, and WebKit and writes complete per-engine evidence plus `matrix.json`, `matrix.md`, and `matrix.html`. See [Advanced verification](docs/ADVANCED.md) and the [compatibility matrix](docs/COMPATIBILITY.md).
+
+## Provider plugins and performance budgets
+
+Plugin SDK v1 lets reviewed local plugins observe payment-sandbox, test-inbox, and object-storage outcomes. Plugins return typed observations; RealDone validates the evidence and computes the verdict. Each call receives a fresh worker with explicit time and memory bounds, but plugins remain trusted code rather than security-sandboxed code.
+
+```bash
+realdone verify .realdone/flows/upload.json \
+  --plugin ./plugins/storage/realdone.plugin.json \
+  --performance-budget examples/realdone.performance.json
+```
+
+Performance violations fail verification and appear in JSON/HTML evidence. See the [Plugin SDK](docs/PLUGIN_SDK.md), [performance budgets](docs/PERFORMANCE.md), and [threat model](docs/THREAT_MODEL.md).
+
 ## Public benchmark fixtures
 
 The repository includes intentionally broken and correct controls for fake create, real persistence, false success, duplicate submission, fake deletion, no-effect actions, and broken navigation.
@@ -220,7 +249,7 @@ pnpm fixture
 node dist/cli.js scan http://127.0.0.1:<printed-port> --allow-destructive
 ```
 
-Run the full browser smoke test with `pnpm smoke`. It also verifies selector survival, a bounded replay sample, and cleanup. The standalone `benchmark` command writes precision/recall/FPR and operational metrics to `benchmark.json`.
+Run the full browser smoke test with `pnpm smoke`. It also verifies selector survival, a bounded replay sample, cleanup, roles, provider evidence, performance budgets, and the coding-agent pipeline. The standalone `benchmark` command writes precision/recall/FPR and operational metrics to `benchmark.json` plus Markdown and HTML dashboards.
 
 ## Roadmap
 
@@ -230,7 +259,7 @@ Run the full browser smoke test with `pnpm smoke`. It also verifies selector sur
 - ✅ **v0.4 Baseline + CI** — behavior diff, regression gate, GitHub Action, Playwright export.
 - ✅ **v0.5 PostgreSQL adapter** — source-of-truth verification and transaction-aware cleanup.
 - ✅ **v0.6 Agent verification** — Codex/Claude/generic runners, affected-flow verification, evidence-based fix prompts.
-- **v1.0 Advanced verification** — multi-role, providers, multi-browser, plugin SDK, hardening.
+- ✅ **v1.0 Advanced verification** — multi-role, providers, multi-browser, plugin SDK, performance budgets, hardening.
 
 Every phase has a test gate and its own release tag. Detailed acceptance criteria live in [the roadmap](docs/ROADMAP.md).
 

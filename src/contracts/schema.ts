@@ -1,16 +1,30 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { z } from "zod";
 import type { SourceCleanupTarget, SourceEvidence, SourceExpectation } from "../adapters/types.js";
+import type { BrowserName } from "../browser/runtime.js";
+import type { ProviderEvidence, ProviderExpectation } from "../providers/types.js";
+import type { PerformanceEvaluation } from "../performance/budget.js";
 import type { LocatorResolution, SemanticFingerprint } from "../types.js";
 
 export type ContractStepType = "navigate" | "click" | "fill" | "check" | "select";
+
+export interface CrossRoleExpectation {
+  type: "cross-role";
+  role: string;
+  pageUrl: string;
+  assertion:
+    | { type: "text"; value: string; state: "visible" | "absent" }
+    | { type: "url"; pattern: string };
+}
 
 export type ContractExpectation =
   | { type: "request"; method: string; urlPattern: string; status?: number }
   | { type: "url"; pattern: string }
   | { type: "text"; value: string }
   | { type: "persistence"; value: string }
-  | SourceExpectation;
+  | SourceExpectation
+  | CrossRoleExpectation
+  | ProviderExpectation;
 
 export type ContractCleanup =
   | { type: "ledger" | "request"; value: string }
@@ -27,6 +41,12 @@ export interface BehaviorStep {
   secretEnv?: string;
   checked?: boolean;
   expected: ContractExpectation[];
+  role?: string;
+}
+
+export interface BehaviorRole {
+  description?: string;
+  authState: { path: string };
 }
 
 export interface BehaviorContract {
@@ -39,6 +59,7 @@ export interface BehaviorContract {
   scope?: { files: string[] };
   steps: BehaviorStep[];
   authState?: { path: string };
+  roles?: Record<string, BehaviorRole>;
   artifacts?: { rrweb: string; rrwebEventCount: number };
   cleanup: ContractCleanup[];
   source: { browser: string; recordedBy: "realdone" };
@@ -50,6 +71,7 @@ export interface StepVerification {
   status: "passed" | "failed" | "skipped";
   durationMs: number;
   reason: string;
+  role: string;
   locatorResolution?: LocatorResolution;
   assertions: Array<{
     expectation: ContractExpectation;
@@ -57,6 +79,7 @@ export interface StepVerification {
     detail: string;
     evidenceLevel: number;
     sourceEvidence?: SourceEvidence;
+    providerEvidence?: ProviderEvidence;
   }>;
 }
 
@@ -65,9 +88,12 @@ export interface ContractVerification {
   verificationId: string;
   contractId: string;
   contractName: string;
+  browser: BrowserName;
+  roles: string[];
   startedAt: string;
   finishedAt: string;
   passed: boolean;
+  performance?: PerformanceEvaluation;
   steps: StepVerification[];
 }
 
@@ -111,12 +137,43 @@ const sourceExpectationSchema = z.object({
   maxMatches: z.number().int().nonnegative().optional(),
 });
 
+const roleNameSchema = z.string().regex(/^[a-z][a-z0-9_-]*$/).refine((value) => value !== "default", {
+  message: "The role name default is reserved for the contract's primary auth state",
+});
+
+const crossRoleExpectationSchema = z.object({
+  type: z.literal("cross-role"),
+  role: roleNameSchema,
+  pageUrl: z.string().url(),
+  assertion: z.discriminatedUnion("type", [
+    z.object({ type: z.literal("text"), value: z.string(), state: z.enum(["visible", "absent"]) }),
+    z.object({ type: z.literal("url"), pattern: z.string() }),
+  ]),
+});
+
+const providerScalarSchema = z.union([z.string(), z.number(), z.boolean(), z.null()]);
+const providerExpectationSchema = z.object({
+  type: z.literal("provider"),
+  provider: z.string().regex(/^[a-z][a-z0-9-]*$/),
+  kind: z.enum(["payment", "email", "storage"]),
+  operation: z.string().min(1),
+  resource: z.string().min(1),
+  reference: z.union([
+    z.object({ value: providerScalarSchema }),
+    z.object({ env: z.string().regex(/^[A-Z_][A-Z0-9_]*$/) }),
+  ]),
+  state: z.enum(["confirmed", "absent"]),
+  parameters: z.record(z.string(), providerScalarSchema).optional(),
+});
+
 const expectationSchema = z.discriminatedUnion("type", [
   z.object({ type: z.literal("request"), method: z.string(), urlPattern: z.string(), status: z.number().int().optional() }),
   z.object({ type: z.literal("url"), pattern: z.string() }),
   z.object({ type: z.literal("text"), value: z.string() }),
   z.object({ type: z.literal("persistence"), value: z.string() }),
   sourceExpectationSchema,
+  crossRoleExpectationSchema,
+  providerExpectationSchema,
 ]);
 
 const cleanupSchema = z.union([
@@ -139,6 +196,7 @@ const stepSchema = z.object({
   secretEnv: z.string().optional(),
   checked: z.boolean().optional(),
   expected: z.array(expectationSchema).default([]),
+  role: roleNameSchema.optional(),
 });
 
 export const behaviorContractSchema = z.object({
@@ -151,9 +209,36 @@ export const behaviorContractSchema = z.object({
   scope: z.object({ files: z.array(z.string()) }).optional(),
   steps: z.array(stepSchema).min(1),
   authState: z.object({ path: z.string() }).optional(),
+  roles: z.record(roleNameSchema, z.object({
+    description: z.string().optional(),
+    authState: z.object({ path: z.string() }),
+  })).optional(),
   artifacts: z.object({ rrweb: z.string(), rrwebEventCount: z.number().int().nonnegative() }).optional(),
   cleanup: z.array(cleanupSchema).default([]),
   source: z.object({ browser: z.string(), recordedBy: z.literal("realdone") }),
+}).superRefine((contract, context) => {
+  const roles = new Set(Object.keys(contract.roles ?? {}));
+  for (const [stepIndex, step] of contract.steps.entries()) {
+    if (step.role && !roles.has(step.role)) {
+      context.addIssue({ code: "custom", path: ["steps", stepIndex, "role"], message: `Unknown role: ${step.role}` });
+    }
+    for (const [expectationIndex, expectation] of step.expected.entries()) {
+      if (expectation.type === "cross-role" && !roles.has(expectation.role)) {
+        context.addIssue({
+          code: "custom",
+          path: ["steps", stepIndex, "expected", expectationIndex, "role"],
+          message: `Unknown cross-role target: ${expectation.role}`,
+        });
+      }
+      if (expectation.type === "cross-role" && expectation.role === (step.role ?? "default")) {
+        context.addIssue({
+          code: "custom",
+          path: ["steps", stepIndex, "expected", expectationIndex, "role"],
+          message: `Cross-role target must differ from the step role: ${expectation.role}`,
+        });
+      }
+    }
+  }
 });
 
 export async function loadBehaviorContract(file: string): Promise<BehaviorContract> {

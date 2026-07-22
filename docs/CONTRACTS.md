@@ -63,6 +63,49 @@ For Level 6 evidence, add a PostgreSQL source expectation. Resource and field na
 
 Source filter values may use `{ "field": "id", "env": "RD_CUSTOMER_ID" }` when a value must not be stored. See [PostgreSQL source verification](POSTGRESQL.md) for the config, TLS, and cleanup gates.
 
+## Roles and Level 7 expectations
+
+Named roles use separate browser contexts and storage-state files. Add the role to the contract and select it on any step:
+
+```json
+{
+  "roles": {
+    "support": {
+      "description": "Independent support user",
+      "authState": { "path": "auth/support.json" }
+    }
+  },
+  "steps": [{
+    "id": "S004",
+    "type": "navigate",
+    "role": "support",
+    "pageUrl": "http://localhost:3000/customers",
+    "atMs": 1200,
+    "expected": []
+  }]
+}
+```
+
+A `cross-role` expectation asks another role to navigate independently and confirm visible text or a URL. Passing it produces Level 7 evidence. Use `--role-state support=.realdone/auth/support.json` to override a configured state without editing the contract. See [Advanced verification](ADVANCED.md).
+
+## Provider expectations
+
+`provider` expectations cover payment sandboxes, test inboxes, and object-storage sandboxes. The contract names a provider capability; an explicit Plugin SDK v1 manifest supplies its implementation. Plugins return observations, while RealDone applies `confirmed` or `absent` semantics and computes the verdict.
+
+```json
+{
+  "type": "provider",
+  "provider": "storage-fixture-provider",
+  "kind": "storage",
+  "operation": "exists",
+  "resource": "customer-export",
+  "reference": { "env": "RD_OBJECT_KEY" },
+  "state": "confirmed"
+}
+```
+
+Run the contract with `--plugin ./plugin/realdone.plugin.json`. Provider reference values and known secrets are redacted from evidence. See the [Plugin SDK](PLUGIN_SDK.md).
+
 ## Secrets
 
 Password-like fields never store their value. The contract contains `secretEnv`, for example `REALDONE_PASSWORD`. Set it only for the verification process:
@@ -75,7 +118,10 @@ REALDONE_PASSWORD="..." realdone verify .realdone/flows/login.json
 
 ```bash
 realdone verify .realdone/flows/create-customer.json \
-  --postgres-config .realdone/postgres.json
+  --postgres-config .realdone/postgres.json \
+  --performance-budget .realdone/performance.json
 ```
 
 Verification stops after the first failed step unless `--continue` is supplied. Production-like mutation hosts require `--allow-host`; destructive and external actions require `--allow-destructive` or `--allow-external` respectively.
+
+Use `realdone matrix <contract>` to verify the same contract across Chromium, Firefox, and WebKit. Performance-budget violations fail the run just like behavioral assertion failures.

@@ -1,15 +1,32 @@
 {
   "name": "realdone",
-  "version": "0.6.0",
+  "version": "1.0.0",
   "description": "Behavioral verification for AI-built web applications",
   "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "bin": {
     "realdone": "dist/cli.js"
   },
   "files": [
     "dist",
+    "docs/ADVANCED.md",
+    "docs/COMPATIBILITY.md",
+    "docs/PERFORMANCE.md",
+    "docs/PLUGIN_SDK.md",
+    "docs/THREAT_MODEL.md",
+    "examples/plugins/storage-fixture",
+    "examples/realdone.performance.json",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "THIRD_PARTY_NOTICES.md"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.build.json",

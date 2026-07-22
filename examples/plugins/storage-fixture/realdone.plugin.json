@@ -1,0 +1,9 @@
+{
+  "apiVersion": "1.0",
+  "name": "storage-fixture",
+  "version": "1.0.0",
+  "entry": "./index.mjs",
+  "providers": [
+    { "name": "storage-fixture-provider", "kind": "storage" }
+  ]
+}

@@ -47,11 +47,18 @@ function assertionLines(step: BehaviorStep): string[] {
     if (expectation.type === "source") {
       return [`  // Level 6 PostgreSQL assertion remains in the RealDone contract (${expectation.resource}).`];
     }
+    if (expectation.type === "provider") {
+      return [`  // Provider assertion remains in the RealDone contract (${expectation.provider}/${expectation.kind}).`];
+    }
+    if (expectation.type === "cross-role") {
+      return [`  // Level 7 cross-role assertion remains in the RealDone contract (${expectation.role}).`];
+    }
     return [];
   });
 }
 
 function stepLines(step: BehaviorStep, baseUrl: string): string[] {
+  const roleComment = step.role ? [`  // RealDone role: ${step.role}`] : [];
   if (step.type === "navigate") {
     let pathname = step.url ?? step.pageUrl;
     try {
@@ -59,11 +66,11 @@ function stepLines(step: BehaviorStep, baseUrl: string): string[] {
     } catch {
       // Keep recorded value.
     }
-    return [`  await page.goto(new URL(${literal(pathname)}, baseURL).toString(), { waitUntil: 'domcontentloaded' });`];
+    return [...roleComment, `  await page.goto(new URL(${literal(pathname)}, baseURL).toString(), { waitUntil: 'domcontentloaded' });`];
   }
-  if (!step.fingerprint) return [`  // ${step.id}: missing fingerprint`];
+  if (!step.fingerprint) return [...roleComment, `  // ${step.id}: missing fingerprint`];
   const locator = locatorExpression(step.fingerprint);
-  const lines = [`  const ${step.id} = ${locator};`];
+  const lines = [...roleComment, `  const ${step.id} = ${locator};`];
   const request = requestExpectation(step);
   if (request) {
     lines.push(

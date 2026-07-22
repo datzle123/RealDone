@@ -1,0 +1,6 @@
+{
+  "schemaVersion": "1.0",
+  "maxVerificationMs": 30000,
+  "maxStepMs": 10000,
+  "maxMemoryDeltaMb": 256
+}

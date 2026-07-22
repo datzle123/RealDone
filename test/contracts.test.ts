@@ -46,3 +46,38 @@ test("behavior contract schema rejects empty flows", () => {
   });
   assert.equal(result.success, false);
 });
+
+test("behavior contract schema validates named roles and Level 7 expectations", () => {
+  const contract = {
+    schemaVersion: "1.0",
+    id: "cross-role-customer",
+    name: "Customer visible to support",
+    baseUrl: "http://localhost:3000",
+    createdAt: "2026-07-22T00:00:00.000Z",
+    tags: ["critical"],
+    roles: {
+      support: { authState: { path: "auth/support.json" } },
+    },
+    steps: [{
+      id: "S001",
+      type: "navigate",
+      pageUrl: "http://localhost:3000/customers",
+      atMs: 0,
+      expected: [{
+        type: "cross-role",
+        role: "support",
+        pageUrl: "http://localhost:3000/customers",
+        assertion: { type: "text", value: "RD_TEST_CUSTOMER", state: "visible" },
+      }],
+    }],
+    cleanup: [],
+    source: { browser: "Chromium", recordedBy: "realdone" },
+  };
+  assert.equal(behaviorContractSchema.safeParse(contract).success, true);
+  assert.equal(behaviorContractSchema.safeParse({ ...contract, roles: {} }).success, false);
+  const sameRole = {
+    ...contract,
+    steps: [{ ...contract.steps[0], role: "support" }],
+  };
+  assert.equal(behaviorContractSchema.safeParse(sameRole).success, false);
+});
