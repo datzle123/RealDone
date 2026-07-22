@@ -21,6 +21,9 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 - Level 7 authorization contract probes for UI-only permissions, cross-tenant read/write, revoked roles and exposed admin routes (RD601–RD605).
 - First-class behavioral-diff outcomes and evidence-specific RD901–RD905 regression codes for removed actions, persistence/API regressions and performance-budget failures.
 - Bounded upload canary evidence and downloaded-content filename/type/size/hash/completeness evidence without storing raw file bodies.
+- Semantic recorder/verifier steps for keypress, environment-referenced upload, rich text and drag/drop, plus popup-path and non-empty-download expectations.
+- Explicit fresh-execution replay outcomes and portable `replay.json` evidence for reproduced, changed, environment-changed, target-missing and uncertain results.
+- Dedicated per-finding snapshot, console, WebSocket, upload, download and replay-contract artifact directories linked from the HTML report.
 
 ### Changed
 
@@ -30,6 +33,8 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 - Complex upload, canvas, rich-text and drag/drop actions are surfaced as recorded-flow requirements instead of guessed automatic interactions.
 - Multi-field mutations use independent canary values, and successful POST/PUT/PATCH requests are read back through a bounded same-context API request before verdict resolution.
 - Password-bearing forms are classified as authentication before generic email/external heuristics, and successful sessions are verified from persisted auth artifacts rather than requiring credentials to reappear in the UI.
+- Benchmark release gates now run and require successful cleanup; recorder interaction and navigation waits inherit the configured finite timeout.
+- Published packages include the complete linked documentation set and report preview instead of leaving installed README links unresolved.
 
 ## [1.2.0] - 2026-07-22
 

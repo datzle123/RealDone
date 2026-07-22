@@ -20,14 +20,18 @@ Auth state contains cookies and may grant account access. Keep it under `.realdo
 
 ## Steps and expectations
 
-Steps are `navigate`, `fill`, `check`, `select`, or `click`. Interaction steps contain weighted semantic candidates. Click steps can infer:
+Steps are `navigate`, `fill`, `check`, `select`, `click`, `press`, `upload`, `richtext`, or `drag`. Interaction steps contain weighted semantic candidates; drag steps carry independent source and target fingerprints. Upload steps store an environment-variable name such as `REALDONE_UPLOAD_RECEIPT_FILE`, never the developer's local file path. Click steps can infer:
 
 - write request method and path pattern;
 - response status;
 - resulting URL pattern;
-- visible status/alert text.
+- visible status/alert text;
+- popup pathname;
+- downloaded filename and non-empty content.
 
 Contracts may also include explicit persistence expectations that reload the page and check visible text.
+
+The verifier never falls back to an old DOM ordinal. It resolves test ID, role/name or label, stable ID, href, visible text, then CSS; if none identify a visible target, the step fails without clicking another element.
 
 ```json
 {
@@ -46,6 +50,16 @@ Contracts may also include explicit persistence expectations that reload the pag
     { "type": "text", "value": "Customer created successfully" }
   ]
 }
+```
+
+Complex actions remain deterministic and portable:
+
+```json
+[
+  { "id": "S004", "type": "press", "key": "Enter", "fingerprint": { "selector": "#command", "tag": "input", "ordinal": 0 }, "expected": [] },
+  { "id": "S005", "type": "upload", "fileEnv": "REALDONE_UPLOAD_RECEIPT_FILE", "fingerprint": { "selector": "#receipt", "tag": "input", "ordinal": 1 }, "expected": [] },
+  { "id": "S006", "type": "drag", "fingerprint": { "selector": "#card", "tag": "div", "ordinal": 0 }, "targetFingerprint": { "selector": "#done", "tag": "div", "ordinal": 1 }, "expected": [] }
+]
 ```
 
 For Level 6 evidence, add a PostgreSQL source expectation. Resource and field names are aliases from the adapter config; the contract cannot supply raw SQL identifiers.
@@ -127,3 +141,15 @@ Verification stops after the first failed step unless `--continue` is supplied. 
 Use `realdone matrix <contract>` to verify the same contract across Chromium, Firefox, and WebKit. Performance-budget violations fail the run just like behavioral assertion failures.
 
 Add `--deep` when a `persistence` expectation must survive both reload and a fresh browser context initialized from the configured auth state. This is stricter than normal verification and intentionally rejects values that exist only in the current context's local storage.
+
+## Replay outcomes
+
+`realdone replay <finding-id> --report-dir <scan-directory>` creates a new canary, resolves the original semantic target, runs it in a fresh browser, and writes `replay.json`. The outcome is one of:
+
+- `FINDING_REPRODUCED` — source verdict and detector set remain present;
+- `FINDING_NO_LONGER_REPRODUCED` — the target ran but the source finding changed;
+- `ENVIRONMENT_CHANGED` — the fresh environment health gate failed;
+- `TARGET_ACTION_NOT_FOUND` — no semantic target matched, so no substitute action ran;
+- `REPLAY_UNCERTAIN` — execution did not provide enough source or replay evidence.
+
+Reproduced findings exit `0`, changed findings exit `1`, and inconclusive environment/target/evidence outcomes exit `2`.

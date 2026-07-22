@@ -60,7 +60,7 @@ Or point RealDone at an installed Chrome/Chromium:
 node dist/cli.js scan http://localhost:3000 --browser-path "/path/to/chrome"
 ```
 
-The result is written locally to `.realdone/reports/<scan-id>/report.html` plus machine-readable JSON and one replay contract per finding.
+The result is written locally to `.realdone/reports/<scan-id>/report.html` plus machine-readable JSON, one replay contract per finding, and dedicated network, snapshot, console, WebSocket, upload, and download evidence directories.
 
 <p align="center"><img src="docs/assets/report-preview.png" alt="RealDone evidence report" width="100%"></p>
 
@@ -209,7 +209,7 @@ The core is deterministic and has no AI, database, cloud, framework, or coding-a
 
 ## Reliability controls
 
-Actions are replayed through weighted semantic fingerprints: test ID, accessible role/name, stable ID, href, visible text, CSS path, and ordinal fallback. Every attempt records match count, visible count, weight, timing, selected strategy, and bounded retries.
+Actions are replayed through weighted semantic fingerprints: test ID, accessible role/name and label, stable ID, href, visible text, and CSS fallback. DOM ordinal is retained only as diagnostic metadata and is never used to substitute a missing target. Every attempt records match count, visible count, weight, timing, selected strategy, and bounded retries.
 
 Use a checked-in policy when a project needs explicit classification or budget controls:
 
@@ -230,7 +230,9 @@ realdone record http://localhost:3000 --name "Create invoice" \
 realdone verify .realdone/flows/create-invoice.json
 ```
 
-The recorder captures compact interaction steps with semantic locators and inferred request/status/text expectations. rrweb is used only as masked local session evidence; deterministic verification uses the RealDone behavior contract, not rrweb replay. Password-like inputs become environment-variable references and auth state stays under the ignored `.realdone/` directory by default.
+The recorder captures compact navigation, click, fill, select, checkbox, keypress, upload, rich-text, and drag/drop steps with semantic source/target locators. It infers request/status/URL/text plus popup and non-empty download expectations. rrweb is used only as masked local session evidence; deterministic verification uses the RealDone behavior contract, not rrweb replay. Password-like inputs and upload paths become environment-variable references, recording is bounded by its configured timeout, and auth state stays under the ignored `.realdone/` directory by default.
+
+`replay` always performs a fresh browser execution and writes `replay.json`. Its explicit outcome is `FINDING_REPRODUCED`, `FINDING_NO_LONGER_REPRODUCED`, `ENVIRONMENT_CHANGED`, `TARGET_ACTION_NOT_FOUND`, or `REPLAY_UNCERTAIN`, so an invalid harness is not mistaken for a product change.
 
 See [Behavior contracts](docs/CONTRACTS.md) for editing assertions, secret handling, and safety flags.
 
@@ -306,7 +308,7 @@ pnpm fixture
 node dist/cli.js scan http://127.0.0.1:<printed-port> --allow-destructive
 ```
 
-Run the full browser smoke test with `pnpm smoke`. It also verifies selector survival, a bounded replay sample, cleanup, roles, provider evidence, performance budgets, and the coding-agent pipeline. The standalone `benchmark` command writes precision/recall/FPR and operational metrics to `benchmark.json` plus Markdown and HTML dashboards.
+Run the full browser smoke test with `pnpm smoke`. It also verifies semantic target survival, every replay outcome, cleanup, complex recording, roles, provider evidence, performance budgets, and the coding-agent pipeline. The standalone `benchmark` command writes precision/recall/FPR, cleanup success, and operational metrics to `benchmark.json` plus Markdown and HTML dashboards.
 
 The [functional verification matrix](docs/VERIFICATION_MATRIX.md) maps every public capability to its executable release gate and records the product's intentional boundaries.
 
@@ -316,7 +318,7 @@ RealDone is also exercised against external open-source applications rather than
 
 Releases `v0.1.0` through `v1.1.0` delivered the tested foundation: scanning, evidence, replay, recording/contracts, baseline/CI, PostgreSQL, coding-agent adapters, roles, provider contracts, multi-browser execution, plugins, and budgets. Some of those capabilities remain `PARTIAL` against the broader normative specification.
 
-The active release adds real-world Enter-submit coverage, safer external navigation, strict verdict priority, managed runtime discovery, and a first-class environment health gate. Remaining phases cover broader action execution, complete evidence/persistence semantics, the full detector catalog, adapters/providers, and full-product qualification. See the [roadmap](docs/ROADMAP.md) and [current status](docs/PRODUCT_STATUS.md); phase completion requires executable evidence and a green hosted gate.
+The current development line has completed the environment, execution, persistence, detector, contract/replay, and report phase gates. Remaining phases cover the full source-of-truth/provider ecosystem and coding-agent/full-product qualification. See the [roadmap](docs/ROADMAP.md) and [current status](docs/PRODUCT_STATUS.md); phase completion requires executable evidence and a green hosted gate.
 
 ## Contributing
 

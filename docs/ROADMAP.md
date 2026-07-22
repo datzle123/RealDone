@@ -35,7 +35,7 @@ Gate:
 - Environment findings are excluded from application-defect precision/recall.
 - Broken-environment fixtures and correct application-defect controls pass on all supported OS families.
 
-Implementation and local acceptance are complete. Phase completion remains contingent on the hosted Ubuntu/Windows/macOS matrix for the pushed commit, per the status policy above.
+Complete. The implementation, local acceptance, package surface and hosted Ubuntu/Windows/macOS matrix are green.
 
 ## Phase B — complete action and execution coverage (release candidate)
 
@@ -49,7 +49,7 @@ Gate:
 - Executor handles pending requests, dialogs, stale pages/locators and retry idempotency without duplicate effects.
 - RD004–RD008 have broken fixtures, correct controls and deterministic evidence.
 
-Implementation and local acceptance are complete, including external Actual/TodoMVC regression scans. Phase completion remains contingent on the hosted matrix for the pushed current head.
+Complete. Implementation/local acceptance, external Actual/TodoMVC regression scans and the hosted Ubuntu/Windows/macOS matrix are green.
 
 ## Phase C — complete evidence, snapshot and persistence semantics
 
@@ -63,7 +63,7 @@ Gate:
 - Verdict priority and Levels 0–7 are uniform across scan, contract, replay, baseline and report engines.
 - Remaining persistence/CRUD/success-integrity detectors in groups B–D are gated.
 
-Implementation and local acceptance are complete. Browser evidence covers semantic DOM/cookie/IndexedDB/WebSocket capture, every runtime persistence scope, API and managed-restart read-back, contract hard-reload/new-tab/clean-context/logout-login strategies, and RD103–RD105/RD204–RD205/RD304–RD305. Actual Budget and the intentional TodoMVC defect copy show no Phase C regression. Phase completion remains contingent on the hosted Ubuntu/Windows/macOS matrix for the pushed current head.
+Complete. Browser evidence covers semantic DOM/cookie/IndexedDB/WebSocket capture, every runtime persistence scope, API and managed-restart read-back, contract hard-reload/new-tab/clean-context/logout-login strategies, and RD103–RD105/RD204–RD205/RD304–RD305. Actual Budget and the intentional TodoMVC defect copy show no Phase C regression, and the hosted Ubuntu/Windows/macOS matrix is green.
 
 ## Phase D — auth, authorization, file, provider and regression detectors
 
@@ -76,7 +76,7 @@ Gate:
 - File/export/payment/provider findings require content or provider proof rather than UI claims.
 - Expected changes and regressions are first-class verdict/report outcomes.
 
-Implementation and local acceptance are complete. The browser detector lab gates RD401–RD505 and RD701–RD805 with correct controls, upload/download content evidence and zero false positives; contract verification gates the RD601–RD605 Level 7 authorization matrix; behavioral diff emits RD901–RD905 and first-class expected/regression outcomes. Actual Budget and the intentional TodoMVC defect copy show no Phase D regression. Phase completion remains contingent on the hosted Ubuntu/Windows/macOS matrix for the pushed current head.
+Complete. The browser detector lab gates RD401–RD505 and RD701–RD805 with correct controls, upload/download content evidence and zero false positives; contract verification gates the RD601–RD605 Level 7 authorization matrix; behavioral diff emits RD901–RD905 and first-class expected/regression outcomes. Actual Budget and the intentional TodoMVC defect copy show no Phase D regression, and the hosted Ubuntu/Windows/macOS matrix is green.
 
 ## Phase E — behavior contracts, replay and report completeness
 
@@ -88,6 +88,8 @@ Gate:
 - Replay returns every normative reproduction outcome and separates environment change from product change.
 - Report artifact layout and timelines cover every evidence type and finding class.
 - Benchmark exposes and gates truncation, expectation coverage, cleanup success and environment validity in addition to correctness metrics.
+
+Implementation and local acceptance are complete. A real-browser complex flow records and verifies upload, rich text, keypress, popup, non-empty download and semantic drag/drop; fresh browser executions produce all five normative replay outcomes; reports write and link every Phase E artifact class; benchmark cleanup is executed and gated. Chromium/Firefox/WebKit pass, Actual Budget and the intentional TodoMVC defect copy show no regression, and a fresh Conduit SQLite login records 5 semantic steps/20 masked rrweb events, verifies with trace, and passes its generated Playwright spec. Phase completion remains contingent on the hosted Ubuntu/Windows/macOS matrix for the pushed Phase E head.
 
 ## Phase F — source-of-truth and provider ecosystem
 

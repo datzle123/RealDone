@@ -83,6 +83,8 @@ After Phase C added hard reload, new-tab, API read-back, semantic snapshot and p
 
 After Phase D introduced mock/auth/file/payment and authorization detectors, both external controls were run again. Actual Budget remained unchanged at 6 `VERIFIED`, 1 `UNCERTAIN`, 3 `SKIPPED`, `VALID`, with no application defect. TodoMVC retained only the planted two contradictory mutations, one memory-only create and one no-effect action; its four invalid static-root findings remained environment-only and no new `BROKEN` verdict appeared.
 
+After Phase E completed contracts, replay and report artifacts, Actual Budget again produced 6 `VERIFIED`, 1 history-dependent `UNCERTAIN`, 3 policy `SKIPPED`, and no defect verdict. The TodoMVC defect copy, with destructive testing explicitly enabled, retained exactly 2 planted `CONTRADICTORY`, 1 `EPHEMERAL` and 1 `NO_EFFECT` result; 11 other actions were safely skipped, four static-asset failures remained `ENVIRONMENT_INVALID`, and no `BROKEN` false positive appeared. A new disposable Conduit user then exercised the live SQLite-backed API: the SDK recorder captured a 5-step login contract and 20 masked rrweb events, stored the password only as `REALDONE_PASSWORD`, passed deterministic verification with trace, and produced a Playwright export that executed successfully.
+
 ## Product changes driven by this run
 
 The first scan exposed that RealDone only treated forms, links, and buttons as actions. TodoMVC creates an item through a standalone input's Enter key, so RealDone initially missed the primary behavior. The runtime now:

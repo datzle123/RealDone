@@ -12,7 +12,7 @@ RealDone is a deterministic runtime verifier. Its core does not need an LLM, dat
 6. **Evidence collector** records request/response timing, console/page errors, URL/DOM/live-control/storage digests, UI claims, dialogs, and downloads.
 7. **Persistence verifier** reloads mutation pages and, in deep mode, repeats the read-back in a fresh browser context.
 8. **Detector engine** converts factual evidence into stable detector matches and a verdict.
-9. **Report/replay layer** writes HTML, JSON, network logs, screenshots, optional trace/video, and one deterministic reproduction contract per finding.
+9. **Report/replay layer** writes HTML, JSON, dedicated network/snapshot/console/WebSocket/upload/download evidence, screenshots, optional trace/video, one deterministic reproduction contract per finding, and an explicit fresh-execution replay outcome.
 
 The reliability layer wraps the pipeline with a global deadline, per-operation retry bounds, weighted locator diagnostics, checked-in action policy, cleanup ledger, and benchmark evaluator. Retries never repeat an action after the click/submit boundary because that could create duplicate mutations.
 

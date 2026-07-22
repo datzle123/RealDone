@@ -32,8 +32,8 @@ Budget violations appear in JSON/HTML evidence and make verification fail. Choos
 - `benchmark.md` for pull requests and release notes;
 - `benchmark.html` for a local visual dashboard.
 
-The dashboard exposes precision, recall, false-positive rate, action discovery, verdict/detector accuracy, reproduction success, scan time, memory delta, the confusion matrix, and every fixture outcome. Release gates continue to favor fewer evidence-backed findings over more speculative detectors.
+The dashboard exposes precision, recall, false-positive rate, action discovery, expectation coverage, verdict/detector accuracy, environment validity, confirmed cleanup success, reproduction success, scan time, memory delta, the confusion matrix, and every fixture outcome. Release gates continue to favor fewer evidence-backed findings over more speculative detectors.
 
 ## Release budgets
 
-The public fixture gate expects 100% precision, recall, discovery, detector accuracy, and reproduction success with a 0% false-positive rate. Operational time and memory are recorded on every run; project-specific limits should be enforced through checked-in budget JSON because hardware classes differ.
+The public fixture gate expects 100% precision, recall, discovery, expectation coverage, verdict/detector accuracy, environment validity, cleanup success, and reproduction success with a 0% false-positive rate and no truncation. Operational time and memory are recorded on every run; project-specific limits should be enforced through checked-in budget JSON because hardware classes differ.
