@@ -7,7 +7,7 @@ This is the matrix for the currently shipped subset. The normative complete scop
 | Capability | Runtime evidence | Automated gate |
 | --- | --- | --- |
 | Safe browser scan | Discovers routes/actions, fills fields, executes permitted actions | fixture browser smoke |
-| Enter-submit controls | Discovers standalone TodoMVC-style inputs, fills a canary, and presses Enter | enter-submit fixture plus external TodoMVC scan |
+| External-app behavior | Enter-submit, history-dependent targets, live control state, hash routes and auth contracts run without project-specific selectors | fixtures plus pinned TodoMVC, Actual Budget and Conduit workflows |
 | Core verdicts and RD001–RD303 | Broken, no-effect, duplicate, refresh/new-session disappearance, fake CRUD, false/silent success | detector unit tests plus broken/correct fixtures |
 | Browser-local scope | Canary survives reload but disappears in a fresh context, producing `BROWSER_LOCAL` + `RD102` | deep localStorage fixture and CLI smoke |
 | Evidence reports | HTML, scan/summary/finding JSON, screenshots, network logs, cleanup ledger, reproductions | artifact existence checks in browser smoke |

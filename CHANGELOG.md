@@ -18,6 +18,13 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 
 - Benchmark release gates now require 100% verdict accuracy and a 0% false-positive rate in addition to discovery, precision, recall, detector, and replay metrics.
 - Duplicate submissions remain `BROKEN` even when the resulting UI state is also non-persistent.
+- Missing semantic targets no longer fall back to a different element at the same DOM ordinal; they remain unexecuted and produce an evidence-backed `UNCERTAIN` result.
+- State snapshots include redacted live form-control values/states, and buttons with nearby URL targets are classified as external effects instead of producing misleading no-effect findings.
+- Same-origin hash-router paths are crawled as routes, and navigation links such as `Sign up` are no longer mistaken for direct mutation actions.
+- Current-route self-links are skipped as idempotent navigation, and 4xx rejection of generated login credentials yields `UNCERTAIN` instead of false broken/persistence findings.
+- Recorder fingerprints never derive accessible names from live input values; secret fields use stable environment references, and outcome capture no longer waits the default 30 seconds when no status element appears.
+- Playwright export preserves hash-router navigation and evaluates contract URL patterns against the pathname, matching deterministic verifier semantics.
+- The development/release environment installs `@playwright/test` directly so generated specs are executed rather than syntax-inspected only.
 
 ## [1.1.0] - 2026-07-22
 

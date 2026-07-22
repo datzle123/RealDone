@@ -26,7 +26,7 @@ This file reports current evidence against the normative [`PRODUCT_SPECIFICATION
 | §24 Multi-role | PARTIAL | role storage states and Level 7 cross-role observation | API authorization, direct route, cross-tenant write/read, revocation and invalidation matrix |
 | §25 Safety | PARTIAL | local/staging host policy, destructive/external opt-ins, redaction, cleanup ledger, cross-origin block | full external provider/database mutation classification and cleanup coverage |
 | §26 Benchmark | PARTIAL | precision, recall, FPR, discovery, verdict/detector accuracy, replay and operational metrics | explicit truncation, expectation coverage, cleanup success and environment validity as first-class gated metrics |
-| §27 Real-world cases | PARTIAL | reproducible TodoMVC scan/replay at a pinned MIT commit | backend CRUD, PostgreSQL, Supabase, auth, upload, export, multi-role, AI-generated and multi-step case studies |
+| §27 Real-world cases | PARTIAL | pinned TodoMVC, Actual Budget and SQLite-backed Conduit scans; real record/verify/replay/matrix/baseline/CI/export/agent workflow | PostgreSQL, Supabase, upload, export, deeper multi-role, AI-generated and intentional-defect case studies |
 | §28–31 Engineering/release/performance/UX | PARTIAL | CI, semantic releases, license notices, dependency audit, budgets, one-command scan, Windows/macOS/Linux matrix | all 15 gates are not yet executable, especially environment, artifact secret, schema, cleanup and external-case gates |
 | §32 Full-product definition | PLANNED | several foundations are shipped and useful | every listed condition must be `IMPLEMENTED`; no release currently meets this definition |
 

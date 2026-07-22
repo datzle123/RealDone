@@ -266,7 +266,7 @@ Run the full browser smoke test with `pnpm smoke`. It also verifies selector sur
 
 The [functional verification matrix](docs/VERIFICATION_MATRIX.md) maps every public capability to its executable release gate and records the product's intentional boundaries.
 
-RealDone is also exercised against external open-source applications rather than fixtures alone. See the [TodoMVC real-world validation](docs/REAL_WORLD_VALIDATION.md) for a reproducible scan and replay that found both ephemeral and browser-local persistence behavior.
+RealDone is also exercised against external open-source applications rather than fixtures alone. See the [real-world validation matrix](docs/REAL_WORLD_VALIDATION.md) for pinned TodoMVC, Actual Budget and Conduit runs, including full record/verify/replay/matrix/baseline/CI/export/agent evidence.
 
 ## Roadmap
 

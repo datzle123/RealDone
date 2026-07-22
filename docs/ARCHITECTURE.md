@@ -9,7 +9,7 @@ RealDone is a deterministic runtime verifier. Its core does not need an LLM, dat
 3. **Safety policy** classifies actions as safe, external, or destructive and enforces host policy.
 4. **Test data generator** creates unique canaries based on field semantics.
 5. **Safe action executor** re-opens each page in an isolated context, resolves the action, fills supported fields, and performs one interaction.
-6. **Evidence collector** records request/response timing, console/page errors, URL/DOM/storage digests, UI claims, dialogs, and downloads.
+6. **Evidence collector** records request/response timing, console/page errors, URL/DOM/live-control/storage digests, UI claims, dialogs, and downloads.
 7. **Persistence verifier** reloads mutation pages and, in deep mode, repeats the read-back in a fresh browser context.
 8. **Detector engine** converts factual evidence into stable detector matches and a verdict.
 9. **Report/replay layer** writes HTML, JSON, network logs, screenshots, optional trace/video, and one deterministic reproduction contract per finding.
@@ -21,6 +21,7 @@ The reliability layer wraps the pipeline with a global deadline, per-operation r
 - Evidence objects are serializable, versioned, and secret-redacted.
 - A verdict describes only the evidence level reached; `VERIFIED` is not a claim that all business rules are correct.
 - `UNCERTAIN` is a valid terminal state.
+- Semantic locator resolution never substitutes a different element by DOM ordinal. Ordinals remain readable for schema compatibility and diagnostics only; if the named target is absent, the action is not executed and the result is `UNCERTAIN`.
 - Production-like hosts are discovery-only until explicitly allowed.
 - Optional extensions depend on core contracts; core never depends on an extension.
 
