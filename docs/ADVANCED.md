@@ -127,11 +127,14 @@ Provider expectations cover three stable capability kinds:
 }
 ```
 
-The provider name is supplied by an explicit plugin manifest:
+The provider name is supplied by either a maintained provider configuration or an explicit plugin manifest:
 
 ```bash
+realdone verify flow.json \
+  --provider-config .realdone/providers.json
+
 realdone verify flow.json \
   --plugin ./plugins/test-inbox/realdone.plugin.json
 ```
 
-RealDone validates the plugin observation, applies the contract's confirmed/absent semantics itself, redacts reference values and known secrets, and reports Level 6 provider evidence. See the [Plugin SDK](PLUGIN_SDK.md).
+RealDone validates the maintained-adapter/plugin observation, applies the contract's confirmed/absent semantics itself, redacts reference values and known secrets, and reports Level 6 provider evidence. See [provider adapters](PROVIDERS.md) and the [Plugin SDK](PLUGIN_SDK.md).

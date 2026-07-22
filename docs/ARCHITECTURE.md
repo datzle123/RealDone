@@ -43,9 +43,9 @@ The reliability layer wraps the pipeline with a global deadline, per-operation r
 Later phases add four interfaces around the core evidence model:
 
 - `BehaviorContract`: recorded steps, semantic locators, assertions, cleanup, tags, and ownership.
-- `SourceOfTruthAdapter`: read-back and cleanup against a database or provider.
+- `SourceOfTruthAdapter`: read-back, schema/snapshot evidence, and cleanup against a database.
 - `AgentAdapter`: run an agent command, capture changed files, and select affected behavior contracts.
-- `RealDonePlugin`: register action classifiers, input providers, verifiers, detectors, and reporters.
+- `RealDonePlugin`: register custom provider observations and Prisma/custom source operations.
 
 Each extension must remain optional and must fail closed when it cannot establish evidence.
 
@@ -59,9 +59,13 @@ The baseline stores canonical contract hashes and compact pass/fail assertion ou
 
 ### Source-of-truth boundary
 
-The first `SourceOfTruthAdapter` implementation targets PostgreSQL and is loaded only when a contract contains a `source` expectation and verification receives `--postgres-config`. Credentials and CA material come from named environment variables and never enter contracts, manifests, ledgers, or reports. Read-back runs in a `READ ONLY` transaction. Dynamic values use PostgreSQL parameters; identifiers can only come from validated resource mappings.
+Source adapters are loaded only when a contract contains a matching `source` expectation. SQLite is zero-config and query-only/read-only by default. PostgreSQL uses a `READ ONLY` transaction and explicit TLS policy; Supabase, Firebase and MongoDB use versioned mappings, bounded remote access and production guards. Prisma/custom databases use a reviewed project-owned plugin because generated clients and schemas are project-specific. Credentials and CA material come from named environment variables and never enter contracts, manifests, ledgers, or reports. Dynamic values are parameterized or encoded through mapped query APIs; identifiers/fields come only from discovered or validated mappings. Schema, primary-key and soft-delete metadata plus row hashes support value-free snapshots and diffs.
 
-Database cleanup is a separate read-write transaction and is intentionally harder to enable than verification. It requires `--confirm`, `--confirm-database`, `allowCleanup: true`, and the exact configured cleanup-key fields. A zero-row delete is successful so rerunning cleanup remains idempotent.
+Database cleanup uses a separate write path and is intentionally harder to enable than verification. It requires `--confirm`, `--confirm-database`, the matching adapter/plugin, adapter cleanup opt-in where configurable, and exact key fields. A zero-row delete is successful so rerunning cleanup remains idempotent.
+
+### Provider boundary
+
+Maintained Stripe-test, email, object-storage and OAuth adapters perform only bounded lookup, `HEAD`, or introspection operations. Production-like endpoints are blocked by default, and Stripe live keys are never accepted. Custom provider plugins return typed observations; core validates/redacts them and computes the verdict. Provider and source plugins run in fresh workers with time/memory limits and declared environment/global-`fetch` permissions, but remain trusted code rather than an OS security sandbox.
 
 ### Coding-agent boundary
 

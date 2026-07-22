@@ -59,9 +59,11 @@ try {
     "docs/CI.md",
     "docs/COMPATIBILITY.md",
     "docs/CONTRACTS.md",
+    "docs/DATABASE_ADAPTERS.md",
     "docs/PERFORMANCE.md",
     "docs/PLUGIN_SDK.md",
     "docs/POSTGRESQL.md",
+    "docs/PROVIDERS.md",
     "docs/PRODUCT_SPECIFICATION.md",
     "docs/PRODUCT_STATUS.md",
     "docs/ROADMAP.md",
@@ -69,6 +71,16 @@ try {
     "docs/THREAT_MODEL.md",
     "docs/VERIFICATION_MATRIX.md",
     "docs/assets/report-preview.png",
+    "examples/plugins/prisma-source/index.mjs",
+    "examples/plugins/prisma-source/realdone.plugin.json",
+    "examples/plugins/storage-fixture/index.mjs",
+    "examples/plugins/storage-fixture/realdone.plugin.json",
+    "examples/realdone.firebase.json",
+    "examples/realdone.mongodb.json",
+    "examples/realdone.performance.json",
+    "examples/realdone.postgres.json",
+    "examples/realdone.providers.json",
+    "examples/realdone.supabase.json",
     "LICENSE",
     "THIRD_PARTY_NOTICES.md",
   ]) {
@@ -78,7 +90,7 @@ try {
   await run(process.execPath, [
     "--input-type=module",
     "--eval",
-    "import { runScan, recordFlow, verifyContract, definePlugin, inspectEnvironment, discoverProject, RuntimeManager } from 'realdone'; if (![runScan, recordFlow, verifyContract, definePlugin, inspectEnvironment, discoverProject, RuntimeManager].every(value => typeof value === 'function')) throw new Error('Public SDK export missing');",
+    "import { runScan, recordFlow, verifyContract, definePlugin, inspectEnvironment, discoverProject, RuntimeManager, SqliteSourceAdapter, SupabaseSourceAdapter, FirebaseSourceAdapter, MongoSourceAdapter, BuiltinProviderHost, PluginHost } from 'realdone'; if (![runScan, recordFlow, verifyContract, definePlugin, inspectEnvironment, discoverProject, RuntimeManager, SqliteSourceAdapter, SupabaseSourceAdapter, FirebaseSourceAdapter, MongoSourceAdapter, BuiltinProviderHost, PluginHost].every(value => typeof value === 'function')) throw new Error('Public SDK export missing');",
   ]);
 
   const cli = await run(process.execPath, [path.join(packageRoot, "dist", "cli.js"), "--version"]);

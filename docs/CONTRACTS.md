@@ -104,7 +104,7 @@ A `cross-role` expectation asks another role to navigate independently and confi
 
 ## Provider expectations
 
-`provider` expectations cover payment sandboxes, test inboxes, and object-storage sandboxes. The contract names a provider capability; an explicit Plugin SDK v1 manifest supplies its implementation. Plugins return observations, while RealDone applies `confirmed` or `absent` semantics and computes the verdict.
+`provider` expectations cover payment sandboxes, test inboxes, object storage, and OAuth introspection. The contract names a provider capability; either a maintained `--provider-config` adapter or an explicit Plugin SDK v1 manifest supplies its implementation. Adapters/plugins return observations, while RealDone applies `confirmed` or `absent` semantics and computes the verdict.
 
 ```json
 {
@@ -118,7 +118,7 @@ A `cross-role` expectation asks another role to navigate independently and confi
 }
 ```
 
-Run the contract with `--plugin ./plugin/realdone.plugin.json`. Provider reference values and known secrets are redacted from evidence. See the [Plugin SDK](PLUGIN_SDK.md).
+Run the contract with `--provider-config .realdone/providers.json` or `--plugin ./plugin/realdone.plugin.json`. Provider reference values and known secrets are redacted from evidence. See [provider adapters](PROVIDERS.md) and the [Plugin SDK](PLUGIN_SDK.md).
 
 ## Secrets
 

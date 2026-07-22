@@ -8,6 +8,8 @@
 | Operating systems | Ubuntu, Windows, macOS |
 | Browsers | Playwright Chromium, Firefox, WebKit |
 | PostgreSQL adapter | PostgreSQL 17 service in CI |
+| Local/remote source adapters | SQLite on every OS; Supabase/Firebase local REST fixtures; MongoDB 8 service with the official driver; Prisma/custom plugin bridge |
+| Provider adapters | Stripe-test, Resend, SendGrid, Mailgun, S3, Supabase Storage and OAuth bounded protocol fixtures |
 | Package managers | pnpm 10 for repository development; managed targets discovered for npm, pnpm, Yarn and Bun; npm-compatible published package |
 | Module format | Node ESM with generated declarations and source maps |
 

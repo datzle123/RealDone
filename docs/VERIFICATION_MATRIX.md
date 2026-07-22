@@ -24,8 +24,9 @@ This is the matrix for the currently shipped subset. The normative complete scop
 | Deep contract persistence | Versioned reload, hard-reload, new-tab, clean-context and logout/login rehydration strategies pass; provider/source and cross-role checks emit Level 6/7 scopes | deep contract smoke |
 | Baseline and regression CI | Green baseline passes; intentional server regression fails | green/red regression smoke |
 | Regression outcomes | Expected contract changes remain distinct from RD901–RD905 unexpected, removed, persistence, API and performance regressions | regression classifier unit tests plus browser baseline/red gate |
-| PostgreSQL Level 6 | Parameterized, allowlisted, read-only verification and guarded cleanup | PostgreSQL 17 hosted integration fixture |
-| Provider Level 6 | Trusted plugin observation is worker-bounded, validated, redacted, then judged by core | plugin unit and browser smoke |
+| Database Level 6 | SQLite, PostgreSQL, Supabase, Firebase, MongoDB and Prisma/custom connectors verify mapped source state; discover schema/PK/soft-delete fields; hash snapshots/diffs without persisting rows; and require confirmed key cleanup | SQLite/direct-adapter/plugin integration tests, real-browser Phase F flow, PostgreSQL 17 and MongoDB 8 hosted fixtures |
+| Provider Level 6 | Maintained Stripe-test, Resend, SendGrid, Mailgun, S3, Supabase Storage and OAuth adapters plus custom plugins perform bounded read-only checks; production-like access is fail-closed | provider fixture integration, production-guard tests, and browser smoke |
+| Plugin permissions | Fresh workers receive declared/referenced environment only, wrap global `fetch` with a hostname allowlist, discard output, enforce time/memory limits, validate/redact evidence, and document trusted-code residual risk | provider/source permission, timeout, schema, snapshot and cleanup tests |
 | Multi-role Level 7 | A distinct authenticated context independently observes the result | cross-role browser smoke |
 | Browser matrix | Same contract runs in Chromium, Firefox, and WebKit with aggregate evidence | hosted three-engine smoke |
 | Coding-agent verification | Baseline, agent command, rebuild, affected flows, integrity checks, evidence-based follow-up | agent unit and end-to-end smoke |

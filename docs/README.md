@@ -7,10 +7,12 @@ RealDone is a local-first runtime behavioral verifier. Start with the [project R
 - [Architecture](ARCHITECTURE.md) — core pipeline and extension boundaries.
 - [Behavior contracts](CONTRACTS.md) — record, edit, and replay deterministic flows.
 - [Baseline and CI](CI.md) — regression manifests, affected flows, and GitHub Action usage.
-- [PostgreSQL](POSTGRESQL.md) — Level 6 source-of-truth checks and cleanup.
+- [Database adapters](DATABASE_ADAPTERS.md) — SQLite, PostgreSQL, Supabase, Firebase, MongoDB, and Prisma/custom source checks and cleanup.
+- [PostgreSQL](POSTGRESQL.md) — production-like PostgreSQL configuration and Level 6 source-of-truth checks.
+- [Provider adapters](PROVIDERS.md) — maintained Stripe, email, storage, OAuth, and custom provider checks.
 - [Coding-agent verification](AGENT_VERIFICATION.md) — independent baseline → agent → rebuild → verify orchestration.
 - [Advanced verification](ADVANCED.md) — roles, Level 7 evidence, browser matrices, and provider contracts.
-- [Plugin SDK](PLUGIN_SDK.md) — provider extension manifest, runtime API, and worker limits.
+- [Plugin SDK](PLUGIN_SDK.md) — provider/source extension manifests, runtime APIs, permissions, and worker limits.
 - [Performance](PERFORMANCE.md) — enforceable budgets and benchmark dashboard.
 - [Compatibility](COMPATIBILITY.md) — release-gated operating systems, Node versions, browsers, and integrations.
 - [Threat model](THREAT_MODEL.md) — trust boundaries, mitigations, and residual risk.

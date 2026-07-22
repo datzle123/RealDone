@@ -167,12 +167,15 @@ realdone scan [url]
   --retries <n>            transient navigation/locator retries
 
 realdone replay <finding-id> [--report-dir <scan-directory>]
-realdone cleanup --report-dir <scan-directory> [--confirm]
+realdone cleanup --report-dir <scan-directory> [--confirm --confirm-database]
 realdone benchmark <url> --expected <expectations.json> [--verify-replays]
 realdone record <url> --name "Create customer"
 realdone verify .realdone/flows/create-customer.json
 realdone verify .realdone/flows/create-customer.json --deep
 realdone verify .realdone/flows/create-customer.json --postgres-config .realdone/postgres.json
+realdone verify .realdone/flows/create-customer.json --sqlite ./data/application.sqlite
+realdone verify .realdone/flows/create-customer.json --database-config .realdone/supabase.json
+realdone verify .realdone/flows/create-customer.json --provider-config .realdone/providers.json
 realdone matrix .realdone/flows/create-customer.json
 realdone baseline .realdone/flows --out .realdone/baseline.json
 realdone ci --baseline .realdone/baseline.json --contracts .realdone/flows
@@ -180,7 +183,7 @@ realdone export-playwright <contract.json> --out tests/flow.spec.ts
 realdone run codex --task-file task.md --contracts .realdone/flows
 ```
 
-Recorded verification supports `--browser`, repeated `--role-state role=file`, repeated `--plugin manifest.json`, and `--performance-budget budget.json`. Advanced features stay opt-in, so the default scan remains one Chromium worker with no database, provider, plugin, extra-role, or AI dependency.
+Recorded verification supports `--browser`, repeated `--role-state role=file`, zero-config `--sqlite file`, repeated `--database-config file`, repeated `--provider-config file`, repeated `--plugin manifest.json`, and `--performance-budget budget.json`. Advanced features stay opt-in, so the default scan remains one Chromium worker with no database, provider, plugin, extra-role, or AI dependency.
 
 ## Safe by default
 
@@ -250,11 +253,11 @@ See [Behavior contracts](docs/CONTRACTS.md) for editing assertions, secret handl
 
 RealDone writes a concise contract table to GitHub Step Summary. See [Baseline and CI](docs/CI.md) for changed-file selection, source scopes, and Playwright export.
 
-## PostgreSQL source-of-truth evidence
+## Database source-of-truth evidence
 
-Recorded contracts can add an optional `source` assertion that confirms a canary directly in PostgreSQL. Verification uses a read-only transaction, parameterized values, allowlisted identifiers, bounded timeouts, environment-only credentials, and explicit TLS policy. A passing source assertion is reported as Level 6 evidence.
+Recorded contracts can add a `source` assertion that confirms a canary directly in SQLite, PostgreSQL, Supabase, Firebase, MongoDB, Prisma, or a custom source. SQLite is the zero-config local default; PostgreSQL remains the production-like reference adapter. Direct adapters use read-only verification, parameterized or mapped filters, bounded operations, environment-only credentials, explicit remote/TLS policy, schema discovery, primary-key-aware hash snapshots, row diff, and soft-delete evidence. A passing source assertion is Level 6 evidence.
 
-Database cleanup is recorded in the same local ledger but requires separate CLI and config confirmation plus an allowlisted key. See [PostgreSQL source verification](docs/POSTGRESQL.md).
+Database cleanup is recorded in the same local ledger but requires `cleanup --confirm --confirm-database`, the matching adapter/plugin, and an exact configured key. Prisma and custom sources use reviewed project-owned Plugin SDK bridges. See [database adapters](docs/DATABASE_ADAPTERS.md) and [PostgreSQL configuration](docs/POSTGRESQL.md).
 
 ## Verify coding-agent claims
 
@@ -286,17 +289,18 @@ realdone matrix .realdone/flows/create-customer.json
 
 Add `--trace` or `--video` only when full debugging evidence is worth the extra disk and runtime cost. Scan and verification reports link the resulting portable artifacts.
 
-## Provider plugins and performance budgets
+## Provider adapters, plugins, and performance budgets
 
-Plugin SDK v1 lets reviewed local plugins observe payment-sandbox, test-inbox, and object-storage outcomes. Plugins return typed observations; RealDone validates the evidence and computes the verdict. Each call receives a fresh worker with explicit time and memory bounds, but plugins remain trusted code rather than security-sandboxed code.
+Maintained read-only adapters cover Stripe test mode, Resend, SendGrid, Mailgun, S3, Supabase Storage, and OAuth introspection. Production-like endpoints are blocked by default, and Stripe live keys are always rejected. Plugin SDK v1 lets reviewed local plugins add provider or Prisma/custom source observations. Plugins return typed observations; RealDone validates the evidence and computes the verdict.
 
 ```bash
 realdone verify .realdone/flows/upload.json \
+  --provider-config .realdone/providers.json \
   --plugin ./plugins/storage/realdone.plugin.json \
   --performance-budget examples/realdone.performance.json
 ```
 
-Performance violations fail verification and appear in JSON/HTML evidence. See the [Plugin SDK](docs/PLUGIN_SDK.md), [performance budgets](docs/PERFORMANCE.md), and [threat model](docs/THREAT_MODEL.md).
+Each plugin call receives a fresh worker with declared environment/network permissions plus explicit time and memory bounds. Plugins remain trusted code rather than security-sandboxed code. Performance violations fail verification and appear in JSON/HTML evidence. See [provider adapters](docs/PROVIDERS.md), the [Plugin SDK](docs/PLUGIN_SDK.md), [performance budgets](docs/PERFORMANCE.md), and the [threat model](docs/THREAT_MODEL.md).
 
 ## Public benchmark fixtures
 
@@ -318,7 +322,7 @@ RealDone is also exercised against external open-source applications rather than
 
 Releases `v0.1.0` through `v1.1.0` delivered the tested foundation: scanning, evidence, replay, recording/contracts, baseline/CI, PostgreSQL, coding-agent adapters, roles, provider contracts, multi-browser execution, plugins, and budgets. Some of those capabilities remain `PARTIAL` against the broader normative specification.
 
-The current development line has completed the environment, execution, persistence, detector, contract/replay, and report phase gates. Remaining phases cover the full source-of-truth/provider ecosystem and coding-agent/full-product qualification. See the [roadmap](docs/ROADMAP.md) and [current status](docs/PRODUCT_STATUS.md); phase completion requires executable evidence and a green hosted gate.
+The current development line has completed the environment, execution, persistence, detector, contract/replay, and report phase gates. Source-of-truth/provider ecosystem implementation and local acceptance are complete and await the hosted Phase F matrix; coding-agent/full-product qualification remains. See the [roadmap](docs/ROADMAP.md) and [current status](docs/PRODUCT_STATUS.md); phase completion requires executable evidence and a green hosted gate.
 
 ## Contributing
 

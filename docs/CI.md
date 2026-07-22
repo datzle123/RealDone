@@ -48,6 +48,11 @@ jobs:
           contracts: .realdone/flows
           allow-host: staging.example.test
           postgres-config: .realdone/postgres.json
+          sqlite: ./data/application.sqlite
+          database-configs: |
+            .realdone/supabase.json
+          provider-configs: |
+            .realdone/providers.json
           browser: chromium
           role-states: |
             support=.realdone/auth/support.json
@@ -57,9 +62,9 @@ jobs:
           deep: "true"
 ```
 
-Provide the PostgreSQL connection URL and optional CA as masked workflow environment secrets named by the adapter config. The action input contains only the config path. When `GITHUB_STEP_SUMMARY` is available, RealDone writes a compact contract/result table to the pull request job summary.
+Provide database/provider credentials and optional CA material as masked workflow environment secrets named by the adapter configs. Action inputs contain only SQLite/config/plugin paths. When `GITHUB_STEP_SUMMARY` is available, RealDone writes a compact contract/result table to the pull request job summary.
 
-The action accepts one `browser` per job (`chromium`, `firefox`, or `webkit`). Use a job matrix when every engine must gate a pull request. `role-states` and `plugins` are newline-separated; secret values remain in environment variables or Playwright auth-state files rather than action inputs. Set `install-browser: "false"` only when the selected Playwright browser is already installed.
+The action accepts one `browser` per job (`chromium`, `firefox`, or `webkit`). Use a job matrix when every engine must gate a pull request. `database-configs`, `provider-configs`, `role-states`, and `plugins` are newline-separated; secret values remain in environment variables or Playwright auth-state files rather than action inputs. Set `install-browser: "false"` only when the selected Playwright browser is already installed.
 
 `deep`, `trace`, and `video` are separate boolean inputs. Deep verification increases browser-context count; traces and videos can be large and may contain private application content, so enable them selectively.
 

@@ -89,7 +89,7 @@ Gate:
 - Report artifact layout and timelines cover every evidence type and finding class.
 - Benchmark exposes and gates truncation, expectation coverage, cleanup success and environment validity in addition to correctness metrics.
 
-Implementation and local acceptance are complete. A real-browser complex flow records and verifies upload, rich text, keypress, popup, non-empty download and semantic drag/drop; fresh browser executions produce all five normative replay outcomes; reports write and link every Phase E artifact class; benchmark cleanup is executed and gated. Chromium/Firefox/WebKit pass, Actual Budget and the intentional TodoMVC defect copy show no regression, and a fresh Conduit SQLite login records 5 semantic steps/20 masked rrweb events, verifies with trace, and passes its generated Playwright spec. Phase completion remains contingent on the hosted Ubuntu/Windows/macOS matrix for the pushed Phase E head.
+Phase E is complete. A real-browser complex flow records and verifies upload, rich text, keypress, popup, non-empty download and semantic drag/drop; fresh browser executions produce all five normative replay outcomes; reports write and link every Phase E artifact class; benchmark cleanup is executed and gated. Chromium/Firefox/WebKit pass, Actual Budget and the intentional TodoMVC defect copy show no regression, and a fresh Conduit SQLite login records 5 semantic steps/20 masked rrweb events, verifies with trace, and passes its generated Playwright spec. Hosted run `29914326977` passed PostgreSQL 17, package/audit gates, Node 20/22, all three engines, and Ubuntu/Windows/macOS for Phase E head `aa5d673`.
 
 ## Phase F — source-of-truth and provider ecosystem
 
@@ -101,6 +101,8 @@ Gate:
 - Stripe test mode, email test inboxes, S3/Supabase Storage, OAuth and custom providers have maintained sandboxed adapters.
 - Read-only defaults, TLS, parameterization, secret redaction, production guards and cleanup ledgers pass security tests.
 - Plugin SDK compatibility and isolation are versioned and documented with real example plugins.
+
+Implementation and local acceptance are complete. SQLite, Supabase, Firebase, MongoDB, PostgreSQL and Prisma/custom source contracts cover verification, schema/primary-key/soft-delete discovery, value-free snapshots/diff and confirmed cleanup; all seven maintained provider adapters and production guards pass integration tests. The full browser workflow passed in Chromium and the Chromium/Firefox/WebKit matrix with source/provider Level 6, plugin and built-in adapters, multi-role Level 7, trace/video, baseline/CI, replay and agent verification. A pinned Conduit run performed a real login, confirmed the user in its live SQLite `Users` table at Level 6, wrote a trace, found no password in artifacts, and removed the disposable user by primary key. The installed-tarball smoke passed for SHA-256 `89DDB5F428B8CF961E38F4FA601658E650FEF248353EC58BCA1666D5610DC12C`; dependency audit reported no known vulnerabilities. Phase completion remains contingent on the hosted Ubuntu/Windows/macOS matrix for the pushed Phase F head.
 
 ## Phase G — coding-agent and full-product qualification
 

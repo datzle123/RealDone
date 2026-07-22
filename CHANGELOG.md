@@ -24,6 +24,12 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 - Semantic recorder/verifier steps for keypress, environment-referenced upload, rich text and drag/drop, plus popup-path and non-empty-download expectations.
 - Explicit fresh-execution replay outcomes and portable `replay.json` evidence for reproduced, changed, environment-changed, target-missing and uncertain results.
 - Dedicated per-finding snapshot, console, WebSocket, upload, download and replay-contract artifact directories linked from the HTML report.
+- Zero-config SQLite Level 6 verification with read-only/query-only access, live schema/primary-key/soft-delete discovery, value-free hash snapshots, row diff, parameterized filters, and separately confirmed primary-key cleanup.
+- Maintained Supabase/PostgREST, Firebase Firestore REST, and MongoDB source adapters with mapped resources, remote/TLS guards, bounded snapshots, and cleanup ledgers; PostgreSQL now also exposes live schema discovery and row snapshots.
+- Versioned Prisma/custom source-plugin operations for verification, schema discovery, snapshots, and exact-primary-key cleanup.
+- Maintained read-only provider adapters for Stripe test mode, Resend, SendGrid, Mailgun, S3, Supabase Storage, and OAuth introspection, plus repeated `--database-config` and `--provider-config` CLI inputs.
+- GitHub Action inputs for SQLite, repeated database configs, repeated provider configs, and provider/source plugins.
+- Plugin manifest environment/network permissions with fresh worker execution, restricted worker environment, allowlisted global `fetch`, and tested source/provider redaction boundaries.
 
 ### Changed
 
@@ -35,6 +41,7 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 - Password-bearing forms are classified as authentication before generic email/external heuristics, and successful sessions are verified from persisted auth artifacts rather than requiring credentials to reappear in the UI.
 - Benchmark release gates now run and require successful cleanup; recorder interaction and navigation waits inherit the configured finite timeout.
 - Published packages include the complete linked documentation set and report preview instead of leaving installed README links unresolved.
+- Published packages now include every database/provider example and both provider/source plugin examples; optional SQLite and MongoDB dependencies are license-noticed alongside PostgreSQL.
 
 ## [1.2.0] - 2026-07-22
 

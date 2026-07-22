@@ -57,6 +57,8 @@ realdone verify .realdone/flows/create-customer.json \
 
 The adapter executes `SELECT COUNT(*)` in a read-only transaction with a bounded statement timeout. Reports contain the resource alias, matched row count, mapped field names, timing, and query hash. They do not contain the database URL or filter values.
 
+The public adapter API also discovers mapped column types/nullability and real primary keys from PostgreSQL catalogs. Bounded snapshots select only mapped columns, hash primary-key and row values in memory, detect mapped soft-delete aliases, and expose value-free input to `diffSourceSnapshots`; raw rows are never written to verification evidence.
+
 ## TLS modes
 
 - `verify-full` is the default and validates the server certificate. `caEnv` is optional when the platform trust store already contains the CA.
