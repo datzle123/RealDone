@@ -73,7 +73,7 @@
     "typescript": "^5.9.3"
   },
   "optionalDependencies": {
-    "better-sqlite3": "12.11.1",
+    "better-sqlite3": "12.9.0",
     "mongodb": "6.21.0",
     "pg": "8.22.0"
   }
