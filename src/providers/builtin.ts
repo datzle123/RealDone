@@ -322,7 +322,16 @@ export class BuiltinProviderHost {
         };
         return { evidence: verified };
       } catch (error) {
-        return { error: { provider: check.provider, detail: redactText(error instanceof Error ? error.message : String(error)).slice(0, 1_000) } };
+        return {
+          error: {
+            provider: check.provider,
+            kind: check.kind,
+            resource: check.resource,
+            operation: check.operation,
+            state: check.state,
+            detail: redactText(error instanceof Error ? error.message : String(error)).slice(0, 1_000),
+          },
+        };
       }
     });
     const evidence = outcomes.flatMap((outcome) => outcome.evidence ? [outcome.evidence] : []);

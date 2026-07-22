@@ -1,9 +1,19 @@
 import assert from "node:assert/strict";
+import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
 import test from "node:test";
 import { commandPassed, runCommand, type CommandResult } from "../src/agent/command.js";
 import { renderFollowUpPrompt } from "../src/agent/followup.js";
-import { parseGitStatus } from "../src/agent/pipeline.js";
+import {
+  captureAgentGitState,
+  changedFilesFromGitState,
+  decideAgentIntegrity,
+  parseGitStatus,
+} from "../src/agent/pipeline.js";
 import { createAgentCommand } from "../src/agent/presets.js";
+import { selectAffectedContracts } from "../src/baseline/affected.js";
+import type { BehaviorManifest } from "../src/baseline/manifest.js";
 
 function result(overrides: Partial<CommandResult> = {}): CommandResult {
   return {
@@ -20,6 +30,35 @@ function result(overrides: Partial<CommandResult> = {}): CommandResult {
     stdoutTruncated: false,
     stderrTruncated: false,
     ...overrides,
+  };
+}
+
+async function git(cwd: string, args: string[]): Promise<void> {
+  const completed = await runCommand({ executable: "git", args, cwd, timeoutMs: 10_000 });
+  assert.equal(commandPassed(completed), true, completed.stderr || completed.spawnError);
+}
+
+function manifest(): BehaviorManifest {
+  const contract = (id: string, sourceFiles: string[]) => ({
+    id,
+    name: id,
+    file: `${id}.json`,
+    hash: id,
+    tags: [],
+    routes: [],
+    endpoints: [],
+    sourceFiles,
+    stepCount: 1,
+    baseline: { passed: true, verificationId: id, steps: [] },
+  });
+  return {
+    schemaVersion: "1.0",
+    generatedAt: "2026-07-23T00:00:00.000Z",
+    contracts: [
+      contract("agent-flow", ["src/agent-created.ts"]),
+      contract("build-flow", ["src/build-created.ts"]),
+      contract("unrelated-flow", ["src/unrelated.ts"]),
+    ],
   };
 }
 
@@ -69,6 +108,63 @@ test("generic command runner is shell-free, bounded, timed, and secret-redacted"
 test("Git status parser preserves modified, untracked, and rename paths", () => {
   const parsed = parseGitStatus(" M src/a.ts\0?? new file.ts\0R  new.ts\0old.ts\0");
   assert.deepEqual(parsed, ["new file.ts", "new.ts", "old.ts", "src/a.ts"]);
+});
+
+test("final post-build Git state reports build-created files and selects their affected flow", async () => {
+  const repository = await mkdtemp(path.join(os.tmpdir(), "realdone-agent-git-"));
+  try {
+    await git(repository, ["init"]);
+    await git(repository, ["config", "user.email", "realdone@example.test"]);
+    await git(repository, ["config", "user.name", "RealDone Test"]);
+    await writeFile(path.join(repository, "README.md"), "fixture\n");
+    await git(repository, ["add", "README.md"]);
+    await git(repository, ["commit", "-m", "fixture"]);
+
+    const before = await captureAgentGitState(repository);
+    await mkdir(path.join(repository, "src"));
+    await writeFile(path.join(repository, "src", "agent-created.ts"), "export const agent = true;\n");
+    const afterAgent = await captureAgentGitState(repository);
+    assert.deepEqual(await changedFilesFromGitState(repository, before.head, afterAgent), ["src/agent-created.ts"]);
+
+    // Simulate an independent build that generates a product file after the agent exits.
+    await writeFile(path.join(repository, "src", "build-created.ts"), "export const build = true;\n");
+    const postBuild = await captureAgentGitState(repository);
+    const changedFiles = await changedFilesFromGitState(repository, before.head, postBuild);
+    assert.deepEqual(changedFiles, ["src/agent-created.ts", "src/build-created.ts"]);
+    assert.deepEqual(
+      selectAffectedContracts(manifest(), changedFiles).map((contract) => contract.id),
+      ["agent-flow", "build-flow"],
+    );
+  } finally {
+    await rm(repository, { recursive: true, force: true });
+  }
+});
+
+test("agent integrity fails closed and contract tampering cannot narrow affected-flow selection", () => {
+  const baselineTamper = decideAgentIntegrity({
+    agentTamperedBaseline: false,
+    buildTamperedBaseline: true,
+    contractFilesChanged: [],
+    changedFiles: ["src/build-created.ts"],
+    allowContractChanges: false,
+  });
+  assert.equal(baselineTamper.baselineTampered, true);
+  assert.equal(baselineTamper.integrityPassed, false);
+  assert.deepEqual(baselineTamper.regressionChangedFiles, ["src/build-created.ts"]);
+
+  const contractTamper = decideAgentIntegrity({
+    agentTamperedBaseline: false,
+    buildTamperedBaseline: false,
+    contractFilesChanged: ["flows/build-flow.json"],
+    changedFiles: ["flows/build-flow.json"],
+    allowContractChanges: false,
+  });
+  assert.equal(contractTamper.integrityPassed, false);
+  assert.deepEqual(contractTamper.regressionChangedFiles, []);
+  assert.deepEqual(
+    selectAffectedContracts(manifest(), contractTamper.regressionChangedFiles).map((contract) => contract.id),
+    ["agent-flow", "build-flow", "unrelated-flow"],
+  );
 });
 
 test("follow-up prompt uses independent evidence and ignores the agent claim", () => {

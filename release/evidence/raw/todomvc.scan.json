@@ -1,0 +1,877 @@
+{
+  "schemaVersion": "1.0",
+  "scanId": "20260722T190453Z-b698",
+  "targetUrl": "http://127.0.0.1:37127/",
+  "startedAt": "2026-07-22T19:04:53.287Z",
+  "finishedAt": "2026-07-22T19:04:59.164Z",
+  "options": {
+    "maxPages": 2,
+    "maxActions": 20,
+    "timeoutMs": 10000,
+    "settleMs": 800,
+    "maxDurationMs": 90000,
+    "maxRetries": 2,
+    "allowDestructive": false,
+    "allowExternal": false,
+    "mutationAllowed": true,
+    "deep": true,
+    "trace": true,
+    "traceOnFailure": false,
+    "video": false,
+    "environmentTimeoutMs": 10000,
+    "acceptEnvironmentRisk": false,
+    "allowIframes": false
+  },
+  "summary": {
+    "pagesDiscovered": 1,
+    "visibleActions": 2,
+    "actionsVerified": 1,
+    "actionsSkipped": 1,
+    "verdicts": {
+      "VERIFIED": 0,
+      "CONTRADICTORY": 0,
+      "EPHEMERAL": 1,
+      "BROWSER_LOCAL": 0,
+      "BROKEN": 0,
+      "NO_EFFECT": 0,
+      "UNCERTAIN": 0,
+      "SKIPPED": 1
+    },
+    "environmentStatus": "VALID"
+  },
+  "pages": [
+    {
+      "url": "http://127.0.0.1:37127/",
+      "title": "TodoMVC: React",
+      "actions": [
+        {
+          "id": "92f9d29fabad",
+          "pageUrl": "http://127.0.0.1:37127/",
+          "label": "New Todo Input",
+          "activation": "enter",
+          "kind": "mutation",
+          "intent": "create",
+          "risk": "safe",
+          "fingerprint": {
+            "selector": "[data-testid=\"text-input\"]",
+            "tag": "input",
+            "ordinal": 0,
+            "role": "textbox",
+            "accessibleName": "New Todo Input",
+            "testId": "text-input",
+            "type": "text",
+            "candidates": [
+              {
+                "strategy": "testid",
+                "weight": 100,
+                "value": "text-input",
+                "exact": true
+              },
+              {
+                "strategy": "role",
+                "weight": 92,
+                "role": "textbox",
+                "name": "New Todo Input",
+                "exact": true
+              },
+              {
+                "strategy": "role",
+                "weight": 82,
+                "role": "textbox",
+                "name": "New Todo Input",
+                "exact": false
+              },
+              {
+                "strategy": "css",
+                "weight": 35,
+                "selector": "[data-testid=\"text-input\"]"
+              }
+            ]
+          },
+          "fields": [
+            {
+              "selector": "[data-testid=\"text-input\"]",
+              "tag": "input",
+              "type": "text",
+              "required": false,
+              "disabled": false,
+              "label": "New Todo Input",
+              "placeholder": "What needs to be done?"
+            }
+          ]
+        },
+        {
+          "id": "d4cf8b35943a",
+          "pageUrl": "http://127.0.0.1:37127/",
+          "label": "TodoMVC",
+          "activation": "click",
+          "kind": "navigation",
+          "intent": "navigate",
+          "risk": "safe",
+          "fingerprint": {
+            "selector": "body > footer > p:nth-of-type(3) > a",
+            "tag": "a",
+            "ordinal": 1,
+            "role": "link",
+            "accessibleName": "TodoMVC",
+            "text": "TodoMVC",
+            "href": "http://todomvc.com/",
+            "candidates": [
+              {
+                "strategy": "role",
+                "weight": 92,
+                "role": "link",
+                "name": "TodoMVC",
+                "exact": true
+              },
+              {
+                "strategy": "role",
+                "weight": 82,
+                "role": "link",
+                "name": "TodoMVC",
+                "exact": false
+              },
+              {
+                "strategy": "href",
+                "weight": 72,
+                "value": "http://todomvc.com/"
+              },
+              {
+                "strategy": "text",
+                "weight": 60,
+                "value": "TodoMVC",
+                "exact": true
+              },
+              {
+                "strategy": "css",
+                "weight": 35,
+                "selector": "body > footer > p:nth-of-type(3) > a"
+              }
+            ]
+          },
+          "fields": []
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "id": "RD-001",
+      "action": {
+        "id": "92f9d29fabad",
+        "pageUrl": "http://127.0.0.1:37127/",
+        "label": "New Todo Input",
+        "activation": "enter",
+        "kind": "mutation",
+        "intent": "create",
+        "risk": "safe",
+        "fingerprint": {
+          "selector": "[data-testid=\"text-input\"]",
+          "tag": "input",
+          "ordinal": 0,
+          "role": "textbox",
+          "accessibleName": "New Todo Input",
+          "testId": "text-input",
+          "type": "text",
+          "candidates": [
+            {
+              "strategy": "testid",
+              "weight": 100,
+              "value": "text-input",
+              "exact": true
+            },
+            {
+              "strategy": "role",
+              "weight": 92,
+              "role": "textbox",
+              "name": "New Todo Input",
+              "exact": true
+            },
+            {
+              "strategy": "role",
+              "weight": 82,
+              "role": "textbox",
+              "name": "New Todo Input",
+              "exact": false
+            },
+            {
+              "strategy": "css",
+              "weight": 35,
+              "selector": "[data-testid=\"text-input\"]"
+            }
+          ]
+        },
+        "fields": [
+          {
+            "selector": "[data-testid=\"text-input\"]",
+            "tag": "input",
+            "type": "text",
+            "required": false,
+            "disabled": false,
+            "label": "New Todo Input",
+            "placeholder": "What needs to be done?"
+          }
+        ]
+      },
+      "evidence": {
+        "startedAt": "2026-07-22T19:04:54.857Z",
+        "durationMs": 4275,
+        "canary": "RD_TEST_988F48",
+        "network": [
+          {
+            "id": "net-1",
+            "method": "GET",
+            "url": "http://127.0.0.1:37127/",
+            "resourceType": "document",
+            "startedAt": 1890,
+            "status": 200,
+            "ok": true,
+            "contentType": "text/html",
+            "resourceTypeHint": "resource",
+            "finishedAt": 1895
+          },
+          {
+            "id": "net-2",
+            "method": "GET",
+            "url": "http://127.0.0.1:37127/app.bundle.js",
+            "resourceType": "script",
+            "startedAt": 1895,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 1900,
+            "contentType": "text/javascript",
+            "resourceTypeHint": "app.bundle.js"
+          },
+          {
+            "id": "net-3",
+            "method": "GET",
+            "url": "http://127.0.0.1:37127/app.css",
+            "resourceType": "stylesheet",
+            "startedAt": 1895,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 1896,
+            "contentType": "text/css",
+            "resourceTypeHint": "app.css"
+          },
+          {
+            "id": "net-4",
+            "method": "GET",
+            "url": "http://127.0.0.1:37127/base.js",
+            "resourceType": "script",
+            "startedAt": 1895,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 1896,
+            "contentType": "text/javascript",
+            "resourceTypeHint": "base.js"
+          },
+          {
+            "id": "net-5",
+            "method": "GET",
+            "url": "http://127.0.0.1:37127/learn.json",
+            "resourceType": "xhr",
+            "startedAt": 1897,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 1898,
+            "contentType": "text/html",
+            "resourceTypeHint": "learn.json"
+          },
+          {
+            "id": "net-6",
+            "method": "GET",
+            "url": "http://127.0.0.1:37127/",
+            "resourceType": "document",
+            "startedAt": 2459,
+            "status": 200,
+            "ok": true,
+            "contentType": "text/html",
+            "resourceTypeHint": "resource",
+            "finishedAt": 2465
+          },
+          {
+            "id": "net-7",
+            "method": "GET",
+            "url": "http://127.0.0.1:37127/app.bundle.js",
+            "resourceType": "script",
+            "startedAt": 2464,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 2469,
+            "contentType": "text/javascript",
+            "resourceTypeHint": "app.bundle.js"
+          },
+          {
+            "id": "net-8",
+            "method": "GET",
+            "url": "http://127.0.0.1:37127/app.css",
+            "resourceType": "stylesheet",
+            "startedAt": 2464,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 2465,
+            "contentType": "text/css",
+            "resourceTypeHint": "app.css"
+          },
+          {
+            "id": "net-9",
+            "method": "GET",
+            "url": "http://127.0.0.1:37127/base.js",
+            "resourceType": "script",
+            "startedAt": 2464,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 2466,
+            "contentType": "text/javascript",
+            "resourceTypeHint": "base.js"
+          },
+          {
+            "id": "net-10",
+            "method": "GET",
+            "url": "http://127.0.0.1:37127/learn.json",
+            "resourceType": "xhr",
+            "startedAt": 2466,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 2466,
+            "contentType": "text/html",
+            "resourceTypeHint": "learn.json"
+          }
+        ],
+        "console": [],
+        "pageErrors": [],
+        "uiClaims": [],
+        "filledFields": [
+          {
+            "selector": "[data-testid=\"text-input\"]",
+            "name": "New Todo Input",
+            "type": "text",
+            "value": "RD_TEST_988F48_1",
+            "redacted": false
+          }
+        ],
+        "dialogs": [],
+        "downloads": [],
+        "downloadEvidence": [],
+        "uploads": [],
+        "popupUrls": [],
+        "locatorResolution": {
+          "attempts": [
+            {
+              "strategy": "testid",
+              "weight": 100,
+              "matchCount": 1,
+              "visibleCount": 1,
+              "elapsedMs": 25
+            }
+          ],
+          "chosenStrategy": "testid",
+          "chosenWeight": 100,
+          "retryCount": 0
+        },
+        "before": {
+          "at": 833,
+          "url": "http://127.0.0.1:37127/",
+          "title": "TodoMVC: React",
+          "domHash": "8481d3f92c9191d1",
+          "canaryPresent": false,
+          "bodyCanaryPresent": false,
+          "temporaryBlobUrls": 0,
+          "auth": {
+            "artifacts": 0,
+            "expiredArtifacts": 0,
+            "privateContent": false,
+            "adminContent": false,
+            "accessDenied": false
+          },
+          "semanticDom": {
+            "textHash": "4bd82bc5bab9db84",
+            "text": "todos Double-click to edit a todo Created by the TodoMVC Team Part of TodoMVC",
+            "controls": [
+              {
+                "tag": "input",
+                "type": "text",
+                "valueHash": "e3b0c44298fc1c14",
+                "checked": false,
+                "disabled": false
+              },
+              {
+                "tag": "input",
+                "type": "checkbox",
+                "valueHash": "b8d31e852725afb1",
+                "checked": false,
+                "disabled": false
+              },
+              {
+                "tag": "button",
+                "type": "submit",
+                "valueHash": "e3b0c44298fc1c14",
+                "disabled": false
+              }
+            ]
+          },
+          "busyControls": 0,
+          "disabledControls": 0,
+          "storage": {
+            "local": [],
+            "session": [],
+            "cookieNames": [],
+            "cookies": [],
+            "indexedDb": []
+          }
+        },
+        "beforeAction": {
+          "at": 882,
+          "url": "http://127.0.0.1:37127/",
+          "title": "TodoMVC: React",
+          "domHash": "a1fdf0ad00c70777",
+          "canaryPresent": true,
+          "bodyCanaryPresent": false,
+          "temporaryBlobUrls": 0,
+          "auth": {
+            "artifacts": 0,
+            "expiredArtifacts": 0,
+            "privateContent": false,
+            "adminContent": false,
+            "accessDenied": false
+          },
+          "semanticDom": {
+            "textHash": "4bd82bc5bab9db84",
+            "text": "todos Double-click to edit a todo Created by the TodoMVC Team Part of TodoMVC",
+            "controls": [
+              {
+                "tag": "input",
+                "type": "text",
+                "valueHash": "1342dfc53c1759b1",
+                "checked": false,
+                "disabled": false
+              },
+              {
+                "tag": "input",
+                "type": "checkbox",
+                "valueHash": "b8d31e852725afb1",
+                "checked": false,
+                "disabled": false
+              },
+              {
+                "tag": "button",
+                "type": "submit",
+                "valueHash": "e3b0c44298fc1c14",
+                "disabled": false
+              }
+            ]
+          },
+          "busyControls": 0,
+          "disabledControls": 0,
+          "storage": {
+            "local": [],
+            "session": [],
+            "cookieNames": [],
+            "cookies": [],
+            "indexedDb": []
+          }
+        },
+        "targetDisabledAfter": false,
+        "networkSettled": true,
+        "targetBusyAfter": false,
+        "after": {
+          "at": 1855,
+          "url": "http://127.0.0.1:37127/",
+          "title": "TodoMVC: React",
+          "domHash": "a2a0a5433a9b44e8",
+          "canaryPresent": true,
+          "bodyCanaryPresent": true,
+          "temporaryBlobUrls": 0,
+          "auth": {
+            "artifacts": 0,
+            "expiredArtifacts": 0,
+            "privateContent": false,
+            "adminContent": false,
+            "accessDenied": false
+          },
+          "semanticDom": {
+            "textHash": "1d781c8a269848eb",
+            "text": "todos Toggle All Input RD_TEST_988F48_1 1 item left! AllActiveCompleted Double-click to edit a todo Created by the TodoMVC Team Part of TodoMVC",
+            "controls": [
+              {
+                "tag": "input",
+                "type": "text",
+                "valueHash": "e3b0c44298fc1c14",
+                "checked": false,
+                "disabled": false
+              },
+              {
+                "tag": "input",
+                "type": "checkbox",
+                "valueHash": "b8d31e852725afb1",
+                "checked": false,
+                "disabled": false
+              },
+              {
+                "tag": "input",
+                "type": "checkbox",
+                "valueHash": "b8d31e852725afb1",
+                "checked": false,
+                "disabled": false
+              },
+              {
+                "tag": "button",
+                "type": "submit",
+                "valueHash": "e3b0c44298fc1c14",
+                "disabled": false
+              },
+              {
+                "tag": "button",
+                "type": "submit",
+                "valueHash": "e3b0c44298fc1c14",
+                "disabled": false
+              }
+            ]
+          },
+          "busyControls": 0,
+          "disabledControls": 0,
+          "storage": {
+            "local": [],
+            "session": [],
+            "cookieNames": [],
+            "cookies": [],
+            "indexedDb": []
+          }
+        },
+        "screenshot": "screenshots/92f9d29fabad-after.png",
+        "afterRefresh": {
+          "at": 2424,
+          "url": "http://127.0.0.1:37127/",
+          "title": "TodoMVC: React",
+          "domHash": "8481d3f92c9191d1",
+          "canaryPresent": false,
+          "bodyCanaryPresent": false,
+          "temporaryBlobUrls": 0,
+          "auth": {
+            "artifacts": 0,
+            "expiredArtifacts": 0,
+            "privateContent": false,
+            "adminContent": false,
+            "accessDenied": false
+          },
+          "semanticDom": {
+            "textHash": "4bd82bc5bab9db84",
+            "text": "todos Double-click to edit a todo Created by the TodoMVC Team Part of TodoMVC",
+            "controls": [
+              {
+                "tag": "input",
+                "type": "text",
+                "valueHash": "e3b0c44298fc1c14",
+                "checked": false,
+                "disabled": false
+              },
+              {
+                "tag": "input",
+                "type": "checkbox",
+                "valueHash": "b8d31e852725afb1",
+                "checked": false,
+                "disabled": false
+              },
+              {
+                "tag": "button",
+                "type": "submit",
+                "valueHash": "e3b0c44298fc1c14",
+                "disabled": false
+              }
+            ]
+          },
+          "busyControls": 0,
+          "disabledControls": 0,
+          "storage": {
+            "local": [],
+            "session": [],
+            "cookieNames": [],
+            "cookies": [],
+            "indexedDb": []
+          }
+        },
+        "refreshScreenshot": "screenshots/92f9d29fabad-refresh.png",
+        "afterHardRefresh": {
+          "at": 2994,
+          "url": "http://127.0.0.1:37127/",
+          "title": "TodoMVC: React",
+          "domHash": "8481d3f92c9191d1",
+          "canaryPresent": false,
+          "bodyCanaryPresent": false,
+          "temporaryBlobUrls": 0,
+          "auth": {
+            "artifacts": 0,
+            "expiredArtifacts": 0,
+            "privateContent": false,
+            "adminContent": false,
+            "accessDenied": false
+          },
+          "semanticDom": {
+            "textHash": "4bd82bc5bab9db84",
+            "text": "todos Double-click to edit a todo Created by the TodoMVC Team Part of TodoMVC",
+            "controls": [
+              {
+                "tag": "input",
+                "type": "text",
+                "valueHash": "e3b0c44298fc1c14",
+                "checked": false,
+                "disabled": false
+              },
+              {
+                "tag": "input",
+                "type": "checkbox",
+                "valueHash": "b8d31e852725afb1",
+                "checked": false,
+                "disabled": false
+              },
+              {
+                "tag": "button",
+                "type": "submit",
+                "valueHash": "e3b0c44298fc1c14",
+                "disabled": false
+              }
+            ]
+          },
+          "busyControls": 0,
+          "disabledControls": 0,
+          "storage": {
+            "local": [],
+            "session": [],
+            "cookieNames": [],
+            "cookies": [],
+            "indexedDb": []
+          }
+        },
+        "afterNewTab": {
+          "at": 3637,
+          "url": "http://127.0.0.1:37127/",
+          "title": "TodoMVC: React",
+          "domHash": "8481d3f92c9191d1",
+          "canaryPresent": false,
+          "bodyCanaryPresent": false,
+          "temporaryBlobUrls": 0,
+          "auth": {
+            "artifacts": 0,
+            "expiredArtifacts": 0,
+            "privateContent": false,
+            "adminContent": false,
+            "accessDenied": false
+          },
+          "semanticDom": {
+            "textHash": "4bd82bc5bab9db84",
+            "text": "todos Double-click to edit a todo Created by the TodoMVC Team Part of TodoMVC",
+            "controls": [
+              {
+                "tag": "input",
+                "type": "text",
+                "valueHash": "e3b0c44298fc1c14",
+                "checked": false,
+                "disabled": false
+              },
+              {
+                "tag": "input",
+                "type": "checkbox",
+                "valueHash": "b8d31e852725afb1",
+                "checked": false,
+                "disabled": false
+              },
+              {
+                "tag": "button",
+                "type": "submit",
+                "valueHash": "e3b0c44298fc1c14",
+                "disabled": false
+              }
+            ]
+          },
+          "busyControls": 0,
+          "disabledControls": 0,
+          "storage": {
+            "local": [],
+            "session": [],
+            "cookieNames": [],
+            "cookies": [],
+            "indexedDb": []
+          }
+        },
+        "afterNewContext": {
+          "at": 4272,
+          "url": "http://127.0.0.1:37127/",
+          "title": "TodoMVC: React",
+          "domHash": "8481d3f92c9191d1",
+          "canaryPresent": false,
+          "bodyCanaryPresent": false,
+          "temporaryBlobUrls": 0,
+          "auth": {
+            "artifacts": 0,
+            "expiredArtifacts": 0,
+            "privateContent": false,
+            "adminContent": false,
+            "accessDenied": false
+          },
+          "semanticDom": {
+            "textHash": "4bd82bc5bab9db84",
+            "text": "todos Double-click to edit a todo Created by the TodoMVC Team Part of TodoMVC",
+            "controls": [
+              {
+                "tag": "input",
+                "type": "text",
+                "valueHash": "e3b0c44298fc1c14",
+                "checked": false,
+                "disabled": false
+              },
+              {
+                "tag": "input",
+                "type": "checkbox",
+                "valueHash": "b8d31e852725afb1",
+                "checked": false,
+                "disabled": false
+              },
+              {
+                "tag": "button",
+                "type": "submit",
+                "valueHash": "e3b0c44298fc1c14",
+                "disabled": false
+              }
+            ]
+          },
+          "busyControls": 0,
+          "disabledControls": 0,
+          "storage": {
+            "local": [],
+            "session": [],
+            "cookieNames": [],
+            "cookies": [],
+            "indexedDb": []
+          }
+        },
+        "persistenceScope": "MEMORY_ONLY",
+        "trace": "traces/92f9d29fabad.zip",
+        "snapshotIndex": "snapshots/RD-001.index.json"
+      },
+      "verdict": "EPHEMERAL",
+      "evidenceLevel": 1,
+      "reason": "The generated canary appeared after the action and disappeared after reload.",
+      "detectorMatches": [
+        {
+          "code": "RD101",
+          "title": "Refresh disappearance",
+          "detail": "The generated canary appeared after the action and disappeared after reload."
+        },
+        {
+          "code": "RD104",
+          "title": "Memory-only state",
+          "detail": "The result existed immediately after the action but not after reload."
+        },
+        {
+          "code": "RD201",
+          "title": "Fake create",
+          "detail": "The created resource was not persistent."
+        }
+      ]
+    },
+    {
+      "id": "RD-002",
+      "action": {
+        "id": "d4cf8b35943a",
+        "pageUrl": "http://127.0.0.1:37127/",
+        "label": "TodoMVC",
+        "activation": "click",
+        "kind": "navigation",
+        "intent": "navigate",
+        "risk": "safe",
+        "fingerprint": {
+          "selector": "body > footer > p:nth-of-type(3) > a",
+          "tag": "a",
+          "ordinal": 1,
+          "role": "link",
+          "accessibleName": "TodoMVC",
+          "text": "TodoMVC",
+          "href": "http://todomvc.com/",
+          "candidates": [
+            {
+              "strategy": "role",
+              "weight": 92,
+              "role": "link",
+              "name": "TodoMVC",
+              "exact": true
+            },
+            {
+              "strategy": "role",
+              "weight": 82,
+              "role": "link",
+              "name": "TodoMVC",
+              "exact": false
+            },
+            {
+              "strategy": "href",
+              "weight": 72,
+              "value": "http://todomvc.com/"
+            },
+            {
+              "strategy": "text",
+              "weight": 60,
+              "value": "TodoMVC",
+              "exact": true
+            },
+            {
+              "strategy": "css",
+              "weight": 35,
+              "selector": "body > footer > p:nth-of-type(3) > a"
+            }
+          ]
+        },
+        "fields": []
+      },
+      "verdict": "SKIPPED",
+      "evidenceLevel": 0,
+      "reason": "Cross-origin navigation blocked by the default safety policy. Use --allow-external explicitly.",
+      "skippedReason": "Cross-origin navigation blocked by the default safety policy. Use --allow-external explicitly.",
+      "detectorMatches": [],
+      "evidence": {
+        "startedAt": "",
+        "durationMs": 0,
+        "canary": "",
+        "network": [],
+        "console": [],
+        "pageErrors": [],
+        "uiClaims": [],
+        "filledFields": [],
+        "dialogs": [],
+        "downloads": [],
+        "popupUrls": [],
+        "snapshotIndex": "snapshots/RD-002.index.json"
+      }
+    }
+  ],
+  "environment": {
+    "status": "VALID",
+    "checkedAt": "2026-07-22T19:04:53.364Z",
+    "durationMs": 707,
+    "targetUrl": "http://127.0.0.1:37127/",
+    "mainDocument": {
+      "status": 200,
+      "contentType": "text/html"
+    },
+    "assets": {
+      "checked": 3,
+      "scripts": 2,
+      "stylesheets": 1,
+      "failed": 0
+    },
+    "render": {
+      "bodyTextLength": 77,
+      "visibleElements": 9,
+      "interactiveElements": 2,
+      "ready": true
+    },
+    "findings": [],
+    "acceptedRisk": false,
+    "routesChecked": 1,
+    "invalidRoutes": 0
+  },
+  "completeness": {
+    "truncated": false,
+    "reasons": []
+  }
+}

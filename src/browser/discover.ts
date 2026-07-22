@@ -40,6 +40,9 @@ interface RawAction {
   target?: string;
   download?: string;
   type?: string;
+  formAction?: string;
+  formMethod?: string;
+  semanticHints?: string[];
   ordinal: number;
   isForm: boolean;
   activation: NonNullable<ActionSpec["activation"]>;
@@ -61,18 +64,16 @@ function toAction(pageUrl: string, raw: RawAction): ActionSpec {
     raw.href ??
     `${raw.tag} action`
   ).trim();
-  const initialClassification = classifyAction(label, raw.tag, raw.href, raw.isForm);
-  const hasPasswordField = raw.fields.some((field) => field.type === "password");
-  const hasExternalTargetField = raw.fields.some((field) =>
-    field.type === "url" || /^https?:\/\//i.test(field.placeholder ?? ""),
-  );
-  const classification = raw.isForm && hasPasswordField
-    ? { kind: "mutation" as const, intent: "submit" as const, risk: "safe" as const }
-    : hasExternalTargetField && /\b(connect|sync|server|endpoint|webhook)\b/i.test(label)
-    ? { kind: "external" as const, intent: "external" as const, risk: "external" as const }
-    : raw.type === "file"
-      ? { kind: "external" as const, intent: "external" as const, risk: "external" as const }
-    : initialClassification;
+  const classification = classifyAction(label, raw.tag, raw.href, raw.isForm, {
+    pageUrl,
+    ...(raw.formAction ? { actionUrl: raw.formAction } : {}),
+    ...(raw.formMethod ? { method: raw.formMethod } : {}),
+    ...(raw.target ? { target: raw.target } : {}),
+    ...(raw.download ? { download: true } : {}),
+    fieldTypes: raw.fields.map((field) => field.type),
+    fieldHints: raw.fields.flatMap((field) => [field.name, field.label, field.placeholder].filter((value): value is string => Boolean(value))),
+    ...(raw.semanticHints ? { semanticHints: raw.semanticHints } : {}),
+  });
   const fingerprint: SemanticFingerprint = {
     selector: raw.selector,
     tag: raw.tag,
@@ -248,8 +249,18 @@ export async function discoverActions(page: ActionScope): Promise<ActionSpec[]> 
         const inputMetadata = enterInput
           ? [element.id, element.name, element.className, element.getAttribute("data-testid") ?? "", element.getAttribute("aria-label") ?? "", element.placeholder].join(" ")
           : "";
-        const isForm = tag === "form" || (enterInput && /\b(new|add|create|save|todo|task|comment|message)\b/i.test(inputMetadata));
         const form = tag === "form" ? (element as HTMLFormElement) : undefined;
+        const formSubmitter = form
+          ? [...form.querySelectorAll('button[type="submit"], input[type="submit"], input[type="image"], button:not([type])')]
+              .find((candidate) => visible(candidate)) as HTMLButtonElement | HTMLInputElement | undefined
+          : undefined;
+        const effectiveElement = formSubmitter ?? element;
+        const associatedForm = form ?? (
+          element instanceof HTMLButtonElement || element instanceof HTMLInputElement
+            ? element.form ?? undefined
+            : undefined
+        );
+        const isForm = Boolean(associatedForm) || (enterInput && /\b(new|add|create|save|todo|task|comment|message)\b/i.test(inputMetadata));
         const nearbyContainer = !form && !enterInput ? element.parentElement : undefined;
         const nearbyElements = nearbyContainer
           ? [...nearbyContainer.querySelectorAll(":scope > input, :scope > textarea, :scope > select, :scope > label > input, :scope > label > textarea, :scope > label > select")].filter(visible)
@@ -260,24 +271,44 @@ export async function discoverActions(page: ActionScope): Promise<ActionSpec[]> 
         const nearbyFields = nearbyElements.length <= 4 && nearbyActionCount === 1
           ? nearbyElements.map(fieldFor).filter((field): field is RawField => Boolean(field))
           : [];
-        const fields = form
-          ? [...form.querySelectorAll("input, textarea, select")]
+        const fields = associatedForm
+          ? [...associatedForm.querySelectorAll("input, textarea, select")]
               .map(fieldFor)
               .filter((field): field is RawField => Boolean(field))
           : enterInput
             ? [fieldFor(element)].filter((field): field is RawField => Boolean(field))
-            : nearbyFields;
-        const name = accessibleName(element) || element.getAttribute("placeholder") || (form ? `Submit ${form.getAttribute("name") ?? "form"}` : "");
+            : element instanceof HTMLInputElement && element.type === "file"
+              ? [fieldFor(element)].filter((field): field is RawField => Boolean(field))
+              : nearbyFields;
+        const name = accessibleName(element) || element.getAttribute("placeholder") || (associatedForm ? `Submit ${associatedForm.getAttribute("name") ?? "form"}` : "");
         const role = element.getAttribute("role") || (tag === "a" ? "link" : tag === "button" ? "button" : enterInput ? (element.type === "search" ? "searchbox" : "textbox") : undefined);
         const href = element instanceof HTMLAnchorElement ? element.href : undefined;
         const type = element instanceof HTMLInputElement || element instanceof HTMLButtonElement ? element.type : undefined;
-        const target = element instanceof HTMLAnchorElement ? element.target : undefined;
+        const submitterAction = (
+          effectiveElement instanceof HTMLButtonElement || effectiveElement instanceof HTMLInputElement
+        ) && effectiveElement.hasAttribute("formaction")
+          ? effectiveElement.formAction
+          : undefined;
+        const formAction = submitterAction || associatedForm?.action;
+        const submitterMethod = (
+          effectiveElement instanceof HTMLButtonElement || effectiveElement instanceof HTMLInputElement
+        ) && effectiveElement.hasAttribute("formmethod")
+          ? effectiveElement.formMethod
+          : undefined;
+        const formMethod = submitterMethod || associatedForm?.method;
+        const target = effectiveElement instanceof HTMLAnchorElement
+          ? effectiveElement.target
+          : (
+              effectiveElement instanceof HTMLButtonElement || effectiveElement instanceof HTMLInputElement
+            ) && effectiveElement.hasAttribute("formtarget")
+            ? effectiveElement.formTarget
+            : associatedForm?.target;
         const download = element instanceof HTMLAnchorElement && element.hasAttribute("download")
           ? element.download || "download"
           : undefined;
         const complexReason =
-          element instanceof HTMLInputElement && element.type === "file"
-            ? "File upload needs an explicit recorded file and sandbox policy."
+          element instanceof HTMLInputElement && element.type === "file" && !associatedForm
+            ? "Ambiguous file upload needs an explicit recorded file and sandbox policy."
             : element instanceof HTMLCanvasElement
               ? "Canvas interaction needs a recorded semantic flow."
               : element.getAttribute("contenteditable") === "true"
@@ -301,6 +332,18 @@ export async function discoverActions(page: ActionScope): Promise<ActionSpec[]> 
                       ? "hover"
                       : "click";
         const testId = element.getAttribute("data-testid");
+        const semanticHints = [
+          element.id,
+          element.getAttribute("name"),
+          element.getAttribute("data-action"),
+          element.getAttribute("data-endpoint"),
+          element.getAttribute("data-provider"),
+          element.getAttribute("data-url"),
+          effectiveElement.getAttribute("aria-label"),
+          effectiveElement.getAttribute("data-action"),
+          effectiveElement.getAttribute("data-endpoint"),
+          effectiveElement.getAttribute("data-provider"),
+        ].filter((value): value is string => Boolean(value)).slice(0, 8);
         return {
           selector: cssPath(element),
           tag,
@@ -319,6 +362,9 @@ export async function discoverActions(page: ActionScope): Promise<ActionSpec[]> 
           ...(target ? { target } : {}),
           ...(download ? { download } : {}),
           ...(type ? { type } : {}),
+          ...(formAction ? { formAction } : {}),
+          ...(formMethod ? { formMethod } : {}),
+          ...(semanticHints.length > 0 ? { semanticHints } : {}),
           ...(complexReason ? { recordingRequired: complexReason } : {}),
         };
       });

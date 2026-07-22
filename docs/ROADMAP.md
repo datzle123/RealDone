@@ -53,7 +53,7 @@ Phase B gate is complete. Implementation/local acceptance, external Actual/TodoM
 
 ## Phase C — evidence, snapshot and persistence semantics
 
-Contributes evidence to: §12–17, detector groups B–D. `PRODUCT_STATUS.md` remains authoritative; automatic provider linkage is hosted-qualified, while replay preservation of its configuration remains a §12–13 gap.
+Contributes evidence to: §12–17, detector groups B–D. `PRODUCT_STATUS.md` remains authoritative; automatic provider linkage and value-free, exact provider-aware replay requirements now share the same evidence contract.
 
 Gate:
 
@@ -93,7 +93,7 @@ Phase E gate is complete. A real-browser complex flow records and verifies uploa
 
 ## Phase F — source-of-truth and provider ecosystem
 
-Contributes evidence to: §22–23 and the adapter-related safety requirements in §25. Multi-role §24 evidence belongs to Phase D; the remaining arbitrary external-mutation safety work stays `PARTIAL` in `PRODUCT_STATUS.md`.
+Contributes evidence to: §22–23 and the adapter-related safety requirements in §25. Multi-role §24 evidence belongs to Phase D; overall area status remains governed only by `PRODUCT_STATUS.md`.
 
 Gate:
 
@@ -110,10 +110,10 @@ Contributes evidence to: §4.6, §27–32. This is the only phase gate allowed t
 
 Gate:
 
-- MCP tools are validated from Codex and Claude on real baseline → change → affected-flow → follow-up cycles; generic/Codex/Claude CLI adapters remain optional orchestration fallbacks.
+- MCP tools are validated from at least one authenticated coding agent on a real project; the released qualification uses Codex, while Claude/generic clients remain optional protocol-compatible integrations and orchestration fallbacks.
 - External case studies cover backend CRUD, PostgreSQL, Supabase, auth, upload, export, multi-role, AI-generated apps and multi-step flows.
 - Incremental selection, snapshot deduplication, trace-on-failure, bounded workers and timeout behavior meet published budgets.
 - All 15 release gates in §29 are executable and green on Windows, macOS and Linux.
 - Every row in `PRODUCT_STATUS.md` is `IMPLEMENTED`; only then may RealDone be called a completed full product.
 
-Current progress: causal automatic provider linkage, the shared-core MCP surface, bounded performance primitives, artifact/schema safety checks, and fingerprint-bound TodoMVC/Actual/Conduit evidence passed all 15 gates on hosted run `29940370416`. Phase G remains open because provider-aware replay, authenticated Codex/Claude cycles, broader external cases, arbitrary external-effect safety, and §32 are still open in `PRODUCT_STATUS.md`.
+Current progress: causal automatic provider linkage plus provider-aware replay, the shared-core MCP surface, an authenticated Codex → RealDone MCP → Conduit browser scan, final post-build agent attribution, explicit project action consent, live pre-execution safety escalation, bounded performance primitives, and artifact/schema/raw-case safety checks are implemented locally. Phase G remains open because an authenticated baseline → change → `verify_change` cycle, the broader external-project matrix, and §32 are still open in `PRODUCT_STATUS.md`; hosted qualification of this batch is still required before release.

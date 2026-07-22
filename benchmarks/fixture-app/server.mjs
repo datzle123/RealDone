@@ -7,6 +7,7 @@ const state = {
   invoices: [],
   profiles: { partial: {}, wrong: { displayName: "Other user", role: "viewer" } },
   selectorShiftLoads: 0,
+  runtimeReclassificationLoads: 0,
   breakCreate: false,
 };
 
@@ -139,7 +140,7 @@ export function createFixtureServer() {
 
     if (url.pathname === "/") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
-      return response.end(html("RealDone benchmark fixtures", `<p>Each page contains one known behavior.</p><nav><a href="/fake-create">Fake create</a><a href="/fake-update">Fake update</a><a href="/partial-update">Partial update</a><a href="/wrong-update">Wrong update</a><a href="/false-success-redirect">False success redirect</a><a href="/real-create">Real create control</a><a href="/enter-submit">Enter-submit create</a><a href="/keyboard-no-effect">Keyboard no-effect</a><a href="/browser-local">Browser-local control</a><a href="/session-control">Session control</a><a href="/snapshot-control">Snapshot control</a><a href="/success-despite-failure">False success</a><a href="/duplicate-submit">Duplicate submit</a><a href="/fake-delete">Fake delete</a><a href="/no-effect">No effect</a><a href="/stuck-loading">Stuck loading</a><a href="/loading-control">Loading control</a><a href="/native-controls">Native controls</a><a href="/popup-control">Popup control</a><a href="/download-control">Download control</a><a href="/websocket-control">WebSocket control</a><a href="/context-control">Context control</a><a href="/iframe-control">Iframe control</a><a href="/dynamic-actions">Dynamic actions</a><a href="/complex-recording">Complex recording boundary</a><a href="/unrelated-fields">Unrelated fields control</a><a href="/selector-shift">Selector survival control</a><a href="/stateful-action">Stateful action control</a><a href="/live-control-state">Live control-state control</a><a href="/missing">Broken navigation</a></nav>`));
+      return response.end(html("RealDone benchmark fixtures", `<p>Each page contains one known behavior.</p><nav><a href="/fake-create">Fake create</a><a href="/fake-update">Fake update</a><a href="/partial-update">Partial update</a><a href="/wrong-update">Wrong update</a><a href="/false-success-redirect">False success redirect</a><a href="/real-create">Real create control</a><a href="/enter-submit">Enter-submit create</a><a href="/keyboard-no-effect">Keyboard no-effect</a><a href="/browser-local">Browser-local control</a><a href="/session-control">Session control</a><a href="/snapshot-control">Snapshot control</a><a href="/success-despite-failure">False success</a><a href="/duplicate-submit">Duplicate submit</a><a href="/fake-delete">Fake delete</a><a href="/no-effect">No effect</a><a href="/stuck-loading">Stuck loading</a><a href="/loading-control">Loading control</a><a href="/native-controls">Native controls</a><a href="/popup-control">Popup control</a><a href="/download-control">Download control</a><a href="/websocket-control">WebSocket control</a><a href="/context-control">Context control</a><a href="/iframe-control">Iframe control</a><a href="/dynamic-actions">Dynamic actions</a><a href="/complex-recording">Complex recording boundary</a><a href="/unrelated-fields">Unrelated fields control</a><a href="/selector-shift">Selector survival control</a><a href="/runtime-reclassification">Runtime safety reclassification</a><a href="/runtime-reclassification-control">Runtime safety control</a><a href="/runtime-after-fill">After-fill submitter escalation</a><a href="/runtime-submitter-control">Submitter override control</a><a href="/stateful-action">Stateful action control</a><a href="/live-control-state">Live control-state control</a><a href="/missing">Broken navigation</a></nav>`));
     }
     if (url.pathname === "/phase-d") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
@@ -382,6 +383,26 @@ export function createFixtureServer() {
         ? `<main><button>Toggle resilient</button></main>`
         : `<main><section><div class="new-wrapper"><button>Toggle resilient</button></div></section></main>`;
       return response.end(html("Selector survival control", control, `document.querySelector('button').onclick=()=>{notice.textContent='Panel opened';notice.className='toast'}`));
+    }
+    if (url.pathname === "/runtime-reclassification") {
+      state.runtimeReclassificationLoads += 1;
+      const action = state.runtimeReclassificationLoads === 1
+        ? "/api/profile"
+        : "https://payments.example.test/checkout";
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Runtime safety reclassification", `<form aria-label="Save runtime profile" action="${action}" method="post"><label>Display name <input name="displayName" required></label><button type="submit">Save</button></form>`, `document.querySelector('form').onsubmit=event=>{event.preventDefault();notice.textContent='UNSAFE ACTION EXECUTED'}`));
+    }
+    if (url.pathname === "/runtime-reclassification-control") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Runtime safety control", `<form aria-label="Save runtime control" action="/api/profile" method="post"><label>Display name <input name="displayName" required></label><button type="submit">Save</button></form>`, `const saved=localStorage.getItem('runtime-control');if(saved)notice.textContent=saved;document.querySelector('form').onsubmit=event=>{event.preventDefault();const value=event.target.displayName.value;localStorage.setItem('runtime-control',value);notice.textContent=value}`));
+    }
+    if (url.pathname === "/runtime-after-fill") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("After-fill submitter escalation", `<form aria-label="Save after fill" action="/api/profile" method="post"><label>Display name <input name="displayName" required></label><button id="runtime-submit" type="submit">Save</button></form>`, `const form=document.querySelector('form');const input=form.displayName;const submit=document.getElementById('runtime-submit');input.addEventListener('input',()=>{submit.setAttribute('formaction','https://payments.example.test/checkout');submit.textContent='Pay and save'});form.onsubmit=event=>{event.preventDefault();notice.textContent='UNSAFE AFTER-FILL ACTION EXECUTED'}`));
+    }
+    if (url.pathname === "/runtime-submitter-control") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Submitter override control", `<form aria-label="Save submitter control" action="/ignored" method="post"><label>Display name <input name="displayName" required></label><button type="submit" formaction="/api/profile">Save</button></form>`, `const saved=localStorage.getItem('runtime-submitter-control');if(saved)notice.textContent=saved;document.querySelector('form').onsubmit=event=>{event.preventDefault();const value=event.target.displayName.value;localStorage.setItem('runtime-submitter-control',value);notice.textContent=value}`));
     }
     if (url.pathname === "/recorder-secret") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });

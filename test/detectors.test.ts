@@ -317,7 +317,7 @@ test("detects payment and webhook integrity failures", () => {
   assert.equal(confirmed.verdict, "VERIFIED");
   assert.equal(confirmed.evidenceLevel, 6);
   assert.equal(confirmed.detectorMatches.some((item) => item.code === "RD804"), false);
-  const unavailable = detect(payment, evidence({ network: [request], after: success, providerErrors: [{ provider: "stripe-test", detail: "sandbox unavailable" }] }));
+  const unavailable = detect(payment, evidence({ network: [request], after: success, providerErrors: [{ provider: "stripe-test", kind: "payment", detail: "sandbox unavailable" }] }));
   assert.equal(unavailable.verdict, "UNCERTAIN");
   assert.equal(unavailable.detectorMatches.some((item) => item.code === "RD804"), false);
   const mixed = detect(payment, evidence({

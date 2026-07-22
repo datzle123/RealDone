@@ -24,6 +24,7 @@ import { createSourceAdapterFromFile } from "./adapters/registry.js";
 import { SqliteSourceAdapter } from "./adapters/sqlite/index.js";
 import type { DiscoverableSourceAdapter } from "./adapters/types.js";
 import { BuiltinProviderHost } from "./providers/builtin.js";
+import { requireProjectActionConsent } from "./core/consent.js";
 
 function positiveInteger(value: string): number {
   const parsed = Number.parseInt(value, 10);
@@ -119,9 +120,13 @@ program
   .command("mcp")
   .description("Run the local RealDone MCP server for coding agents")
   .option("--project <directory>", "project root exposed to the MCP server", ".")
+  .option("--allow-project-actions", "user confirms this project is disposable local/staging and MCP may operate it", false)
   .action(async (values: Record<string, unknown>) => {
     const { runRealDoneMcpServer } = await import("./mcp/server.js");
-    await runRealDoneMcpServer({ projectRoot: path.resolve(String(values.project)) });
+    await runRealDoneMcpServer({
+      projectRoot: path.resolve(String(values.project)),
+      allowProjectActions: Boolean(values.allowProjectActions),
+    });
   });
 
 program
@@ -177,7 +182,14 @@ program
   .option("--trace-on-failure", "retain Playwright traces only for non-passing findings", false)
   .option("--video", "capture browser video for every executed action", false)
   .option("--json", "print the machine-readable summary", false)
+  .option("-y, --yes", "confirm once that this project is disposable local/staging and allow permitted actions", false)
   .action(async (url: string | undefined, values: Record<string, unknown>) => {
+    const projectLabel = url ?? path.resolve(String(values.project ?? "."));
+    await requireProjectActionConsent({
+      project: projectLabel,
+      confirmed: Boolean(values.yes),
+      interactive: Boolean(process.stdin.isTTY && process.stderr.isTTY),
+    });
     const policy = values.policy ? await loadActionPolicy(path.resolve(String(values.policy))) : undefined;
     const full = Boolean(values.full);
     const sourceAdapters: DiscoverableSourceAdapter[] = [];
@@ -334,7 +346,13 @@ program
   .option("--trace", "capture Playwright traces for verification contexts", false)
   .option("--trace-on-failure", "retain traces only when verification fails", false)
   .option("--video", "capture browser video for verification contexts", false)
+  .option("-y, --yes", "confirm once that this project is disposable local/staging and allow permitted actions", false)
   .action(async (contract: string, values: Record<string, unknown>) => {
+    await requireProjectActionConsent({
+      project: path.resolve(contract),
+      confirmed: Boolean(values.yes),
+      interactive: Boolean(process.stdin.isTTY && process.stderr.isTTY),
+    });
     const result = await verifyContract(path.resolve(contract), {
       outputRoot: path.resolve(String(values.output)),
       headed: Boolean(values.headed),
@@ -390,7 +408,13 @@ program
   .option("--trace", "capture a Playwright trace for every executed action", false)
   .option("--trace-on-failure", "retain traces only for non-passing findings", false)
   .option("--video", "capture browser video for every executed action", false)
+  .option("-y, --yes", "confirm once that this project is disposable local/staging and allow permitted actions", false)
   .action(async (url: string, values: Record<string, unknown>) => {
+    await requireProjectActionConsent({
+      project: url,
+      confirmed: Boolean(values.yes),
+      interactive: Boolean(process.stdin.isTTY && process.stderr.isTTY),
+    });
     const result = await runBenchmark(
       {
         expectationFile: path.resolve(String(values.expected)),
@@ -469,7 +493,15 @@ program
   .option("--trace", "capture Playwright traces for verification contexts", false)
   .option("--trace-on-failure", "retain traces only when baseline verification fails", false)
   .option("--video", "capture browser video for verification contexts", false)
+  .option("-y, --yes", "confirm once that this project is disposable local/staging and allow permitted actions", false)
   .action(async (contracts: string[], values: Record<string, unknown>) => {
+    if (Boolean(values.verify)) {
+      await requireProjectActionConsent({
+        project: contracts.map((contract) => path.resolve(contract)).join(", "),
+        confirmed: Boolean(values.yes),
+        interactive: Boolean(process.stdin.isTTY && process.stderr.isTTY),
+      });
+    }
     const output = path.resolve(String(values.out));
     const manifest = await captureBaseline(
       contracts.map((contract) => path.resolve(contract)),
@@ -540,7 +572,13 @@ program
   .option("--trace", "capture Playwright traces for verification contexts", false)
   .option("--trace-on-failure", "retain traces only when regression verification fails", false)
   .option("--video", "capture browser video for verification contexts", false)
+  .option("-y, --yes", "confirm once that this project is disposable local/staging and allow permitted actions", false)
   .action(async (values: Record<string, unknown>) => {
+    await requireProjectActionConsent({
+      project: path.resolve(String(values.contracts ?? values.baseline)),
+      confirmed: Boolean(values.yes),
+      interactive: Boolean(process.stdin.isTTY && process.stderr.isTTY),
+    });
     const result = await runRegressionGate({
       baselineFile: path.resolve(String(values.baseline)),
       contractInputs: values.contracts ? [path.resolve(String(values.contracts))] : [],
@@ -609,7 +647,13 @@ program
   .option("--trace", "capture Playwright traces for verification contexts", false)
   .option("--trace-on-failure", "retain traces only when matrix verification fails", false)
   .option("--video", "capture browser video for verification contexts", false)
+  .option("-y, --yes", "confirm once that this project is disposable local/staging and allow permitted actions", false)
   .action(async (contract: string, values: Record<string, unknown>) => {
+    await requireProjectActionConsent({
+      project: path.resolve(contract),
+      confirmed: Boolean(values.yes),
+      interactive: Boolean(process.stdin.isTTY && process.stderr.isTTY),
+    });
     const browsers = values.browser as BrowserName[];
     const result = await runBrowserMatrix(
       path.resolve(contract),
@@ -712,8 +756,14 @@ program
   .option("--trace", "capture Playwright traces for verification contexts", false)
   .option("--trace-on-failure", "retain traces only when post-agent verification fails", false)
   .option("--video", "capture browser video for verification contexts", false)
+  .option("-y, --yes", "confirm once that this project is disposable local/staging and allow permitted actions", false)
   .action(async (presetValue: string, values: Record<string, unknown>) => {
     const workingDirectory = path.resolve(String(values.workingDirectory));
+    await requireProjectActionConsent({
+      project: workingDirectory,
+      confirmed: Boolean(values.yes),
+      interactive: Boolean(process.stdin.isTTY && process.stderr.isTTY),
+    });
     const task = await loadTask(
       values.task ? String(values.task) : undefined,
       values.taskFile ? path.resolve(workingDirectory, String(values.taskFile)) : undefined,
@@ -779,7 +829,18 @@ program
   .option("--headed", "show Chromium during replay", false)
   .option("--storage-state <file>", "Playwright storage state")
   .option("--browser-path <file>", "use an existing Chromium/Chrome executable")
+  .option("--provider-config <file>", "automatic read-only provider confirmation; repeat for multiple files", collect, [])
+  .option("--allow-destructive", "allow a destructive replay action", false)
+  .option("--allow-external", "allow an external-effect replay action", false)
+  .option("--allow-host <hostname>", "allow replay mutations on explicit staging", collect, [])
+  .option("-y, --yes", "confirm once that this project is disposable local/staging and allow permitted actions", false)
   .action(async (findingId: string, values: Record<string, unknown>) => {
+    await requireProjectActionConsent({
+      project: path.resolve(String(values.reportDir ?? values.output)),
+      confirmed: Boolean(values.yes),
+      interactive: Boolean(process.stdin.isTTY && process.stderr.isTTY),
+    });
+    const providerConfigPaths = (values.providerConfig as string[]).map((file) => path.resolve(file));
     const result = await runReplay(
       findingId,
       {
@@ -788,6 +849,10 @@ program
         ...(values.reportDir ? { reportDirectory: path.resolve(String(values.reportDir)) } : {}),
         ...(values.storageState ? { storageStatePath: path.resolve(String(values.storageState)) } : {}),
         ...(values.browserPath ? { executablePath: path.resolve(String(values.browserPath)) } : {}),
+        providerConfigPaths,
+        allowDestructive: Boolean(values.allowDestructive),
+        allowExternal: Boolean(values.allowExternal),
+        allowHosts: values.allowHost as string[],
       },
       progressLine,
     );

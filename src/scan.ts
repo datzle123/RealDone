@@ -3,7 +3,7 @@ import { rm } from "node:fs/promises";
 import path from "node:path";
 import { diffSourceSnapshots, type DiscoverableSourceAdapter, type SourceSnapshot } from "./adapters/types.js";
 import { discoverSiteDetailed, normalizeCrawlUrl } from "./browser/discover.js";
-import { executeAction } from "./browser/executor.js";
+import { executeAction, PreExecutionSafetyError } from "./browser/executor.js";
 import { launchChromium } from "./browser/runtime.js";
 import { actionSkipReason, isMutationHostAllowed, validateTarget } from "./core/safety.js";
 import { applyActionPolicy } from "./core/policy.js";
@@ -291,7 +291,16 @@ export async function runScan(
       const sourceBefore = sourceEnabled
         ? await captureSourceSnapshots(sourcePlans, "before", options.sourceSnapshotLimit ?? 100)
         : undefined;
-      const evidence = await executeAction(browser, action, options, screenshots);
+      let evidence: ExecutionEvidence;
+      try {
+        evidence = await executeAction(browser, action, options, screenshots);
+      } catch (error) {
+        if (error instanceof PreExecutionSafetyError) {
+          findings.push(skippedFinding(findingId, error.action, error.reason));
+          continue;
+        }
+        throw error;
+      }
       let providerMatchedChecks = 0;
       let providerConfirmationComplete = false;
       if (options.providerVerifier) {

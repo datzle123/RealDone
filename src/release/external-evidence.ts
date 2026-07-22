@@ -5,6 +5,20 @@ import { z } from "zod";
 import { releaseExternalCaseSchema, type ReleaseExternalCase } from "./gates.js";
 
 const sha256Schema = z.string().regex(/^[0-9a-f]{64}$/i);
+const sourceScanSchema = z.object({
+  scanId: z.string().min(1),
+  summary: z.object({
+    pagesDiscovered: z.number().int().nonnegative(),
+    visibleActions: z.number().int().nonnegative(),
+    actionsVerified: z.number().int().nonnegative(),
+    actionsSkipped: z.number().int().nonnegative(),
+    verdicts: z.record(z.string(), z.number().int().nonnegative()),
+    environmentStatus: z.enum(["VALID", "ENVIRONMENT_INVALID", "BLOCKED"]),
+  }).passthrough(),
+  completeness: z.object({
+    truncated: z.boolean(),
+  }).passthrough(),
+}).passthrough();
 const caseResultSchema = z.object({
   name: z.string().min(1),
   repository: z.string().min(1),
@@ -84,6 +98,44 @@ function sameCase(left: ReleaseExternalCase, right: ExternalCaseEvidenceDocument
     && left.severeRegressions === right.severeRegressions;
 }
 
+function sameRecord(left: Record<string, number>, right: Record<string, number>): boolean {
+  const keys = [...new Set([...Object.keys(left), ...Object.keys(right)])];
+  return keys.every((key) => left[key] === right[key]);
+}
+
+function severeVerdictCount(verdicts: Record<string, number>): number {
+  return ["BROKEN", "CONTRADICTORY", "NO_EFFECT"]
+    .reduce((total, verdict) => total + (verdicts[verdict] ?? 0), 0);
+}
+
+function isWithin(root: string, candidate: string): boolean {
+  const relative = path.relative(root, candidate);
+  return relative === "" || (!path.isAbsolute(relative) && relative !== ".." && !relative.startsWith(`..${path.sep}`));
+}
+
+async function confinedFile(root: string, requested: string, label: string): Promise<string> {
+  const requestedFile = path.resolve(root, requested);
+  if (!isWithin(root, requestedFile)) {
+    throw new Error(`${label} escapes the repository: ${requested}`);
+  }
+  let file: string;
+  try {
+    file = await realpath(requestedFile);
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") {
+      throw new Error(`${label} is missing: ${requested}`);
+    }
+    throw error;
+  }
+  if (!isWithin(root, file)) {
+    throw new Error(`${label} escapes the repository: ${requested}`);
+  }
+  if (!(await stat(file)).isFile()) {
+    throw new Error(`${label} is not a file: ${requested}`);
+  }
+  return file;
+}
+
 export async function validateExternalCaseEvidenceFiles(
   manifestInput: unknown,
   rootDirectory = process.cwd(),
@@ -94,11 +146,7 @@ export async function validateExternalCaseEvidenceFiles(
   const engineFingerprint = expectedEngineFingerprint ?? await calculateReleaseEngineFingerprint(root);
 
   for (const item of manifest) {
-    const requestedFile = path.resolve(root, item.evidenceFile);
-    const evidenceFile = await realpath(requestedFile);
-    if (evidenceFile !== root && !evidenceFile.startsWith(`${root}${path.sep}`)) {
-      throw new Error(`External-case evidence escapes the repository: ${item.evidenceFile}`);
-    }
+    const evidenceFile = await confinedFile(root, item.evidenceFile, "External-case evidence");
     const raw = await readFile(evidenceFile);
     const digest = createHash("sha256").update(raw).digest("hex");
     if (digest !== item.evidenceSha256.toLowerCase()) {
@@ -110,6 +158,28 @@ export async function validateExternalCaseEvidenceFiles(
     }
     if (item.engineFingerprint.toLowerCase() !== engineFingerprint || evidence.engineFingerprint.toLowerCase() !== engineFingerprint) {
       throw new Error(`External-case evidence is stale for the current RealDone engine: ${item.name}`);
+    }
+    const sourceFile = await confinedFile(root, evidence.scan.sourceArtifact, "External-case source artifact");
+    const sourceRaw = await readFile(sourceFile);
+    const sourceDigest = createHash("sha256").update(sourceRaw).digest("hex");
+    if (sourceDigest !== evidence.scan.sourceSha256.toLowerCase()) {
+      throw new Error(`External-case source artifact digest mismatch: ${evidence.scan.sourceArtifact}`);
+    }
+    const source = sourceScanSchema.parse(JSON.parse(sourceRaw.toString("utf8")));
+    if (
+      source.scanId !== evidence.scan.scanId
+      || source.summary.environmentStatus !== evidence.scan.environmentStatus
+      || source.completeness.truncated !== evidence.scan.truncated
+      || source.summary.pagesDiscovered !== evidence.scan.pagesDiscovered
+      || source.summary.visibleActions !== evidence.scan.visibleActions
+      || source.summary.actionsVerified !== evidence.scan.actionsVerified
+      || source.summary.actionsSkipped !== evidence.scan.actionsSkipped
+      || !sameRecord(source.summary.verdicts, evidence.scan.verdicts)
+    ) {
+      throw new Error(`External-case evidence does not match its source scan: ${item.name}`);
+    }
+    if (evidence.case.severeRegressions !== severeVerdictCount(source.summary.verdicts)) {
+      throw new Error(`External-case severe regression count does not match its source scan: ${item.name}`);
     }
     if (item.status === "passed" && (
       !item.environmentValid

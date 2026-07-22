@@ -7,6 +7,7 @@ import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { InMemoryTransport } from "@modelcontextprotocol/sdk/inMemory.js";
 import { createRealDoneMcpServer } from "../src/mcp/server.js";
 import type { ManagedScanRequest } from "../src/application/managed-scan.js";
+import type { ReplayOptions, ReplayResult } from "../src/replay.js";
 
 test("MCP exposes the shared RealDone core and keeps AI scans fail-closed", async (context) => {
   const projectRoot = await mkdtemp(path.join(tmpdir(), "realdone-mcp-"));
@@ -35,8 +36,10 @@ test("MCP exposes the shared RealDone core and keeps AI scans fail-closed", asyn
     }],
   }));
   let observedRequest: ManagedScanRequest | undefined;
+  let observedReplayOptions: ReplayOptions | undefined;
   const server = createRealDoneMcpServer({
     projectRoot,
+    allowProjectActions: true,
     dependencies: {
       runManagedScan: async (request) => {
         observedRequest = request;
@@ -62,6 +65,27 @@ test("MCP exposes the shared RealDone core and keeps AI scans fail-closed", asyn
             findings: [],
           },
         };
+      },
+      runReplay: async (findingId, replayOptions) => {
+        observedReplayOptions = replayOptions;
+        return {
+          reportDirectory,
+          exitCode: 0,
+          replay: {
+            schemaVersion: "1.0",
+            findingId,
+            sourceScanId: "source-test",
+            replayScanId: "replay-test",
+            outcome: "FINDING_REPRODUCED",
+            sourceVerdict: "VERIFIED",
+            replayVerdict: "VERIFIED",
+            sourceDetectorCodes: [],
+            replayDetectorCodes: [],
+            providerConfirmationRequired: true,
+            providerConfirmationSatisfied: true,
+            detail: "Provider-backed finding reproduced.",
+          },
+        } as unknown as ReplayResult;
       },
     },
   });
@@ -98,6 +122,18 @@ test("MCP exposes the shared RealDone core and keeps AI scans fail-closed", asyn
   assert.equal(observedRequest.scanOptions.sourceSnapshotLimit, 5);
   assert.ok(observedRequest.scanOptions.providerVerifier);
 
+  const replay = await client.callTool({
+    name: "replay",
+    arguments: { findingId: "RD-001", reportDirectory: ".realdone/reports/20260722T000000Z-test", providerConfigs: ["providers.json"] },
+  });
+  assert.equal(replay.isError, undefined);
+  assert.deepEqual(observedReplayOptions?.providerConfigPaths, [path.join(projectRoot, "providers.json")]);
+  assert.equal((replay.structuredContent as Record<string, unknown>).providerConfirmationSatisfied, true);
+
+  const replayTraversal = await client.callTool({ name: "replay", arguments: { findingId: "RD-001", providerConfigs: ["../outside.json"] } });
+  assert.equal(replayTraversal.isError, true);
+  assert.match((replayTraversal.content as Array<{ type: string; text: string }>)[0]?.text ?? "", /outside the MCP project root/i);
+
   const report = await client.callTool({ name: "get_report", arguments: {} });
   assert.equal(report.isError, undefined);
   const reportText = JSON.stringify(report.structuredContent);
@@ -108,4 +144,32 @@ test("MCP exposes the shared RealDone core and keeps AI scans fail-closed", asyn
   assert.equal(traversal.isError, true);
   const traversalContent = traversal.content as Array<{ type: string; text: string }>;
   assert.match(traversalContent[0]?.text ?? "", /outside the MCP project root/i);
+});
+
+test("MCP browser actions require user authorization at server startup", async (context) => {
+  const projectRoot = await mkdtemp(path.join(tmpdir(), "realdone-mcp-consent-"));
+  context.after(async () => rm(projectRoot, { recursive: true, force: true }));
+  let invoked = false;
+  const server = createRealDoneMcpServer({
+    projectRoot,
+    dependencies: {
+      runManagedScan: async () => {
+        invoked = true;
+        throw new Error("must not run");
+      },
+    },
+  });
+  const client = new Client({ name: "realdone-consent-test", version: "1.0.0" });
+  const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
+  await server.connect(serverTransport);
+  await client.connect(clientTransport);
+  context.after(async () => {
+    await client.close();
+    await server.close();
+  });
+
+  const result = await client.callTool({ name: "scan", arguments: { maxPages: 1, maxActions: 1 } });
+  assert.equal(result.isError, true);
+  assert.match((result.content as Array<{ type: string; text: string }>)[0]?.text ?? "", /--allow-project-actions/);
+  assert.equal(invoked, false);
 });

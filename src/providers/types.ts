@@ -43,6 +43,10 @@ export interface ProviderEvidence {
 
 export interface ProviderCheckError {
   provider: string;
+  kind: ProviderKind;
+  resource?: string;
+  operation?: string;
+  state?: "confirmed" | "absent";
   detail: string;
 }
 

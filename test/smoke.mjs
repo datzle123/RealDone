@@ -313,6 +313,7 @@ try {
     args: [
       path.resolve("dist/cli.js"),
       "scan",
+      "--yes",
       "--health-endpoint", "/health",
       "--max-pages", "1",
       "--max-actions", "1",
@@ -346,7 +347,7 @@ try {
   const mcpClient = new Client({ name: "realdone-smoke", version: "1.0.0" });
   const mcpTransport = new StdioClientTransport({
     command: process.execPath,
-    args: [path.resolve("dist/cli.js"), "mcp", "--project", managedProject],
+    args: [path.resolve("dist/cli.js"), "mcp", "--project", managedProject, "--allow-project-actions"],
     cwd: managedProject,
     stderr: "pipe",
   });
@@ -368,6 +369,7 @@ try {
     args: [
       "dist/cli.js",
       "scan",
+      "--yes",
       `${fixture.url}/browser-local`,
       "--deep",
       "--trace",
@@ -509,7 +511,7 @@ try {
     maxRetries: 2,
     continueOnFailure: false,
     allowDestructive: false,
-    allowExternal: false,
+    allowExternal: true,
     allowHosts: [],
     ...(process.env.REALDONE_BROWSER_PATH ? { executablePath: process.env.REALDONE_BROWSER_PATH } : {}),
   });
@@ -622,6 +624,32 @@ try {
   assert.ok(providerLinkedFinding?.evidence.providerEvidence?.every((entry) => entry.automaticLinkage?.causallyLinked));
   assert.equal(providerLinkedFinding?.detectorMatches.some((match) => match.code === "RD804"), false);
   await access(path.join(providerLinkedScan.reportDirectory, "providers", `${providerLinkedFinding.id}.json`));
+  const providerReproductionText = await readFile(path.join(providerLinkedScan.reportDirectory, "reproductions", `${providerLinkedFinding.id}.json`), "utf8");
+  const providerReproduction = JSON.parse(providerReproductionText);
+  assert.deepEqual(providerReproduction.providerRequirements?.providers, [{
+    name: "stripe-fixture",
+    kind: "payment",
+    resource: "payment-intent",
+    operation: "succeeded",
+    state: "confirmed",
+  }]);
+  assert.doesNotMatch(providerReproductionText, /RD_FIXTURE_STRIPE_KEY|providers\.json|payment-\d+/);
+  const providerReplayControl = await runReplay(providerLinkedFinding.id, {
+    ...replayOptions,
+    reportDirectory: providerLinkedScan.reportDirectory,
+    providerConfigPaths: [providerConfig],
+    allowExternal: true,
+  });
+  assert.equal(providerReplayControl.replay.outcome, "FINDING_REPRODUCED");
+  assert.equal(providerReplayControl.replay.providerConfirmationRequired, true);
+  assert.equal(providerReplayControl.replay.providerConfirmationSatisfied, true);
+  const providerReplayBroken = await runReplay(providerLinkedFinding.id, {
+    ...replayOptions,
+    reportDirectory: providerLinkedScan.reportDirectory,
+  });
+  assert.equal(providerReplayBroken.replay.outcome, "REPLAY_UNCERTAIN");
+  assert.equal(providerReplayBroken.replay.providerConfirmationRequired, true);
+  assert.equal(providerReplayBroken.replay.providerConfirmationSatisfied, false);
   const sqliteFile = path.join(outputRoot, "phase-f.sqlite");
   const { default: SqliteDatabase } = await import("better-sqlite3");
   const sqliteSetup = new SqliteDatabase(sqliteFile);

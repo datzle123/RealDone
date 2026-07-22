@@ -27,6 +27,7 @@ export interface RealDoneMcpDependencies {
 
 export interface RealDoneMcpServerOptions {
   projectRoot?: string;
+  allowProjectActions?: boolean;
   dependencies?: Partial<RealDoneMcpDependencies>;
 }
 
@@ -128,6 +129,11 @@ async function readBoundedJson(file: string, maxBytes = 20 * 1024 * 1024): Promi
 
 export function createRealDoneMcpServer(options: RealDoneMcpServerOptions = {}): McpServer {
   const projectRoot = path.resolve(options.projectRoot ?? process.env.CLAUDE_PROJECT_DIR ?? process.cwd());
+  const requireProjectActions = (): void => {
+    if (!options.allowProjectActions) {
+      throw new Error("MCP project actions are not authorized. Restart RealDone MCP with --allow-project-actions after the user confirms this is a disposable local/staging project.");
+    }
+  };
   const dependencies: RealDoneMcpDependencies = {
     runManagedScan,
     verifyContract,
@@ -140,7 +146,7 @@ export function createRealDoneMcpServer(options: RealDoneMcpServerOptions = {}):
   const server = new McpServer(
     { name: "realdone", version: REALDONE_VERSION },
     {
-      instructions: "RealDone independently verifies web behavior in a real browser. Before code changes, call baseline when contracts exist; after changes, call verify_change. Use scan for an immediate safe check. Never treat the agent's own completion claim as evidence. Tools are fail-closed: destructive and external effects remain disabled.",
+      instructions: "RealDone independently verifies web behavior in a real browser. Browser-action tools require the user to start this project server with --allow-project-actions after confirming a disposable local/staging target. Before code changes, call baseline when contracts exist; after changes, call verify_change. Never treat the agent's own completion claim as evidence. Destructive and external effects remain separately disabled.",
     },
   );
 
@@ -164,6 +170,7 @@ export function createRealDoneMcpServer(options: RealDoneMcpServerOptions = {}):
     annotations: { destructiveHint: false, openWorldHint: true },
   }, async (input) => {
     try {
+      requireProjectActions();
       const sourceAdapters: DiscoverableSourceAdapter[] = [];
       if (input.sqlite) sourceAdapters.push(new SqliteSourceAdapter(projectPath(projectRoot, input.sqlite)));
       for (const file of input.databaseConfigs ?? []) {
@@ -229,6 +236,7 @@ export function createRealDoneMcpServer(options: RealDoneMcpServerOptions = {}):
     annotations: { destructiveHint: false, openWorldHint: true },
   }, async (input) => {
     try {
+      requireProjectActions();
       const slug = input.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "flow";
       const result = await dependencies.recordFlow({
         targetUrl: input.url,
@@ -257,6 +265,7 @@ export function createRealDoneMcpServer(options: RealDoneMcpServerOptions = {}):
     annotations: { destructiveHint: false, openWorldHint: true },
   }, async (input) => {
     try {
+      requireProjectActions();
       const result = await dependencies.verifyContract(
         projectPath(projectRoot, input.contract),
         verificationOptions(projectRoot, ".realdone/verifications", input),
@@ -284,6 +293,7 @@ export function createRealDoneMcpServer(options: RealDoneMcpServerOptions = {}):
     annotations: { destructiveHint: false, openWorldHint: true },
   }, async (input) => {
     try {
+      requireProjectActions();
       const output = projectPath(projectRoot, input.output ?? ".realdone/baseline.json");
       const manifest = await dependencies.captureBaseline(
         (input.contracts ?? [".realdone/flows"]).map((file) => projectPath(projectRoot, file)),
@@ -310,6 +320,7 @@ export function createRealDoneMcpServer(options: RealDoneMcpServerOptions = {}):
     annotations: { destructiveHint: false, openWorldHint: true },
   }, async (input) => {
     try {
+      requireProjectActions();
       const changedFiles = (input.changedFiles ?? []).map((file) => {
         const absolute = projectPath(projectRoot, file);
         return path.relative(projectRoot, absolute).split(path.sep).join("/");
@@ -346,20 +357,25 @@ export function createRealDoneMcpServer(options: RealDoneMcpServerOptions = {}):
     inputSchema: {
       findingId: z.string().min(1).max(200),
       reportDirectory: relativePathSchema.optional(),
+      providerConfigs: z.array(relativePathSchema).max(20).optional().describe("Project-relative automatic read-only provider adapter configs."),
     },
     annotations: { destructiveHint: false, openWorldHint: true },
   }, async (input) => {
     try {
+      requireProjectActions();
       const result = await dependencies.runReplay(input.findingId, {
         ...(input.reportDirectory ? { reportDirectory: projectPath(projectRoot, input.reportDirectory) } : {}),
         outputRoot: projectPath(projectRoot, ".realdone/replays"),
         headed: false,
+        providerConfigPaths: (input.providerConfigs ?? []).map((file) => projectPath(projectRoot, file)),
       });
       return toolSuccess({
         outcome: result.replay.outcome,
         exitCode: result.exitCode,
         reportDirectory: result.reportDirectory,
         detail: result.replay.detail,
+        providerConfirmationRequired: result.replay.providerConfirmationRequired,
+        providerConfirmationSatisfied: result.replay.providerConfirmationSatisfied,
       });
     } catch (error) {
       return toolFailure(error);

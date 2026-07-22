@@ -51,9 +51,15 @@ The Phase G rerun binds each compact evidence document to both the raw `scan.jso
 | Actual Budget | `VALID`, 30/30 assets | 6 `VERIFIED`; one history-dependent missing target remained safely `UNCERTAIN` | 0 |
 | Conduit | `VALID`, 6/6 assets | 16 `VERIFIED`, 1 `BROWSER_LOCAL`, 1 generated-credential `UNCERTAIN` | 0 |
 
+The 2026-07-23 local rerun uses engine fingerprint `823ee7ab35b8f218cb4f6c275e48786f5841c59192fe17b27efef8509277bc37`. Its repository-confined raw scans are committed under `release/evidence/raw/`; every case was `VALID`, untruncated, and retained the table outcomes above. The compact documents are maintainer attestations for the pinned checkouts, fingerprint-gated against current source, and SHA-256-bound to raw scan IDs, counters, verdicts, environment, truncation, and derived severe-verdict counts. They are not signed proof that a URL was served from a specific Git commit. Hosted cross-platform qualification of this fingerprint is required before release.
+
+The intentional TodoMVC copy produced exactly 2 `CONTRADICTORY`, 1 `EPHEMERAL`, and 1 `NO_EFFECT` finding while its unbuilt Demo route remained `ENVIRONMENT_INVALID` instead of an app defect. The intentional Conduit copy produced its planted duplicate invoice as `BROKEN`/RD003, failed settings as `CONTRADICTORY`/RD001/RD302, fake delete as `CONTRADICTORY`/RD203/RD301, and inert button as `NO_EFFECT`/RD002.
+
 The first current-engine Conduit rerun exposed an RD501 false positive: the public login page contained “Need an account?”, so an unchanged public state looked private after a real 404 login rejection. RD501 now requires an actual transition into private state or an explicit success claim. A broken fake-login control still triggers RD501, the public rejection control does not, and the real Conduit rerun returned to zero `CONTRADICTORY` findings.
 
-Machine-readable release inputs are in `release/external-cases.json` and `release/evidence/`. Hosted run `29940370416` validated the current causal automatic-provider engine fingerprint and SHA-256-bound external cases across Windows/macOS/Linux, then passed all 15 normative gates.
+The 2026-07-23 Actual Budget rerun then exposed a safety regression: its server target is a text input with an `https://example.com` placeholder rather than `type="url"`. RealDone initially filled a canary and clicked Connect, producing a DNS failure. URL-bearing placeholders now retain external-target classification; the rerun returned to 6 `VERIFIED`, 1 safe `UNCERTAIN`, 3 policy `SKIPPED`, and zero defects.
+
+Machine-readable release inputs are in `release/external-cases.json` and `release/evidence/`. Hosted run `29940370416` validated the previous causal automatic-provider fingerprint across Windows/macOS/Linux and passed all 15 normative gates. The current gate additionally requires each summary's repository-confined raw `scan.json`, validates its SHA-256, and compares its scan ID, environment, truncation, counters, complete verdict map, and severe-verdict count before accepting the case; the new fingerprint remains locally qualified until hosted CI passes.
 
 ### Actual Budget original application
 
@@ -81,6 +87,7 @@ A disposable user then drove the actual product workflow, not a mocked verifier:
 | `baseline` + `ci` | 1 passing baseline, 1 selected critical contract, 0 regressions |
 | `export-playwright` | generated spec executed through Playwright: 1 test passed |
 | `run generic` | baseline, external build and post-agent behavior passed; agent claim remained operational output only |
+| authenticated Codex MCP | Codex CLI `0.143.0` called `realdone.scan` directly; run `20260722T182305Z-c8ae` returned `VALID`, 4 `VERIFIED`, 1 `SKIPPED`, and zero defect verdicts |
 | `cleanup` | dry run completed safely; both created resources remained `manual` because the external app has no user-delete endpoint |
 
 The first intentional-defect Conduit copy also caught an over-broad nearby-field heuristic: the unrelated `Do nothing` button inherited inputs from other forms and looked effective because RealDone itself filled them. Nearby fields are now limited to direct siblings in a single-action container; a multi-form correct control prevents that false pass.

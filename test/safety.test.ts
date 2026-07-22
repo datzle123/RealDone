@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { actionSkipReason, isMutationHostAllowed, validateTarget } from "../src/core/safety.js";
+import { actionSkipReason, isMutationHostAllowed, isSafetyEscalation, validateTarget } from "../src/core/safety.js";
 import type { ActionSpec } from "../src/types.js";
 
 const action: ActionSpec = {
@@ -41,6 +41,65 @@ test("blocks production-like, destructive, and external actions by default", () 
     }) ?? "",
     /Destructive/,
   );
+  const external: ActionSpec = { ...action, kind: "external", intent: "external", risk: "external", label: "Send email" };
+  const productionPolicy = {
+    target: new URL("https://example.com"),
+    allowHosts: [],
+    allowDestructive: false,
+    allowExternal: true,
+  };
+  assert.match(actionSkipReason(external, productionPolicy) ?? "", /Production-like/);
+  assert.equal(actionSkipReason(external, {
+    ...productionPolicy,
+    allowHosts: ["example.com"],
+    allowExternal: true,
+  }), undefined);
+});
+
+test("recorded-flow boundaries cannot be bypassed by broad external opt-in", () => {
+  const ambiguous: ActionSpec = {
+    ...action,
+    pageUrl: "http://localhost:3000",
+    kind: "external",
+    intent: "external",
+    risk: "external",
+    label: "Continue",
+    recordingRequired: "Cross-origin form submission needs a recorded flow.",
+  };
+  assert.match(actionSkipReason(ambiguous, {
+    target: new URL(ambiguous.pageUrl),
+    allowHosts: [],
+    allowDestructive: true,
+    allowExternal: true,
+  }) ?? "", /Recorded flow required/);
+});
+
+test("live safe-risk reclassification still escalates when the action kind becomes state-changing", () => {
+  const discovered: ActionSpec = {
+    ...action,
+    kind: "navigation",
+    intent: "navigate",
+    risk: "safe",
+  };
+  assert.equal(isSafetyEscalation(discovered, { kind: "mutation", intent: "submit", risk: "safe" }), true);
+  assert.equal(isSafetyEscalation(discovered, { kind: "external", intent: "external", risk: "external" }), true);
+  assert.equal(isSafetyEscalation(discovered, { kind: "navigation", intent: "navigate", risk: "safe" }), false);
+});
+
+test("live reclassification never treats a lower-risk classification as an escalation", () => {
+  const discoveredExternal: ActionSpec = {
+    ...action,
+    kind: "external",
+    intent: "external",
+    risk: "external",
+  };
+  const discoveredDestructive: ActionSpec = {
+    ...action,
+    intent: "delete",
+    risk: "destructive",
+  };
+  assert.equal(isSafetyEscalation(discoveredExternal, { kind: "mutation", intent: "submit", risk: "safe" }), false);
+  assert.equal(isSafetyEscalation(discoveredDestructive, { kind: "external", intent: "external", risk: "external" }), false);
 });
 
 test("rejects unsupported target protocols", () => {

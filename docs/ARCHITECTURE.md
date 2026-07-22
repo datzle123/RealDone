@@ -6,7 +6,7 @@ RealDone is a deterministic runtime verifier. Its core does not need an LLM, dat
 
 1. **Runtime manager** launches one isolated Chromium process.
 2. **Route and action discovery** crawls same-origin pages and fingerprints visible forms, links, buttons, and semantically likely standalone Enter-submit inputs.
-3. **Safety policy** classifies actions as safe, external, or destructive and enforces host policy.
+3. **Safety policy** classifies actions as safe, external, or destructive from semantic/form/endpoint signals, enforces host policy, and rechecks the live target immediately before execution.
 4. **Test data generator** creates unique canaries based on field semantics.
 5. **Safe action executor** re-opens each page in an isolated context, resolves the action, fills supported fields, and performs one interaction.
 6. **Evidence collector** records request/response timing, console/page errors, URL/DOM/live-control/storage digests, UI claims, dialogs, and downloads.
@@ -71,4 +71,4 @@ Maintained Stripe-test, email, object-storage and OAuth adapters perform only bo
 
 `AgentAdapter` launches Codex, Claude Code, or a structured generic command without a shell. The orchestration pipeline first captures a green behavior baseline, records the Git HEAD/worktree state, runs the agent, rebuilds through a separate command, derives committed and uncommitted changed files, and then invokes the ordinary affected-flow regression gate.
 
-Agent stdout, stderr, exit messages, and completion claims are operational logs only. They never become browser, network, persistence, database, or cross-user evidence. The pre-agent baseline is hash-sealed and restored after tampering; behavior contracts are hashed independently and cannot change in a passing run without explicit policy. A failed pipeline generates its follow-up prompt exclusively from integrity failures, rebuild diagnostics, and independently observed RealDone assertions.
+Agent stdout, stderr, exit messages, and completion claims are operational logs only. They never become browser, network, persistence, database, or cross-user evidence. The pre-agent baseline is hash-sealed and restored after tampering; behavior contracts are hashed independently and cannot change in a passing run without explicit policy. Changed-file attribution and affected-flow selection use the final post-build Git state, so build-generated product files cannot escape verification. A failed pipeline generates its follow-up prompt exclusively from integrity failures, rebuild diagnostics, and independently observed RealDone assertions.

@@ -144,7 +144,13 @@ Add `--deep` when a `persistence` expectation must survive both reload and a fre
 
 ## Replay outcomes
 
-`realdone replay <finding-id> --report-dir <scan-directory>` creates a new canary, resolves the original semantic target, runs it in a fresh browser, and writes `replay.json`. The outcome is one of:
+`realdone replay <finding-id> --report-dir <scan-directory>` creates a new canary, resolves the original semantic target, runs it in a fresh browser, and writes `replay.json`. Reproductions created from an automatic provider-backed scan retain only value-free provider name, kind, resource, operation, and expected state requirements. Supply the same sandbox adapters again with one or more `--provider-config` options; config paths, references, and credentials are never copied into the reproduction.
+
+Replay validates the finding ID and reproduction schema before execution. It never inherits `allowExternal`, `allowDestructive`, or staging-host authority from the source scan: a CLI invocation must grant those permissions again with `--allow-external`, `--allow-destructive`, and/or `--allow-host`. MCP replay intentionally exposes none of those side-effect grants.
+
+Provider-backed replay is fail-closed. Every required provider name/kind/resource/operation/state tuple must produce passing Level 6 evidence causally linked to the fresh action. A missing adapter, mismatched provider rule, failed check, provider error, or non-causal observation returns `REPLAY_UNCERTAIN` rather than treating browser-only evidence as a definitive replay.
+
+The outcome is one of:
 
 - `FINDING_REPRODUCED` — source verdict and detector set remain present;
 - `FINDING_NO_LONGER_REPRODUCED` — the target ran but the source finding changed;

@@ -1181,6 +1181,10 @@ RealDone phải kiểm tra:
 
 # 25. Safety
 
+Trước khi tự thao tác một project, CLI tương tác phải hỏi xác nhận đúng một lần rằng target là local/staging dùng dữ liệu có thể bỏ. Câu hỏi phải cảnh báo rằng handler cùng origin có thể che giấu email, payment, webhook hoặc provider effect. Chỉ khi người dùng đồng ý RealDone mới bắt đầu runtime/browser action.
+
+Trong môi trường không tương tác, quyền này phải được cấp tường minh (`--yes` cho CLI hoặc quyền project-session khi khởi động MCP); thiếu quyền thì fail closed trước khi chạy action. Quyền project không thay thế các quyền riêng cho external, destructive hoặc production-like host.
+
 Mặc định full mutation chỉ cho phép trên:
 
 * localhost;
@@ -1398,6 +1402,8 @@ Giá trị đầu tiên phải đạt bằng:
 ```bash
 npx realdone scan
 ```
+
+Lệnh một dòng có thể hỏi một câu xác nhận safety cho project trước lần thao tác; không được hỏi lặp lại cho từng nút. CI/MCP phải dùng xác nhận tường minh, không được tự mặc định câu trả lời là “yes”.
 
 Không bắt buộc:
 

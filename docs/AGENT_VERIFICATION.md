@@ -58,7 +58,7 @@ Use repeated `--agent-arg` and `--build-arg` flags so each argument remains stru
 2. Every supplied behavior contract is hashed and verified before the agent runs. A failing baseline stops the pipeline. The baseline is sealed and restored if the agent modifies it.
 3. The agent runs with a default 30-minute timeout. Stdout and stderr are bounded, redacted, and written as local operational logs.
 4. The rebuild command runs independently with a default five-minute timeout. It defaults to `pnpm build`.
-5. RealDone combines Git commits made by the agent with uncommitted paths and selects affected/critical flows through the normal manifest rules. Behavior-contract changes force a full run and fail the integrity gate unless `--allow-contract-changes` is explicit.
+5. After the independent rebuild completes, RealDone captures the resulting Git commit and uncommitted paths, then selects affected/critical flows from that final post-build change set. Build-created product files are therefore attributed to the run. Behavior-contract changes force a full run and fail the integrity gate unless `--allow-contract-changes` is explicit.
 6. A passing run writes `agent-verification.json`. A failing run additionally writes `follow-up.md` using only build diagnostics and failed RealDone assertions.
 
 Output lives under `.realdone/agent-runs/<run-id>/` by default:

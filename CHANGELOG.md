@@ -6,12 +6,19 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 
 ### Added
 
+- Provider-aware finding replay with value-free provider name/kind/resource/operation/state requirements across CLI and MCP; missing, mismatched, failed, or non-causal confirmation now returns `REPLAY_UNCERTAIN`.
+- Pre-execution browser safety reclassification from live form action/method, cross-origin and non-HTTP targets, upload fields, provider/endpoint hints, downloads, authentication popups, and destructive endpoints.
+- Schema-validated, path-safe replay that never inherits historical external, destructive, or staging-host authority; CLI replay requires fresh explicit grants and MCP replay remains side-effect-disabled.
+- Raw external-project `scan.json` verification: committed source artifacts must remain repository-confined, SHA-256 intact, and exactly consistent with their release-evidence summaries.
+- One-question project action consent for every autonomously browser-operating interactive CLI command, explicit `--yes` for non-interactive CLI/CI runs, and user-owned `--allow-project-actions` authorization for MCP project sessions.
+- Authenticated Codex CLI qualification of the RealDone MCP scan path against the pinned Conduit project, with the resulting browser report retained as evidence rather than trusting the agent response.
+
 - A local stdio MCP server with shared-core `scan`, `record`, `verify`, `baseline`, `verify_change`, `replay`, and redacted `get_report` tools for Codex, Claude Code, and generic MCP clients.
 - MCP workspace confinement, bounded inputs, server instructions, and fail-closed destructive/external policies; the full CLI remains independent of AI.
 - A no-URL managed scan path that discovers, starts, scans, and stops the current web project.
 - `scan --full` for large bounded safe-audit budgets and deep persistence without enabling destructive or external effects.
 - Machine-readable artifact secret/ZIP scanning, backward-compatible artifact schema checks, cross-platform release attestations, and an evaluator for all 15 normative release gates.
-- SHA-256 and engine-fingerprint-bound TodoMVC, Actual Budget, and Conduit evidence plus a CI aggregation job that requires all 15 normative gates across Linux, macOS, and Windows.
+- Maintainer-pinned TodoMVC, Actual Budget, and Conduit evidence with current-source fingerprint gating, repository-confined raw-scan SHA-256/counter/verdict validation, and a CI aggregation job that requires all 15 normative gates across Linux, macOS, and Windows.
 - Trace-on-failure for scans and contract verification, a deterministic 1–16 worker pool for contract suites/browser matrices, and content-addressed snapshot indexes with shared SHA-256 blobs.
 - `realdone init` project discovery for framework, package manager, lifecycle commands, port, conventional routes, SQLite/PostgreSQL/provider hints, auth/test tooling and environment filenames, including bounded monorepo workspaces.
 - `scan --manage-runtime` lifecycle ownership with development/production/Docker modes, HTTP health checks, bounded crash restarts, secret-redacted logs and cross-platform process cleanup.
@@ -40,6 +47,11 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 - Explicit automatic provider rules for CLI/MCP scans, with action/request matching and response-ID, upload, download, or environment references; passing checks attach redacted Level 6 evidence and provider artifacts.
 
 ### Changed
+
+- Coding-agent verification now attributes changes and selects affected flows from the final post-build Git state, so generated product files cannot escape independent verification.
+- Production-like targets require an explicit host allowlist for mutation, destructive, and external-effect execution even when the corresponding action opt-in is present.
+- Runtime DOM changes that increase action risk are reported as `SKIPPED`/RD008 before fields are filled or controls are activated; same-origin opt-in canary uploads remain supported.
+- Text inputs whose placeholder is an HTTP(S) URL retain external-target classification for Connect/sync actions, preventing generated canaries from becoming unintended DNS/network targets on real applications.
 
 - Discovered routes with JavaScript/CSS served as HTML are excluded from application-defect execution and their incoming navigation actions are `SKIPPED` with environment evidence.
 - Benchmark output now gates explicit expectation coverage, truncation and environment validity in addition to precision, recall, verdict, detector and replay accuracy.

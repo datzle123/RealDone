@@ -522,6 +522,16 @@ export interface Reproduction {
   action: ActionSpec;
   sourceVerdict?: Verdict;
   sourceDetectorCodes?: DetectorCode[];
+  providerRequirements?: {
+    automatic: true;
+    providers: Array<{
+      name: string;
+      kind: "payment" | "email" | "storage" | "oauth";
+      resource?: string;
+      operation?: string;
+      state?: "confirmed" | "absent";
+    }>;
+  };
   options: Pick<
     ScanOptions,
     | "timeoutMs"
@@ -554,6 +564,8 @@ export interface ReplayEvidence {
   replayVerdict?: Verdict;
   sourceDetectorCodes: DetectorCode[];
   replayDetectorCodes: DetectorCode[];
+  providerConfirmationRequired?: boolean;
+  providerConfirmationSatisfied?: boolean;
   detail: string;
 }
 import type { DiscoverableSourceAdapter, SourceRowDiff, SourceSnapshot } from "./adapters/types.js";

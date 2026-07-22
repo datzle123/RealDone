@@ -10,6 +10,8 @@ realdone scan
 
 Pass a URL when the application is already running or automatic project discovery is unavailable.
 
+Before any interactive CLI command that autonomously operates browser actions begins, RealDone asks once for project-level action consent and warns that an ordinary app handler may hide an email, payment, webhook, or other provider effect. This covers `scan`, `verify`, `benchmark`, verified `baseline`, `ci`, `matrix`, coding-agent `run`, and `replay`; human-driven `record` and dry metadata-only operations do not need it. Answering yes authorizes the permitted actions only for that command. Non-interactive CLI use must pass `--yes`; without it RealDone exits before starting the runtime or browser. `--allow-external`, `--allow-destructive`, and production-like `--allow-host` checks remain separate.
+
 Quick scan uses 8 pages, 24 actions, and a two-minute budget. Full safe audit raises those defaults to 100 pages, 500 actions, deep persistence, and 30 minutes while keeping destructive and external effects disabled:
 
 ```bash
@@ -42,11 +44,15 @@ Automatic discovery prepares hover-revealed and scroll/lazy content, executes na
 realdone scan http://localhost:3000 --allow-iframe
 ```
 
-Upload, canvas, rich-text and drag/drop controls are still discovered but produce a safe RD008 recorded-flow boundary. Record the exact file/content/gesture once instead of letting the scanner guess:
+Same-origin upload forms are classified as external and remain skipped by default. With `--allow-external` on an allowed local/staging host, the automatic scanner may submit a generated canary file; standalone, ambiguous, cross-origin, or non-HTTP uploads remain an RD008 recorded-flow boundary. Canvas, rich-text and drag/drop controls also require recording. Record the exact file/content/gesture once instead of letting the scanner guess:
 
 ```bash
 realdone record http://localhost:3000 --name "Upload and approve receipt"
 ```
+
+Discovery classifies effective form actions/methods, provider and endpoint hints, file fields, downloads, popups, and destructive semantics. Immediately before filling or activating a target, the executor reads those signals again. A target that changed into a mutation, external effect, destructive action, or recorded-flow boundary is `SKIPPED` before execution. Production-like targets need an explicit `--allow-host` in addition to `--allow-external` or `--allow-destructive`.
+
+No browser scanner can infer a server-side email/payment hidden behind an otherwise ordinary same-origin handler with no observable semantic signal. Use a deny/set rule in `--policy`, a recorded flow, or a provider-specific sandbox hint for those domain-specific actions.
 
 ## Deep fresh-context verification
 

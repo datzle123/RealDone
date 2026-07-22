@@ -13,6 +13,15 @@ realdone scan http://localhost:3000 --allow-external \
   --provider-config .realdone/providers.json
 ```
 
+Pass the adapter again when replaying a finding produced by that scan:
+
+```bash
+realdone replay RD-001 --report-dir .realdone/reports/<scan-id> \
+  --provider-config .realdone/providers.json
+```
+
+The reproduction stores only value-free provider name, kind, resource, operation, and expected state requirements, never config paths, references, or credentials. Replay requires fresh, passing and causally linked Level 6 evidence for every exact recorded rule. Missing config, a mismatched rule, a failed lookup, an adapter error, or non-causal proof produces `REPLAY_UNCERTAIN`.
+
 ```json
 {
   "automaticChecks": [

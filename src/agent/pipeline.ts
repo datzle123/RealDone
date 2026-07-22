@@ -104,7 +104,12 @@ async function git(cwd: string, args: string[]): Promise<string> {
   return result.stdout;
 }
 
-async function gitState(cwd: string): Promise<{ head: string; status: string[] }> {
+export interface AgentGitState {
+  head: string;
+  status: string[];
+}
+
+export async function captureAgentGitState(cwd: string): Promise<AgentGitState> {
   const [head, status] = await Promise.all([
     git(cwd, ["rev-parse", "HEAD"]),
     git(cwd, ["status", "--porcelain=v1", "-z", "--untracked-files=all"]),
@@ -112,11 +117,37 @@ async function gitState(cwd: string): Promise<{ head: string; status: string[] }
   return { head: head.trim(), status: parseGitStatus(status) };
 }
 
-async function changedFiles(cwd: string, beforeHead: string, afterHead: string, status: string[]): Promise<string[]> {
-  const committed = beforeHead === afterHead
+export async function changedFilesFromGitState(
+  cwd: string,
+  beforeHead: string,
+  finalState: AgentGitState,
+): Promise<string[]> {
+  const committed = beforeHead === finalState.head
     ? []
-    : pathsFromNul(await git(cwd, ["diff", "--name-only", "-z", beforeHead, afterHead]));
-  return [...new Set([...committed, ...status])].sort();
+    : pathsFromNul(await git(cwd, ["diff", "--name-only", "-z", beforeHead, finalState.head]));
+  return [...new Set([...committed, ...finalState.status])].sort();
+}
+
+export interface AgentIntegrityDecision {
+  baselineTampered: boolean;
+  integrityPassed: boolean;
+  regressionChangedFiles: string[];
+}
+
+export function decideAgentIntegrity(input: {
+  agentTamperedBaseline: boolean;
+  buildTamperedBaseline: boolean;
+  contractFilesChanged: string[];
+  changedFiles: string[];
+  allowContractChanges: boolean;
+}): AgentIntegrityDecision {
+  const baselineTampered = input.agentTamperedBaseline || input.buildTamperedBaseline;
+  return {
+    baselineTampered,
+    integrityPassed: !baselineTampered && (input.allowContractChanges || input.contractFilesChanged.length === 0),
+    // Contract edits cannot narrow verification using their own, potentially manipulated scope metadata.
+    regressionChangedFiles: input.contractFilesChanged.length > 0 ? [] : [...input.changedFiles],
+  };
 }
 
 async function fileHashes(files: string[]): Promise<Map<string, string>> {
@@ -181,7 +212,7 @@ export async function runAgentVerification(options: AgentVerificationOptions): P
   const outputDirectory = path.resolve(options.outputRoot, id);
   await mkdir(outputDirectory, { recursive: true });
   const startedAt = new Date().toISOString();
-  const before = await gitState(cwd);
+  const before = await captureAgentGitState(cwd);
   if (!options.allowDirty && before.status.length > 0) {
     throw new Error(`Agent verification requires a clean worktree. Existing changes: ${before.status.join(", ")}`);
   }
@@ -239,19 +270,25 @@ export async function runAgentVerification(options: AgentVerificationOptions): P
     maxTurns: options.agentMaxTurns,
   });
   const agentResult = await runCommand(agentSpec);
-  const afterAgent = await gitState(cwd);
-  const changed = await changedFiles(cwd, before.head, afterAgent.head, afterAgent.status);
   const baselineAfterAgent = await readFile(baselineFile, "utf8").catch(() => "");
   const agentTamperedBaseline = createHash("sha256").update(baselineAfterAgent).digest("hex") !== baselineHash;
   if (agentTamperedBaseline) await writeFile(baselineFile, sealedBaseline);
   const buildResult = await runCommand({ ...options.build, cwd });
   const baselineAfterBuild = await readFile(baselineFile, "utf8").catch(() => "");
   const buildTamperedBaseline = createHash("sha256").update(baselineAfterBuild).digest("hex") !== baselineHash;
-  const baselineTampered = agentTamperedBaseline || buildTamperedBaseline;
   if (buildTamperedBaseline) await writeFile(baselineFile, sealedBaseline);
   const contractFilesAfter = await collectContractFiles(absoluteContractInputs).catch(() => []);
   const contractHashesAfter = await fileHashes(contractFilesAfter);
   const contractFilesChanged = changedHashPaths(contractHashesBefore, contractHashesAfter, cwd);
+  const postBuild = await captureAgentGitState(cwd);
+  const changed = await changedFilesFromGitState(cwd, before.head, postBuild);
+  const integrity = decideAgentIntegrity({
+    agentTamperedBaseline,
+    buildTamperedBaseline,
+    contractFilesChanged,
+    changedFiles: changed,
+    allowContractChanges: options.allowContractChanges,
+  });
   let regression: Awaited<ReturnType<typeof runRegressionGate>> | undefined;
   let verificationError: string | undefined;
   if (commandPassed(buildResult) && contractFilesAfter.length > 0) {
@@ -259,7 +296,7 @@ export async function runAgentVerification(options: AgentVerificationOptions): P
       regression = await runRegressionGate({
         baselineFile,
         contractInputs: absoluteContractInputs,
-        changedFiles: contractFilesChanged.length > 0 ? [] : changed,
+        changedFiles: integrity.regressionChangedFiles,
         outputRoot: path.join(outputDirectory, "regression"),
         verifyOptions: {
           ...options.verifyOptions,
@@ -273,13 +310,12 @@ export async function runAgentVerification(options: AgentVerificationOptions): P
     verificationError = "No behavior contract files remained after the agent/build run.";
   }
   const behaviorPassed = Boolean(regression?.report.passed);
-  const integrityPassed = !baselineTampered && (options.allowContractChanges || contractFilesChanged.length === 0);
-  const passed = commandPassed(agentResult) && commandPassed(buildResult) && behaviorPassed && integrityPassed;
+  const passed = commandPassed(agentResult) && commandPassed(buildResult) && behaviorPassed && integrity.integrityPassed;
   const [agent, build] = await Promise.all([
     commandSummary(outputDirectory, "agent", agentResult),
     commandSummary(outputDirectory, "build", buildResult),
   ]);
-  const after = await gitState(cwd);
+  const after = await captureAgentGitState(cwd);
   const followUpPrompt = passed
     ? undefined
     : renderFollowUpPrompt({
@@ -287,7 +323,7 @@ export async function runAgentVerification(options: AgentVerificationOptions): P
         agent: agentResult,
         build: buildResult,
         ...(regression ? { regression: regression.report, currentManifest: regression.currentManifest } : {}),
-        baselineTampered,
+        baselineTampered: integrity.baselineTampered,
         contractFilesChanged,
         ...(verificationError ? { verificationError } : {}),
       });
@@ -305,7 +341,7 @@ export async function runAgentVerification(options: AgentVerificationOptions): P
     passed,
     changedFiles: changed,
     contractFilesChanged,
-    baselineTampered,
+    baselineTampered: integrity.baselineTampered,
     beforeHead: before.head,
     afterHead: after.head,
     agent,

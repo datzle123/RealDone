@@ -2,8 +2,10 @@ import { mkdir } from "node:fs/promises";
 import path from "node:path";
 import type { Browser, Frame, Locator, Page } from "playwright";
 import { createCanary, valueForField } from "../core/canary.js";
+import { classifyAction } from "../core/classify.js";
 import { hashText, isSensitiveKey, safeUrl } from "../core/redact.js";
 import { isTransientBrowserError, withRetry } from "../core/retry.js";
+import { actionSkipReason, isSafetyEscalation } from "../core/safety.js";
 import type { ActionSpec, ExecutionEvidence, FilledField, ScanOptions, UploadEvidence } from "../types.js";
 import { attachEvidence, captureState, collectUiClaims } from "./evidence.js";
 import { resolveSemanticLocator, SemanticTargetNotFoundError } from "./locator.js";
@@ -11,6 +13,13 @@ import { waitForEnvironmentRender } from "../environment/health.js";
 import { prepareDynamicActions } from "./discover.js";
 
 type InteractionScope = Page | Frame;
+
+export class PreExecutionSafetyError extends Error {
+  constructor(readonly reason: string, readonly action: ActionSpec) {
+    super(reason);
+    this.name = "PreExecutionSafetyError";
+  }
+}
 
 function scopeFor(page: Page, action: ActionSpec): InteractionScope {
   const frameUrl = action.fingerprint.frameUrl;
@@ -28,6 +37,125 @@ function scopeFor(page: Page, action: ActionSpec): InteractionScope {
   });
   if (!matching) throw new Error(`The same-origin iframe ${frameUrl} was not available in the execution context.`);
   return matching;
+}
+
+async function assertLiveActionSafety(
+  scope: InteractionScope,
+  locator: Locator,
+  action: ActionSpec,
+  options: ScanOptions,
+): Promise<void> {
+  const signals = await locator.evaluate((element) => {
+    const form = element instanceof HTMLFormElement
+      ? element
+      : element instanceof HTMLButtonElement || element instanceof HTMLInputElement
+        ? element.form ?? element.closest("form")
+        : element.closest("form");
+    const submitter = element instanceof HTMLFormElement
+      ? [...element.querySelectorAll('button[type="submit"], input[type="submit"], input[type="image"], button:not([type])')]
+          .find((candidate) => {
+            const node = candidate as HTMLElement;
+            const style = window.getComputedStyle(node);
+            const rect = node.getBoundingClientRect();
+            return !node.hasAttribute("disabled") && node.getAttribute("aria-disabled") !== "true" && style.display !== "none" && style.visibility !== "hidden" && rect.width > 0 && rect.height > 0;
+          }) as HTMLButtonElement | HTMLInputElement | undefined
+      : element instanceof HTMLButtonElement || element instanceof HTMLInputElement
+        ? element
+        : undefined;
+    const effectiveElement = submitter ?? element;
+    const actionUrl = effectiveElement instanceof HTMLAnchorElement
+      ? effectiveElement.href
+      : (
+          effectiveElement instanceof HTMLButtonElement || effectiveElement instanceof HTMLInputElement
+        ) && effectiveElement.hasAttribute("formaction")
+        ? effectiveElement.formAction
+        : form?.action;
+    const method = (
+      effectiveElement instanceof HTMLButtonElement || effectiveElement instanceof HTMLInputElement
+    ) && effectiveElement.hasAttribute("formmethod")
+      ? effectiveElement.formMethod
+      : form?.method;
+    const target = effectiveElement instanceof HTMLAnchorElement
+      ? effectiveElement.target
+      : (
+          effectiveElement instanceof HTMLButtonElement || effectiveElement instanceof HTMLInputElement
+        ) && effectiveElement.hasAttribute("formtarget")
+        ? effectiveElement.formTarget
+        : form?.target;
+    const fields = form
+      ? [...form.querySelectorAll("input, textarea, select")]
+      : element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement || element instanceof HTMLSelectElement
+        ? [element]
+        : [];
+    return {
+      tag: element.tagName.toLowerCase(),
+      isForm: Boolean(form),
+      ...(actionUrl ? { actionUrl } : {}),
+      ...(method ? { method } : {}),
+      ...(target ? { target } : {}),
+      ...(effectiveElement instanceof HTMLAnchorElement && effectiveElement.hasAttribute("download") ? { download: true } : {}),
+      liveLabel: (
+        effectiveElement.getAttribute("aria-label") ||
+        (effectiveElement as HTMLElement).innerText ||
+        (effectiveElement instanceof HTMLInputElement ? effectiveElement.value : "") ||
+        effectiveElement.getAttribute("title") ||
+        ""
+      ).replace(/\s+/g, " ").trim().slice(0, 240),
+      fieldTypes: fields.map((field) => field instanceof HTMLInputElement ? field.type || "text" : field.tagName.toLowerCase()),
+      fieldHints: fields.flatMap((field) => [
+        field.getAttribute("name"),
+        field.getAttribute("aria-label"),
+        field.getAttribute("placeholder"),
+        ...(field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement || field instanceof HTMLSelectElement
+          ? [...(field.labels ?? [])].map((label) => label.textContent)
+          : []),
+      ].filter((value): value is string => Boolean(value))),
+      semanticHints: [
+        element.id,
+        element.getAttribute("name"),
+        element.getAttribute("data-action"),
+        element.getAttribute("data-endpoint"),
+        element.getAttribute("data-provider"),
+        element.getAttribute("data-url"),
+        effectiveElement.getAttribute("data-action"),
+        effectiveElement.getAttribute("data-endpoint"),
+        effectiveElement.getAttribute("data-provider"),
+        effectiveElement.getAttribute("data-url"),
+      ].filter((value): value is string => Boolean(value)).slice(0, 8),
+    };
+  });
+  const runtimeClassification = classifyAction(
+    signals.liveLabel || action.label,
+    signals.tag,
+    signals.tag === "a" ? signals.actionUrl : undefined,
+    signals.isForm,
+    {
+      pageUrl: scope.url(),
+      ...(signals.actionUrl ? { actionUrl: signals.actionUrl } : {}),
+      ...(signals.method ? { method: signals.method } : {}),
+      ...(signals.target ? { target: signals.target } : {}),
+      ...(signals.download ? { download: true } : {}),
+      fieldTypes: signals.fieldTypes,
+      fieldHints: signals.fieldHints,
+      semanticHints: signals.semanticHints,
+    },
+  );
+  const escalated = isSafetyEscalation(action, runtimeClassification);
+  const runtimeAction: ActionSpec = {
+    ...action,
+    ...(escalated ? runtimeClassification : {}),
+    fingerprint: {
+      ...action.fingerprint,
+      ...(signals.tag === "a" && signals.actionUrl ? { href: signals.actionUrl } : {}),
+    },
+  };
+  const reason = actionSkipReason(runtimeAction, {
+    target: new URL(options.targetUrl),
+    allowHosts: options.allowHosts,
+    allowDestructive: options.allowDestructive,
+    allowExternal: options.allowExternal,
+  });
+  if (reason) throw new PreExecutionSafetyError(`Pre-execution safety check: ${reason}`, runtimeAction);
 }
 
 async function fillForm(page: InteractionScope, action: ActionSpec, canary: string, uploads: UploadEvidence[]): Promise<FilledField[]> {
@@ -193,6 +321,7 @@ export async function executeAction(
     const locator = resolved.locator;
     evidence.locatorResolution = resolved.diagnostics;
     evidence.before = await captureState(targetScope, canary, startedAt);
+    await assertLiveActionSafety(targetScope, locator, action, options);
     if (action.intent === "delete") {
       const targetText = await nearestTargetText(locator);
       if (targetText) evidence.targetText = targetText;
@@ -200,32 +329,41 @@ export async function executeAction(
     attached = attachEvidence(page, startedAt, evidence);
     evidence.filledFields = await fillForm(targetScope, action, canary, evidence.uploads ??= []);
     evidence.beforeAction = await captureState(targetScope, canary, startedAt);
+    // Filling can run application handlers that replace the submitter or escalate
+    // its target. Re-read the effective live action immediately before activation.
+    const liveLocator = action.fields.length > 0
+      ? targetScope.locator(action.fingerprint.selector).first()
+      : locator;
+    if ((await liveLocator.count()) === 0) {
+      throw new PreExecutionSafetyError("Pre-execution safety check: target changed after field preparation.", action);
+    }
+    await assertLiveActionSafety(targetScope, liveLocator, action, options);
 
     if (action.activation === "enter") {
-      await locator.press("Enter", { timeout: options.timeoutMs });
+      await liveLocator.press("Enter", { timeout: options.timeoutMs });
     } else if (action.activation === "check") {
-      await locator.check({ timeout: options.timeoutMs });
+      await liveLocator.check({ timeout: options.timeoutMs });
     } else if (action.activation === "select") {
-      const option = await locator.evaluate((element) => {
+      const option = await liveLocator.evaluate((element) => {
         const select = element as HTMLSelectElement;
         return [...select.options].find((item) => !item.disabled && item.value)?.value;
       });
       if (!option) throw new Error("No usable option was available for the discovered select action.");
-      await locator.selectOption(option, { timeout: options.timeoutMs });
+      await liveLocator.selectOption(option, { timeout: options.timeoutMs });
     } else if (action.activation === "hover") {
-      await locator.hover({ timeout: options.timeoutMs });
+      await liveLocator.hover({ timeout: options.timeoutMs });
     } else if (action.activation === "contextmenu") {
-      await locator.click({ button: "right", timeout: options.timeoutMs });
+      await liveLocator.click({ button: "right", timeout: options.timeoutMs });
     } else if (action.fingerprint.tag === "form" || action.activation === "submit") {
-      const submit = locator.locator('button[type="submit"], input[type="submit"], button:not([type])').first();
+      const submit = liveLocator.locator('button[type="submit"], input[type="submit"], input[type="image"], button:not([type])').first();
       if ((await submit.count()) > 0) await submit.click({ timeout: options.timeoutMs });
-      else await locator.evaluate((form) => (form as HTMLFormElement).requestSubmit());
+      else await liveLocator.evaluate((form) => (form as HTMLFormElement).requestSubmit());
     } else {
-      await locator.click({ timeout: options.timeoutMs });
+      await liveLocator.click({ timeout: options.timeoutMs });
     }
 
     if (action.kind === "mutation") {
-      evidence.targetDisabledAfter = await locator.isDisabled({ timeout: 250 }).catch(() => false);
+      evidence.targetDisabledAfter = await liveLocator.isDisabled({ timeout: 250 }).catch(() => false);
     }
 
     await page.waitForLoadState("domcontentloaded", { timeout: Math.min(options.timeoutMs, 3_000) }).catch(() => undefined);
@@ -312,6 +450,7 @@ export async function executeAction(
       if (resolvedPersistenceScope) evidence.persistenceScope = resolvedPersistenceScope;
     }
   } catch (error) {
+    if (error instanceof PreExecutionSafetyError) throw error;
     if (error instanceof SemanticTargetNotFoundError) {
       evidence.targetNotFound = true;
       evidence.locatorResolution = error.diagnostics;

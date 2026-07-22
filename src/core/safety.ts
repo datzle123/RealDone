@@ -1,4 +1,5 @@
 import type { ActionSpec } from "../types.js";
+import type { ActionClassification } from "./classify.js";
 
 const LOCAL_HOSTS = new Set(["localhost", "127.0.0.1", "::1"]);
 
@@ -7,6 +8,18 @@ export interface SafetyPolicy {
   allowHosts: string[];
   allowDestructive: boolean;
   allowExternal: boolean;
+}
+
+export function isSafetyEscalation(action: ActionSpec, runtime: ActionClassification): boolean {
+  const riskRank = { safe: 0, external: 1, destructive: 2 } as const;
+  const kindRank = { navigation: 0, local: 0, mutation: 1, external: 2 } as const;
+  if (riskRank[runtime.risk] < riskRank[action.risk]) return false;
+  return (
+    riskRank[runtime.risk] > riskRank[action.risk] ||
+    kindRank[runtime.kind] > kindRank[action.kind] ||
+    (runtime.intent === "delete" && action.intent !== "delete") ||
+    (Boolean(runtime.recordingRequired) && !action.recordingRequired)
+  );
 }
 
 export function isMutationHostAllowed(target: URL, allowHosts: string[]): boolean {
@@ -55,8 +68,9 @@ export function actionSkipReason(action: ActionSpec, policy: SafetyPolicy): stri
       return "Invalid navigation target blocked by the default safety policy.";
     }
   }
-  if (!isMutationHostAllowed(policy.target, policy.allowHosts) && action.kind === "mutation") {
-    return "Production-like host: mutation actions are discovery-only. Use --allow-host explicitly for staging.";
+  const canChangeState = action.kind === "mutation" || action.kind === "external" || action.risk !== "safe";
+  if (!isMutationHostAllowed(policy.target, policy.allowHosts) && canChangeState) {
+    return "Production-like host: mutation and external-effect actions are discovery-only. Use --allow-host explicitly for staging.";
   }
   if (action.risk === "destructive" && !policy.allowDestructive) {
     return "Destructive action blocked by the default safety policy.";

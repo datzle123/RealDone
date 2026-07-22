@@ -52,6 +52,29 @@ export async function writeReport(
       action: finding.action,
       sourceVerdict: finding.verdict,
       sourceDetectorCodes: finding.detectorMatches.map((match) => match.code),
+      ...((finding.evidence.providerEvidence?.length ?? 0) + (finding.evidence.providerErrors?.length ?? 0) > 0
+        ? {
+            providerRequirements: {
+              automatic: true as const,
+              providers: [...new Map([
+                ...(finding.evidence.providerEvidence ?? []).map((entry) => [
+                  `${entry.provider}\0${entry.kind}\0${entry.resource}\0${entry.operation}\0${entry.state}`,
+                  { name: entry.provider, kind: entry.kind, resource: entry.resource, operation: entry.operation, state: entry.state },
+                ] as const),
+                ...(finding.evidence.providerErrors ?? []).map((entry) => [
+                  `${entry.provider}\0${entry.kind}\0${entry.resource ?? ""}\0${entry.operation ?? ""}\0${entry.state ?? ""}`,
+                  {
+                    name: entry.provider,
+                    kind: entry.kind,
+                    ...(entry.resource ? { resource: entry.resource } : {}),
+                    ...(entry.operation ? { operation: entry.operation } : {}),
+                    ...(entry.state ? { state: entry.state } : {}),
+                  },
+                ] as const),
+              ]).values()],
+            },
+          }
+        : {}),
       options: {
         timeoutMs: report.options.timeoutMs,
         settleMs: report.options.settleMs,

@@ -131,7 +131,7 @@ runs:
         RD_VIDEO: ${{ inputs.video }}
       run: |
         cd "$GITHUB_WORKSPACE/$RD_WORKING_DIRECTORY"
-        args=(ci --baseline "$RD_BASELINE" --contracts "$RD_CONTRACTS" --output "$RD_OUTPUT" --browser "$RD_BROWSER")
+        args=(ci --yes --baseline "$RD_BASELINE" --contracts "$RD_CONTRACTS" --output "$RD_OUTPUT" --browser "$RD_BROWSER")
         if [[ -n "$RD_ALLOW_HOST" ]]; then args+=(--allow-host "$RD_ALLOW_HOST"); fi
         if [[ -n "$RD_POSTGRES_CONFIG" ]]; then args+=(--postgres-config "$RD_POSTGRES_CONFIG"); fi
         if [[ -n "$RD_SQLITE" ]]; then args+=(--sqlite "$RD_SQLITE"); fi

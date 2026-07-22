@@ -118,6 +118,10 @@ test("maintained provider adapters verify only sandboxed, read-only outcomes", a
   assert.equal(slow.matchedChecks, 1);
   assert.equal(slow.evidence.length, 0);
   assert.equal(slow.errors.length, 1);
+  assert.deepEqual(
+    { provider: slow.errors[0]?.provider, kind: slow.errors[0]?.kind, resource: slow.errors[0]?.resource, operation: slow.errors[0]?.operation, state: slow.errors[0]?.state },
+    { provider: "stripe", kind: "payment", resource: "payment-intent", operation: "succeeded", state: "confirmed" },
+  );
   assert.ok(Date.now() - slowStarted < 1_000, "automatic provider confirmation exceeded the scan deadline");
 });
 

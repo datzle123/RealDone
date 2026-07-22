@@ -31,6 +31,8 @@ pnpm build
 
 Chromium is downloaded automatically on the first scan if it is missing.
 
+Before operating a project, the interactive CLI asks once whether it is disposable local/staging data; non-interactive automation must pass `--yes` explicitly. External and destructive actions still require their separate flags.
+
 Start the web app you want to check, then run:
 
 ```bash
@@ -63,10 +65,10 @@ Use this for login, checkout, CRUD, upload, export, or multi-step flows. The rec
 ### 3. Let a coding agent call RealDone
 
 ```bash
-pnpm realdone mcp --project ../my-app
+pnpm realdone mcp --project ../my-app --allow-project-actions
 ```
 
-The local MCP server lets Codex, Claude, or another AI call scan, baseline, verify-change, replay, and report tools directly. RealDone still decides pass/fail from independent browser evidence. The existing Codex, Claude, and generic CLI adapters remain optional orchestration wrappers. See [MCP integration](docs/MCP.md).
+The local MCP server lets Codex, Claude, or another AI call scan, baseline, verify-change, replay, and report tools directly. `--allow-project-actions` is the user's one-time consent for that MCP project session; it does not enable external or destructive actions. RealDone still decides pass/fail from independent browser evidence. See [MCP integration](docs/MCP.md).
 
 ## What it can verify
 
@@ -86,7 +88,7 @@ Database, provider, multi-role, trace, video, and multi-browser checks are optio
 ## Safe by default
 
 - Mutations run automatically only on localhost, `.test`, `.local`, or an explicit staging host.
-- Destructive and cross-origin actions require explicit opt-in.
+- Destructive and external-effect actions require explicit opt-in; live form targets are rechecked immediately before execution.
 - Stripe live keys are rejected; remote provider/database access is fail-closed by default.
 - Credentials come from environment variables and are redacted from evidence.
 - Cleanup is a dry run unless separately confirmed.
@@ -97,9 +99,9 @@ Review policies before testing any environment with real users or money.
 
 RealDone is a tested open-source preview, not yet the completed full product.
 
-- Phase gates A–F and all 15 normative release gates are hosted-CI green.
-- 17 of 22 normative product areas are `IMPLEMENTED`.
-- Authenticated coding-agent qualification, broader external cases, and the remaining full-product areas are still open.
+- The last pushed release passed all 15 normative gates on Windows, macOS, and Linux; every new fingerprint must pass again before release.
+- 19 of 22 normative product areas are `IMPLEMENTED`.
+- Authenticated Codex-to-MCP scanning passes; the full agent change cycle and broader external-project matrix remain open, so the full-product claim stays closed.
 
 [`PRODUCT_STATUS.md`](docs/PRODUCT_STATUS.md) is the only area-completeness ledger. [`PRODUCT_SPECIFICATION.md`](docs/PRODUCT_SPECIFICATION.md) is the full source of truth. A completed roadmap phase is not the same as a completed full product.
 

@@ -212,6 +212,34 @@
       "expectedCodes": []
     },
     {
+      "id": "runtime-external-reclassification-broken",
+      "match": { "pagePath": "/runtime-reclassification", "label": "Save runtime profile" },
+      "shouldFlag": false,
+      "expectedVerdict": "SKIPPED",
+      "expectedCodes": ["RD008"]
+    },
+    {
+      "id": "runtime-same-origin-reclassification-control",
+      "match": { "pagePath": "/runtime-reclassification-control", "label": "Save runtime control" },
+      "shouldFlag": false,
+      "expectedVerdict": "BROWSER_LOCAL",
+      "expectedCodes": ["RD102"]
+    },
+    {
+      "id": "runtime-after-fill-submitter-escalation-broken",
+      "match": { "pagePath": "/runtime-after-fill", "label": "Save after fill" },
+      "shouldFlag": false,
+      "expectedVerdict": "SKIPPED",
+      "expectedCodes": ["RD008"]
+    },
+    {
+      "id": "runtime-same-origin-submitter-override-control",
+      "match": { "pagePath": "/runtime-submitter-control", "label": "Save submitter control" },
+      "shouldFlag": false,
+      "expectedVerdict": "BROWSER_LOCAL",
+      "expectedCodes": ["RD102"]
+    },
+    {
       "id": "stateful-target-control",
       "match": { "pagePath": "/stateful-action", "label": "Back" },
       "shouldFlag": false,
