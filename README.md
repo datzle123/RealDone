@@ -99,7 +99,7 @@ Review policies before testing any environment with real users or money.
 
 RealDone is a tested open-source preview, not yet the completed full product.
 
-- The last pushed release passed all 15 normative gates on Windows, macOS, and Linux; every new fingerprint must pass again before release.
+- Current `main` passed all 15 normative gates on Windows, macOS, and Linux in [run 29950496830](https://github.com/datzle123/RealDone/actions/runs/29950496830); every new fingerprint must pass again before release.
 - 19 of 22 normative product areas are `IMPLEMENTED`.
 - Authenticated Codex-to-MCP scanning passes; the full agent change cycle and broader external-project matrix remain open, so the full-product claim stays closed.
 

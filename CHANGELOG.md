@@ -48,6 +48,7 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 
 ### Changed
 
+- The current safety/replay/agent-integrity fingerprint passed hosted run `29950496830` across Windows, macOS, Linux, Node 20/22, the browser matrix, package smoke, and all 15 normative release gates.
 - Coding-agent verification now attributes changes and selects affected flows from the final post-build Git state, so generated product files cannot escape independent verification.
 - Production-like targets require an explicit host allowlist for mutation, destructive, and external-effect execution even when the corresponding action opt-in is present.
 - Runtime DOM changes that increase action risk are reported as `SKIPPED`/RD008 before fields are filled or controls are activated; same-origin opt-in canary uploads remain supported.
