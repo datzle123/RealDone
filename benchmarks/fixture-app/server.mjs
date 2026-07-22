@@ -11,7 +11,10 @@ const state = {
 };
 
 function html(title, body, script = "") {
-  return `<!doctype html><html><head><meta charset="utf-8"><title>${title}</title><style>body{font:16px system-ui;max-width:720px;margin:48px auto;padding:0 24px}nav{display:flex;gap:12px;flex-wrap:wrap;margin:24px 0}form{display:grid;gap:10px;max-width:420px}input,button{font:inherit;padding:10px}li{margin:8px 0}.toast{margin-top:16px;padding:10px;background:#dcfce7}.error{background:#fee2e2}</style></head><body><a href="/">← Fixtures</a><h1>${title}</h1>${body}<div id="notice" role="status"></div><script>${script}</script></body></html>`;
+  const expandedBody = title === "RealDone benchmark fixtures"
+    ? body.replace("</nav>", '<a href="/phase-d">Phase D detector lab</a></nav>')
+    : body;
+  return `<!doctype html><html><head><meta charset="utf-8"><title>${title}</title><style>body{font:16px system-ui;max-width:720px;margin:48px auto;padding:0 24px}nav{display:flex;gap:12px;flex-wrap:wrap;margin:24px 0}form{display:grid;gap:10px;max-width:420px}input,button{font:inherit;padding:10px}li{margin:8px 0}.toast{margin-top:16px;padding:10px;background:#dcfce7}.error{background:#fee2e2}</style></head><body><a href="/">← Fixtures</a><h1>${title}</h1>${expandedBody}<div id="notice" role="status"></div><script>${script}</script></body></html>`;
 }
 
 function json(response, status, value) {
@@ -38,6 +41,46 @@ export function createFixtureServer() {
       const value = await body(request);
       state.invoices.push(String(value.name ?? ""));
       return json(response, 201, { id: state.invoices.length, ...value });
+    }
+    if (request.method === "GET" && url.pathname === "/api/live-data") return json(response, 200, { customers: ["Live Alice", "Live Bob"] });
+    if (request.method === "POST" && url.pathname === "/api/upload") {
+      let size = 0;
+      for await (const chunk of request) size += chunk.length;
+      return json(response, 201, { id: `upload-${size}`, size });
+    }
+    if (request.method === "POST" && url.pathname === "/api/login") {
+      await body(request);
+      return json(response, 200, { id: "session-fixture", authenticated: true });
+    }
+    if (request.method === "POST" && url.pathname === "/api/payments") {
+      await body(request);
+      return json(response, 201, { id: `payment-${Date.now()}`, accepted: true });
+    }
+    if (request.method === "POST" && url.pathname === "/api/webhook") {
+      await body(request);
+      return json(response, 202, { id: `webhook-${Date.now()}`, accepted: true });
+    }
+    if (url.pathname.startsWith("/api/authz/allowed/")) {
+      await body(request);
+      return json(response, 200, { allowed: true, tenant: "other-tenant" });
+    }
+    if (url.pathname.startsWith("/api/authz/denied/")) {
+      await body(request);
+      return json(response, 403, { allowed: false });
+    }
+    if (url.pathname === "/download-empty.csv") {
+      response.writeHead(200, { "content-type": "text/csv", "content-disposition": "attachment; filename=empty.csv" });
+      return response.end("");
+    }
+    if (url.pathname === "/static-export.csv") {
+      response.writeHead(200, { "content-type": "text/csv", "content-disposition": "attachment; filename=static.csv" });
+      return response.end("id,name\n1,Alice\n");
+    }
+    if (url.pathname === "/generated-export.csv" || url.pathname === "/incomplete-export.csv") {
+      const first = url.searchParams.get("first") ?? "";
+      const second = url.searchParams.get("second") ?? "";
+      response.writeHead(200, { "content-type": "text/csv", "content-disposition": `attachment; filename=${url.pathname.includes("incomplete") ? "incomplete" : "generated"}.csv` });
+      return response.end(url.pathname.includes("incomplete") ? `first\n${first}\n` : `first,second\n${first},${second}\n`);
     }
     if (request.method === "PATCH" && url.pathname === "/api/settings") {
       return json(response, 500, { error: "intentional fixture failure" });
@@ -79,6 +122,91 @@ export function createFixtureServer() {
     if (url.pathname === "/") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
       return response.end(html("RealDone benchmark fixtures", `<p>Each page contains one known behavior.</p><nav><a href="/fake-create">Fake create</a><a href="/fake-update">Fake update</a><a href="/partial-update">Partial update</a><a href="/wrong-update">Wrong update</a><a href="/false-success-redirect">False success redirect</a><a href="/real-create">Real create control</a><a href="/enter-submit">Enter-submit create</a><a href="/keyboard-no-effect">Keyboard no-effect</a><a href="/browser-local">Browser-local control</a><a href="/session-control">Session control</a><a href="/snapshot-control">Snapshot control</a><a href="/success-despite-failure">False success</a><a href="/duplicate-submit">Duplicate submit</a><a href="/fake-delete">Fake delete</a><a href="/no-effect">No effect</a><a href="/stuck-loading">Stuck loading</a><a href="/loading-control">Loading control</a><a href="/native-controls">Native controls</a><a href="/popup-control">Popup control</a><a href="/download-control">Download control</a><a href="/websocket-control">WebSocket control</a><a href="/context-control">Context control</a><a href="/iframe-control">Iframe control</a><a href="/dynamic-actions">Dynamic actions</a><a href="/complex-recording">Complex recording boundary</a><a href="/unrelated-fields">Unrelated fields control</a><a href="/selector-shift">Selector survival control</a><a href="/stateful-action">Stateful action control</a><a href="/live-control-state">Live control-state control</a><a href="/missing">Broken navigation</a></nav>`));
+    }
+    if (url.pathname === "/phase-d") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Phase D detector lab", `
+        <section><button id="demo">Load demo data</button><button id="demo-control">Load demo data from server</button><div id="demo-output"></div></section>
+        <section><button id="fixture">Load frontend fixture data</button><div id="fixture-output"></div></section>
+        <form id="static-search"><label>Search query <input name="query" type="search" required></label><button type="submit">Search static customers</button></form><div id="static-results"></div>
+        <form id="live-search"><label>Live search query <input name="query" type="search" required></label><button type="submit">Search live customers</button></form><div id="live-results"></div>
+        <section><button id="dashboard">Refresh dashboard</button><button id="dashboard-control">Refresh dashboard from server</button><div id="dashboard-output">Dashboard total: 2</div></section>
+        <nav><a href="/customers/42">Placeholder customer details</a><a href="/customers/43">Real customer details</a><a href="/private">Direct private account</a><a href="/private/denied">Denied private account</a><a href="/payment/success">Payment success page</a><a href="/logout-lab">Logout controls</a></nav>
+        <form id="fake-login"><label>Email <input name="email" type="email" required></label><label>Password <input name="password" type="password" required></label><button type="submit">Fake login</button></form>
+        <form id="login-control"><label>Control email <input name="email" type="email" required></label><label>Control password <input name="password" type="password" required></label><button type="submit">Persistent login</button></form>
+        <section><button id="expired">Open account with expired session</button><div id="expired-output"></div></section>
+        <form id="fake-upload"><label>Fake receipt <input name="receipt" type="file" required></label><button type="submit">Upload fake receipt</button></form><div id="fake-upload-output"></div>
+        <form id="blob-upload"><label>Blob receipt <input name="receipt" type="file" required></label><button type="submit">Upload blob receipt</button></form><div id="blob-upload-output"></div>
+        <form id="real-upload"><label>Real receipt <input name="receipt" type="file" required></label><button type="submit">Upload persisted receipt</button></form><div id="real-upload-output"></div>
+        <a href="/download-empty.csv" download="empty.csv">Download broken report</a>
+        <form id="static-export"><label>First export value <input name="first" required></label><label>Second export value <input name="second" required></label><button type="submit">Export static customers</button></form>
+        <form id="incomplete-export"><label>First incomplete value <input name="first" required></label><label>Second incomplete value <input name="second" required></label><button type="submit">Export incomplete customers</button></form>
+        <form id="complete-export"><label>First complete value <input name="first" required></label><label>Second complete value <input name="second" required></label><button type="submit">Export complete customers</button></form>
+        <section><button id="fake-payment">Pay without provider</button><button id="duplicate-payment">Pay invoice twice</button><button id="provider-missing">Pay order once</button><div id="payment-output"></div></section>
+        <form id="webhook-missing"><label>Webhook event <input name="event" required></label><button type="submit">Process webhook silently</button></form>
+        <form id="webhook-control"><label>Confirmed webhook event <input name="event" required></label><button type="submit">Process webhook visibly</button></form><div id="webhook-output"></div>
+      `, `
+        const show=(id,value)=>document.getElementById(id).textContent=value;
+        demo.onclick=()=>show('demo-output','Alice, Bob');
+        document.getElementById('demo-control').onclick=async()=>show('demo-output',JSON.stringify(await fetch('/api/live-data').then(r=>r.json())));
+        fixture.onclick=()=>show('fixture-output','Fixture customer 1');
+        document.getElementById('static-search').onsubmit=e=>{e.preventDefault();show('static-results','Alice, Bob')};
+        document.getElementById('live-search').onsubmit=async e=>{e.preventDefault();const q=e.target.query.value;await fetch('/api/live-data?q='+encodeURIComponent(q));show('live-results','Search result for '+q)};
+        dashboard.onclick=()=>show('dashboard-output','Dashboard total: 2');
+        document.getElementById('dashboard-control').onclick=async()=>{await fetch('/api/live-data');show('dashboard-output','Dashboard refreshed from server')};
+        document.getElementById('fake-login').onsubmit=e=>{e.preventDefault();history.pushState({},'', '/welcome');show('notice','Private account dashboard')};
+        document.getElementById('login-control').onsubmit=async e=>{e.preventDefault();await fetch('/api/login',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({email:e.target.email.value})});localStorage.setItem('rd_session','active');show('notice','Private account dashboard')};
+        if(localStorage.getItem('rd_session'))show('notice','Private account dashboard');
+        document.getElementById('expired').onclick=()=>{localStorage.setItem('rd_auth_token','eyJhbGciOiJub25lIn0.eyJleHAiOjF9.');show('expired-output','Private account dashboard')};
+        document.getElementById('fake-upload').onsubmit=e=>{e.preventDefault();show('fake-upload-output','Upload successful: '+e.target.receipt.files[0].name)};
+        document.getElementById('blob-upload').onsubmit=e=>{e.preventDefault();const image=document.createElement('img');image.alt='temporary receipt';image.src=URL.createObjectURL(e.target.receipt.files[0]);document.getElementById('blob-upload-output').replaceChildren(image)};
+        document.getElementById('real-upload').onsubmit=async e=>{e.preventDefault();const file=e.target.receipt.files[0];await fetch('/api/upload',{method:'POST',body:file});show('real-upload-output','Stored '+file.name)};
+        const download=(target,name)=>{const link=document.createElement('a');link.href=target;link.download=name;document.body.append(link);link.click();link.remove()};
+        document.getElementById('static-export').onsubmit=e=>{e.preventDefault();download('/static-export.csv','static.csv')};
+        document.getElementById('incomplete-export').onsubmit=e=>{e.preventDefault();download('/incomplete-export.csv?first='+encodeURIComponent(e.target.first.value)+'&second='+encodeURIComponent(e.target.second.value),'incomplete.csv')};
+        document.getElementById('complete-export').onsubmit=e=>{e.preventDefault();download('/generated-export.csv?first='+encodeURIComponent(e.target.first.value)+'&second='+encodeURIComponent(e.target.second.value),'generated.csv')};
+        document.getElementById('fake-payment').onclick=()=>show('payment-output','Payment successful');
+        document.getElementById('duplicate-payment').onclick=async()=>{await Promise.all([fetch('/api/payments',{method:'POST'}),fetch('/api/payments',{method:'POST'})]);show('payment-output','Payment successful')};
+        document.getElementById('provider-missing').onclick=async()=>{await fetch('/api/payments',{method:'POST'});show('payment-output','Payment successful')};
+        document.getElementById('webhook-missing').onsubmit=async e=>{e.preventDefault();await fetch('/api/webhook',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({event:e.target.event.value})})};
+        document.getElementById('webhook-control').onsubmit=async e=>{e.preventDefault();await fetch('/api/webhook',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({event:e.target.event.value})});show('webhook-output','Webhook confirmed '+e.target.event.value)};
+      `));
+    }
+    if (url.pathname === "/customers/42") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Customer detail", "<p>Customer detail coming soon</p>"));
+    }
+    if (url.pathname === "/customers/43") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Customer detail", "<p>Customer 43: Live Alice</p>"));
+    }
+    if (url.pathname === "/private") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Private account", "<p>Private account billing records</p>"));
+    }
+    if (url.pathname === "/private/denied") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Access denied", "<p>Forbidden: access denied</p>"));
+    }
+    if (url.pathname === "/logout-lab") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Logout controls", `<section id="logout-zone"><p>Private account settings</p><button id="bad-logout">Logout without revoke</button><button id="good-logout">Logout and revoke</button></section>`, `if(localStorage.getItem('rd_logout_revoked')){document.getElementById('logout-zone').textContent='Signed out; access denied'}else{sessionStorage.setItem('rd_logout_session','active')}document.getElementById('bad-logout')?.addEventListener('click',()=>{notice.textContent='Private account settings remain active'});document.getElementById('good-logout')?.addEventListener('click',()=>{sessionStorage.removeItem('rd_logout_session');localStorage.setItem('rd_logout_revoked','yes');document.getElementById('logout-zone').textContent='Signed out; access denied'})`));
+    }
+    if (url.pathname === "/payment/success") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Payment success", "<p>Payment successful. Order complete.</p>"));
+    }
+    if (url.pathname === "/admin-exposed") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Admin console", "<p>Administration console and tenant controls</p>"));
+    }
+    if (url.pathname === "/admin-denied") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Access denied", "<p>Forbidden: access denied</p>"));
+    }
+    if (url.pathname === "/welcome") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Welcome", "<p>Public welcome page</p>"));
     }
     if (url.pathname === "/fake-create") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });

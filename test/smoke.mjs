@@ -49,13 +49,13 @@ try {
     headed: false,
     allowHosts: [],
     allowDestructive: true,
-    allowExternal: false,
+    allowExternal: true,
     mutationAllowed: true,
-    maxPages: 36,
-    maxActions: 120,
+    maxPages: 48,
+    maxActions: 180,
     timeoutMs: 8_000,
     settleMs: 250,
-    maxDurationMs: 300_000,
+    maxDurationMs: 480_000,
     maxRetries: 2,
     deep: true,
     allowIframes: true,
@@ -76,6 +76,9 @@ try {
     assert.ok(result.report.findings.some((finding) => finding.detectorMatches.some((item) => item.code === code)), `${code} was not observed`);
   }
   for (const code of ["RD103", "RD104", "RD204", "RD205", "RD304", "RD305"]) {
+    assert.ok(result.report.findings.some((finding) => finding.detectorMatches.some((item) => item.code === code)), `${code} was not observed`);
+  }
+  for (const code of ["RD401", "RD402", "RD403", "RD404", "RD405", "RD501", "RD502", "RD503", "RD504", "RD505", "RD701", "RD702", "RD703", "RD704", "RD705", "RD801", "RD802", "RD803", "RD804", "RD805"]) {
     assert.ok(result.report.findings.some((finding) => finding.detectorMatches.some((item) => item.code === code)), `${code} was not observed`);
   }
   assert.ok(result.report.findings.some((finding) => finding.verdict === "VERIFIED"));
@@ -108,6 +111,8 @@ try {
   const webSocketFinding = result.report.findings.find((finding) => finding.action.label === "Open live channel");
   assert.equal(webSocketFinding?.verdict, "VERIFIED");
   assert.ok(webSocketFinding?.evidence.webSockets?.some((socket) => socket.receivedFrames > 0));
+  assert.ok(result.report.findings.some((finding) => finding.action.label.includes("Upload persisted receipt") && finding.evidence.uploads?.some((upload) => upload.containsCanary)));
+  assert.ok(result.report.findings.some((finding) => finding.action.label.includes("Export complete customers") && finding.evidence.downloadEvidence?.some((download) => (download.size ?? 0) > 0 && download.matchedFieldValues === download.expectedFieldValues)));
   assert.equal(result.metrics.precision, 1);
   assert.equal(result.metrics.recall, 1);
   assert.equal(result.metrics.falsePositiveRate, 0);
@@ -357,6 +362,57 @@ try {
   ]) {
     await access(path.join(verification.outputDirectory, artifact));
   }
+  const authorizationContract = (allowed) => ({
+    schemaVersion: "1.0",
+    id: allowed ? "authorization-broken" : "authorization-control",
+    name: allowed ? "Intentional authorization failures" : "Authorization denied controls",
+    baseUrl: fixture.url,
+    createdAt: new Date().toISOString(),
+    tags: ["authorization", allowed ? "broken" : "control"],
+    roles: { observer: { description: "Unprivileged observer", authState: { path: "auth.json" } } },
+    steps: [{
+      id: "authorization-matrix",
+      type: "navigate",
+      role: "observer",
+      pageUrl: `${fixture.url}/phase-d`,
+      url: `${fixture.url}/phase-d`,
+      atMs: 0,
+      expected: [
+        { type: "authorization", check: "ui-only-permission", role: "observer", ui: { pageUrl: `${fixture.url}/phase-d`, text: "Delete tenant", state: "absent" }, request: { method: "DELETE", url: `${fixture.url}/api/authz/${allowed ? "allowed" : "denied"}/ui-only` } },
+        { type: "authorization", check: "cross-tenant-read", role: "observer", request: { method: "GET", url: `${fixture.url}/api/authz/${allowed ? "allowed" : "denied"}/cross-read` } },
+        { type: "authorization", check: "cross-tenant-write", role: "observer", request: { method: "PATCH", url: `${fixture.url}/api/authz/${allowed ? "allowed" : "denied"}/cross-write` } },
+        { type: "authorization", check: "revoked-role", role: "observer", request: { method: "POST", url: `${fixture.url}/api/authz/${allowed ? "allowed" : "denied"}/revoked-role` } },
+        { type: "authorization", check: "admin-route", role: "observer", route: { url: `${fixture.url}/${allowed ? "admin-exposed" : "admin-denied"}` } },
+      ],
+    }],
+    cleanup: [],
+    source: { browser: "Chromium", recordedBy: "realdone" },
+  });
+  const brokenAuthorizationFile = path.join(flowDirectory, "authorization-broken.json");
+  const controlAuthorizationFile = path.join(flowDirectory, "authorization-control.json");
+  await writeBehaviorContract(brokenAuthorizationFile, authorizationContract(true));
+  await writeBehaviorContract(controlAuthorizationFile, authorizationContract(false));
+  const authorizationOptions = {
+    outputRoot: path.join(outputRoot, "authorization-verifications"),
+    headed: false,
+    timeoutMs: 8_000,
+    settleMs: 200,
+    maxRetries: 1,
+    continueOnFailure: true,
+    allowDestructive: false,
+    allowExternal: false,
+    allowHosts: [],
+    ...(process.env.REALDONE_BROWSER_PATH ? { executablePath: process.env.REALDONE_BROWSER_PATH } : {}),
+  };
+  const brokenAuthorization = await verifyContract(brokenAuthorizationFile, authorizationOptions);
+  assert.equal(brokenAuthorization.verification.passed, false);
+  assert.deepEqual(
+    brokenAuthorization.verification.steps.flatMap((step) => step.assertions.map((assertion) => assertion.detectorCode)).filter(Boolean).sort(),
+    ["RD601", "RD602", "RD603", "RD604", "RD605"],
+  );
+  const controlAuthorization = await verifyContract(controlAuthorizationFile, authorizationOptions);
+  assert.equal(controlAuthorization.verification.passed, true);
+  assert.equal(controlAuthorization.verification.steps.some((step) => step.assertions.some((assertion) => assertion.detectorCode)), false);
   const verifyOptions = {
     outputRoot: path.join(outputRoot, "baseline-runs"),
     headed: false,
@@ -433,6 +489,8 @@ try {
   });
   assert.equal(redGate.exitCode, 1);
   assert.equal(redGate.report.regressions, 1);
+  assert.equal(redGate.report.changes[0]?.outcome, "REGRESSION");
+  assert.ok(redGate.report.changes[0]?.detectorCodes.includes("RD904"));
   process.stdout.write(`Smoke scan passed: ${path.join(result.reportDirectory, "report.html")}\n`);
 } finally {
   await fixture.stop();

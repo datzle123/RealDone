@@ -226,6 +226,209 @@
       "expectedCodes": []
     },
     {
+      "id": "static-demo-data",
+      "match": { "pagePath": "/phase-d", "label": "^Load demo data$" },
+      "shouldFlag": true,
+      "expectedVerdict": "CONTRADICTORY",
+      "expectedCodes": ["RD401"]
+    },
+    {
+      "id": "dynamic-demo-data-control",
+      "match": { "pagePath": "/phase-d", "label": "Load demo data from server" },
+      "shouldFlag": false,
+      "expectedVerdict": "VERIFIED",
+      "expectedCodes": []
+    },
+    {
+      "id": "frontend-fixture-data",
+      "match": { "pagePath": "/phase-d", "label": "Load frontend fixture data" },
+      "shouldFlag": true,
+      "expectedVerdict": "CONTRADICTORY",
+      "expectedCodes": ["RD402"]
+    },
+    {
+      "id": "static-search",
+      "match": { "pagePath": "/phase-d", "label": "Search static customers" },
+      "shouldFlag": true,
+      "expectedVerdict": "CONTRADICTORY",
+      "expectedCodes": ["RD403"]
+    },
+    {
+      "id": "live-search-control",
+      "match": { "pagePath": "/phase-d", "label": "Search live customers" },
+      "shouldFlag": false,
+      "expectedVerdict": "VERIFIED",
+      "expectedCodes": []
+    },
+    {
+      "id": "static-dashboard",
+      "match": { "pagePath": "/phase-d", "label": "^Refresh dashboard$" },
+      "shouldFlag": true,
+      "expectedVerdict": "CONTRADICTORY",
+      "expectedCodes": ["RD404"]
+    },
+    {
+      "id": "live-dashboard-control",
+      "match": { "pagePath": "/phase-d", "label": "Refresh dashboard from server" },
+      "shouldFlag": false,
+      "expectedVerdict": "VERIFIED",
+      "expectedCodes": []
+    },
+    {
+      "id": "placeholder-detail",
+      "match": { "pagePath": "/phase-d", "label": "Placeholder customer details" },
+      "shouldFlag": true,
+      "expectedVerdict": "CONTRADICTORY",
+      "expectedCodes": ["RD405"]
+    },
+    {
+      "id": "real-detail-control",
+      "match": { "pagePath": "/phase-d", "label": "Real customer details" },
+      "shouldFlag": false,
+      "expectedVerdict": "VERIFIED",
+      "expectedCodes": []
+    },
+    {
+      "id": "fake-login",
+      "match": { "pagePath": "/phase-d", "label": "Fake login" },
+      "shouldFlag": true,
+      "expectedVerdict": "CONTRADICTORY",
+      "expectedCodes": ["RD501", "RD503"]
+    },
+    {
+      "id": "persistent-login-control",
+      "match": { "pagePath": "/phase-d", "label": "Persistent login" },
+      "shouldFlag": false,
+      "expectedVerdict": "VERIFIED",
+      "expectedCodes": []
+    },
+    {
+      "id": "logout-not-revoked",
+      "match": { "pagePath": "/logout-lab", "label": "Logout without revoke" },
+      "shouldFlag": true,
+      "expectedVerdict": "BROKEN",
+      "expectedCodes": ["RD502"]
+    },
+    {
+      "id": "logout-revoked-control",
+      "match": { "pagePath": "/logout-lab", "label": "Logout and revoke" },
+      "shouldFlag": false,
+      "expectedVerdict": "VERIFIED",
+      "expectedCodes": []
+    },
+    {
+      "id": "expired-session",
+      "match": { "pagePath": "/phase-d", "label": "Open account with expired session" },
+      "shouldFlag": true,
+      "expectedVerdict": "BROKEN",
+      "expectedCodes": ["RD504"]
+    },
+    {
+      "id": "direct-private-route",
+      "match": { "pagePath": "/phase-d", "label": "Direct private account" },
+      "shouldFlag": true,
+      "expectedVerdict": "BROKEN",
+      "expectedCodes": ["RD505"]
+    },
+    {
+      "id": "private-denied-control",
+      "match": { "pagePath": "/phase-d", "label": "Denied private account" },
+      "shouldFlag": false,
+      "expectedVerdict": "VERIFIED",
+      "expectedCodes": []
+    },
+    {
+      "id": "fake-upload",
+      "match": { "pagePath": "/phase-d", "label": "Upload fake receipt" },
+      "shouldFlag": true,
+      "expectedVerdict": "CONTRADICTORY",
+      "expectedCodes": ["RD701"]
+    },
+    {
+      "id": "temporary-blob-upload",
+      "match": { "pagePath": "/phase-d", "label": "Upload blob receipt" },
+      "shouldFlag": true,
+      "expectedVerdict": "CONTRADICTORY",
+      "expectedCodes": ["RD701", "RD702"]
+    },
+    {
+      "id": "persisted-upload-control",
+      "match": { "pagePath": "/phase-d", "label": "Upload persisted receipt" },
+      "shouldFlag": false,
+      "expectedVerdict": "VERIFIED",
+      "expectedCodes": []
+    },
+    {
+      "id": "broken-download",
+      "match": { "pagePath": "/phase-d", "label": "Download broken report" },
+      "shouldFlag": true,
+      "expectedVerdict": "BROKEN",
+      "expectedCodes": ["RD703"]
+    },
+    {
+      "id": "static-export",
+      "match": { "pagePath": "/phase-d", "label": "Export static customers" },
+      "shouldFlag": true,
+      "expectedVerdict": "CONTRADICTORY",
+      "expectedCodes": ["RD704"]
+    },
+    {
+      "id": "incomplete-export",
+      "match": { "pagePath": "/phase-d", "label": "Export incomplete customers" },
+      "shouldFlag": true,
+      "expectedVerdict": "CONTRADICTORY",
+      "expectedCodes": ["RD705"]
+    },
+    {
+      "id": "complete-export-control",
+      "match": { "pagePath": "/phase-d", "label": "Export complete customers" },
+      "shouldFlag": false,
+      "expectedVerdict": "VERIFIED",
+      "expectedCodes": []
+    },
+    {
+      "id": "fake-payment",
+      "match": { "pagePath": "/phase-d", "label": "Pay without provider" },
+      "shouldFlag": true,
+      "expectedVerdict": "CONTRADICTORY",
+      "expectedCodes": ["RD801"]
+    },
+    {
+      "id": "direct-payment-success",
+      "match": { "pagePath": "/phase-d", "label": "Payment success page" },
+      "shouldFlag": true,
+      "expectedVerdict": "CONTRADICTORY",
+      "expectedCodes": ["RD801", "RD802"]
+    },
+    {
+      "id": "duplicate-payment",
+      "match": { "pagePath": "/phase-d", "label": "Pay invoice twice" },
+      "shouldFlag": true,
+      "expectedVerdict": "BROKEN",
+      "expectedCodes": ["RD803"]
+    },
+    {
+      "id": "provider-confirmation-required",
+      "match": { "pagePath": "/phase-d", "label": "Pay order once" },
+      "shouldFlag": false,
+      "expectedVerdict": "UNCERTAIN",
+      "expectedCodes": ["RD804"]
+    },
+    {
+      "id": "webhook-outcome-missing",
+      "match": { "pagePath": "/phase-d", "label": "Process webhook silently" },
+      "shouldFlag": true,
+      "expectedVerdict": "CONTRADICTORY",
+      "expectedCodes": ["RD805"]
+    },
+    {
+      "id": "webhook-outcome-control",
+      "match": { "pagePath": "/phase-d", "label": "Process webhook visibly" },
+      "shouldFlag": false,
+      "expectedVerdict": "VERIFIED",
+      "expectedCodes": []
+    },
+    {
       "id": "broken-navigation",
       "match": { "pagePath": "/", "label": "Broken navigation" },
       "shouldFlag": true,

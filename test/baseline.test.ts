@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { selectAffectedContracts } from "../src/baseline/affected.js";
+import { classifyContractChange } from "../src/baseline/regression.js";
 import { renderPlaywrightTest } from "../src/export/playwright.js";
 import type { BehaviorManifest } from "../src/baseline/manifest.js";
 import type { BehaviorContract } from "../src/contracts/schema.js";
@@ -17,6 +18,39 @@ test("affected-flow selection uses explicit source scope and route tokens", () =
   };
   const selected = selectAffectedContracts(manifest, ["src/features/customers/form.tsx"]);
   assert.deepEqual(selected.map((item) => item.id), ["customer", "critical"]);
+});
+
+test("regression classification emits evidence-specific RD901-RD905 outcomes", () => {
+  const baseline = {
+    id: "customer",
+    name: "Create customer",
+    file: "customer.json",
+    hash: "before",
+    tags: [],
+    routes: ["/customers"],
+    endpoints: [{ method: "POST", pattern: "^/api/customers$" }],
+    sourceFiles: [],
+    stepCount: 2,
+    baseline: { passed: true, verificationId: "before", performancePassed: true, steps: [] },
+  } satisfies BehaviorManifest["contracts"][number];
+  const current = {
+    ...baseline,
+    hash: "after",
+    baseline: {
+      passed: false,
+      verificationId: "after",
+      performancePassed: false,
+      steps: [{ id: "save", status: "failed" as const, assertions: [
+        { type: "request", passed: false, detail: "status changed" },
+        { type: "persistence", passed: false, detail: "resource disappeared" },
+      ] }],
+    },
+  } satisfies BehaviorManifest["contracts"][number];
+  const regression = classifyContractChange(baseline, current);
+  assert.equal(regression.outcome, "REGRESSION");
+  assert.deepEqual(regression.detectorCodes, ["RD905", "RD903", "RD904"]);
+  assert.deepEqual(classifyContractChange(baseline, undefined).detectorCodes, ["RD902"]);
+  assert.equal(classifyContractChange(undefined, current).outcome, "EXPECTED_CHANGE");
 });
 
 test("Playwright export preserves semantic locators and secret references", () => {

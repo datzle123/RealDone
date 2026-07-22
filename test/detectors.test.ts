@@ -25,6 +25,17 @@ function state(at: number, domHash: string, canaryPresent: boolean): StateSnapsh
   };
 }
 
+function signaledState(overrides: Partial<StateSnapshot> = {}): StateSnapshot {
+  return {
+    ...state(100, "signal", false),
+    semanticDom: { textHash: "signal", text: "", controls: [] },
+    bodyCanaryPresent: false,
+    temporaryBlobUrls: 0,
+    auth: { artifacts: 0, expiredArtifacts: 0, privateContent: false, adminContent: false, accessDenied: false },
+    ...overrides,
+  };
+}
+
 function evidence(overrides: Partial<ExecutionEvidence> = {}): ExecutionEvidence {
   return {
     startedAt: new Date(0).toISOString(),
@@ -201,4 +212,72 @@ test("keeps generated login credential rejection uncertain", () => {
   }));
   assert.equal(result.verdict, "UNCERTAIN");
   assert.equal(result.detectorMatches.some((item) => ["RD001", "RD101", "RD303"].includes(item.code)), false);
+});
+
+test("detects observable mock, search, dashboard, and placeholder behavior", () => {
+  const cases: Array<[ActionSpec, ExecutionEvidence, string]> = [
+    [{ ...action, kind: "local" as const, intent: "interact" as const, label: "Load demo data" }, evidence({ network: [] }), "RD401"],
+    [{ ...action, kind: "local" as const, intent: "interact" as const, label: "Load frontend fixture data" }, evidence({ network: [] }), "RD402"],
+    [{ ...action, kind: "local" as const, intent: "interact" as const, label: "Search customers", fields: [{ selector: "#search", tag: "input" as const, type: "search", required: false, disabled: false }] }, evidence({ network: [], after: signaledState({ semanticDom: { textHash: "results", text: "Alice Bob", controls: [] } }) }), "RD403"],
+    [{ ...action, kind: "local" as const, intent: "interact" as const, label: "Refresh dashboard", pageUrl: "http://localhost/dashboard" }, evidence({ network: [] }), "RD404"],
+    [{ ...action, kind: "navigation" as const, intent: "navigate" as const, label: "Customer details", fingerprint: { selector: "a", tag: "a", ordinal: 0, href: "http://localhost/customers/42" } }, evidence({ network: [], after: signaledState({ url: "http://localhost/customers/42", semanticDom: { textHash: "placeholder", text: "Customer details coming soon", controls: [] } }) }), "RD405"],
+  ];
+  for (const [candidate, observed, code] of cases) {
+    assert.ok(detect(candidate, observed).detectorMatches.some((item) => item.code === code), `${code} was not detected`);
+  }
+});
+
+test("detects authentication and session integrity failures", () => {
+  const login = {
+    ...action,
+    label: "Login",
+    intent: "submit" as const,
+    fields: [{ selector: "#password", tag: "input" as const, type: "password", required: true, disabled: false }],
+  };
+  const privateState = signaledState({ auth: { artifacts: 0, expiredArtifacts: 0, privateContent: true, adminContent: false, accessDenied: false } });
+  assert.ok(detect(login, evidence({ network: [], after: privateState, afterRefresh: privateState })).detectorMatches.some((item) => item.code === "RD501"));
+  assert.ok(detect(
+    { ...action, kind: "local", intent: "interact", label: "Logout" },
+    evidence({ network: [], before: signaledState({ auth: { artifacts: 1, expiredArtifacts: 0, privateContent: true, adminContent: false, accessDenied: false } }), after: signaledState({ auth: { artifacts: 1, expiredArtifacts: 0, privateContent: true, adminContent: false, accessDenied: false } }) }),
+  ).detectorMatches.some((item) => item.code === "RD502"));
+  assert.ok(detect(login, evidence({ after: signaledState({ auth: { artifacts: 1, expiredArtifacts: 0, privateContent: true, adminContent: false, accessDenied: false } }), afterRefresh: signaledState() })).detectorMatches.some((item) => item.code === "RD503"));
+  assert.ok(detect(
+    { ...action, kind: "local", intent: "interact", label: "Open account" },
+    evidence({ after: signaledState({ auth: { artifacts: 1, expiredArtifacts: 1, privateContent: true, adminContent: false, accessDenied: false } }) }),
+  ).detectorMatches.some((item) => item.code === "RD504"));
+  assert.ok(detect(
+    { ...action, kind: "navigation", intent: "navigate", label: "Private settings", fingerprint: { selector: "a", tag: "a", ordinal: 0, href: "http://localhost/settings" } },
+    evidence({ network: [], before: signaledState(), after: signaledState({ url: "http://localhost/settings", auth: { artifacts: 0, expiredArtifacts: 0, privateContent: true, adminContent: false, accessDenied: false } }) }),
+  ).detectorMatches.some((item) => item.code === "RD505"));
+});
+
+test("detects upload and export integrity failures", () => {
+  const upload = { ...action, kind: "external" as const, intent: "external" as const, label: "Upload receipt", fields: [{ selector: "#file", tag: "input" as const, type: "file", required: true, disabled: false }] };
+  assert.ok(detect(upload, evidence({ network: [], uploads: [{ fileName: "canary.txt", contentType: "text/plain", size: 10, contentHash: "hash", containsCanary: true }] })).detectorMatches.some((item) => item.code === "RD701"));
+  assert.ok(detect(upload, evidence({ network: [], beforeAction: signaledState(), after: signaledState({ temporaryBlobUrls: 1 }) })).detectorMatches.some((item) => item.code === "RD702"));
+  const download = { ...action, kind: "navigation" as const, intent: "navigate" as const, label: "Download report", fingerprint: { selector: "a", tag: "a", ordinal: 0, download: "report.csv" } };
+  assert.ok(detect(download, evidence({ network: [], downloads: [], downloadEvidence: [] })).detectorMatches.some((item) => item.code === "RD703"));
+  const exportAction = { ...action, kind: "external" as const, intent: "external" as const, label: "Export customers", fields: [
+    { selector: "#first", tag: "input" as const, type: "text", required: true, disabled: false },
+    { selector: "#second", tag: "input" as const, type: "text", required: true, disabled: false },
+  ] };
+  assert.ok(detect(exportAction, evidence({ downloads: ["report.csv"], downloadEvidence: [{ fileName: "report.csv", size: 20, expectedFieldValues: 2, matchedFieldValues: 0 }] })).detectorMatches.some((item) => item.code === "RD704"));
+  assert.ok(detect(exportAction, evidence({ downloads: ["report.csv"], downloadEvidence: [{ fileName: "report.csv", size: 20, expectedFieldValues: 2, matchedFieldValues: 1 }] })).detectorMatches.some((item) => item.code === "RD705"));
+});
+
+test("detects payment and webhook integrity failures", () => {
+  const payment = { ...action, kind: "external" as const, intent: "external" as const, label: "Pay now" };
+  const success = signaledState({ semanticDom: { textHash: "paid", text: "Payment successful", controls: [] } });
+  assert.ok(detect(payment, evidence({ network: [], after: success })).detectorMatches.some((item) => item.code === "RD801"));
+  assert.ok(detect(
+    { ...action, kind: "navigation", intent: "navigate", label: "Payment success", fingerprint: { selector: "a", tag: "a", ordinal: 0, href: "http://localhost/payment/success" } },
+    evidence({ network: [], after: { ...success, url: "http://localhost/payment/success" } }),
+  ).detectorMatches.some((item) => item.code === "RD802"));
+  const request = { id: "payment", method: "POST", url: "http://localhost/api/payments", resourceType: "fetch", startedAt: 50, status: 201, ok: true };
+  assert.ok(detect(payment, evidence({ network: [request, { ...request, id: "payment-2" }], after: success })).detectorMatches.some((item) => item.code === "RD803"));
+  assert.ok(detect(payment, evidence({ network: [request], after: success })).detectorMatches.some((item) => item.code === "RD804"));
+  assert.ok(detect(
+    { ...action, kind: "external", intent: "external", label: "Process webhook" },
+    evidence({ network: [{ ...request, id: "webhook", url: "http://localhost/api/webhook" }], after: signaledState() }),
+  ).detectorMatches.some((item) => item.code === "RD805"));
 });

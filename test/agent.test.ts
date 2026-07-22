@@ -90,6 +90,8 @@ test("follow-up prompt uses independent evidence and ignores the agent claim", (
         contractId: "delete-customer",
         name: "Delete customer",
         kind: "regression",
+        outcome: "REGRESSION",
+        detectorCodes: ["RD901"],
         detail: "A behavior that passed at baseline now fails.",
         baselinePassed: true,
         currentPassed: false,
