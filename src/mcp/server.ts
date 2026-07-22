@@ -159,7 +159,7 @@ export function createRealDoneMcpServer(options: RealDoneMcpServerOptions = {}):
       const result = await dependencies.runManagedScan({
         ...(input.url ? { url: input.url } : {}),
         projectDirectory: projectRoot,
-        manageRuntime: false,
+        manageRuntime: !input.url,
         runtimeMode: "development",
         runtimeRestarts: 1,
         scanOptions: {

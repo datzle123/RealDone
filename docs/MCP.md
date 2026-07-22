@@ -21,6 +21,8 @@ Coding agent   -> RealDone MCP -> RealDone core
 
 MCP never enables destructive actions, external effects, production providers, or paths outside the configured project root. The agent's message is operational output, not verification evidence.
 
+When `scan` is called without a URL, MCP discovers, starts, health-checks, scans, and stops the configured project. With an explicit URL, the caller remains responsible for that runtime.
+
 ## Use the source build today
 
 Build RealDone, then use absolute paths for the RealDone checkout and target project.
@@ -65,3 +67,11 @@ For an existing contract suite:
 ```
 
 For a quick exploratory check, the agent can call `scan` directly. Important flows should still become versioned behavior contracts.
+
+## Qualification status
+
+- Real stdio protocol, installed-package startup, tool discovery, no-URL managed scan, browser evidence, and runtime cleanup are executable smoke gates.
+- Codex CLI `0.143.0` recognizes the source-build server configuration, but the latest local agent attempt stopped before tool execution because its configured API credential returned HTTP 401.
+- Claude Code is not installed or authenticated in the current release environment.
+
+Therefore real Codex/Claude agent-driven qualification remains `PARTIAL`; protocol smoke is not substituted for an authenticated agent cycle.

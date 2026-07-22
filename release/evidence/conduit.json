@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-07-22T14:56:05.130Z",
-  "engineFingerprint": "2d65bc79c802dd0bc260e5886044379538c2af8f6023b923ac3b5ea1b2f9cdaa",
+  "generatedAt": "2026-07-22T15:07:36.266Z",
+  "engineFingerprint": "471c0766fbc762b960476b5880a13c3864c915d599031372c5ccb06a223d491a",
   "case": {
     "name": "Conduit RealWorld",
     "repository": "TonyMckes/conduit-realworld-example-app",
@@ -11,9 +11,9 @@
     "severeRegressions": 0
   },
   "scan": {
-    "scanId": "20260722T145513Z-bf18",
-    "sourceArtifact": "work/real-runs/release-final-conduit/20260722T145513Z-bf18/scan.json",
-    "sourceSha256": "23df52a6bf67e24abb94058d17bb33177d4eebc51e476927cdf9685cc5262fa7",
+    "scanId": "20260722T150644Z-fda8",
+    "sourceArtifact": "work/real-runs/mcp-final-conduit/20260722T150644Z-fda8/scan.json",
+    "sourceSha256": "6c98d080b2bf0f6e470d5bd234bf7c9dc2e33f4e7b1f3452bff6c55057936178",
     "environmentStatus": "VALID",
     "truncated": false,
     "pagesDiscovered": 3,

@@ -47,6 +47,7 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 - Multi-field mutations use independent canary values, and successful POST/PUT/PATCH requests are read back through a bounded same-context API request before verdict resolution.
 - Password-bearing forms are classified as authentication before generic email/external heuristics, and successful sessions are verified from persisted auth artifacts rather than requiring credentials to reappear in the UI.
 - Fake-login detection now requires a transition into private state (or an explicit success claim), so a rejected login on a public page containing “Need an account?” remains `UNCERTAIN` instead of becoming a false RD501 finding.
+- MCP `scan` now owns the discovered project runtime when no URL is supplied, while an explicit URL remains caller-managed.
 - Benchmark release gates now run and require successful cleanup; recorder interaction and navigation waits inherit the configured finite timeout.
 - Published packages include the complete linked documentation set and report preview instead of leaving installed README links unresolved.
 - Published packages now include every database/provider example and both provider/source plugin examples; optional SQLite and MongoDB dependencies are license-noticed alongside PostgreSQL.

@@ -4,6 +4,8 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import { spawn } from "node:child_process";
 import { once } from "node:events";
+import { Client } from "@modelcontextprotocol/sdk/client/index.js";
+import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import { runBenchmark } from "../dist/benchmark/evaluate.js";
 import { runCleanup } from "../dist/cleanup/ledger.js";
 import { recordFlow } from "../dist/record/recorder.js";
@@ -281,6 +283,27 @@ try {
   const managedReport = JSON.parse(await readFile(path.join(managedReportDirectory, "scan.json"), "utf8"));
   assert.equal(managedReport.findings[0]?.evidence.afterAppRestart?.canaryPresent, true);
   assert.equal(managedReport.findings[0]?.evidence.apiReadBack?.canaryPresent, true);
+  const managedProject = path.resolve("benchmarks/managed-app");
+  const mcpClient = new Client({ name: "realdone-smoke", version: "1.0.0" });
+  const mcpTransport = new StdioClientTransport({
+    command: process.execPath,
+    args: [path.resolve("dist/cli.js"), "mcp", "--project", managedProject],
+    cwd: managedProject,
+    stderr: "pipe",
+  });
+  await mcpClient.connect(mcpTransport);
+  try {
+    const mcpScan = await mcpClient.callTool({
+      name: "scan",
+      arguments: { maxPages: 1, maxActions: 2, maxDurationMs: 60_000, traceOnFailure: true },
+    });
+    assert.equal(mcpScan.isError, undefined);
+    assert.equal(mcpScan.structuredContent?.passed, true);
+    assert.equal(mcpScan.structuredContent?.summary.environmentStatus, "VALID");
+  } finally {
+    await mcpClient.close();
+  }
+  await assert.rejects(() => fetch("http://127.0.0.1:41237/health"), /fetch failed/);
   const cliScan = await runCommand({
     executable: process.execPath,
     args: [
