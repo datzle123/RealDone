@@ -152,6 +152,56 @@ try {
     assert.ok((await readdir(path.join(result.reportDirectory, directory))).length > 0, `${directory} artifacts were not written`);
   }
   await access(path.join(result.reportDirectory, "environment.json"));
+  let sourceSnapshotCalls = 0;
+  const linkedSourceAdapter = {
+    kind: "custom",
+    discoverSchema: async () => [{
+      adapter: "custom",
+      resource: "customers",
+      fields: [{ name: "id", type: "integer", nullable: false }],
+      primaryKey: ["id"],
+      softDeleteFields: [],
+      schemaHash: "schema-hash",
+    }],
+    snapshot: async () => ({
+      adapter: "custom",
+      resource: "customers",
+      schemaHash: "schema-hash",
+      rows: sourceSnapshotCalls++ === 0 ? [] : [{ keyHash: "customer-key", rowHash: "customer-row", softDeleted: false }],
+      truncated: false,
+    }),
+    verify: async () => { throw new Error("not used"); },
+    cleanup: async () => { throw new Error("not used"); },
+    close: async () => undefined,
+  };
+  const sourceLinkedScan = await runScan({
+    ...scan,
+    targetUrl: `${fixture.url}/fake-create`,
+    outputRoot: path.join(outputRoot, "source-linked-scan"),
+    maxPages: 1,
+    maxActions: 2,
+    sourceAdapters: [linkedSourceAdapter],
+    sourceSnapshotLimit: 25,
+  });
+  const sourceLinkedFinding = sourceLinkedScan.report.findings.find((finding) => finding.action.label.includes("Create customer"));
+  assert.ok(sourceLinkedFinding?.evidence.before?.sourceSnapshots?.length);
+  assert.ok(sourceLinkedFinding?.evidence.after?.sourceSnapshots?.length);
+  assert.deepEqual(sourceLinkedFinding?.evidence.sourceDiffs?.[0]?.added, ["customer-key"]);
+  const unavailableSourceAdapter = {
+    ...linkedSourceAdapter,
+    discoverSchema: async () => { throw new Error("source unavailable"); },
+  };
+  const sourceUnavailableScan = await runScan({
+    ...scan,
+    targetUrl: `${fixture.url}/real-create`,
+    outputRoot: path.join(outputRoot, "source-unavailable-scan"),
+    maxPages: 1,
+    maxActions: 2,
+    sourceAdapters: [unavailableSourceAdapter],
+  });
+  const sourceUnavailableFinding = sourceUnavailableScan.report.findings.find((finding) => finding.action.label.includes("Create customer"));
+  assert.equal(sourceUnavailableFinding?.verdict, "UNCERTAIN");
+  assert.match(sourceUnavailableFinding?.reason ?? "", /source snapshots were unavailable/);
   const staticSearchFinding = result.report.findings.find((finding) => finding.detectorMatches.some((match) => match.code === "RD403"));
   assert.ok(staticSearchFinding);
   const reproducedReplay = await runReplay(staticSearchFinding.id, {

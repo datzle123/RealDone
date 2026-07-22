@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-07-22T15:34:01.146Z",
-  "engineFingerprint": "c2541cd8e8fd911d09f4fc2c3c4e8b73dba99d0bfa4629419b4f9841aebc2f57",
+  "generatedAt": "2026-07-22T16:01:23.780Z",
+  "engineFingerprint": "58faf1f41ba4aa289975a950019356a591c640ec753b747df79ba3dd131c00a1",
   "case": {
     "name": "Actual Budget",
     "repository": "actualbudget/actual",
@@ -11,9 +11,9 @@
     "severeRegressions": 0
   },
   "scan": {
-    "scanId": "20260722T153332Z-6ea6",
-    "sourceArtifact": "work/real-runs/bootstrap-final-actual/20260722T153332Z-6ea6/scan.json",
-    "sourceSha256": "9a4a752c7a5afc6e09dbae3672aa6b97ce3272d68c22e93afcf93d3bc7444ebe",
+    "scanId": "20260722T160054Z-9960",
+    "sourceArtifact": "work/real-runs/source-final-actual/20260722T160054Z-9960/scan.json",
+    "sourceSha256": "e58bb105e6a1c1ec1bc8e722b8af300ad98e3a44e6a559a3e6b00f7561f0f454",
     "environmentStatus": "VALID",
     "truncated": false,
     "pagesDiscovered": 2,

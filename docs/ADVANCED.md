@@ -67,6 +67,15 @@ realdone verify flow.json --deep --trace --video
 
 Trace ZIPs and browser videos are linked from local HTML/JSON evidence. They can contain application content, so keep them under the ignored `.realdone/` tree and review them before sharing.
 
+Attach read-only, value-free source snapshots to every executed mutation when source-of-truth change evidence is needed:
+
+```bash
+realdone scan http://localhost:3000 --deep --sqlite ./app.db
+realdone scan http://localhost:3000 --deep --database-config ./realdone.supabase.json
+```
+
+Each configured adapter discovers only its allowlisted resources, hashes at most 100 rows per resource by default, records before/after snapshots and writes added/removed/changed/soft-delete key hashes into the finding snapshot artifact. Use `--source-snapshot-limit` to lower or raise the bounded row limit. Adapter failures make an otherwise passing mutation `UNCERTAIN`; they never silently upgrade browser evidence to source-of-truth confirmation.
+
 ## Multi-role contracts and Level 7
 
 Declare named roles with separate Playwright storage-state files. The primary role continues to use the top-level `authState`.

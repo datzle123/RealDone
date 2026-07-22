@@ -78,9 +78,12 @@ test("MCP exposes the shared RealDone core and keeps AI scans fail-closed", asyn
   assert.equal(observedRequest.scanOptions.allowExternal, false);
   assert.equal(observedRequest.scanOptions.maxPages, 2);
   assert.equal(observedRequest.scanOptions.maxActions, 3);
+  assert.deepEqual(observedRequest.scanOptions.sourceAdapters, []);
 
-  await client.callTool({ name: "scan", arguments: { url: "http://127.0.0.1:3000", maxPages: 1, maxActions: 1 } });
+  await client.callTool({ name: "scan", arguments: { url: "http://127.0.0.1:3000", maxPages: 1, maxActions: 1, sqlite: "app.db", sourceSnapshotLimit: 5 } });
   assert.equal(observedRequest.manageRuntime, false);
+  assert.equal((observedRequest.scanOptions.sourceAdapters as Array<{ kind: string }>)[0]?.kind, "sqlite");
+  assert.equal(observedRequest.scanOptions.sourceSnapshotLimit, 5);
 
   const report = await client.callTool({ name: "get_report", arguments: {} });
   assert.equal(report.isError, undefined);

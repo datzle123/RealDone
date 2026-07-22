@@ -1,6 +1,7 @@
 import { randomBytes } from "node:crypto";
 import { rm } from "node:fs/promises";
 import path from "node:path";
+import { diffSourceSnapshots, type DiscoverableSourceAdapter, type SourceSnapshot } from "./adapters/types.js";
 import { discoverSiteDetailed, normalizeCrawlUrl } from "./browser/discover.js";
 import { executeAction } from "./browser/executor.js";
 import { launchChromium } from "./browser/runtime.js";
@@ -10,7 +11,8 @@ import { summarize } from "./core/summary.js";
 import { findingFromEvidence } from "./detectors/index.js";
 import { inspectEnvironment } from "./environment/health.js";
 import { writeReport } from "./report/writer.js";
-import type { ActionSpec, EnvironmentHealth, ExecutionEvidence, Finding, ScanOptions, ScanReport } from "./types.js";
+import { redactEnvironmentText } from "./core/redact.js";
+import type { ActionSpec, EnvironmentHealth, ExecutionEvidence, Finding, ScanOptions, ScanReport, SourceSnapshotError } from "./types.js";
 
 export interface ScanProgress {
   stage: "runtime" | "environment" | "discovery" | "action" | "report";
@@ -78,6 +80,58 @@ function mergeEnvironmentHealth(
   target.findings.push(...route.findings);
 }
 
+interface SourceSnapshotPlan {
+  adapter: DiscoverableSourceAdapter;
+  resources: string[];
+  discoveryError?: string;
+}
+
+async function prepareSourceSnapshotPlans(adapters: DiscoverableSourceAdapter[]): Promise<SourceSnapshotPlan[]> {
+  return Promise.all(adapters.map(async (adapter): Promise<SourceSnapshotPlan> => {
+    try {
+      const schema = await adapter.discoverSchema();
+      const resources = [...new Set(schema.map((resource) => resource.resource))].sort().slice(0, 20);
+      return resources.length > 0
+        ? { adapter, resources }
+        : { adapter, resources, discoveryError: "No source resources were discovered." };
+    } catch (error) {
+      return {
+        adapter,
+        resources: [],
+        discoveryError: redactEnvironmentText(error instanceof Error ? error.message : String(error), process.env),
+      };
+    }
+  }));
+}
+
+async function captureSourceSnapshots(
+  plans: SourceSnapshotPlan[],
+  stage: "before" | "after",
+  limit: number,
+): Promise<{ snapshots: SourceSnapshot[]; errors: SourceSnapshotError[] }> {
+  const snapshots: SourceSnapshot[] = [];
+  const errors: SourceSnapshotError[] = [];
+  for (const plan of plans) {
+    if (plan.discoveryError) {
+      errors.push({ adapter: plan.adapter.kind, stage: "discover", detail: plan.discoveryError });
+      continue;
+    }
+    for (const resource of plan.resources) {
+      try {
+        snapshots.push(await plan.adapter.snapshot(resource, limit));
+      } catch (error) {
+        errors.push({
+          adapter: plan.adapter.kind,
+          stage,
+          resource,
+          detail: redactEnvironmentText(error instanceof Error ? error.message : String(error), process.env),
+        });
+      }
+    }
+  }
+  return { snapshots, errors };
+}
+
 export async function runScan(
   inputOptions: ScanOptions,
   onProgress: (progress: ScanProgress) => void = () => undefined,
@@ -90,6 +144,9 @@ export async function runScan(
   const allowHosts = [...new Set([...inputOptions.allowHosts, ...(inputOptions.policy?.allowHosts ?? [])])];
   const mutationAllowed = isMutationHostAllowed(target, allowHosts);
   const options: ScanOptions = { ...inputOptions, allowHosts, mutationAllowed };
+  if (options.sourceSnapshotLimit !== undefined && (!Number.isInteger(options.sourceSnapshotLimit) || options.sourceSnapshotLimit < 1 || options.sourceSnapshotLimit > 1_000)) {
+    throw new Error("Source snapshot limit must be between 1 and 1000 rows.");
+  }
   const deadline = Date.now() + options.maxDurationMs;
 
   onProgress({ stage: "runtime", message: "Starting Chromium" });
@@ -209,6 +266,7 @@ export async function runScan(
       .filter((action) => !options.onlyActionId || action.id === options.onlyActionId)
       .slice(0, options.maxActions);
     const actionTruncated = allActions.filter((action) => !options.onlyActionId || action.id === options.onlyActionId).length > options.maxActions;
+    const sourcePlans = await prepareSourceSnapshotPlans(options.sourceAdapters ?? []);
     const findings: Finding[] = [];
     for (const [index, action] of selected.entries()) {
       const findingId = `RD-${String(index + 1).padStart(3, "0")}`;
@@ -229,8 +287,29 @@ export async function runScan(
         findings.push(skippedFinding(findingId, action, reason));
         continue;
       }
+      const sourceEnabled = sourcePlans.length > 0 && ["mutation", "external"].includes(action.kind);
+      const sourceBefore = sourceEnabled
+        ? await captureSourceSnapshots(sourcePlans, "before", options.sourceSnapshotLimit ?? 100)
+        : undefined;
       const evidence = await executeAction(browser, action, options, screenshots);
+      const sourceAfter = sourceEnabled
+        ? await captureSourceSnapshots(sourcePlans, "after", options.sourceSnapshotLimit ?? 100)
+        : undefined;
+      if (sourceBefore && sourceAfter) {
+        if (evidence.before) evidence.before.sourceSnapshots = sourceBefore.snapshots;
+        if (evidence.after) evidence.after.sourceSnapshots = sourceAfter.snapshots;
+        const afterByKey = new Map(sourceAfter.snapshots.map((snapshot) => [`${snapshot.adapter}:${snapshot.resource}`, snapshot]));
+        evidence.sourceDiffs = sourceBefore.snapshots.flatMap((before) => {
+          const after = afterByKey.get(`${before.adapter}:${before.resource}`);
+          return after ? [diffSourceSnapshots(before, after)] : [];
+        });
+        evidence.sourceSnapshotErrors = [...sourceBefore.errors, ...sourceAfter.errors];
+      }
       const finding = findingFromEvidence(findingId, action, evidence);
+      if (sourceEnabled && (evidence.sourceSnapshotErrors?.length ?? 0) > 0 && finding.verdict === "VERIFIED") {
+        finding.verdict = "UNCERTAIN";
+        finding.reason = "The browser effect was observed, but configured source snapshots were unavailable.";
+      }
       if (options.traceOnFailure && !options.trace && ["VERIFIED", "BROWSER_LOCAL", "SKIPPED"].includes(finding.verdict) && evidence.trace) {
         await rm(evidence.trace, { force: true });
         delete evidence.trace;

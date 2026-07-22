@@ -20,6 +20,9 @@ import { discoverProject, writeProjectProfile } from "./project/discovery.js";
 import { runManagedScan, type RuntimeMode } from "./application/managed-scan.js";
 import type { ScanOptions } from "./types.js";
 import { REALDONE_VERSION } from "./version.js";
+import { createSourceAdapterFromFile } from "./adapters/registry.js";
+import { SqliteSourceAdapter } from "./adapters/sqlite/index.js";
+import type { DiscoverableSourceAdapter } from "./adapters/types.js";
 
 function positiveInteger(value: string): number {
   const parsed = Number.parseInt(value, 10);
@@ -36,6 +39,12 @@ function nonNegativeInteger(value: string): number {
 function boundedWorkers(value: string): number {
   const parsed = positiveInteger(value);
   if (parsed > 16) throw new Error(`Worker count must be between 1 and 16; received: ${value}`);
+  return parsed;
+}
+
+function boundedSourceSnapshotLimit(value: string): number {
+  const parsed = positiveInteger(value);
+  if (parsed > 1_000) throw new Error(`Source snapshot limit must be between 1 and 1000; received: ${value}`);
   return parsed;
 }
 
@@ -158,6 +167,9 @@ program
   .option("--accept-environment-risk", "continue after recording an invalid environment", false)
   .option("--allow-iframe", "discover and execute same-origin iframe actions", false)
   .option("--policy <file>", "JSON action policy and budget file")
+  .option("--sqlite <file>", "attach value-free SQLite snapshots to mutation evidence")
+  .option("--database-config <file>", "attach a configured source adapter; repeat for multiple adapters", collect, [])
+  .option("--source-snapshot-limit <number>", "maximum hashed rows per source resource", boundedSourceSnapshotLimit, 100)
   .option("--deep", "confirm mutation persistence in a fresh browser context", false)
   .option("--trace", "capture a Playwright trace for every executed action", false)
   .option("--trace-on-failure", "retain Playwright traces only for non-passing findings", false)
@@ -166,6 +178,11 @@ program
   .action(async (url: string | undefined, values: Record<string, unknown>) => {
     const policy = values.policy ? await loadActionPolicy(path.resolve(String(values.policy))) : undefined;
     const full = Boolean(values.full);
+    const sourceAdapters: DiscoverableSourceAdapter[] = [];
+    if (values.sqlite) sourceAdapters.push(new SqliteSourceAdapter(path.resolve(String(values.sqlite))));
+    for (const file of values.databaseConfig as string[]) {
+      sourceAdapters.push(await createSourceAdapterFromFile(path.resolve(file)));
+    }
     const options: Omit<ScanOptions, "targetUrl" | "healthEndpoint" | "restartTarget"> = {
       outputRoot: path.resolve(String(values.output)),
       headed: Boolean(values.headed),
@@ -186,22 +203,28 @@ program
       environmentTimeoutMs: Number(values.environmentTimeout),
       acceptEnvironmentRisk: Boolean(values.acceptEnvironmentRisk),
       allowIframes: Boolean(values.allowIframe),
+      sourceAdapters,
+      sourceSnapshotLimit: Number(values.sourceSnapshotLimit),
       ...(policy ? { policy } : {}),
       ...(values.storageState ? { storageStatePath: path.resolve(String(values.storageState)) } : {}),
       ...(values.browserPath ? { executablePath: path.resolve(String(values.browserPath)) } : {}),
     };
-    const result = await runManagedScan({
-      ...(url ? { url } : {}),
-      ...(values.project ? { projectDirectory: path.resolve(String(values.project)) } : {}),
-      manageRuntime: Boolean(values.manageRuntime),
-      runtimeMode: values.runtimeMode as RuntimeMode,
-      runtimeRestarts: Number(values.runtimeRestarts),
-      ...(values.healthEndpoint ? { healthEndpoint: String(values.healthEndpoint) } : {}),
-      scanOptions: options,
-    }, progressLine);
-    if (values.json) process.stdout.write(`${JSON.stringify(result.report.summary, null, 2)}\n`);
-    else printSummary(result.reportDirectory, result.report);
-    process.exitCode = result.exitCode;
+    try {
+      const result = await runManagedScan({
+        ...(url ? { url } : {}),
+        ...(values.project ? { projectDirectory: path.resolve(String(values.project)) } : {}),
+        manageRuntime: Boolean(values.manageRuntime),
+        runtimeMode: values.runtimeMode as RuntimeMode,
+        runtimeRestarts: Number(values.runtimeRestarts),
+        ...(values.healthEndpoint ? { healthEndpoint: String(values.healthEndpoint) } : {}),
+        scanOptions: options,
+      }, progressLine);
+      if (values.json) process.stdout.write(`${JSON.stringify(result.report.summary, null, 2)}\n`);
+      else printSummary(result.reportDirectory, result.report);
+      process.exitCode = result.exitCode;
+    } finally {
+      await Promise.all(sourceAdapters.map((adapter) => adapter.close()));
+    }
   });
 
 program

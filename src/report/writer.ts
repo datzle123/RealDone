@@ -75,6 +75,8 @@ export async function writeReport(
       afterNewContext: finding.evidence.afterNewContext,
       afterAppRestart: finding.evidence.afterAppRestart,
       persistenceScope: finding.evidence.persistenceScope,
+      sourceDiffs: finding.evidence.sourceDiffs,
+      sourceSnapshotErrors: finding.evidence.sourceSnapshotErrors,
     };
     await writeDeduplicatedSnapshots(reportDirectory, finding.id, snapshots);
     finding.evidence.snapshotIndex = `snapshots/${finding.id}.index.json`;

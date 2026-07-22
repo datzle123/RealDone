@@ -322,6 +322,14 @@ export interface StateSnapshot {
     cookies?: CookieDigest[];
     indexedDb?: IndexedDbDigest[];
   };
+  sourceSnapshots?: SourceSnapshot[];
+}
+
+export interface SourceSnapshotError {
+  adapter: string;
+  stage: "discover" | "before" | "after";
+  resource?: string;
+  detail: string;
 }
 
 export type PersistenceScope =
@@ -375,6 +383,8 @@ export interface ExecutionEvidence {
   popupUrls?: string[];
   webSockets?: WebSocketEvidence[];
   apiReadBack?: ApiReadBackEvidence;
+  sourceDiffs?: SourceRowDiff[];
+  sourceSnapshotErrors?: SourceSnapshotError[];
   persistenceScope?: PersistenceScope;
   targetText?: string;
   targetVisibleAfter?: boolean;
@@ -467,6 +477,8 @@ export interface ScanOptions extends PublicScanOptions {
   policy?: ActionPolicy;
   healthEndpoint?: string;
   restartTarget?: () => Promise<void>;
+  sourceAdapters?: DiscoverableSourceAdapter[];
+  sourceSnapshotLimit?: number;
 }
 
 export interface ActionPolicyRule {
@@ -539,3 +551,4 @@ export interface ReplayEvidence {
   replayDetectorCodes: DetectorCode[];
   detail: string;
 }
+import type { DiscoverableSourceAdapter, SourceRowDiff, SourceSnapshot } from "./adapters/types.js";

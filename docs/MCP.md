@@ -23,6 +23,8 @@ MCP never enables destructive actions, external effects, production providers, o
 
 When `scan` is called without a URL, MCP discovers, starts, health-checks, scans, and stops the configured project. With an explicit URL, the caller remains responsible for that runtime.
 
+`scan` also accepts project-relative `sqlite`, `databaseConfigs`, and `sourceSnapshotLimit` inputs. These attach read-only, value-free source snapshots and diffs to mutation evidence without exposing database rows to the agent.
+
 ## Use the source build today
 
 Build RealDone, then use absolute paths for the RealDone checkout and target project.

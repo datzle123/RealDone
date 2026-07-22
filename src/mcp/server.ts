@@ -11,6 +11,9 @@ import { recordFlow } from "../record/recorder.js";
 import { runReplay } from "../replay.js";
 import { REALDONE_VERSION } from "../version.js";
 import { McpServer, StdioServerTransport } from "./sdk-adapter.js";
+import { createSourceAdapterFromFile } from "../adapters/registry.js";
+import { SqliteSourceAdapter } from "../adapters/sqlite/index.js";
+import type { DiscoverableSourceAdapter } from "../adapters/types.js";
 
 export interface RealDoneMcpDependencies {
   runManagedScan: typeof runManagedScan;
@@ -152,44 +155,58 @@ export function createRealDoneMcpServer(options: RealDoneMcpServerOptions = {}):
       maxPages: z.number().int().min(1).max(100).optional(),
       maxActions: z.number().int().min(1).max(250).optional(),
       maxDurationMs: z.number().int().min(10_000).max(600_000).optional(),
+      sqlite: relativePathSchema.optional().describe("Project-relative SQLite file for value-free source snapshots."),
+      databaseConfigs: z.array(relativePathSchema).max(20).optional().describe("Project-relative built-in source adapter configs."),
+      sourceSnapshotLimit: z.number().int().min(1).max(1_000).optional(),
     },
     annotations: { destructiveHint: false, openWorldHint: true },
   }, async (input) => {
     try {
-      const result = await dependencies.runManagedScan({
-        ...(input.url ? { url: input.url } : {}),
-        projectDirectory: projectRoot,
-        manageRuntime: !input.url,
-        runtimeMode: "development",
-        runtimeRestarts: 1,
-        scanOptions: {
-          outputRoot: projectPath(projectRoot, ".realdone/reports"),
-          headed: false,
-          allowHosts: [],
-          allowDestructive: false,
-          allowExternal: false,
-          mutationAllowed: false,
-          maxPages: input.maxPages ?? (input.full ? 100 : 8),
-          maxActions: input.maxActions ?? (input.full ? 500 : 24),
-          timeoutMs: 10_000,
-          settleMs: 800,
-          maxDurationMs: input.maxDurationMs ?? (input.full ? 1_800_000 : 120_000),
-          maxRetries: 2,
-          deep: input.deep ?? input.full ?? false,
-          trace: input.trace ?? false,
-          traceOnFailure: input.traceOnFailure ?? input.full ?? true,
-          video: false,
-          environmentTimeoutMs: 10_000,
-          acceptEnvironmentRisk: false,
-          allowIframes: false,
-        },
-      });
-      return toolSuccess({
-        passed: result.exitCode === 0,
-        exitCode: result.exitCode,
-        reportDirectory: result.reportDirectory,
-        summary: result.report.summary,
-      });
+      const sourceAdapters: DiscoverableSourceAdapter[] = [];
+      if (input.sqlite) sourceAdapters.push(new SqliteSourceAdapter(projectPath(projectRoot, input.sqlite)));
+      for (const file of input.databaseConfigs ?? []) {
+        sourceAdapters.push(await createSourceAdapterFromFile(projectPath(projectRoot, file)));
+      }
+      try {
+        const result = await dependencies.runManagedScan({
+          ...(input.url ? { url: input.url } : {}),
+          projectDirectory: projectRoot,
+          manageRuntime: !input.url,
+          runtimeMode: "development",
+          runtimeRestarts: 1,
+          scanOptions: {
+            outputRoot: projectPath(projectRoot, ".realdone/reports"),
+            headed: false,
+            allowHosts: [],
+            allowDestructive: false,
+            allowExternal: false,
+            mutationAllowed: false,
+            maxPages: input.maxPages ?? (input.full ? 100 : 8),
+            maxActions: input.maxActions ?? (input.full ? 500 : 24),
+            timeoutMs: 10_000,
+            settleMs: 800,
+            maxDurationMs: input.maxDurationMs ?? (input.full ? 1_800_000 : 120_000),
+            maxRetries: 2,
+            deep: input.deep ?? input.full ?? false,
+            trace: input.trace ?? false,
+            traceOnFailure: input.traceOnFailure ?? input.full ?? true,
+            video: false,
+            environmentTimeoutMs: 10_000,
+            acceptEnvironmentRisk: false,
+            allowIframes: false,
+            sourceAdapters,
+            sourceSnapshotLimit: input.sourceSnapshotLimit ?? 100,
+          },
+        });
+        return toolSuccess({
+          passed: result.exitCode === 0,
+          exitCode: result.exitCode,
+          reportDirectory: result.reportDirectory,
+          summary: result.report.summary,
+        });
+      } finally {
+        await Promise.all(sourceAdapters.map((adapter) => adapter.close()));
+      }
     } catch (error) {
       return toolFailure(error);
     }
