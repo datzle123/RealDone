@@ -60,7 +60,7 @@ export function createFixtureServer() {
 
     if (url.pathname === "/") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
-      return response.end(html("RealDone benchmark fixtures", `<p>Each page contains one known behavior.</p><nav><a href="/fake-create">Fake create</a><a href="/fake-update">Fake update</a><a href="/real-create">Real create control</a><a href="/enter-submit">Enter-submit create</a><a href="/browser-local">Browser-local control</a><a href="/success-despite-failure">False success</a><a href="/duplicate-submit">Duplicate submit</a><a href="/fake-delete">Fake delete</a><a href="/no-effect">No effect</a><a href="/unrelated-fields">Unrelated fields control</a><a href="/selector-shift">Selector survival control</a><a href="/stateful-action">Stateful action control</a><a href="/live-control-state">Live control-state control</a><a href="/missing">Broken navigation</a></nav>`));
+      return response.end(html("RealDone benchmark fixtures", `<p>Each page contains one known behavior.</p><nav><a href="/fake-create">Fake create</a><a href="/fake-update">Fake update</a><a href="/real-create">Real create control</a><a href="/enter-submit">Enter-submit create</a><a href="/keyboard-no-effect">Keyboard no-effect</a><a href="/browser-local">Browser-local control</a><a href="/success-despite-failure">False success</a><a href="/duplicate-submit">Duplicate submit</a><a href="/fake-delete">Fake delete</a><a href="/no-effect">No effect</a><a href="/stuck-loading">Stuck loading</a><a href="/loading-control">Loading control</a><a href="/native-controls">Native controls</a><a href="/popup-control">Popup control</a><a href="/download-control">Download control</a><a href="/context-control">Context control</a><a href="/iframe-control">Iframe control</a><a href="/dynamic-actions">Dynamic actions</a><a href="/complex-recording">Complex recording boundary</a><a href="/unrelated-fields">Unrelated fields control</a><a href="/selector-shift">Selector survival control</a><a href="/stateful-action">Stateful action control</a><a href="/live-control-state">Live control-state control</a><a href="/missing">Broken navigation</a></nav>`));
     }
     if (url.pathname === "/fake-create") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
@@ -77,6 +77,10 @@ export function createFixtureServer() {
     if (url.pathname === "/enter-submit") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
       return response.end(html("Enter-submit create", `<input class="new-todo" type="text" aria-label="New Todo Input" placeholder="What needs to be done?"><ul id="list"></ul>`, `document.querySelector('.new-todo').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.value.trim()){list.insertAdjacentHTML('beforeend','<li>'+e.target.value.trim()+'</li>');e.target.value=''}})`));
+    }
+    if (url.pathname === "/keyboard-no-effect") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Keyboard action missed", `<input type="text" name="new-message" aria-label="New message" placeholder="Send a message">`));
     }
     if (url.pathname === "/stateful-action") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
@@ -105,6 +109,54 @@ export function createFixtureServer() {
     if (url.pathname === "/no-effect") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
       return response.end(html("No effect", `<button id="nothing">Do nothing</button>`));
+    }
+    if (url.pathname === "/stuck-loading") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Stuck loading", `<button id="stuck">Load forever</button>`, `document.getElementById('stuck').onclick=()=>{document.getElementById('stuck').setAttribute('aria-busy','true');document.getElementById('stuck').textContent='Loading forever'}`));
+    }
+    if (url.pathname === "/loading-control") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Loading control", `<button id="load">Load dashboard</button><p id="result">Idle</p>`, `document.getElementById('load').onclick=()=>{document.getElementById('load').setAttribute('aria-busy','true');setTimeout(()=>{document.getElementById('load').setAttribute('aria-busy','false');document.getElementById('result').textContent='Dashboard loaded'},100)}`));
+    }
+    if (url.pathname === "/native-controls") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Native controls", `<label>Enable alerts <input id="alerts" type="checkbox"></label><label>Theme <select id="theme"><option value="">Choose</option><option value="dark">Dark</option></select></label><p id="control-state">Unchanged</p>`, `document.getElementById('alerts').onchange=()=>{document.getElementById('control-state').textContent='Alerts enabled'};document.getElementById('theme').onchange=()=>{document.getElementById('control-state').textContent='Theme '+document.getElementById('theme').value}`));
+    }
+    if (url.pathname === "/popup-control") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Popup control", `<button id="popup">Open popup</button>`, `document.getElementById('popup').onclick=()=>window.open('/popup-result','realdone-popup')`));
+    }
+    if (url.pathname === "/popup-result") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Popup result", `<p>Popup opened successfully.</p>`));
+    }
+    if (url.pathname === "/download-control") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Download control", `<a id="download" href="/download-file" download="realdone-export.csv">Download report</a>`));
+    }
+    if (url.pathname === "/download-file") {
+      response.writeHead(200, { "content-type": "text/csv", "content-disposition": "attachment; filename=realdone-export.csv" });
+      return response.end(`id,name\n1,RD_EXPORT_CONTROL\n`);
+    }
+    if (url.pathname === "/context-control") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Context control", `<div id="row-menu" aria-label="Open row menu" oncontextmenu="event.preventDefault();document.getElementById('context-state').textContent='Row menu opened'">Right-click this row</div><p id="context-state">Closed</p>`));
+    }
+    if (url.pathname === "/iframe-control") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Iframe control", `<iframe title="Embedded settings" src="/iframe-content" style="width:100%;height:220px"></iframe>`));
+    }
+    if (url.pathname === "/iframe-content") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(`<!doctype html><html><head><meta charset="utf-8"><title>Embedded settings</title></head><body><button id="iframe-action">Enable embedded setting</button><p id="iframe-state">Disabled</p><script>document.getElementById('iframe-action').onclick=()=>{document.getElementById('iframe-state').textContent='Embedded setting enabled'}</script></body></html>`);
+    }
+    if (url.pathname === "/dynamic-actions") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Dynamic actions", `<div id="hover-zone" onmouseenter="if(!document.getElementById('revealed'))this.insertAdjacentHTML('beforeend','<button id=&quot;revealed&quot;>Reveal details</button>')">Hover actions</div><p id="dynamic-state">Closed</p><div style="height:1200px"></div><div id="lazy"></div>`, `addEventListener('scroll',()=>{if(!document.getElementById('lazy-action'))lazy.innerHTML='<button id="lazy-action">Load more rows</button>';const revealed=document.getElementById('revealed');if(revealed)revealed.onclick=()=>{document.getElementById('dynamic-state').textContent='Details revealed'};setTimeout(()=>{const action=document.getElementById('lazy-action');if(action)action.onclick=()=>{document.getElementById('dynamic-state').textContent='More rows loaded'}},0)})`));
+    }
+    if (url.pathname === "/complex-recording") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Complex recording boundary", `<label>Upload receipt <input type="file" id="receipt"></label><canvas aria-label="Signature canvas" width="240" height="80">Signature canvas</canvas><div contenteditable="true" aria-label="Rich description">Rich description</div><div draggable="true" aria-label="Draggable card">Draggable card</div><button id="simple-control">Open simple control</button><p id="simple-state">Closed</p>`, `document.getElementById('simple-control').onclick=()=>{document.getElementById('simple-state').textContent='Opened'}`));
     }
     if (url.pathname === "/unrelated-fields") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });

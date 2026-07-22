@@ -48,7 +48,7 @@
       "match": { "pagePath": "/duplicate-submit", "label": "Create invoice" },
       "shouldFlag": true,
       "expectedVerdict": "BROKEN",
-      "expectedCodes": ["RD003"]
+      "expectedCodes": ["RD003", "RD006"]
     },
     {
       "id": "fake-delete",
@@ -63,6 +63,97 @@
       "shouldFlag": true,
       "expectedVerdict": "NO_EFFECT",
       "expectedCodes": ["RD002"]
+    },
+    {
+      "id": "keyboard-action-missed",
+      "match": { "pagePath": "/keyboard-no-effect", "label": "New message" },
+      "shouldFlag": true,
+      "expectedVerdict": "BROKEN",
+      "expectedCodes": ["RD002", "RD007"]
+    },
+    {
+      "id": "stuck-loading",
+      "match": { "pagePath": "/stuck-loading", "label": "Load forever" },
+      "shouldFlag": true,
+      "expectedVerdict": "BROKEN",
+      "expectedCodes": ["RD004"]
+    },
+    {
+      "id": "loading-control",
+      "match": { "pagePath": "/loading-control", "label": "Load dashboard" },
+      "shouldFlag": false,
+      "expectedVerdict": "VERIFIED",
+      "expectedCodes": []
+    },
+    {
+      "id": "checkbox-control",
+      "match": { "pagePath": "/native-controls", "label": "Enable alerts" },
+      "shouldFlag": false,
+      "expectedVerdict": "VERIFIED",
+      "expectedCodes": []
+    },
+    {
+      "id": "select-control",
+      "match": { "pagePath": "/native-controls", "label": "Theme" },
+      "shouldFlag": false,
+      "expectedVerdict": "VERIFIED",
+      "expectedCodes": []
+    },
+    {
+      "id": "popup-control",
+      "match": { "pagePath": "/popup-control", "label": "Open popup" },
+      "shouldFlag": false,
+      "expectedVerdict": "VERIFIED",
+      "expectedCodes": []
+    },
+    {
+      "id": "download-control",
+      "match": { "pagePath": "/download-control", "label": "Download report" },
+      "shouldFlag": false,
+      "expectedVerdict": "VERIFIED",
+      "expectedCodes": []
+    },
+    {
+      "id": "context-control",
+      "match": { "pagePath": "/context-control", "label": "Open row menu" },
+      "shouldFlag": false,
+      "expectedVerdict": "VERIFIED",
+      "expectedCodes": []
+    },
+    {
+      "id": "iframe-control",
+      "match": { "pagePath": "/iframe-control", "label": "Enable embedded setting" },
+      "shouldFlag": false,
+      "expectedVerdict": "VERIFIED",
+      "expectedCodes": []
+    },
+    {
+      "id": "hover-revealed-control",
+      "match": { "pagePath": "/dynamic-actions", "label": "^Reveal details$" },
+      "shouldFlag": false,
+      "expectedVerdict": "VERIFIED",
+      "expectedCodes": []
+    },
+    {
+      "id": "scroll-lazy-control",
+      "match": { "pagePath": "/dynamic-actions", "label": "Load more rows" },
+      "shouldFlag": false,
+      "expectedVerdict": "VERIFIED",
+      "expectedCodes": []
+    },
+    {
+      "id": "upload-recording-boundary",
+      "match": { "pagePath": "/complex-recording", "label": "Upload receipt" },
+      "shouldFlag": false,
+      "expectedVerdict": "SKIPPED",
+      "expectedCodes": ["RD008"]
+    },
+    {
+      "id": "canvas-recording-boundary",
+      "match": { "pagePath": "/complex-recording", "label": "Signature canvas" },
+      "shouldFlag": false,
+      "expectedVerdict": "SKIPPED",
+      "expectedCodes": ["RD008"]
     },
     {
       "id": "unrelated-fields-no-effect",
@@ -97,7 +188,7 @@
       "match": { "pagePath": "/", "label": "Broken navigation" },
       "shouldFlag": true,
       "expectedVerdict": "BROKEN",
-      "expectedCodes": ["RD001"]
+      "expectedCodes": ["RD001", "RD005"]
     }
   ]
 }

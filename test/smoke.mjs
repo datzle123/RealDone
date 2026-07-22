@@ -51,13 +51,14 @@ try {
     allowDestructive: true,
     allowExternal: false,
     mutationAllowed: true,
-    maxPages: 15,
-    maxActions: 55,
+    maxPages: 28,
+    maxActions: 100,
     timeoutMs: 8_000,
     settleMs: 250,
-    maxDurationMs: 90_000,
+    maxDurationMs: 240_000,
     maxRetries: 2,
     deep: true,
+    allowIframes: true,
     ...(process.env.REALDONE_BROWSER_PATH ? { executablePath: process.env.REALDONE_BROWSER_PATH } : {}),
   };
   const result = await runBenchmark({
@@ -71,12 +72,21 @@ try {
   assert.ok(result.report.findings.some((finding) => finding.detectorMatches.some((item) => item.code === "RD302")));
   assert.ok(result.report.findings.some((finding) => finding.detectorMatches.some((item) => item.code === "RD003")));
   assert.ok(result.report.findings.some((finding) => finding.detectorMatches.some((item) => item.code === "RD203")));
+  for (const code of ["RD004", "RD005", "RD006", "RD007", "RD008"]) {
+    assert.ok(result.report.findings.some((finding) => finding.detectorMatches.some((item) => item.code === code)), `${code} was not observed`);
+  }
   assert.ok(result.report.findings.some((finding) => finding.verdict === "VERIFIED"));
   assert.ok(result.report.findings.some((finding) => finding.verdict === "BROWSER_LOCAL" && finding.detectorMatches.some((item) => item.code === "RD102")));
   assert.ok(result.report.findings.some((finding) => finding.action.activation === "enter" && finding.detectorMatches.some((item) => item.code === "RD201")));
   assert.ok(result.report.findings.some((finding) => finding.action.label === "Back" && finding.verdict === "UNCERTAIN" && finding.evidence.targetNotFound && !finding.evidence.locatorResolution?.chosenStrategy));
   assert.ok(result.report.findings.some((finding) => finding.action.label === "Use current domain" && finding.verdict === "VERIFIED"));
   assert.ok(result.report.findings.some((finding) => finding.action.label === "Do nothing nearby" && finding.verdict === "NO_EFFECT" && finding.evidence.filledFields.length === 0));
+  assert.ok(result.report.findings.some((finding) => finding.action.label === "Open popup" && finding.verdict === "VERIFIED" && (finding.evidence.popupUrls?.length ?? 0) === 1));
+  assert.ok(result.report.findings.some((finding) => finding.action.label === "Enable alerts" && finding.verdict === "VERIFIED"));
+  assert.ok(result.report.findings.some((finding) => finding.action.label === "Theme" && finding.verdict === "VERIFIED"));
+  assert.ok(result.report.findings.some((finding) => finding.action.label === "Download report" && finding.verdict === "VERIFIED" && finding.evidence.downloads.includes("realdone-export.csv")));
+  assert.ok(result.report.findings.some((finding) => finding.action.label === "Open row menu" && finding.verdict === "VERIFIED" && finding.action.activation === "contextmenu"));
+  assert.ok(result.report.findings.some((finding) => finding.action.label === "Enable embedded setting" && finding.verdict === "VERIFIED" && finding.action.fingerprint.frameUrl));
   assert.equal(result.metrics.precision, 1);
   assert.equal(result.metrics.recall, 1);
   assert.equal(result.metrics.falsePositiveRate, 0);
