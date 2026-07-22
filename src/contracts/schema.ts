@@ -17,6 +17,15 @@ export interface CrossRoleExpectation {
     | { type: "url"; pattern: string };
 }
 
+export interface AuthorizationExpectation {
+  type: "authorization";
+  check: "ui-only-permission" | "cross-tenant-read" | "cross-tenant-write" | "revoked-role" | "admin-route";
+  role: string;
+  request?: { method: string; url: string };
+  route?: { url: string };
+  ui?: { pageUrl: string; text: string; state: "visible" | "absent" };
+}
+
 export type PersistenceStrategy =
   | "reload"
   | "hard-reload"
@@ -31,6 +40,7 @@ export type ContractExpectation =
   | { type: "persistence"; value: string; strategies?: PersistenceStrategy[] }
   | SourceExpectation
   | CrossRoleExpectation
+  | AuthorizationExpectation
   | ProviderExpectation;
 
 export type ContractCleanup =
@@ -88,6 +98,7 @@ export interface StepVerification {
     persistenceScope?: PersistenceScope;
     sourceEvidence?: SourceEvidence;
     providerEvidence?: ProviderEvidence;
+    detectorCode?: "RD601" | "RD602" | "RD603" | "RD604" | "RD605";
   }>;
 }
 
@@ -161,6 +172,25 @@ const crossRoleExpectationSchema = z.object({
   ]),
 });
 
+const authorizationExpectationSchema = z.object({
+  type: z.literal("authorization"),
+  check: z.enum(["ui-only-permission", "cross-tenant-read", "cross-tenant-write", "revoked-role", "admin-route"]),
+  role: roleNameSchema,
+  request: z.object({ method: z.string().min(1), url: z.string().url() }).optional(),
+  route: z.object({ url: z.string().url() }).optional(),
+  ui: z.object({ pageUrl: z.string().url(), text: z.string().min(1), state: z.enum(["visible", "absent"]) }).optional(),
+}).superRefine((expectation, context) => {
+  if (expectation.check === "admin-route" && !expectation.route) {
+    context.addIssue({ code: "custom", path: ["route"], message: "admin-route requires a route probe" });
+  }
+  if (expectation.check !== "admin-route" && !expectation.request) {
+    context.addIssue({ code: "custom", path: ["request"], message: `${expectation.check} requires an API request probe` });
+  }
+  if (expectation.check === "ui-only-permission" && !expectation.ui) {
+    context.addIssue({ code: "custom", path: ["ui"], message: "ui-only-permission requires a UI visibility probe" });
+  }
+});
+
 const providerScalarSchema = z.union([z.string(), z.number(), z.boolean(), z.null()]);
 const providerExpectationSchema = z.object({
   type: z.literal("provider"),
@@ -187,6 +217,7 @@ const expectationSchema = z.discriminatedUnion("type", [
   }),
   sourceExpectationSchema,
   crossRoleExpectationSchema,
+  authorizationExpectationSchema,
   providerExpectationSchema,
 ]);
 
@@ -242,6 +273,13 @@ export const behaviorContractSchema = z.object({
           code: "custom",
           path: ["steps", stepIndex, "expected", expectationIndex, "role"],
           message: `Unknown cross-role target: ${expectation.role}`,
+        });
+      }
+      if (expectation.type === "authorization" && !roles.has(expectation.role)) {
+        context.addIssue({
+          code: "custom",
+          path: ["steps", stepIndex, "expected", expectationIndex, "role"],
+          message: `Unknown authorization role: ${expectation.role}`,
         });
       }
       if (expectation.type === "cross-role" && expectation.role === (step.role ?? "default")) {

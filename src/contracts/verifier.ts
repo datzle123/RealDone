@@ -308,6 +308,62 @@ async function verifyExpectation(
         };
       }
     }
+    case "authorization": {
+      const detectorCode = {
+        "ui-only-permission": "RD601",
+        "cross-tenant-read": "RD602",
+        "cross-tenant-write": "RD603",
+        "revoked-role": "RD604",
+        "admin-route": "RD605",
+      }[expectation.check] as "RD601" | "RD602" | "RD603" | "RD604" | "RD605";
+      if (!rolePage) {
+        return { expectation, passed: false, detail: "Authorization verifier is unavailable.", evidenceLevel: 7, detectorCode };
+      }
+      try {
+        const target = await rolePage(expectation.role);
+        const observations: string[] = [];
+        let passed = true;
+        if (expectation.ui) {
+          await target.goto(expectation.ui.pageUrl, { waitUntil: "domcontentloaded" });
+          const visible = await target.getByText(expectation.ui.text, { exact: false }).last().isVisible().catch(() => false);
+          const uiPassed = expectation.ui.state === "visible" ? visible : !visible;
+          passed &&= uiPassed;
+          observations.push(`ui-${expectation.ui.state}=${uiPassed}`);
+        }
+        if (expectation.request) {
+          const response = await target.context().request.fetch(expectation.request.url, {
+            method: expectation.request.method,
+            timeout: 5_000,
+            maxRedirects: 0,
+          });
+          const denied = [401, 403, 404].includes(response.status());
+          passed &&= denied;
+          observations.push(`api-status=${response.status()}`);
+        }
+        if (expectation.route) {
+          const response = await target.goto(expectation.route.url, { waitUntil: "domcontentloaded" });
+          const text = await target.locator("body").innerText().catch(() => "");
+          const denied = [401, 403, 404].includes(response?.status() ?? 0) || /unauthorized|forbidden|access denied|login required/i.test(text);
+          passed &&= denied;
+          observations.push(`route-status=${response?.status() ?? "none"}, denied=${denied}`);
+        }
+        return {
+          expectation,
+          passed,
+          detail: `Authorization ${expectation.check} for ${expectation.role}: ${observations.join(", ")}`,
+          evidenceLevel: 7,
+          ...(passed ? { persistenceScope: "CROSS_USER_CONFIRMED" as const } : { detectorCode }),
+        };
+      } catch (error) {
+        return {
+          expectation,
+          passed: false,
+          detail: `Authorization check failed for ${expectation.role}: ${redactText(error instanceof Error ? error.message : String(error))}`,
+          evidenceLevel: 7,
+          detectorCode,
+        };
+      }
+    }
   }
 }
 

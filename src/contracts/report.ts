@@ -15,7 +15,7 @@ export function renderContractVerification(result: ContractVerification): string
       (step) => `<details class="step ${step.status}" ${step.status === "failed" ? "open" : ""}>
         <summary><span>${escapeHtml(step.status.toUpperCase())}</span><strong>${escapeHtml(step.stepId)} · ${escapeHtml(step.type)} · ${escapeHtml(step.role)}</strong><time>${step.durationMs}ms</time></summary>
         <div><p>${escapeHtml(step.reason)}</p>${step.locatorResolution?.chosenStrategy ? `<p>Locator: <code>${escapeHtml(step.locatorResolution.chosenStrategy)}</code> · weight ${step.locatorResolution.chosenWeight ?? 0} · retries ${step.locatorResolution.retryCount}</p>` : ""}
-        <ul>${step.assertions.map((assertion) => `<li class="${assertion.passed ? "ok" : "bad"}">${assertion.passed ? "✓" : "✗"} <small>LEVEL ${assertion.evidenceLevel}${assertion.persistenceScope ? ` · ${escapeHtml(assertion.persistenceScope)}` : ""}</small> ${escapeHtml(assertion.detail)}</li>`).join("")}</ul></div>
+        <ul>${step.assertions.map((assertion) => `<li class="${assertion.passed ? "ok" : "bad"}">${assertion.passed ? "✓" : "✗"} <small>LEVEL ${assertion.evidenceLevel}${assertion.persistenceScope ? ` · ${escapeHtml(assertion.persistenceScope)}` : ""}${assertion.detectorCode ? ` · ${assertion.detectorCode}` : ""}</small> ${escapeHtml(assertion.detail)}</li>`).join("")}</ul></div>
       </details>`,
     )
     .join("");

@@ -24,6 +24,7 @@ export interface ManifestContract {
   baseline?: {
     passed: boolean;
     verificationId: string;
+    performancePassed?: boolean;
     steps: BaselineStep[];
   };
 }
@@ -58,7 +59,7 @@ const manifestContractSchema = z.object({
   sourceFiles: z.array(z.string()),
   stepCount: z.number().int().nonnegative(),
   baseline: z
-    .object({ passed: z.boolean(), verificationId: z.string(), steps: z.array(baselineStepSchema) })
+    .object({ passed: z.boolean(), verificationId: z.string(), performancePassed: z.boolean().optional(), steps: z.array(baselineStepSchema) })
     .optional(),
 });
 
@@ -103,6 +104,8 @@ function endpointsFor(contract: BehaviorContract): Array<{ method: string; patte
     step.expected.flatMap((expectation) =>
       expectation.type === "request"
         ? [{ method: expectation.method, pattern: expectation.urlPattern }]
+        : expectation.type === "authorization" && expectation.request
+          ? [{ method: expectation.request.method, pattern: expectation.request.url }]
         : [],
     ),
   );
@@ -113,6 +116,7 @@ function baselineFor(verification: ContractVerification): NonNullable<ManifestCo
   return {
     passed: verification.passed,
     verificationId: verification.verificationId,
+    ...(verification.performance ? { performancePassed: verification.performance.passed } : {}),
     steps: verification.steps.map((step) => ({
       id: step.stepId,
       status: step.status,
