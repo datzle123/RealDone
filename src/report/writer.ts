@@ -17,6 +17,12 @@ export async function writeReport(
     mkdir(reportDirectory, { recursive: true }),
     mkdir(path.join(reportDirectory, "screenshots"), { recursive: true }),
     mkdir(path.join(reportDirectory, "network"), { recursive: true }),
+    mkdir(path.join(reportDirectory, "snapshots"), { recursive: true }),
+    mkdir(path.join(reportDirectory, "console"), { recursive: true }),
+    mkdir(path.join(reportDirectory, "websockets"), { recursive: true }),
+    mkdir(path.join(reportDirectory, "uploads"), { recursive: true }),
+    mkdir(path.join(reportDirectory, "downloads"), { recursive: true }),
+    mkdir(path.join(reportDirectory, "contracts"), { recursive: true }),
     mkdir(path.join(reportDirectory, "reproductions"), { recursive: true }),
     mkdir(path.join(reportDirectory, "traces"), { recursive: true }),
     mkdir(path.join(reportDirectory, "videos"), { recursive: true }),
@@ -42,6 +48,8 @@ export async function writeReport(
       sourceScanId: report.scanId,
       targetUrl: report.targetUrl,
       action: finding.action,
+      sourceVerdict: finding.verdict,
+      sourceDetectorCodes: finding.detectorMatches.map((match) => match.code),
       options: {
         timeoutMs: report.options.timeoutMs,
         settleMs: report.options.settleMs,
@@ -54,15 +62,30 @@ export async function writeReport(
         video: Boolean(report.options.video),
       },
     };
+    const reproductionText = `${JSON.stringify(reproduction, null, 2)}\n`;
+    const snapshots = {
+      before: finding.evidence.before,
+      beforeAction: finding.evidence.beforeAction,
+      after: finding.evidence.after,
+      afterRefresh: finding.evidence.afterRefresh,
+      afterHardRefresh: finding.evidence.afterHardRefresh,
+      afterNewTab: finding.evidence.afterNewTab,
+      afterNewContext: finding.evidence.afterNewContext,
+      afterAppRestart: finding.evidence.afterAppRestart,
+      persistenceScope: finding.evidence.persistenceScope,
+    };
     await Promise.all([
-      writeFile(
-        path.join(reportDirectory, "reproductions", `${finding.id}.json`),
-        `${JSON.stringify(reproduction, null, 2)}\n`,
-      ),
+      writeFile(path.join(reportDirectory, "reproductions", `${finding.id}.json`), reproductionText),
+      writeFile(path.join(reportDirectory, "contracts", `${finding.id}.json`), reproductionText),
       writeFile(
         path.join(reportDirectory, "network", `${finding.id}.json`),
         `${JSON.stringify(finding.evidence.network, null, 2)}\n`,
       ),
+      writeFile(path.join(reportDirectory, "snapshots", `${finding.id}.json`), `${JSON.stringify(snapshots, null, 2)}\n`),
+      writeFile(path.join(reportDirectory, "console", `${finding.id}.json`), `${JSON.stringify({ console: finding.evidence.console, pageErrors: finding.evidence.pageErrors }, null, 2)}\n`),
+      writeFile(path.join(reportDirectory, "websockets", `${finding.id}.json`), `${JSON.stringify(finding.evidence.webSockets ?? [], null, 2)}\n`),
+      writeFile(path.join(reportDirectory, "uploads", `${finding.id}.json`), `${JSON.stringify(finding.evidence.uploads ?? [], null, 2)}\n`),
+      writeFile(path.join(reportDirectory, "downloads", `${finding.id}.json`), `${JSON.stringify(finding.evidence.downloadEvidence ?? [], null, 2)}\n`),
     ]);
   }
   await Promise.all([

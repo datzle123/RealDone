@@ -106,6 +106,7 @@ function deriveCleanupUrl(requestEvidence?: NetworkEvidence): string | undefined
 export function createCleanupLedger(report: ScanReport): CleanupLedger {
   const resources = report.findings.flatMap((finding): CleanupResource[] => {
     if (finding.action.kind !== "mutation" || finding.action.intent === "delete" || finding.verdict === "SKIPPED") return [];
+    if (/\b(log[ -]?in|sign[ -]?in|authenticate|payment|webhook)\b/i.test(finding.action.label)) return [];
     const requests = cleanupRequests(finding);
     const wasCreated = finding.action.intent === "create" || requests.length > 0;
     if (!wasCreated && !finding.evidence.after?.canaryPresent) return [];

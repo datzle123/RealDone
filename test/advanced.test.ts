@@ -40,7 +40,7 @@ test("benchmark dashboard renders quality metrics and escapes fixture labels", (
     expectationCoverage: 1,
     benchmarkTruncated: false,
     environmentValidity: 1,
-    cleanupSuccess: null,
+    cleanupSuccess: 1,
     reproductionSuccessRate: 1,
     reproductionsAttempted: 1,
     scanTimeMs: 500,
@@ -60,6 +60,7 @@ test("benchmark dashboard renders quality metrics and escapes fixture labels", (
   assert.match(html, /Evidence quality dashboard/);
   assert.match(html, /False-positive rate/);
   assert.match(html, /Reproduction success/);
+  assert.match(html, /Cleanup success/);
   assert.match(html, /Confusion matrix/);
   assert.equal(html.includes("<fixture>"), false);
   assert.match(html, /&lt;fixture&gt;/);

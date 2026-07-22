@@ -23,6 +23,7 @@ export interface EvidenceSink {
   canary?: string;
   filledFields?: FilledField[];
   webSockets?: WebSocketEvidence[];
+  popupUrls?: string[];
 }
 
 export interface AttachedEvidence {
@@ -167,6 +168,13 @@ export function attachEvidence(page: Page, startedAt: number, sink: EvidenceSink
     socket.on("socketerror", (error) => entry.errors.push(redactText(error).slice(0, 500)));
     socket.on("close", () => { entry.closedAt = now(); });
   };
+  const onPopup = (popup: Page): void => {
+    sink.popupUrls ??= [];
+    const capture = popup.waitForLoadState("domcontentloaded", { timeout: 3_000 })
+      .catch(() => undefined)
+      .then(() => { sink.popupUrls?.push(safeUrl(popup.url())); });
+    pending.push(capture);
+  };
 
   page.on("request", onRequest);
   page.on("response", onResponse);
@@ -177,6 +185,7 @@ export function attachEvidence(page: Page, startedAt: number, sink: EvidenceSink
   page.on("dialog", onDialog);
   page.on("download", onDownload);
   page.on("websocket", onWebSocket);
+  page.on("popup", onPopup);
 
   return {
     waitForIdle: async (timeoutMs) => {
@@ -206,6 +215,7 @@ export function attachEvidence(page: Page, startedAt: number, sink: EvidenceSink
       page.off("dialog", onDialog);
       page.off("download", onDownload);
       page.off("websocket", onWebSocket);
+      page.off("popup", onPopup);
     },
   };
 }

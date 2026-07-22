@@ -15,6 +15,7 @@ function escapeHtml(value: unknown): string {
 
 export function renderBenchmarkMarkdown(metrics: BenchmarkMetrics): string {
   const replay = metrics.reproductionSuccessRate === null ? "not run" : percent(metrics.reproductionSuccessRate);
+  const cleanup = metrics.cleanupSuccess === null ? "not run" : percent(metrics.cleanupSuccess);
   return `# RealDone benchmark dashboard
 
 Scan: \`${metrics.scanId}\`
@@ -31,6 +32,7 @@ Scan: \`${metrics.scanId}\`
 | Environment validity | ${percent(metrics.environmentValidity)} |
 | Benchmark truncated | ${metrics.benchmarkTruncated ? "yes" : "no"} |
 | Reproduction success | ${replay} |
+| Cleanup success | ${cleanup} |
 | Scan time | ${metrics.scanTimeMs}ms |
 | Memory delta | ${metrics.memoryDeltaMb}MB |
 
@@ -48,6 +50,7 @@ export function renderBenchmarkDashboard(metrics: BenchmarkMetrics): string {
     ["Verdict accuracy", percent(metrics.verdictAccuracy), metrics.verdictAccuracy],
     ["Detector accuracy", percent(metrics.detectorAccuracy), metrics.detectorAccuracy],
     ["Environment validity", percent(metrics.environmentValidity), metrics.environmentValidity],
+    ["Cleanup success", metrics.cleanupSuccess === null ? "not run" : percent(metrics.cleanupSuccess), metrics.cleanupSuccess ?? 0],
     [
       "Reproduction success",
       metrics.reproductionSuccessRate === null ? "not run" : percent(metrics.reproductionSuccessRate),

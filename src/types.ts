@@ -501,6 +501,8 @@ export interface Reproduction {
   sourceScanId: string;
   targetUrl: string;
   action: ActionSpec;
+  sourceVerdict?: Verdict;
+  sourceDetectorCodes?: DetectorCode[];
   options: Pick<
     ScanOptions,
     | "timeoutMs"
@@ -513,4 +515,24 @@ export interface Reproduction {
     | "trace"
     | "video"
   >;
+}
+
+export type ReplayOutcome =
+  | "FINDING_REPRODUCED"
+  | "FINDING_NO_LONGER_REPRODUCED"
+  | "ENVIRONMENT_CHANGED"
+  | "TARGET_ACTION_NOT_FOUND"
+  | "REPLAY_UNCERTAIN";
+
+export interface ReplayEvidence {
+  schemaVersion: "1.0";
+  findingId: string;
+  sourceScanId: string;
+  replayScanId: string;
+  outcome: ReplayOutcome;
+  sourceVerdict: Verdict;
+  replayVerdict?: Verdict;
+  sourceDetectorCodes: DetectorCode[];
+  replayDetectorCodes: DetectorCode[];
+  detail: string;
 }

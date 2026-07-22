@@ -2,6 +2,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { z } from "zod";
 import { runReplay } from "../replay.js";
+import { runCleanup } from "../cleanup/ledger.js";
 import { runScan, type ScanProgress, type ScanResult } from "../scan.js";
 import type { Finding, ScanOptions, ScanReport, Verdict } from "../types.js";
 import { renderBenchmarkDashboard, renderBenchmarkMarkdown } from "./dashboard.js";
@@ -177,20 +178,20 @@ export async function runBenchmark(
         },
         onProgress,
       );
-      const reproduced = replay.report.findings[0];
-      const expected = expectations.find((item) => item.id === candidate.expectationId);
-      if (
-        reproduced &&
-        expected &&
-        reproduced.verdict === candidate.actualVerdict &&
-        expected.expectedCodes.every((code) => reproduced.detectorMatches.some((item) => item.code === code))
-      ) {
+      if (replay.replay.outcome === "FINDING_REPRODUCED") {
         successes += 1;
       }
     }
     metrics.reproductionsAttempted = candidates.length;
     metrics.reproductionSuccessRate = candidates.length === 0 ? 1 : successes / candidates.length;
   }
+  const cleanup = await runCleanup(scanResult.reportDirectory, {
+    confirm: true,
+    allowHosts: [...new Set([...options.scan.allowHosts, new URL(options.scan.targetUrl).hostname])],
+    retries: options.scan.maxRetries,
+    ...(options.scan.storageStatePath ? { storageStatePath: options.scan.storageStatePath } : {}),
+  });
+  metrics.cleanupSuccess = cleanup.failed === 0 && cleanup.pending === 0 ? 1 : 0;
   await Promise.all([
     writeFile(path.join(scanResult.reportDirectory, "benchmark.json"), `${JSON.stringify(metrics, null, 2)}\n`),
     writeFile(path.join(scanResult.reportDirectory, "benchmark.html"), renderBenchmarkDashboard(metrics)),

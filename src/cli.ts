@@ -393,7 +393,7 @@ program
     );
     const metric = (value: number): string => `${(value * 100).toFixed(1)}%`;
     process.stdout.write(
-      `\nREALDONE BENCHMARK\n\nprecision: ${metric(result.metrics.precision)}\nrecall: ${metric(result.metrics.recall)}\nfalse-positive rate: ${metric(result.metrics.falsePositiveRate)}\ndiscovery: ${metric(result.metrics.actionDiscoveryRate)}\nexpectation coverage: ${metric(result.metrics.expectationCoverage)}\nverdict accuracy: ${metric(result.metrics.verdictAccuracy)}\ndetector accuracy: ${metric(result.metrics.detectorAccuracy)}\nenvironment validity: ${metric(result.metrics.environmentValidity)}\ntruncated: ${result.metrics.benchmarkTruncated ? "yes" : "no"}\nreproduction success: ${result.metrics.reproductionSuccessRate === null ? "not run" : metric(result.metrics.reproductionSuccessRate)}\nscan time: ${result.metrics.scanTimeMs}ms\nmemory delta: ${result.metrics.memoryDeltaMb}MB\n\nReport: ${path.join(result.reportDirectory, "benchmark.json")}\n`,
+      `\nREALDONE BENCHMARK\n\nprecision: ${metric(result.metrics.precision)}\nrecall: ${metric(result.metrics.recall)}\nfalse-positive rate: ${metric(result.metrics.falsePositiveRate)}\ndiscovery: ${metric(result.metrics.actionDiscoveryRate)}\nexpectation coverage: ${metric(result.metrics.expectationCoverage)}\nverdict accuracy: ${metric(result.metrics.verdictAccuracy)}\ndetector accuracy: ${metric(result.metrics.detectorAccuracy)}\nenvironment validity: ${metric(result.metrics.environmentValidity)}\ncleanup success: ${result.metrics.cleanupSuccess === null ? "not run" : metric(result.metrics.cleanupSuccess)}\ntruncated: ${result.metrics.benchmarkTruncated ? "yes" : "no"}\nreproduction success: ${result.metrics.reproductionSuccessRate === null ? "not run" : metric(result.metrics.reproductionSuccessRate)}\nscan time: ${result.metrics.scanTimeMs}ms\nmemory delta: ${result.metrics.memoryDeltaMb}MB\n\nReport: ${path.join(result.reportDirectory, "benchmark.json")}\n`,
     );
     const passed =
       result.metrics.precision === 1 &&
@@ -404,6 +404,7 @@ program
       result.metrics.verdictAccuracy === 1 &&
       result.metrics.detectorAccuracy === 1 &&
       result.metrics.environmentValidity === 1 &&
+      result.metrics.cleanupSuccess === 1 &&
       !result.metrics.benchmarkTruncated &&
       (result.metrics.reproductionSuccessRate === null || result.metrics.reproductionSuccessRate === 1);
     process.exitCode = passed ? 0 : 1;
@@ -722,6 +723,7 @@ program
       progressLine,
     );
     printSummary(result.reportDirectory, result.report);
+    process.stdout.write(`Replay outcome: ${result.replay.outcome}\n${result.replay.detail}\n`);
     process.exitCode = result.exitCode;
   });
 

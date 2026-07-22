@@ -44,6 +44,10 @@ function findingTimeline(finding: Finding): string {
     });
   }
   for (const claim of evidence.uiClaims) items.push({ at: claim.at, text: `UI ${claim.kind}: ${claim.text}` });
+  for (const upload of evidence.uploads ?? []) items.push({ at: evidence.beforeAction?.at ?? evidence.before?.at ?? 0, text: `Prepared upload ${upload.fileName} (${upload.size} bytes, ${upload.contentType})` });
+  for (const download of evidence.downloadEvidence ?? []) items.push({ at: evidence.after?.at ?? evidence.durationMs, text: `Downloaded ${download.fileName} (${download.size ?? 0} bytes)${download.failure ? `; ${download.failure}` : ""}` });
+  for (const popup of evidence.popupUrls ?? []) items.push({ at: evidence.after?.at ?? evidence.durationMs, text: `Opened popup ${popup}` });
+  for (const socket of evidence.webSockets ?? []) items.push({ at: socket.openedAt, text: `WebSocket ${socket.url}: ${socket.sentFrames} sent, ${socket.receivedFrames} received` });
   if (evidence.afterRefresh) items.push({ at: evidence.afterRefresh.at, text: `Reloaded; canary present: ${evidence.afterRefresh.canaryPresent}` });
   if (evidence.afterHardRefresh) items.push({ at: evidence.afterHardRefresh.at, text: `Hard reloaded without cache; canary present: ${evidence.afterHardRefresh.canaryPresent}` });
   if (evidence.afterNewTab) items.push({ at: evidence.afterNewTab.at, text: `Opened a new tab; canary present: ${evidence.afterNewTab.canaryPresent}` });
@@ -70,6 +74,13 @@ function findingCard(finding: Finding): string {
   const artifacts = [
     finding.evidence.trace ? `<a href="${escapeHtml(finding.evidence.trace)}">Playwright trace</a>` : "",
     finding.evidence.video ? `<a href="${escapeHtml(finding.evidence.video)}">Browser video</a>` : "",
+    `<a href="network/${escapeHtml(finding.id)}.json">Network JSON</a>`,
+    `<a href="snapshots/${escapeHtml(finding.id)}.json">Snapshots JSON</a>`,
+    `<a href="console/${escapeHtml(finding.id)}.json">Console JSON</a>`,
+    `<a href="websockets/${escapeHtml(finding.id)}.json">WebSocket JSON</a>`,
+    `<a href="uploads/${escapeHtml(finding.id)}.json">Upload JSON</a>`,
+    `<a href="downloads/${escapeHtml(finding.id)}.json">Download JSON</a>`,
+    `<a href="contracts/${escapeHtml(finding.id)}.json">Replay contract</a>`,
   ].filter(Boolean).join(" · ");
   return `<details class="finding ${verdictClass(finding.verdict)}" ${finding.verdict === "VERIFIED" || finding.verdict === "SKIPPED" ? "" : "open"}>
     <summary>
