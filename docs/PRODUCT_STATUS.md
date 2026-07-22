@@ -1,6 +1,6 @@
 # Product status against the normative specification
 
-**Snapshot:** 2026-07-22  
+**Snapshot:** 2026-07-22
 **Full product:** **CHƯA HOÀN THÀNH**
 
 This file reports current evidence against the normative [`PRODUCT_SPECIFICATION.md`](PRODUCT_SPECIFICATION.md). It does not reduce that specification. `IMPLEMENTED` requires executable evidence; `PARTIAL` means useful code exists but the full normative behavior or release gate does not.

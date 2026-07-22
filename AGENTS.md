@@ -58,4 +58,3 @@ Also require the relevant database/provider/browser/role integration gate, real-
 ## Safety and evidence
 
 Production side effects, external navigation, destructive actions, credentials, and raw user data remain fail-closed by default. Agent output is never verification evidence. Prefer `UNCERTAIN`, `SKIPPED`, `BLOCKED`, or `ENVIRONMENT_INVALID` over an unsupported application-defect verdict.
-
