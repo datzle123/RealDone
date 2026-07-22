@@ -1,0 +1,9 @@
+{
+  "name": "realdone-managed-runtime-fixture",
+  "private": true,
+  "packageManager": "npm@10.9.0",
+  "scripts": {
+    "start": "node server.mjs --port 41237",
+    "build": "node --check server.mjs"
+  }
+}
