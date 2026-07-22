@@ -116,4 +116,4 @@ Gate:
 - All 15 release gates in §29 are executable and green on Windows, macOS and Linux.
 - Every row in `PRODUCT_STATUS.md` is `IMPLEMENTED`; only then may RealDone be called a completed full product.
 
-Current progress: the shared-core MCP surface, bounded performance primitives, artifact/schema safety checks, six hosted OS/Node attestations, and the 15-gate evaluator exist. TodoMVC, Actual Budget, and Conduit now have current-engine SHA-256/fingerprint-bound evidence and aggregate locally to 15/15 with hosted run `29928279994`; Phase G remains open until the aggregation job itself passes on GitHub and the broader external/MCP qualification rows in `PRODUCT_STATUS.md` are closed.
+Current progress: the shared-core MCP surface, bounded performance primitives, artifact/schema safety checks, fingerprint-bound TodoMVC/Actual/Conduit evidence, six OS/Node attestations, and the final evaluator passed all 15 gates on hosted run `29934227309`. Phase G remains open because authenticated Codex/Claude cycles, broader external cases, unified adapter snapshots, and arbitrary external-effect safety are still `PARTIAL` in `PRODUCT_STATUS.md`.

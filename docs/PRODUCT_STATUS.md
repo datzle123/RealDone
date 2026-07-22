@@ -2,7 +2,7 @@
 
 **Snapshot:** 2026-07-22
 **Full product:** **CHƯA HOÀN THÀNH**
-**Area coverage:** **15/22 `IMPLEMENTED`**, **6/22 `PARTIAL`**, **1/22 `PLANNED`**. Detector catalog: **58/58 production-classified and gated**.
+**Area coverage:** **16/22 `IMPLEMENTED`**, **5/22 `PARTIAL`**, **1/22 `PLANNED`**. Detector catalog: **58/58 production-classified and gated**.
 
 This file reports current evidence against the normative [`PRODUCT_SPECIFICATION.md`](PRODUCT_SPECIFICATION.md). It does not reduce that specification. `IMPLEMENTED` requires executable evidence; `PARTIAL` means useful code exists but the full normative behavior or release gate does not.
 
@@ -28,7 +28,7 @@ This file reports current evidence against the normative [`PRODUCT_SPECIFICATION
 | §25 Safety | PARTIAL | local/staging host policy, destructive/external opt-ins, redaction, cleanup ledger, cross-origin block, complex-action recording boundary, read-only database/provider defaults, remote/Stripe-live guards, exact-key database cleanup and artifact-wide secret/ZIP gate | full external mutation classification across arbitrary application/provider behavior |
 | §26 Benchmark | IMPLEMENTED | precision, recall, FPR, discovery, expectation coverage, verdict/detector accuracy, replay, truncation, environment validity and confirmed cleanup success are machine-readable and release-gated | Future metrics must remain additive and deterministic |
 | §27 Real-world cases | PARTIAL | current-engine, pinned TodoMVC, Actual Budget and SQLite-backed Conduit scans with SHA-256/fingerprint-bound release evidence; real record/verify/replay/matrix/baseline/CI/export/agent workflow | PostgreSQL, Supabase, upload, export, deeper multi-role, AI-generated and intentional-defect case studies |
-| §28–31 Engineering/release/performance/UX | PARTIAL | CI, semantic releases, license notices, dependency audit, quick/full budgets, one-command managed scan with bounded first-use browser bootstrap, bounded contract/browser workers, affected-flow selection, trace-on-failure, content-addressed snapshot indexes, environment gate, artifact secret/schema gates, 15-gate evaluator, Windows/macOS/Linux attestations and local 15/15 aggregation | the hosted aggregation job must pass on the current engine fingerprint before this area can become `IMPLEMENTED` |
+| §28–31 Engineering/release/performance/UX | IMPLEMENTED | one-command managed scan with bounded first-use browser bootstrap; CI, license/audit/package gates, quick/full budgets, bounded workers, affected-flow selection, trace-on-failure, snapshot dedup, environment/artifact/schema gates, and hosted 15/15 aggregation across Windows/macOS/Linux on run `29934227309` | Future releases must keep all 15 executable gates and the supported OS/Node/browser matrix green |
 | §32 Full-product definition | PLANNED | several foundations are shipped and useful | every listed condition must be `IMPLEMENTED`; no release currently meets this definition |
 
 ## Truthful release wording
