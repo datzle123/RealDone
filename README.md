@@ -59,16 +59,13 @@ pnpm realdone verify .realdone/flows/create-customer.json
 
 Use this for login, checkout, CRUD, upload, export, or multi-step flows. The recorder stores semantic locators and masked rrweb evidence; deterministic verification uses the versioned RealDone contract.
 
-### 3. Verify a coding agent's change
+### 3. Let a coding agent call RealDone
 
 ```bash
-pnpm realdone run codex \
-  --task "Fix persistent customer deletion" \
-  --contracts .realdone/flows \
-  --build-command npm --build-arg run --build-arg build
+pnpm realdone mcp --project ../my-app
 ```
 
-RealDone captures a green baseline, lets Codex/Claude/generic tooling change the project, rebuilds it, and independently verifies affected flows. The agent's “done” message is never treated as proof.
+The local MCP server lets Codex, Claude, or another AI call scan, baseline, verify-change, replay, and report tools directly. RealDone still decides pass/fail from independent browser evidence. The existing Codex, Claude, and generic CLI adapters remain optional orchestration wrappers. See [MCP integration](docs/MCP.md).
 
 ## What it can verify
 
@@ -112,6 +109,7 @@ RealDone is a tested open-source preview, not yet the completed full product.
 - [Database adapters](docs/DATABASE_ADAPTERS.md)
 - [Provider adapters and plugins](docs/PROVIDERS.md)
 - [CI and GitHub Action](docs/CI.md)
+- [MCP integration for coding agents](docs/MCP.md)
 - [Architecture and threat model](docs/ARCHITECTURE.md)
 - [Evidence-based product status](docs/PRODUCT_STATUS.md)
 

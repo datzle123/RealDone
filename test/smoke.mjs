@@ -16,6 +16,8 @@ import { commandPassed, runCommand } from "../dist/agent/command.js";
 import { runAgentVerification } from "../dist/agent/pipeline.js";
 import { runScan } from "../dist/scan.js";
 import { runReplay } from "../dist/replay.js";
+import { scanArtifactSecrets } from "../dist/release/artifacts.js";
+import { checkArtifactSchemaCompatibility } from "../dist/release/schema.js";
 
 async function startFixture() {
   const child = spawn(process.execPath, [path.resolve("benchmarks/fixture-app/server.mjs")], {
@@ -103,6 +105,9 @@ try {
   assert.equal(snapshotFinding?.evidence.afterHardRefresh?.canaryPresent, true);
   assert.equal(snapshotFinding?.evidence.afterNewTab?.canaryPresent, true);
   assert.ok((snapshotFinding?.evidence.after?.semanticDom?.controls.length ?? 0) > 0);
+  assert.ok(snapshotFinding?.evidence.snapshotIndex);
+  await access(path.join(result.reportDirectory, snapshotFinding.evidence.snapshotIndex));
+  assert.ok((await readdir(path.join(result.reportDirectory, "snapshots", "blobs"))).length > 0);
   const sessionFinding = result.report.findings.find((finding) => finding.action.pageUrl.endsWith("/session-control") && finding.action.label.includes("Save for this session"));
   assert.equal(sessionFinding?.verdict, "BROWSER_LOCAL");
   assert.equal(sessionFinding?.evidence.persistenceScope, "SESSION_PERSISTENT");
@@ -253,10 +258,8 @@ try {
   const managedScan = await runCommand({
     executable: process.execPath,
     args: [
-      "dist/cli.js",
+      path.resolve("dist/cli.js"),
       "scan",
-      "--manage-runtime",
-      "--project", path.resolve("benchmarks/managed-app"),
       "--health-endpoint", "/health",
       "--max-pages", "1",
       "--max-actions", "1",
@@ -266,7 +269,7 @@ try {
       "--json",
       ...(process.env.REALDONE_BROWSER_PATH ? ["--browser-path", process.env.REALDONE_BROWSER_PATH] : []),
     ],
-    cwd: process.cwd(),
+    cwd: path.resolve("benchmarks/managed-app"),
     timeoutMs: 30_000,
   });
   assert.equal(commandPassed(managedScan), true, managedScan.stderr);
@@ -304,6 +307,31 @@ try {
   const cliReportDirectory = path.join(outputRoot, "cli-scan", cliReportNames.find((entry) => entry.isDirectory()).name);
   assert.ok((await readdir(path.join(cliReportDirectory, "traces"))).length > 0);
   assert.ok((await readdir(path.join(cliReportDirectory, "videos"))).length > 0);
+  const failureTrace = await runScan({
+    ...scan,
+    targetUrl: `${fixture.url}/fake-create`,
+    outputRoot: path.join(outputRoot, "failure-trace"),
+    maxPages: 1,
+    maxActions: 2,
+    deep: false,
+    trace: false,
+    traceOnFailure: true,
+  });
+  const failureTraceFinding = failureTrace.report.findings.find((finding) => finding.action.label.includes("Create customer"));
+  assert.equal(failureTraceFinding?.verdict, "CONTRADICTORY");
+  assert.ok((failureTraceFinding?.evidence.trace?.endsWith(".zip") ?? false));
+  const passingTrace = await runScan({
+    ...scan,
+    targetUrl: `${fixture.url}/loading-control`,
+    outputRoot: path.join(outputRoot, "passing-trace"),
+    maxPages: 1,
+    maxActions: 1,
+    deep: false,
+    trace: false,
+    traceOnFailure: true,
+  });
+  assert.equal(passingTrace.report.findings[0]?.verdict, "VERIFIED");
+  assert.equal(passingTrace.report.findings[0]?.evidence.trace, undefined);
   const selectorFinding = result.report.findings.find((finding) => finding.action.label.includes("Toggle resilient"));
   assert.equal(selectorFinding?.evidence.locatorResolution?.chosenStrategy, "role");
   const cleanupDryRun = await runCleanup(result.reportDirectory, { confirm: false, allowHosts: [], retries: 1 });
@@ -606,16 +634,19 @@ try {
     allowDestructive: false,
     allowExternal: false,
     allowHosts: [],
+    traceOnFailure: true,
     ...(process.env.REALDONE_BROWSER_PATH ? { executablePath: process.env.REALDONE_BROWSER_PATH } : {}),
   };
   const brokenAuthorization = await verifyContract(brokenAuthorizationFile, authorizationOptions);
   assert.equal(brokenAuthorization.verification.passed, false);
+  assert.ok((brokenAuthorization.verification.artifacts?.traces.length ?? 0) > 0);
   assert.deepEqual(
     brokenAuthorization.verification.steps.flatMap((step) => step.assertions.map((assertion) => assertion.detectorCode)).filter(Boolean).sort(),
     ["RD601", "RD602", "RD603", "RD604", "RD605"],
   );
   const controlAuthorization = await verifyContract(controlAuthorizationFile, authorizationOptions);
   assert.equal(controlAuthorization.verification.passed, true);
+  assert.equal(controlAuthorization.verification.artifacts?.traces.length ?? 0, 0);
   assert.equal(controlAuthorization.verification.steps.some((step) => step.assertions.some((assertion) => assertion.detectorCode)), false);
   const verifyOptions = {
     outputRoot: path.join(outputRoot, "baseline-runs"),
@@ -721,6 +752,49 @@ try {
   const sqliteCheck = new SqliteDatabase(sqliteFile, { readonly: true });
   assert.equal(sqliteCheck.prepare("SELECT COUNT(*) AS count FROM customers WHERE id = ?").get(1).count, 0);
   sqliteCheck.close();
+  const artifactSecretGate = await scanArtifactSecrets(outputRoot, {
+    secrets: [
+      { label: "Supabase fixture key", value: "fixture-supabase-key" },
+      { label: "Stripe fixture key", value: "sk_test_fixture" },
+      { label: "AWS fixture access key", value: "AKIATEST" },
+      { label: "AWS fixture secret key", value: "fixture-aws-secret" },
+    ],
+  });
+  assert.ok(artifactSecretGate.scannedArchives > 0, "release secret gate must inspect generated trace ZIPs");
+  assert.equal(artifactSecretGate.passed, true, JSON.stringify(artifactSecretGate.findings));
+  const artifactSchemaGate = await checkArtifactSchemaCompatibility(outputRoot, path.resolve("schemas/artifacts-v1.json"));
+  assert.equal(artifactSchemaGate.passed, true, JSON.stringify(artifactSchemaGate.issues));
+  if (process.env.REALDONE_RELEASE_ATTESTATION) {
+    const platform = process.platform === "win32" ? "windows" : process.platform === "darwin" ? "macos" : process.platform === "linux" ? "linux" : undefined;
+    if (!platform) throw new Error(`Unsupported release-attestation platform: ${process.platform}`);
+    const attestationFile = path.resolve(process.env.REALDONE_RELEASE_ATTESTATION);
+    await mkdir(path.dirname(attestationFile), { recursive: true });
+    await writeFile(attestationFile, `${JSON.stringify({
+      schemaVersion: "1.0",
+      generatedAt: new Date().toISOString(),
+      source: process.env.GITHUB_SHA ?? "local",
+      platform,
+      checks: {
+        typecheck: process.env.REALDONE_TYPECHECK_PASSED === "1",
+        unitTests: process.env.REALDONE_UNIT_TESTS_PASSED === "1",
+        browserIntegration: true,
+        cleanup: true,
+        environmentHealth: result.report.environment?.status === "VALID",
+        schemaCompatibility: artifactSchemaGate.passed,
+        artifactSecrets: artifactSecretGate.passed,
+      },
+      benchmark: {
+        truncated: result.metrics.benchmarkTruncated,
+        expectationCoverage: result.metrics.expectationCoverage,
+        verdictAccuracy: result.metrics.verdictAccuracy,
+        detectorAccuracy: result.metrics.detectorAccuracy,
+        falsePositiveRate: result.metrics.falsePositiveRate,
+        replaySuccessRate: result.metrics.reproductionSuccessRate ?? 0,
+        cleanupSuccess: result.metrics.cleanupSuccess ?? 0,
+        environmentValidity: result.metrics.environmentValidity,
+      },
+    }, null, 2)}\n`);
+  }
   delete process.env.RD_FIXTURE_SUPABASE_KEY;
   delete process.env.RD_FIXTURE_STRIPE_KEY;
   delete process.env.RD_FIXTURE_AWS_ACCESS_KEY;

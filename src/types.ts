@@ -384,6 +384,7 @@ export interface ExecutionEvidence {
   refreshScreenshot?: string;
   trace?: string;
   video?: string;
+  snapshotIndex?: string;
   executionError?: string;
   targetNotFound?: boolean;
   locatorResolution?: LocatorResolution;
@@ -447,6 +448,7 @@ export interface PublicScanOptions {
   mutationAllowed: boolean;
   deep?: boolean;
   trace?: boolean;
+  traceOnFailure?: boolean;
   video?: boolean;
   environmentTimeoutMs?: number;
   acceptEnvironmentRisk?: boolean;
@@ -513,6 +515,7 @@ export interface Reproduction {
     | "allowExternal"
     | "deep"
     | "trace"
+    | "traceOnFailure"
     | "video"
   >;
 }

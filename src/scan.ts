@@ -1,4 +1,5 @@
 import { randomBytes } from "node:crypto";
+import { rm } from "node:fs/promises";
 import path from "node:path";
 import { discoverSiteDetailed, normalizeCrawlUrl } from "./browser/discover.js";
 import { executeAction } from "./browser/executor.js";
@@ -126,6 +127,7 @@ export async function runScan(
           mutationAllowed,
           deep: Boolean(options.deep),
           trace: Boolean(options.trace),
+          traceOnFailure: Boolean(options.traceOnFailure),
           video: Boolean(options.video),
           environmentTimeoutMs: options.environmentTimeoutMs ?? Math.max(options.timeoutMs, 5_000),
           acceptEnvironmentRisk: false,
@@ -228,7 +230,12 @@ export async function runScan(
         continue;
       }
       const evidence = await executeAction(browser, action, options, screenshots);
-      findings.push(findingFromEvidence(findingId, action, evidence));
+      const finding = findingFromEvidence(findingId, action, evidence);
+      if (options.traceOnFailure && !options.trace && ["VERIFIED", "BROWSER_LOCAL", "SKIPPED"].includes(finding.verdict) && evidence.trace) {
+        await rm(evidence.trace, { force: true });
+        delete evidence.trace;
+      }
+      findings.push(finding);
     }
     const report: ScanReport = {
       schemaVersion: "1.0",
@@ -248,6 +255,7 @@ export async function runScan(
         mutationAllowed,
         deep: Boolean(options.deep),
         trace: Boolean(options.trace),
+        traceOnFailure: Boolean(options.traceOnFailure),
         video: Boolean(options.video),
         environmentTimeoutMs: options.environmentTimeoutMs ?? Math.max(options.timeoutMs, 5_000),
         acceptEnvironmentRisk: Boolean(options.acceptEnvironmentRisk),

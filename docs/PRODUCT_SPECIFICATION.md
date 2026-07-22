@@ -5,7 +5,7 @@
 
 **Tên sản phẩm:** RealDone
 **Loại sản phẩm:** Open-source behavioral verification platform
-**Hình thức:** CLI local-first, browser automation, web report, CI integration, coding-agent verification
+**Hình thức:** core local-first, full CLI, local MCP server, browser automation, web report, CI integration, coding-agent verification
 **Đối tượng:** Vibe coder, indie hacker, developer dùng coding agent, agency, đội QA và nền tảng AI app builder
 
 ---
@@ -113,8 +113,10 @@ Nó không có nghĩa:
 ## 4.1. Quick scan
 
 ```bash
-realdone scan http://localhost:3000
+realdone scan
 ```
+
+Khi không truyền URL, RealDone tự nhận project trong thư mục hiện tại, tìm lệnh chạy và port, khởi động ứng dụng, scan rồi dừng runtime. URL vẫn là tùy chọn cho ứng dụng đã chạy sẵn hoặc project không hỗ trợ managed discovery.
 
 RealDone tự:
 
@@ -142,6 +144,14 @@ External effects: Off
 ```
 
 Mục tiêu là tạo giá trị đầu tiên nhanh và nhẹ.
+
+Full safe audit dùng ngân sách lớn hơn và deep persistence nhưng vẫn không tự bật destructive/external effects:
+
+```bash
+realdone scan --full
+```
+
+Mọi mode phải giữ timeout hữu hạn. Khi hết page/action/duration budget, report phải ghi `truncated` thay vì tuyên bố đã kiểm tra toàn bộ.
 
 ---
 
@@ -239,34 +249,36 @@ Behavior baseline
 
 ## 4.6. Coding-agent verification
 
+Luồng tích hợp chính cho vibe coding là agent gọi RealDone trực tiếp qua MCP:
+
 ```bash
-realdone run codex \
-  --task "Add persistent customer deletion" \
-  --contracts .realdone/flows
+realdone mcp
 ```
 
 Quy trình:
 
 ```text
-Đọc task
-→ Capture baseline
-→ Chạy coding agent
-→ Build ứng dụng
-→ Phân tích file thay đổi
-→ Chọn flow liên quan
+Agent gọi baseline
+→ Agent sửa code
+→ Agent gọi verify_change
+→ RealDone chọn flow liên quan
 → Verify behavior
 → Phát hiện regression
-→ Sinh follow-up prompt
+→ Agent sửa và gọi lại RealDone
 ```
 
-Lời “completed” của coding agent không phải bằng chứng.
+CLI vẫn phải cung cấp toàn bộ chức năng không cần AI. Các adapter `codex`, `claude` và `generic` có thể giữ làm orchestration wrapper tùy chọn cho quy trình RealDone chủ động chạy agent. MCP và CLI phải dùng chung core; không được có detector hoặc verdict riêng cho từng cổng. Lời “completed” của coding agent không phải bằng chứng.
 
 ---
 
 # 5. Kiến trúc tổng thể
 
 ```text
-CLI
+Developer / CI ──→ Full CLI ──┐
+                              ├──→ RealDone Core
+Coding agents ───→ MCP ───────┘
+
+RealDone Core
 │
 ├── Project Discovery
 ├── Runtime Manager
@@ -290,13 +302,13 @@ CLI
 ├── Database Adapters
 ├── Provider Adapters
 ├── Role Verification
-├── Coding-Agent Adapters
+├── Optional Coding-Agent CLI Adapters
 ├── Benchmark Engine
 ├── Report Engine
 └── Plugin SDK
 ```
 
-Core không được phụ thuộc bắt buộc vào:
+CLI phải truy cập được toàn bộ capability của core. MCP cung cấp các tool an toàn cho agent và không thay thế hoặc thu hẹp CLI. Core không được phụ thuộc bắt buộc vào:
 
 * AI provider;
 * cloud account;
@@ -1384,7 +1396,7 @@ RealDone phải hỗ trợ:
 Giá trị đầu tiên phải đạt bằng:
 
 ```bash
-npx realdone scan http://localhost:3000
+npx realdone scan
 ```
 
 Không bắt buộc:

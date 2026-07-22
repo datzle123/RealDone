@@ -1,0 +1,123 @@
+{
+  "schemaVersion": "1.0",
+  "artifacts": [
+    {
+      "name": "scan.json",
+      "required": {
+        "schemaVersion": ["string"],
+        "scanId": ["string"],
+        "targetUrl": ["string"],
+        "startedAt": ["string"],
+        "finishedAt": ["string"],
+        "options": ["object"],
+        "summary": ["object"],
+        "pages": ["array"],
+        "findings": ["array"]
+      }
+    },
+    {
+      "name": "environment.json",
+      "required": {
+        "status": ["string"],
+        "checkedAt": ["string"],
+        "durationMs": ["number"],
+        "targetUrl": ["string"],
+        "assets": ["object"],
+        "findings": ["array"]
+      }
+    },
+    {
+      "name": "benchmark.json",
+      "required": {
+        "schemaVersion": ["string"],
+        "scanId": ["string"],
+        "expectationCoverage": ["number"],
+        "verdictAccuracy": ["number"],
+        "detectorAccuracy": ["number"],
+        "falsePositiveRate": ["number"],
+        "benchmarkTruncated": ["boolean"],
+        "environmentValidity": ["number"],
+        "cleanupSuccess": ["number", "null"],
+        "reproductionSuccessRate": ["number", "null"],
+        "evaluations": ["array"]
+      }
+    },
+    {
+      "name": "cleanup-ledger.json",
+      "required": {
+        "schemaVersion": ["string"],
+        "scanId": ["string"],
+        "targetUrl": ["string"],
+        "resources": ["array"]
+      }
+    },
+    {
+      "name": "verification.json",
+      "required": {
+        "schemaVersion": ["string"],
+        "verificationId": ["string"],
+        "contractId": ["string"],
+        "browser": ["string"],
+        "roles": ["array"],
+        "passed": ["boolean"],
+        "steps": ["array"]
+      }
+    },
+    {
+      "name": "baseline.json",
+      "required": {
+        "schemaVersion": ["string"],
+        "generatedAt": ["string"],
+        "contracts": ["array"]
+      }
+    },
+    {
+      "name": "regression.json",
+      "required": {
+        "schemaVersion": ["string"],
+        "runId": ["string"],
+        "passed": ["boolean"],
+        "selectedContracts": ["number"],
+        "regressions": ["number"],
+        "expectedChanges": ["number"],
+        "changes": ["array"]
+      }
+    },
+    {
+      "name": "replay.json",
+      "required": {
+        "schemaVersion": ["string"],
+        "findingId": ["string"],
+        "outcome": ["string"],
+        "sourceVerdict": ["string"],
+        "sourceDetectorCodes": ["array"],
+        "detail": ["string"]
+      }
+    },
+    {
+      "name": "agent-verification.json",
+      "required": {
+        "schemaVersion": ["string"],
+        "runId": ["string"],
+        "taskHash": ["string"],
+        "preset": ["string"],
+        "baselinePassed": ["boolean"],
+        "behaviorPassed": ["boolean"],
+        "passed": ["boolean"],
+        "changedFiles": ["array"],
+        "baselineTampered": ["boolean"],
+        "evidencePolicy": ["string"]
+      }
+    },
+    {
+      "name": "matrix.json",
+      "optional": true,
+      "required": {
+        "schemaVersion": ["string"],
+        "matrixId": ["string"],
+        "passed": ["boolean"],
+        "entries": ["array"]
+      }
+    }
+  ]
+}

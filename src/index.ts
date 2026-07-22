@@ -131,7 +131,39 @@ export { MongoSourceAdapter, createMongoAdapterFromFile } from "./adapters/mongo
 export { mongoAdapterConfigSchema, loadMongoAdapterConfig, type MongoAdapterConfig } from "./adapters/mongodb/config.js";
 export type * from "./adapters/types.js";
 export { detect, findingFromEvidence } from "./detectors/index.js";
+export { runManagedScan, type ManagedScanRequest, type RuntimeMode } from "./application/managed-scan.js";
+export { createRealDoneMcpServer, runRealDoneMcpServer, type RealDoneMcpDependencies, type RealDoneMcpServerOptions } from "./mcp/server.js";
+export {
+  scanArtifactSecrets,
+  type ArtifactSecret,
+  type ArtifactSecretFinding,
+  type ArtifactSecretFindingKind,
+  type ArtifactSecretScan,
+  type ArtifactSecretScanOptions,
+} from "./release/artifacts.js";
+export {
+  checkArtifactSchemaCompatibility,
+  type ArtifactSchemaCompatibility,
+  type ArtifactSchemaIssue,
+  type ArtifactValueType,
+} from "./release/schema.js";
+export {
+  evaluateReleaseGates,
+  mergeReleaseGateEvidence,
+  releaseGateEvidenceSchema,
+  releaseRunAttestationSchema,
+  releaseExternalCaseSchema,
+  type ReleaseExternalCase,
+  type ReleaseGateEvidence,
+  type ReleaseGateReport,
+  type ReleaseGateResult,
+  type ReleaseGateThresholds,
+  type ReleasePlatform,
+  type ReleaseRunAttestation,
+} from "./release/gates.js";
 export { classifyAction } from "./core/classify.js";
+export { mapWithConcurrency } from "./core/workers.js";
+export { writeDeduplicatedSnapshots, type SnapshotIndex, type SnapshotReference } from "./report/snapshots.js";
 export { loadActionPolicy, applyActionPolicy } from "./core/policy.js";
 export { validateTarget, isMutationHostAllowed } from "./core/safety.js";
 export {

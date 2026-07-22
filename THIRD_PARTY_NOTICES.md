@@ -5,8 +5,10 @@ RealDone is distributed under the MIT License. It uses third-party packages thro
 | Component | Purpose | License | Source |
 | --- | --- | --- | --- |
 | better-sqlite3 | Optional zero-config SQLite source-of-truth adapter | MIT | https://github.com/WiseLibs/better-sqlite3 |
+| Model Context Protocol TypeScript SDK | Local stdio tools for coding-agent integrations | MIT | https://github.com/modelcontextprotocol/typescript-sdk |
 | Commander.js | CLI parsing and help | MIT | https://github.com/tj/commander.js |
 | cross-spawn | Cross-platform shell-free agent/build process spawning | MIT | https://github.com/moxystudio/node-cross-spawn |
+| fflate | Bounded ZIP inspection for artifact secret scanning | MIT | https://github.com/101arrowz/fflate |
 | jsondiffpatch | Structured behavior-manifest delta | MIT | https://github.com/benjamine/jsondiffpatch |
 | MongoDB Node.js driver | Optional MongoDB source-of-truth adapter | Apache-2.0 | https://github.com/mongodb/node-mongodb-native |
 | node-postgres (`pg`) | Optional PostgreSQL source-of-truth adapter | MIT | https://github.com/brianc/node-postgres |

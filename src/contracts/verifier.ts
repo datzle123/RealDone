@@ -1,5 +1,5 @@
 import { randomBytes } from "node:crypto";
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import type { Browser, BrowserContext, Locator, Page, Video } from "playwright";
 import { createPostgresAdapterFromFile } from "../adapters/postgres/index.js";
@@ -44,7 +44,9 @@ export interface VerifyContractOptions {
   performanceBudgetFile?: string;
   deep?: boolean;
   trace?: boolean;
+  traceOnFailure?: boolean;
   video?: boolean;
+  workers?: number;
 }
 
 export interface VerifyContractResult {
@@ -473,7 +475,7 @@ function createRolePages(
       });
       const page = await context.newPage();
       const name = fresh ? `${role}-fresh-${++freshSequence}` : role;
-      if (options.trace) await context.tracing.start({ screenshots: true, snapshots: true, sources: false });
+      if (options.trace || options.traceOnFailure) await context.tracing.start({ screenshots: true, snapshots: true, sources: false });
       const entry = { context, page, name, video: page.video() };
       contexts.push(entry);
       return entry;
@@ -494,7 +496,7 @@ function createRolePages(
       const traces: string[] = [];
       const videos: string[] = [];
       for (const entry of contexts) {
-        if (options.trace) {
+        if (options.trace || options.traceOnFailure) {
           const tracePath = path.join(outputDirectory, "traces", `${entry.name}.zip`);
           const saved = await entry.context.tracing.stop({ path: tracePath }).then(() => true).catch(() => false);
           if (saved) traces.push(portable(tracePath));
@@ -525,7 +527,7 @@ export async function verifyContract(
   const outputDirectory = path.resolve(options.outputRoot, id);
   await Promise.all([
     mkdir(outputDirectory, { recursive: true }),
-    ...(options.trace ? [mkdir(path.join(outputDirectory, "traces"), { recursive: true })] : []),
+    ...(options.trace || options.traceOnFailure ? [mkdir(path.join(outputDirectory, "traces"), { recursive: true })] : []),
     ...(options.video ? [mkdir(path.join(outputDirectory, "videos"), { recursive: true })] : []),
   ]);
   const sourceKinds = new Set(contract.steps.flatMap((step) => step.expected.flatMap((expectation) => expectation.type === "source" ? [expectation.adapter] : [])));
@@ -696,6 +698,10 @@ export async function verifyContract(
       })
     : undefined;
   verification.passed = results.every((step) => step.status === "passed") && (performance?.passed ?? true);
+  if (options.traceOnFailure && !options.trace && verification.passed && artifacts.traces.length > 0) {
+    await Promise.all(artifacts.traces.map((trace) => rm(path.join(outputDirectory, trace), { force: true })));
+    artifacts.traces = [];
+  }
   if (performance) verification.performance = performance;
   if (artifacts.traces.length > 0 || artifacts.videos.length > 0) verification.artifacts = artifacts;
   await Promise.all([

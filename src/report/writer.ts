@@ -3,6 +3,7 @@ import path from "node:path";
 import { createCleanupLedger, writeCleanupLedger } from "../cleanup/ledger.js";
 import type { Reproduction, ScanReport } from "../types.js";
 import { renderHtml } from "./html.js";
+import { writeDeduplicatedSnapshots } from "./snapshots.js";
 
 function portablePath(reportDirectory: string, value?: string): string | undefined {
   if (!value) return undefined;
@@ -59,6 +60,7 @@ export async function writeReport(
         allowExternal: report.options.allowExternal,
         deep: Boolean(report.options.deep),
         trace: Boolean(report.options.trace),
+        traceOnFailure: Boolean(report.options.traceOnFailure),
         video: Boolean(report.options.video),
       },
     };
@@ -74,6 +76,8 @@ export async function writeReport(
       afterAppRestart: finding.evidence.afterAppRestart,
       persistenceScope: finding.evidence.persistenceScope,
     };
+    await writeDeduplicatedSnapshots(reportDirectory, finding.id, snapshots);
+    finding.evidence.snapshotIndex = `snapshots/${finding.id}.index.json`;
     await Promise.all([
       writeFile(path.join(reportDirectory, "reproductions", `${finding.id}.json`), reproductionText),
       writeFile(path.join(reportDirectory, "contracts", `${finding.id}.json`), reproductionText),

@@ -4,6 +4,7 @@ import path from "node:path";
 import { z } from "zod";
 import { loadBehaviorContract, type BehaviorContract, type ContractVerification } from "../contracts/schema.js";
 import { verifyContract, type VerifyContractOptions } from "../contracts/verifier.js";
+import { mapWithConcurrency } from "../core/workers.js";
 
 export interface BaselineStep {
   id: string;
@@ -152,8 +153,7 @@ export async function buildBehaviorManifest(
   options: BuildManifestOptions,
 ): Promise<BehaviorManifest> {
   const manifestDirectory = path.dirname(path.resolve(options.manifestFile));
-  const contracts: ManifestContract[] = [];
-  for (const file of contractFiles) {
+  const contracts = await mapWithConcurrency(contractFiles, options.verifyOptions.workers ?? 1, async (file): Promise<ManifestContract> => {
     const contract = await loadBehaviorContract(file);
     const verification = options.verify
       ? await verifyContract(file, {
@@ -161,7 +161,7 @@ export async function buildBehaviorManifest(
           outputRoot: options.verificationOutputRoot ?? path.join(manifestDirectory, "baseline-runs"),
         })
       : undefined;
-    contracts.push({
+    return {
       id: contract.id,
       name: contract.name,
       file: path.relative(manifestDirectory, file).split(path.sep).join("/"),
@@ -172,8 +172,8 @@ export async function buildBehaviorManifest(
       sourceFiles: contract.scope?.files ?? [],
       stepCount: contract.steps.length,
       ...(verification ? { baseline: baselineFor(verification.verification) } : {}),
-    });
-  }
+    };
+  });
   return { schemaVersion: "1.0", generatedAt: new Date().toISOString(), contracts };
 }
 

@@ -110,7 +110,7 @@ Contributes evidence to: §4.6, §27–32. This is the only phase gate allowed t
 
 Gate:
 
-- Codex, Claude and generic adapters are validated on real baseline → change → rebuild → affected-flow → follow-up cycles.
+- MCP tools are validated from Codex and Claude on real baseline → change → affected-flow → follow-up cycles; generic/Codex/Claude CLI adapters remain optional orchestration fallbacks.
 - External case studies cover backend CRUD, PostgreSQL, Supabase, auth, upload, export, multi-role, AI-generated apps and multi-step flows.
 - Incremental selection, snapshot deduplication, trace-on-failure, bounded workers and timeout behavior meet published budgets.
 - All 15 release gates in §29 are executable and green on Windows, macOS and Linux.

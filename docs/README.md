@@ -11,6 +11,7 @@ RealDone is a local-first runtime behavioral verifier. Start with the [project R
 - [PostgreSQL](POSTGRESQL.md) — production-like PostgreSQL configuration and Level 6 source-of-truth checks.
 - [Provider adapters](PROVIDERS.md) — maintained Stripe, email, storage, OAuth, and custom provider checks.
 - [Coding-agent verification](AGENT_VERIFICATION.md) — independent baseline → agent → rebuild → verify orchestration.
+- [MCP integration](MCP.md) — let Codex, Claude Code, and other agents call the shared RealDone core directly.
 - [Advanced verification](ADVANCED.md) — roles, Level 7 evidence, browser matrices, and provider contracts.
 - [Plugin SDK](PLUGIN_SDK.md) — provider/source extension manifests, runtime APIs, permissions, and worker limits.
 - [Performance](PERFORMANCE.md) — enforceable budgets and benchmark dashboard.

@@ -3,6 +3,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { verifyContract, type VerifyContractOptions } from "../contracts/verifier.js";
 import type { BrowserName } from "./runtime.js";
+import { mapWithConcurrency } from "../core/workers.js";
 
 export interface BrowserMatrixEntry {
   browser: BrowserName;
@@ -60,9 +61,9 @@ export async function runBrowserMatrix(
   const outputDirectory = path.resolve(options.outputRoot, id);
   await mkdir(outputDirectory, { recursive: true });
   const startedAt = new Date().toISOString();
-  const entries: BrowserMatrixEntry[] = [];
   const { executablePath, ...baseOptions } = options;
-  for (const browser of [...new Set(browsers)]) {
+  const selectedBrowsers = [...new Set(browsers)];
+  const entries = await mapWithConcurrency(selectedBrowsers, options.workers ?? 1, async (browser): Promise<BrowserMatrixEntry> => {
     const started = Date.now();
     try {
       const result = await verifyContract(contractFile, {
@@ -71,22 +72,22 @@ export async function runBrowserMatrix(
         browserName: browser,
         ...(browser === "chromium" && executablePath ? { executablePath } : {}),
       });
-      entries.push({
+      return {
         browser,
         passed: result.verification.passed,
         durationMs: Date.now() - started,
         verificationId: result.verification.verificationId,
         reportDirectory: path.relative(outputDirectory, result.outputDirectory).split(path.sep).join("/"),
-      });
+      };
     } catch (error) {
-      entries.push({
+      return {
         browser,
         passed: false,
         durationMs: Date.now() - started,
         error: error instanceof Error ? error.message : String(error),
-      });
+      };
     }
-  }
+  });
   const report: BrowserMatrixReport = {
     schemaVersion: "1.0",
     matrixId: id,

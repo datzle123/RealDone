@@ -16,9 +16,10 @@ import { recordFlow } from "./record/recorder.js";
 import { runScan, type ScanProgress } from "./scan.js";
 import { verifyContract } from "./contracts/verifier.js";
 import { exportPlaywrightTest } from "./export/playwright.js";
-import { discoverProject, writeProjectProfile, type ProjectProfile } from "./project/discovery.js";
-import { RuntimeManager, runBuildCommand } from "./runtime/manager.js";
+import { discoverProject, writeProjectProfile } from "./project/discovery.js";
+import { runManagedScan, type RuntimeMode } from "./application/managed-scan.js";
 import type { ScanOptions } from "./types.js";
+import { REALDONE_VERSION } from "./version.js";
 
 function positiveInteger(value: string): number {
   const parsed = Number.parseInt(value, 10);
@@ -29,6 +30,12 @@ function positiveInteger(value: string): number {
 function nonNegativeInteger(value: string): number {
   const parsed = Number.parseInt(value, 10);
   if (!Number.isFinite(parsed) || parsed < 0) throw new Error(`Expected a non-negative integer, received: ${value}`);
+  return parsed;
+}
+
+function boundedWorkers(value: string): number {
+  const parsed = positiveInteger(value);
+  if (parsed > 16) throw new Error(`Worker count must be between 1 and 16; received: ${value}`);
   return parsed;
 }
 
@@ -45,17 +52,9 @@ function collectBrowser(value: string, previous: BrowserName[]): BrowserName[] {
   return [...previous, browserName(value)];
 }
 
-type RuntimeMode = "development" | "production" | "docker";
-
 function runtimeMode(value: string): RuntimeMode {
   if (value === "development" || value === "production" || value === "docker") return value;
   throw new Error(`Expected development, production, or docker; received: ${value}`);
-}
-
-function commandForMode(profile: ProjectProfile, mode: RuntimeMode) {
-  if (mode === "development") return profile.commands.development;
-  if (mode === "production") return profile.commands.production;
-  return profile.commands.docker;
 }
 
 function roleStates(values: string[], baseDirectory = process.cwd()): Record<string, string> {
@@ -103,8 +102,17 @@ const program = new Command();
 program
   .name("realdone")
   .description("Behavioral verification for AI-built web applications")
-  .version("1.2.0")
+  .version(REALDONE_VERSION)
   .showHelpAfterError();
+
+program
+  .command("mcp")
+  .description("Run the local RealDone MCP server for coding agents")
+  .option("--project <directory>", "project root exposed to the MCP server", ".")
+  .action(async (values: Record<string, unknown>) => {
+    const { runRealDoneMcpServer } = await import("./mcp/server.js");
+    await runRealDoneMcpServer({ projectRoot: path.resolve(String(values.project)) });
+  });
 
 program
   .command("init")
@@ -126,9 +134,10 @@ program
 program
   .command("scan")
   .description("Discover safe visible actions, execute them, and verify their effects")
-  .argument("[url]", "application URL; optional with --manage-runtime")
+  .argument("[url]", "application URL; omit it to discover and run the current project")
   .option("--max-pages <number>", "maximum pages to discover", positiveInteger)
   .option("--max-actions <number>", "maximum actions to execute", positiveInteger)
+  .option("--full", "use large safe-audit budgets and deep persistence checks", false)
   .option("--timeout <milliseconds>", "navigation and action timeout", positiveInteger, 10_000)
   .option("--settle <milliseconds>", "settle time after actions", positiveInteger, 800)
   .option("--max-duration <milliseconds>", "global scan time budget", positiveInteger)
@@ -151,73 +160,45 @@ program
   .option("--policy <file>", "JSON action policy and budget file")
   .option("--deep", "confirm mutation persistence in a fresh browser context", false)
   .option("--trace", "capture a Playwright trace for every executed action", false)
+  .option("--trace-on-failure", "retain Playwright traces only for non-passing findings", false)
   .option("--video", "capture browser video for every executed action", false)
   .option("--json", "print the machine-readable summary", false)
   .action(async (url: string | undefined, values: Record<string, unknown>) => {
     const policy = values.policy ? await loadActionPolicy(path.resolve(String(values.policy))) : undefined;
-    const projectRoot = values.project || values.manageRuntime ? path.resolve(String(values.project ?? ".")) : undefined;
-    const profile = projectRoot ? await discoverProject(projectRoot) : undefined;
-    const targetUrl = url ?? profile?.localUrl;
-    if (!targetUrl) throw new Error("A target URL is required unless --project/--manage-runtime can discover one.");
-    const options: ScanOptions = {
-      targetUrl,
+    const full = Boolean(values.full);
+    const options: Omit<ScanOptions, "targetUrl" | "healthEndpoint" | "restartTarget"> = {
       outputRoot: path.resolve(String(values.output)),
       headed: Boolean(values.headed),
       allowHosts: [...new Set([...(values.allowHost as string[]), ...(policy?.allowHosts ?? [])])],
       allowDestructive: Boolean(values.allowDestructive),
       allowExternal: Boolean(values.allowExternal),
       mutationAllowed: false,
-      maxPages: Number(values.maxPages ?? policy?.budgets?.maxPages ?? 8),
-      maxActions: Number(values.maxActions ?? policy?.budgets?.maxActions ?? 24),
+      maxPages: Number(values.maxPages ?? policy?.budgets?.maxPages ?? (full ? 100 : 8)),
+      maxActions: Number(values.maxActions ?? policy?.budgets?.maxActions ?? (full ? 500 : 24)),
       timeoutMs: Number(values.timeout),
       settleMs: Number(values.settle),
-      maxDurationMs: Number(values.maxDuration ?? policy?.budgets?.maxDurationMs ?? 120_000),
+      maxDurationMs: Number(values.maxDuration ?? policy?.budgets?.maxDurationMs ?? (full ? 1_800_000 : 120_000)),
       maxRetries: Number(values.retries ?? policy?.budgets?.maxRetries ?? 2),
-      deep: Boolean(values.deep),
+      deep: Boolean(values.deep) || full,
       trace: Boolean(values.trace),
+      traceOnFailure: Boolean(values.traceOnFailure) || full,
       video: Boolean(values.video),
       environmentTimeoutMs: Number(values.environmentTimeout),
       acceptEnvironmentRisk: Boolean(values.acceptEnvironmentRisk),
       allowIframes: Boolean(values.allowIframe),
-      ...(values.healthEndpoint || profile?.healthEndpoint
-        ? { healthEndpoint: String(values.healthEndpoint ?? profile?.healthEndpoint) }
-        : {}),
       ...(policy ? { policy } : {}),
       ...(values.storageState ? { storageStatePath: path.resolve(String(values.storageState)) } : {}),
       ...(values.browserPath ? { executablePath: path.resolve(String(values.browserPath)) } : {}),
     };
-    let manager: RuntimeManager | undefined;
-    if (values.manageRuntime) {
-      if (!profile || !projectRoot) throw new Error("--manage-runtime requires a discoverable project.");
-      const mode = values.runtimeMode as RuntimeMode;
-      const command = commandForMode(profile, mode);
-      if (!command) throw new Error(`No ${mode} runtime command was discovered in ${projectRoot}.`);
-      if (mode === "production" && profile.commands.build) {
-        progressLine({ stage: "runtime", message: "Building target project for production" });
-        await runBuildCommand(profile.commands.build, projectRoot);
-      }
-      manager = new RuntimeManager({
-        cwd: projectRoot,
-        command,
-        healthUrl: new URL(String(values.healthEndpoint ?? profile.healthEndpoint), targetUrl).toString(),
-        healthTimeoutMs: Number(values.environmentTimeout),
-        restartLimit: Number(values.runtimeRestarts),
-        logFile: path.join(projectRoot, ".realdone", "runtime.log"),
-        ...(mode === "docker"
-          ? { stopCommand: { executable: "docker", args: ["compose", "down"], source: "managed docker cleanup" } }
-          : {}),
-      });
-      progressLine({ stage: "runtime", message: `Starting managed ${mode} runtime` });
-      await manager.start();
-      if (options.deep) {
-        options.restartTarget = async () => {
-          await manager?.restart();
-        };
-      }
-    }
-    const result = await runScan(options, progressLine).finally(async () => {
-      await manager?.stop();
-    });
+    const result = await runManagedScan({
+      ...(url ? { url } : {}),
+      ...(values.project ? { projectDirectory: path.resolve(String(values.project)) } : {}),
+      manageRuntime: Boolean(values.manageRuntime),
+      runtimeMode: values.runtimeMode as RuntimeMode,
+      runtimeRestarts: Number(values.runtimeRestarts),
+      ...(values.healthEndpoint ? { healthEndpoint: String(values.healthEndpoint) } : {}),
+      scanOptions: options,
+    }, progressLine);
     if (values.json) process.stdout.write(`${JSON.stringify(result.report.summary, null, 2)}\n`);
     else printSummary(result.reportDirectory, result.report);
     process.exitCode = result.exitCode;
@@ -323,6 +304,7 @@ program
   .option("--performance-budget <file>", "verification performance budget JSON")
   .option("--deep", "require persistence expectations to pass in a fresh browser context", false)
   .option("--trace", "capture Playwright traces for verification contexts", false)
+  .option("--trace-on-failure", "retain traces only when verification fails", false)
   .option("--video", "capture browser video for verification contexts", false)
   .action(async (contract: string, values: Record<string, unknown>) => {
     const result = await verifyContract(path.resolve(contract), {
@@ -333,6 +315,7 @@ program
       maxRetries: Number(values.retries),
       deep: Boolean(values.deep),
       trace: Boolean(values.trace),
+      traceOnFailure: Boolean(values.traceOnFailure),
       video: Boolean(values.video),
       continueOnFailure: Boolean(values.continue),
       allowDestructive: Boolean(values.allowDestructive),
@@ -377,6 +360,7 @@ program
   .option("--max-replays <number>", "maximum reproductions to verify", positiveInteger, 3)
   .option("--deep", "confirm mutation persistence in a fresh browser context", false)
   .option("--trace", "capture a Playwright trace for every executed action", false)
+  .option("--trace-on-failure", "retain traces only for non-passing findings", false)
   .option("--video", "capture browser video for every executed action", false)
   .action(async (url: string, values: Record<string, unknown>) => {
     const result = await runBenchmark(
@@ -400,6 +384,7 @@ program
           maxRetries: Number(values.retries),
           deep: Boolean(values.deep),
           trace: Boolean(values.trace),
+          traceOnFailure: Boolean(values.traceOnFailure),
           video: Boolean(values.video),
           ...(values.storageState ? { storageStatePath: path.resolve(String(values.storageState)) } : {}),
           ...(values.browserPath ? { executablePath: path.resolve(String(values.browserPath)) } : {}),
@@ -436,6 +421,7 @@ program
   .option("--timeout <milliseconds>", "step timeout", positiveInteger, 10_000)
   .option("--settle <milliseconds>", "settle delay", positiveInteger, 500)
   .option("--retries <number>", "semantic locator retries", nonNegativeInteger, 2)
+  .option("--workers <number>", "bounded contract verification workers (1-16)", boundedWorkers, 1)
   .option("--allow-destructive", "allow recorded destructive actions", false)
   .option("--allow-external", "allow recorded external effects", false)
   .option("--allow-host <hostname>", "allow recorded mutations on staging", collect, [])
@@ -453,6 +439,7 @@ program
   .option("--performance-budget <file>", "verification performance budget JSON")
   .option("--deep", "require persistence expectations to pass in a fresh browser context", false)
   .option("--trace", "capture Playwright traces for verification contexts", false)
+  .option("--trace-on-failure", "retain traces only when baseline verification fails", false)
   .option("--video", "capture browser video for verification contexts", false)
   .action(async (contracts: string[], values: Record<string, unknown>) => {
     const output = path.resolve(String(values.out));
@@ -465,8 +452,10 @@ program
         timeoutMs: Number(values.timeout),
         settleMs: Number(values.settle),
         maxRetries: Number(values.retries),
+        workers: Number(values.workers),
         deep: Boolean(values.deep),
         trace: Boolean(values.trace),
+        traceOnFailure: Boolean(values.traceOnFailure),
         video: Boolean(values.video),
         continueOnFailure: false,
         allowDestructive: Boolean(values.allowDestructive),
@@ -503,6 +492,7 @@ program
   .option("--timeout <milliseconds>", "step timeout", positiveInteger, 10_000)
   .option("--settle <milliseconds>", "settle delay", positiveInteger, 500)
   .option("--retries <number>", "semantic locator retries", nonNegativeInteger, 2)
+  .option("--workers <number>", "bounded affected-contract workers (1-16)", boundedWorkers, 1)
   .option("--allow-destructive", "allow recorded destructive actions", false)
   .option("--allow-external", "allow recorded external effects", false)
   .option("--allow-host <hostname>", "allow recorded mutations on staging", collect, [])
@@ -520,6 +510,7 @@ program
   .option("--performance-budget <file>", "verification performance budget JSON")
   .option("--deep", "require persistence expectations to pass in a fresh browser context", false)
   .option("--trace", "capture Playwright traces for verification contexts", false)
+  .option("--trace-on-failure", "retain traces only when regression verification fails", false)
   .option("--video", "capture browser video for verification contexts", false)
   .action(async (values: Record<string, unknown>) => {
     const result = await runRegressionGate({
@@ -533,8 +524,10 @@ program
         timeoutMs: Number(values.timeout),
         settleMs: Number(values.settle),
         maxRetries: Number(values.retries),
+        workers: Number(values.workers),
         deep: Boolean(values.deep),
         trace: Boolean(values.trace),
+        traceOnFailure: Boolean(values.traceOnFailure),
         video: Boolean(values.video),
         continueOnFailure: false,
         allowDestructive: Boolean(values.allowDestructive),
@@ -568,6 +561,7 @@ program
   .option("--timeout <milliseconds>", "step timeout", positiveInteger, 10_000)
   .option("--settle <milliseconds>", "settle delay", positiveInteger, 500)
   .option("--retries <number>", "semantic locator retries", nonNegativeInteger, 2)
+  .option("--workers <number>", "bounded browser workers (1-16)", boundedWorkers, 1)
   .option("--continue", "continue after a failed step", false)
   .option("--allow-destructive", "allow recorded destructive actions", false)
   .option("--allow-external", "allow recorded external effects", false)
@@ -585,6 +579,7 @@ program
   .option("--performance-budget <file>", "verification performance budget JSON")
   .option("--deep", "require persistence expectations to pass in a fresh browser context", false)
   .option("--trace", "capture Playwright traces for verification contexts", false)
+  .option("--trace-on-failure", "retain traces only when matrix verification fails", false)
   .option("--video", "capture browser video for verification contexts", false)
   .action(async (contract: string, values: Record<string, unknown>) => {
     const browsers = values.browser as BrowserName[];
@@ -597,8 +592,10 @@ program
         timeoutMs: Number(values.timeout),
         settleMs: Number(values.settle),
         maxRetries: Number(values.retries),
+        workers: Number(values.workers),
         deep: Boolean(values.deep),
         trace: Boolean(values.trace),
+        traceOnFailure: Boolean(values.traceOnFailure),
         video: Boolean(values.video),
         continueOnFailure: Boolean(values.continue),
         allowDestructive: Boolean(values.allowDestructive),
@@ -667,6 +664,7 @@ program
   .option("--timeout <milliseconds>", "behavior step timeout", positiveInteger, 10_000)
   .option("--settle <milliseconds>", "behavior settle delay", positiveInteger, 500)
   .option("--retries <number>", "semantic locator retries", nonNegativeInteger, 2)
+  .option("--workers <number>", "bounded post-agent verification workers (1-16)", boundedWorkers, 1)
   .option("--allow-destructive", "allow recorded destructive actions", false)
   .option("--allow-external", "allow recorded external effects", false)
   .option("--allow-host <hostname>", "allow recorded mutations on staging", collect, [])
@@ -684,6 +682,7 @@ program
   .option("--performance-budget <file>", "verification performance budget JSON")
   .option("--deep", "require persistence expectations to pass in a fresh browser context", false)
   .option("--trace", "capture Playwright traces for verification contexts", false)
+  .option("--trace-on-failure", "retain traces only when post-agent verification fails", false)
   .option("--video", "capture browser video for verification contexts", false)
   .action(async (presetValue: string, values: Record<string, unknown>) => {
     const workingDirectory = path.resolve(String(values.workingDirectory));
@@ -715,8 +714,10 @@ program
         timeoutMs: Number(values.timeout),
         settleMs: Number(values.settle),
         maxRetries: Number(values.retries),
+        workers: Number(values.workers),
         deep: Boolean(values.deep),
         trace: Boolean(values.trace),
+        traceOnFailure: Boolean(values.traceOnFailure),
         video: Boolean(values.video),
         continueOnFailure: false,
         allowDestructive: Boolean(values.allowDestructive),

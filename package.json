@@ -19,16 +19,19 @@
     "dist",
     "docs",
     "examples",
+    "schemas",
     "README.md",
     "LICENSE",
     "THIRD_PARTY_NOTICES.md"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "tsc -p tsconfig.build.json && node scripts/bundle-mcp.mjs",
     "typecheck": "tsc --noEmit",
     "test": "node scripts/run-tests.mjs",
     "smoke": "pnpm build && node test/smoke.mjs",
     "smoke:package": "node scripts/package-smoke.mjs",
+    "release:merge": "pnpm build && node scripts/merge-release-evidence.mjs",
+    "release:gates": "pnpm build && node scripts/evaluate-release-gates.mjs",
     "check": "pnpm typecheck && pnpm test && pnpm build",
     "fixture": "node benchmarks/fixture-app/server.mjs",
     "capture-report": "node scripts/capture-report.mjs",
@@ -59,17 +62,20 @@
   "dependencies": {
     "commander": "^14.0.2",
     "cross-spawn": "7.0.6",
+    "fflate": "0.8.2",
     "jsondiffpatch": "0.7.6",
     "playwright": "^1.61.1",
     "rrweb": "2.1.0",
     "zod": "4.4.3"
   },
   "devDependencies": {
+    "@modelcontextprotocol/sdk": "1.29.0",
     "@playwright/test": "^1.61.1",
     "@types/better-sqlite3": "7.6.13",
     "@types/cross-spawn": "6.0.6",
     "@types/node": "^24.10.0",
     "@types/pg": "8.20.0",
+    "esbuild": "0.28.1",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3"
   },

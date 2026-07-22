@@ -3,6 +3,8 @@ import { access, mkdtemp, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { spawn } from "node:child_process";
+import { Client } from "@modelcontextprotocol/sdk/client/index.js";
+import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 
 const tarballArgument = process.argv[2];
 if (!tarballArgument) {
@@ -60,6 +62,7 @@ try {
     "docs/COMPATIBILITY.md",
     "docs/CONTRACTS.md",
     "docs/DATABASE_ADAPTERS.md",
+    "docs/MCP.md",
     "docs/PERFORMANCE.md",
     "docs/PLUGIN_SDK.md",
     "docs/POSTGRESQL.md",
@@ -71,6 +74,7 @@ try {
     "docs/THREAT_MODEL.md",
     "docs/VERIFICATION_MATRIX.md",
     "docs/assets/report-preview.png",
+    "schemas/artifacts-v1.json",
     "examples/plugins/prisma-source/index.mjs",
     "examples/plugins/prisma-source/realdone.plugin.json",
     "examples/plugins/storage-fixture/index.mjs",
@@ -90,11 +94,22 @@ try {
   await run(process.execPath, [
     "--input-type=module",
     "--eval",
-    "import { runScan, recordFlow, verifyContract, definePlugin, inspectEnvironment, discoverProject, RuntimeManager, SqliteSourceAdapter, SupabaseSourceAdapter, FirebaseSourceAdapter, MongoSourceAdapter, BuiltinProviderHost, PluginHost } from 'realdone'; if (![runScan, recordFlow, verifyContract, definePlugin, inspectEnvironment, discoverProject, RuntimeManager, SqliteSourceAdapter, SupabaseSourceAdapter, FirebaseSourceAdapter, MongoSourceAdapter, BuiltinProviderHost, PluginHost].every(value => typeof value === 'function')) throw new Error('Public SDK export missing');",
+    "import { runScan, runManagedScan, recordFlow, verifyContract, definePlugin, inspectEnvironment, discoverProject, RuntimeManager, SqliteSourceAdapter, SupabaseSourceAdapter, FirebaseSourceAdapter, MongoSourceAdapter, BuiltinProviderHost, PluginHost, createRealDoneMcpServer, scanArtifactSecrets, checkArtifactSchemaCompatibility, evaluateReleaseGates, mergeReleaseGateEvidence } from 'realdone'; if (![runScan, runManagedScan, recordFlow, verifyContract, definePlugin, inspectEnvironment, discoverProject, RuntimeManager, SqliteSourceAdapter, SupabaseSourceAdapter, FirebaseSourceAdapter, MongoSourceAdapter, BuiltinProviderHost, PluginHost, createRealDoneMcpServer, scanArtifactSecrets, checkArtifactSchemaCompatibility, evaluateReleaseGates, mergeReleaseGateEvidence].every(value => typeof value === 'function')) throw new Error('Public SDK export missing');",
   ]);
 
   const cli = await run(process.execPath, [path.join(packageRoot, "dist", "cli.js"), "--version"]);
   assert.equal(cli.stdout.trim(), packageJson.version);
+  const mcpClient = new Client({ name: "realdone-package-smoke", version: "1.0.0" });
+  const mcpTransport = new StdioClientTransport({
+    command: process.execPath,
+    args: [path.join(packageRoot, "dist", "cli.js"), "mcp", "--project", directory],
+    cwd: directory,
+    stderr: "pipe",
+  });
+  await mcpClient.connect(mcpTransport);
+  const mcpTools = await mcpClient.listTools();
+  assert.deepEqual(mcpTools.tools.map((tool) => tool.name).sort(), ["baseline", "get_report", "record", "replay", "scan", "verify", "verify_change"]);
+  await mcpClient.close();
   console.log(`Package smoke passed: realdone@${packageJson.version}`);
 } finally {
   await rm(directory, { recursive: true, force: true });

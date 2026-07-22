@@ -166,7 +166,7 @@ export async function executeAction(
   const videoDirectory = path.join(reportDirectory, "videos");
   await Promise.all([
     mkdir(screenshotDirectory, { recursive: true }),
-    ...(options.trace ? [mkdir(traceDirectory, { recursive: true })] : []),
+    ...(options.trace || options.traceOnFailure ? [mkdir(traceDirectory, { recursive: true })] : []),
     ...(options.video ? [mkdir(videoDirectory, { recursive: true })] : []),
   ]);
   const context = await browser.newContext(
@@ -177,7 +177,7 @@ export async function executeAction(
   );
   const page = await context.newPage();
   const video = page.video();
-  if (options.trace) await context.tracing.start({ screenshots: true, snapshots: true, sources: false });
+  if (options.trace || options.traceOnFailure) await context.tracing.start({ screenshots: true, snapshots: true, sources: false });
   let attached: ReturnType<typeof attachEvidence> | undefined;
 
   try {
@@ -324,7 +324,7 @@ export async function executeAction(
     await attached?.flush();
     attached?.detach();
     evidence.durationMs = Date.now() - startedAt;
-    if (options.trace) {
+    if (options.trace || options.traceOnFailure) {
       const tracePath = path.join(traceDirectory, `${action.id}.zip`);
       const saved = await context.tracing.stop({ path: tracePath }).then(() => true).catch(() => false);
       if (saved) evidence.trace = tracePath;

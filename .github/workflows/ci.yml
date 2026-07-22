@@ -52,7 +52,17 @@ jobs:
       - run: pnpm check
       - run: pnpm audit --audit-level high
       - run: pnpm exec playwright install --with-deps chromium firefox webkit
-      - run: pnpm smoke
+      - name: Run browser smoke and write release attestation
+        run: pnpm smoke
+        env:
+          REALDONE_TYPECHECK_PASSED: "1"
+          REALDONE_UNIT_TESTS_PASSED: "1"
+          REALDONE_RELEASE_ATTESTATION: .realdone/release-attestation.json
+      - uses: actions/upload-artifact@v7
+        with:
+          name: release-attestation-linux-primary
+          path: .realdone/release-attestation.json
+          retention-days: 14
       - run: pnpm pack --pack-destination .
       - run: pnpm smoke:package ./realdone-*.tgz
 
@@ -86,4 +96,14 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm check
       - run: pnpm exec playwright install chromium
-      - run: pnpm smoke
+      - name: Run browser smoke and write release attestation
+        run: pnpm smoke
+        env:
+          REALDONE_TYPECHECK_PASSED: "1"
+          REALDONE_UNIT_TESTS_PASSED: "1"
+          REALDONE_RELEASE_ATTESTATION: .realdone/release-attestation.json
+      - uses: actions/upload-artifact@v7
+        with:
+          name: release-attestation-${{ runner.os }}-node-${{ matrix.node }}
+          path: .realdone/release-attestation.json
+          retention-days: 14

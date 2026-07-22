@@ -1,0 +1,91 @@
+import assert from "node:assert/strict";
+import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import path from "node:path";
+import test from "node:test";
+import { Client } from "@modelcontextprotocol/sdk/client/index.js";
+import { InMemoryTransport } from "@modelcontextprotocol/sdk/inMemory.js";
+import { createRealDoneMcpServer } from "../src/mcp/server.js";
+import type { ManagedScanRequest } from "../src/application/managed-scan.js";
+
+test("MCP exposes the shared RealDone core and keeps AI scans fail-closed", async (context) => {
+  const projectRoot = await mkdtemp(path.join(tmpdir(), "realdone-mcp-"));
+  context.after(async () => rm(projectRoot, { recursive: true, force: true }));
+  const reportDirectory = path.join(projectRoot, ".realdone", "reports", "20260722T000000Z-test");
+  await mkdir(reportDirectory, { recursive: true });
+  await writeFile(path.join(reportDirectory, "summary.json"), JSON.stringify({ pagesDiscovered: 1, verdicts: { VERIFIED: 1 } }));
+  await writeFile(path.join(reportDirectory, "findings.json"), JSON.stringify([{
+    id: "RD-001",
+    verdict: "VERIFIED",
+    reason: "Observed behavior persisted.",
+    action: { label: "Save" },
+    detectorMatches: [],
+    evidence: { canary: "must-not-be-returned" },
+  }]));
+  let observedRequest: ManagedScanRequest | undefined;
+  const server = createRealDoneMcpServer({
+    projectRoot,
+    dependencies: {
+      runManagedScan: async (request) => {
+        observedRequest = request;
+        return {
+          reportDirectory,
+          exitCode: 0,
+          report: {
+            schemaVersion: "1.0",
+            scanId: "test",
+            targetUrl: "http://127.0.0.1:3000",
+            startedAt: "2026-07-22T00:00:00.000Z",
+            finishedAt: "2026-07-22T00:00:01.000Z",
+            options: request.scanOptions,
+            summary: {
+              pagesDiscovered: 1,
+              visibleActions: 1,
+              actionsVerified: 1,
+              actionsSkipped: 0,
+              verdicts: { VERIFIED: 1, CONTRADICTORY: 0, EPHEMERAL: 0, BROWSER_LOCAL: 0, BROKEN: 0, NO_EFFECT: 0, UNCERTAIN: 0, SKIPPED: 0 },
+              environmentStatus: "VALID",
+            },
+            pages: [],
+            findings: [],
+          },
+        };
+      },
+    },
+  });
+  const client = new Client({ name: "realdone-test", version: "1.0.0" });
+  const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
+  await server.connect(serverTransport);
+  await client.connect(clientTransport);
+  context.after(async () => {
+    await client.close();
+    await server.close();
+  });
+
+  const tools = await client.listTools();
+  assert.deepEqual(
+    tools.tools.map((tool) => tool.name).sort(),
+    ["baseline", "get_report", "record", "replay", "scan", "verify", "verify_change"],
+  );
+
+  const scan = await client.callTool({ name: "scan", arguments: { maxPages: 2, maxActions: 3 } });
+  assert.equal(scan.isError, undefined);
+  assert.equal((scan.structuredContent as Record<string, unknown>).passed, true);
+  assert.ok(observedRequest);
+  assert.equal(observedRequest.projectDirectory, projectRoot);
+  assert.equal(observedRequest.scanOptions.allowDestructive, false);
+  assert.equal(observedRequest.scanOptions.allowExternal, false);
+  assert.equal(observedRequest.scanOptions.maxPages, 2);
+  assert.equal(observedRequest.scanOptions.maxActions, 3);
+
+  const report = await client.callTool({ name: "get_report", arguments: {} });
+  assert.equal(report.isError, undefined);
+  const reportText = JSON.stringify(report.structuredContent);
+  assert.match(reportText, /Observed behavior persisted/);
+  assert.doesNotMatch(reportText, /must-not-be-returned/);
+
+  const traversal = await client.callTool({ name: "get_report", arguments: { reportDirectory: "../outside" } });
+  assert.equal(traversal.isError, true);
+  const traversalContent = traversal.content as Array<{ type: string; text: string }>;
+  assert.match(traversalContent[0]?.text ?? "", /outside the MCP project root/i);
+});

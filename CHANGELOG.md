@@ -6,6 +6,12 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 
 ### Added
 
+- A local stdio MCP server with shared-core `scan`, `record`, `verify`, `baseline`, `verify_change`, `replay`, and redacted `get_report` tools for Codex, Claude Code, and generic MCP clients.
+- MCP workspace confinement, bounded inputs, server instructions, and fail-closed destructive/external policies; the full CLI remains independent of AI.
+- A no-URL managed scan path that discovers, starts, scans, and stops the current web project.
+- `scan --full` for large bounded safe-audit budgets and deep persistence without enabling destructive or external effects.
+- Machine-readable artifact secret/ZIP scanning, backward-compatible artifact schema checks, cross-platform release attestations, and an evaluator for all 15 normative release gates.
+- Trace-on-failure for scans and contract verification, a deterministic 1–16 worker pool for contract suites/browser matrices, and content-addressed snapshot indexes with shared SHA-256 blobs.
 - `realdone init` project discovery for framework, package manager, lifecycle commands, port, conventional routes, SQLite/PostgreSQL/provider hints, auth/test tooling and environment filenames, including bounded monorepo workspaces.
 - `scan --manage-runtime` lifecycle ownership with development/production/Docker modes, HTTP health checks, bounded crash restarts, secret-redacted logs and cross-platform process cleanup.
 - A first-class environment health gate and portable `environment.json` evidence for RD1001–RD1005, covering main-document/static-root, script/stylesheet status and content type, bootstrap/render readiness, test-data health endpoints and invalid auth states.

@@ -2,6 +2,22 @@
 
 Advanced features are opt-in. Default `scan` remains one Chromium worker with no database, provider, plugin, extra role, video, or AI requirement.
 
+From a discoverable project root, the shortest form starts the app, finds its local URL, scans it, and stops the managed runtime:
+
+```bash
+realdone scan
+```
+
+Pass a URL when the application is already running or automatic project discovery is unavailable.
+
+Quick scan uses 8 pages, 24 actions, and a two-minute budget. Full safe audit raises those defaults to 100 pages, 500 actions, deep persistence, and 30 minutes while keeping destructive and external effects disabled:
+
+```bash
+realdone scan --full
+```
+
+Explicit `--max-pages`, `--max-actions`, `--max-duration`, or policy budgets override the corresponding preset. If any budget is exhausted, the report is marked `truncated`; RealDone never presents a partial scan as complete.
+
 ## Project discovery, managed runtime, and environment validity
 
 Create a reviewable runtime profile without reading environment values:
