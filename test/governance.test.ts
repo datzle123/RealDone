@@ -34,7 +34,8 @@ test("normative product truth is linked and shipped", async () => {
 
   const packageJson = JSON.parse(packageText) as { files?: string[] };
   for (const file of ["docs/PRODUCT_SPECIFICATION.md", "docs/PRODUCT_STATUS.md", "docs/ROADMAP.md"]) {
-    assert.ok(packageJson.files?.includes(file), `${file} must ship in the package`);
+    const shipped = packageJson.files?.some((entry) => file === entry || file.startsWith(`${entry.replace(/\/$/, "")}/`));
+    assert.ok(shipped, `${file} must ship in the package`);
   }
   assert.match(workflow, /pnpm smoke:package/);
 });
