@@ -8,7 +8,7 @@ import { resolveSemanticLocator } from "../browser/locator.js";
 import { launchBrowser, type BrowserName } from "../browser/runtime.js";
 import { createContractCleanupLedger, writeCleanupLedger } from "../cleanup/ledger.js";
 import { classifyAction } from "../core/classify.js";
-import { redactText } from "../core/redact.js";
+import { redactText, safeUrl } from "../core/redact.js";
 import { PluginHost } from "../plugins/host.js";
 import { evaluatePerformance, loadPerformanceBudget } from "../performance/budget.js";
 import { actionSkipReason } from "../core/safety.js";
@@ -54,7 +54,7 @@ function emptySink(): EvidenceSink {
   return { network: [], console: [], pageErrors: [], dialogs: [], downloads: [] };
 }
 
-async function executeStep(page: Page, step: BehaviorStep, locator?: Locator): Promise<void> {
+async function executeStep(page: Page, step: BehaviorStep, locator?: Locator, targetLocator?: Locator): Promise<void> {
   switch (step.type) {
     case "navigate":
       await page.goto(step.url ?? step.pageUrl, { waitUntil: "domcontentloaded" });
@@ -77,6 +77,25 @@ async function executeStep(page: Page, step: BehaviorStep, locator?: Locator): P
       if (!locator) throw new Error("Select step has no locator.");
       if (step.value === undefined) throw new Error("Select step has no value.");
       await locator.selectOption(step.value);
+      return;
+    case "press":
+      if (!locator || !step.key) throw new Error("Press step is missing a locator or key.");
+      await locator.press(step.key);
+      return;
+    case "upload": {
+      if (!locator || !step.fileEnv) throw new Error("Upload step is missing a locator or file environment reference.");
+      const file = process.env[step.fileEnv];
+      if (!file) throw new Error(`Missing upload file. Set environment variable ${step.fileEnv}.`);
+      await locator.setInputFiles(file);
+      return;
+    }
+    case "richtext":
+      if (!locator) throw new Error("Rich-text step has no locator.");
+      await locator.fill(step.value ?? "");
+      return;
+    case "drag":
+      if (!locator || !targetLocator) throw new Error("Drag step is missing a semantic source or target.");
+      await locator.dragTo(targetLocator);
       return;
     case "click":
       if (!locator) throw new Error("Click step has no locator.");
@@ -127,7 +146,7 @@ function redactProviderExpectation(
 async function verifyExpectation(
   page: Page,
   expectation: ContractExpectation,
-  network: NetworkEvidence[],
+  sink: EvidenceSink,
   postgres?: PostgresSourceAdapter,
   rolePage?: (role: string) => Promise<Page>,
   plugins?: PluginHost,
@@ -138,7 +157,7 @@ async function verifyExpectation(
 ): Promise<StepVerification["assertions"][number]> {
   switch (expectation.type) {
     case "request": {
-      const passed = networkMatches(network, expectation);
+      const passed = networkMatches(sink.network, expectation);
       return {
         expectation,
         passed,
@@ -154,6 +173,34 @@ async function verifyExpectation(
     case "text": {
       const passed = await page.getByText(expectation.value, { exact: true }).last().isVisible().catch(() => false);
       return { expectation, passed, detail: `Visible text: ${expectation.value}`, evidenceLevel: 1 };
+    }
+    case "download": {
+      const download = sink.downloadEvidence?.find((candidate) =>
+        !expectation.fileNamePattern || new RegExp(expectation.fileNamePattern).test(candidate.fileName),
+      );
+      const passed = Boolean(download && !download.failure && (!expectation.nonEmpty || (download.size ?? 0) > 0));
+      return {
+        expectation,
+        passed,
+        detail: download ? `Download ${download.fileName}: ${download.size ?? 0} byte(s)` : "Expected download was not observed.",
+        evidenceLevel: 5,
+      };
+    }
+    case "popup": {
+      const popupPattern = new RegExp(expectation.urlPattern);
+      const popup = sink.popupUrls?.find((url) => {
+        try {
+          return popupPattern.test(new URL(url).pathname);
+        } catch {
+          return popupPattern.test(url);
+        }
+      });
+      return {
+        expectation,
+        passed: Boolean(popup),
+        detail: popup ? `Popup URL matched: ${popup}` : `No popup matched ${expectation.urlPattern}`,
+        evidenceLevel: 1,
+      };
     }
     case "persistence": {
       const strategies = expectation.strategies ?? (deep ? ["reload", "clean-context"] as const : ["reload"] as const);
@@ -500,10 +547,14 @@ export async function verifyContract(
       const sink = emptySink();
       const attached = attachEvidence(page, stepStarted, sink);
       let resolution: Awaited<ReturnType<typeof resolveSemanticLocator>> | undefined;
+      let targetResolution: Awaited<ReturnType<typeof resolveSemanticLocator>> | undefined;
       try {
         if (step.type !== "navigate") {
           if (!step.fingerprint) throw new Error("Interaction step is missing a semantic fingerprint.");
           resolution = await resolveSemanticLocator(page, step.fingerprint, options.maxRetries);
+          if (step.type === "drag" && step.targetFingerprint) {
+            targetResolution = await resolveSemanticLocator(page, step.targetFingerprint, options.maxRetries);
+          }
         }
         if (step.type === "click" && step.fingerprint) {
           const label = step.fingerprint.accessibleName ?? step.fingerprint.text ?? "Recorded click";
@@ -526,7 +577,20 @@ export async function verifyContract(
           );
           if (reason) throw new Error(reason);
         }
-        await executeStep(page, step, resolution?.locator);
+        const popupExpectation = step.expected.find((expectation): expectation is Extract<ContractExpectation, { type: "popup" }> => expectation.type === "popup");
+        const awaitedPopup = popupExpectation
+          ? page.waitForEvent("popup", { timeout: options.timeoutMs }).catch(() => undefined)
+          : undefined;
+        await executeStep(page, step, resolution?.locator, targetResolution?.locator);
+        if (awaitedPopup) {
+          const popup = await awaitedPopup;
+          if (popup) {
+            await popup.waitForLoadState("domcontentloaded", { timeout: options.timeoutMs }).catch(() => undefined);
+            sink.popupUrls ??= [];
+            const popupUrl = safeUrl(popup.url());
+            if (!sink.popupUrls.includes(popupUrl)) sink.popupUrls.push(popupUrl);
+          }
+        }
         await page.waitForLoadState("domcontentloaded", { timeout: Math.min(options.timeoutMs, 3_000) }).catch(() => undefined);
         await page.waitForTimeout(options.settleMs);
         await attached.flush();
@@ -535,7 +599,7 @@ export async function verifyContract(
           assertions.push(await verifyExpectation(
             page,
             expectation,
-            sink.network,
+            sink,
             postgres,
             rolePages.page,
             plugins,

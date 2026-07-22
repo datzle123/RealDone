@@ -6,7 +6,7 @@ import type { ProviderEvidence, ProviderExpectation } from "../providers/types.j
 import type { PerformanceEvaluation } from "../performance/budget.js";
 import type { EvidenceLevel, LocatorResolution, PersistenceScope, SemanticFingerprint } from "../types.js";
 
-export type ContractStepType = "navigate" | "click" | "fill" | "check" | "select";
+export type ContractStepType = "navigate" | "click" | "fill" | "check" | "select" | "press" | "upload" | "richtext" | "drag";
 
 export interface CrossRoleExpectation {
   type: "cross-role";
@@ -37,6 +37,8 @@ export type ContractExpectation =
   | { type: "request"; method: string; urlPattern: string; status?: number }
   | { type: "url"; pattern: string }
   | { type: "text"; value: string }
+  | { type: "download"; fileNamePattern?: string; nonEmpty: boolean }
+  | { type: "popup"; urlPattern: string }
   | { type: "persistence"; value: string; strategies?: PersistenceStrategy[] }
   | SourceExpectation
   | CrossRoleExpectation
@@ -57,6 +59,9 @@ export interface BehaviorStep {
   value?: string;
   secretEnv?: string;
   checked?: boolean;
+  key?: string;
+  fileEnv?: string;
+  targetFingerprint?: SemanticFingerprint;
   expected: ContractExpectation[];
   role?: string;
 }
@@ -210,6 +215,8 @@ const expectationSchema = z.discriminatedUnion("type", [
   z.object({ type: z.literal("request"), method: z.string(), urlPattern: z.string(), status: z.number().int().optional() }),
   z.object({ type: z.literal("url"), pattern: z.string() }),
   z.object({ type: z.literal("text"), value: z.string() }),
+  z.object({ type: z.literal("download"), fileNamePattern: z.string().optional(), nonEmpty: z.boolean().default(true) }),
+  z.object({ type: z.literal("popup"), urlPattern: z.string() }),
   z.object({
     type: z.literal("persistence"),
     value: z.string(),
@@ -232,7 +239,7 @@ const cleanupSchema = z.union([
 
 const stepSchema = z.object({
   id: z.string(),
-  type: z.enum(["navigate", "click", "fill", "check", "select"]),
+  type: z.enum(["navigate", "click", "fill", "check", "select", "press", "upload", "richtext", "drag"]),
   pageUrl: z.string(),
   atMs: z.number().nonnegative(),
   fingerprint: fingerprintSchema.optional(),
@@ -240,6 +247,9 @@ const stepSchema = z.object({
   value: z.string().optional(),
   secretEnv: z.string().optional(),
   checked: z.boolean().optional(),
+  key: z.string().optional(),
+  fileEnv: z.string().regex(/^[A-Z_][A-Z0-9_]*$/).optional(),
+  targetFingerprint: fingerprintSchema.optional(),
   expected: z.array(expectationSchema).default([]),
   role: roleNameSchema.optional(),
 });
@@ -264,6 +274,15 @@ export const behaviorContractSchema = z.object({
 }).superRefine((contract, context) => {
   const roles = new Set(Object.keys(contract.roles ?? {}));
   for (const [stepIndex, step] of contract.steps.entries()) {
+    if (step.type === "press" && !step.key) {
+      context.addIssue({ code: "custom", path: ["steps", stepIndex, "key"], message: "Press steps require a key" });
+    }
+    if (step.type === "upload" && !step.fileEnv) {
+      context.addIssue({ code: "custom", path: ["steps", stepIndex, "fileEnv"], message: "Upload steps require an environment file reference" });
+    }
+    if (step.type === "drag" && !step.targetFingerprint) {
+      context.addIssue({ code: "custom", path: ["steps", stepIndex, "targetFingerprint"], message: "Drag steps require a semantic target fingerprint" });
+    }
     if (step.role && !roles.has(step.role)) {
       context.addIssue({ code: "custom", path: ["steps", stepIndex, "role"], message: `Unknown role: ${step.role}` });
     }

@@ -47,6 +47,33 @@ test("behavior contract schema rejects empty flows", () => {
   assert.equal(result.success, false);
 });
 
+test("behavior contract schema validates complex semantic steps and browser outcomes", () => {
+  const fingerprint = { selector: "#source", tag: "div", ordinal: 0 };
+  const contract = {
+    schemaVersion: "1.0",
+    id: "complex-flow",
+    name: "Complex flow",
+    baseUrl: "http://localhost:3000",
+    createdAt: "2026-07-22T00:00:00.000Z",
+    steps: [
+      { id: "S001", type: "upload", pageUrl: "http://localhost:3000", atMs: 0, fingerprint, fileEnv: "REALDONE_UPLOAD_FILE", expected: [] },
+      { id: "S002", type: "richtext", pageUrl: "http://localhost:3000", atMs: 1, fingerprint, value: "Description", expected: [] },
+      { id: "S003", type: "press", pageUrl: "http://localhost:3000", atMs: 2, fingerprint, key: "Enter", expected: [] },
+      { id: "S004", type: "drag", pageUrl: "http://localhost:3000", atMs: 3, fingerprint, targetFingerprint: { selector: "#target", tag: "div", ordinal: 1 }, expected: [] },
+      { id: "S005", type: "click", pageUrl: "http://localhost:3000", atMs: 4, fingerprint, expected: [
+        { type: "popup", urlPattern: "^/result$" },
+        { type: "download", fileNamePattern: "^result\\.csv$", nonEmpty: true },
+      ] },
+    ],
+    cleanup: [],
+    source: { browser: "Chromium", recordedBy: "realdone" },
+  };
+  assert.equal(behaviorContractSchema.safeParse(contract).success, true);
+  assert.equal(behaviorContractSchema.safeParse({ ...contract, steps: [{ ...contract.steps[0], fileEnv: undefined }] }).success, false);
+  assert.equal(behaviorContractSchema.safeParse({ ...contract, steps: [{ ...contract.steps[2], key: undefined }] }).success, false);
+  assert.equal(behaviorContractSchema.safeParse({ ...contract, steps: [{ ...contract.steps[3], targetFingerprint: undefined }] }).success, false);
+});
+
 test("behavior contract schema validates named roles and Level 7 expectations", () => {
   const contract = {
     schemaVersion: "1.0",

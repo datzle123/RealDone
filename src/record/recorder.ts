@@ -9,13 +9,16 @@ import { writeBehaviorContract, type BehaviorContract, type BehaviorStep } from 
 import type { SemanticFingerprint } from "../types.js";
 
 interface RawInteraction {
-  type: "click" | "fill" | "check" | "select";
+  type: "click" | "fill" | "check" | "select" | "press" | "upload" | "richtext" | "drag";
   pageUrl: string;
   atMs: number;
   fingerprint: SemanticFingerprint;
   value?: string;
   secretEnv?: string;
   checked?: boolean;
+  key?: string;
+  fileEnv?: string;
+  targetFingerprint?: SemanticFingerprint;
 }
 
 export interface RecordOptions {
@@ -75,7 +78,12 @@ function injectionSource(startedAt: number): string {
     window.__realdoneFlushRrweb=flushRrweb;
     window.__realdoneStartRrweb=()=>{if(window.__realdoneRrwebStarted||!window.rrweb||!window.rrweb.record)return false;window.__realdoneRrwebStarted=true;window.rrweb.record({emit:event=>rrwebQueue.push(event),maskAllInputs:true,blockSelector:'[data-realdone-block]'});setInterval(flushRrweb,1000);window.addEventListener('beforeunload',flushRrweb);return true;};
     document.addEventListener('click',event=>{const element=event.target&&event.target.closest?event.target.closest('a,button,input[type=submit],input[type=button],[role=button]'):null;if(!element||!visible(element))return;emit({type:'click',pageUrl:location.href,atMs:Date.now()-startedAt,fingerprint:fingerprint(element)});},true);
-    document.addEventListener('change',event=>{const element=event.target;if(!(element instanceof HTMLInputElement||element instanceof HTMLTextAreaElement||element instanceof HTMLSelectElement)||!visible(element)||element.type==='file')return;const hint=(element.name||nameFor(element)||'SECRET').trim();const sensitive=element.type==='password'||/password|passwd|secret|token|api.?key/i.test(hint);const secretEnv=sensitive?'REALDONE_'+(hint||'SECRET').toUpperCase().replace(/[^A-Z0-9]+/g,'_').replace(/^_|_$/g,''):undefined;const type=element instanceof HTMLSelectElement?'select':(['checkbox','radio'].includes(element.type)?'check':'fill');emit({type,pageUrl:location.href,atMs:Date.now()-startedAt,fingerprint:fingerprint(element),...(type==='check'?{checked:element.checked}:{value:sensitive?'[REDACTED]':element.value}),...(secretEnv?{secretEnv}:{})});},true);
+    document.addEventListener('change',event=>{const element=event.target;if(!(element instanceof HTMLInputElement||element instanceof HTMLTextAreaElement||element instanceof HTMLSelectElement)||!visible(element))return;const hint=(element.name||nameFor(element)||'SECRET').trim();if(element instanceof HTMLInputElement&&element.type==='file'){const fileEnv='REALDONE_UPLOAD_'+(hint||'FILE').toUpperCase().replace(/[^A-Z0-9]+/g,'_').replace(/^_|_$/g,'')+'_FILE';emit({type:'upload',pageUrl:location.href,atMs:Date.now()-startedAt,fingerprint:fingerprint(element),fileEnv});return;}const sensitive=element.type==='password'||/password|passwd|secret|token|api.?key/i.test(hint);const secretEnv=sensitive?'REALDONE_'+(hint||'SECRET').toUpperCase().replace(/[^A-Z0-9]+/g,'_').replace(/^_|_$/g,''):undefined;const type=element instanceof HTMLSelectElement?'select':(['checkbox','radio'].includes(element.type)?'check':'fill');emit({type,pageUrl:location.href,atMs:Date.now()-startedAt,fingerprint:fingerprint(element),...(type==='check'?{checked:element.checked}:{value:sensitive?'[REDACTED]':element.value}),...(secretEnv?{secretEnv}:{})});},true);
+    document.addEventListener('input',event=>{const element=event.target;if(!(element instanceof HTMLElement)||element.getAttribute('contenteditable')!=='true'||!visible(element))return;emit({type:'richtext',pageUrl:location.href,atMs:Date.now()-startedAt,fingerprint:fingerprint(element),value:(element.innerText||'').slice(0,10000)});},true);
+    document.addEventListener('keydown',event=>{const element=event.target;if(!(element instanceof Element)||!visible(element)||!['Enter','Escape','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(event.key))return;emit({type:'press',pageUrl:location.href,atMs:Date.now()-startedAt,fingerprint:fingerprint(element),key:event.key});},true);
+    let dragSource;
+    document.addEventListener('dragstart',event=>{const element=event.target;if(element instanceof Element&&visible(element))dragSource=fingerprint(element);},true);
+    document.addEventListener('drop',event=>{const element=event.target;if(!dragSource||!(element instanceof Element)||!visible(element))return;emit({type:'drag',pageUrl:location.href,atMs:Date.now()-startedAt,fingerprint:dragSource,targetFingerprint:fingerprint(element)});dragSource=undefined;},true);
   })();`;
 }
 
@@ -118,8 +126,8 @@ export async function recordFlow(
   const appendStep = (step: Omit<BehaviorStep, "id">): BehaviorStep => {
     const previous = steps.at(-1);
     if (
-      step.type === "fill" &&
-      previous?.type === "fill" &&
+      (step.type === "fill" || step.type === "richtext") &&
+      previous?.type === step.type &&
       previous.fingerprint?.selector === step.fingerprint?.selector
     ) {
       if (step.value !== undefined) previous.value = step.value;
@@ -147,11 +155,15 @@ export async function recordFlow(
       ...(raw.value !== undefined ? { value: raw.value } : {}),
       ...(raw.secretEnv ? { secretEnv: raw.secretEnv } : {}),
       ...(raw.checked !== undefined ? { checked: raw.checked } : {}),
+      ...(raw.key ? { key: raw.key } : {}),
+      ...(raw.fileEnv ? { fileEnv: raw.fileEnv } : {}),
+      ...(raw.targetFingerprint ? { targetFingerprint: raw.targetFingerprint } : {}),
     });
     currentStep.set(source.page, step);
     if (raw.type === "click") {
       const outcome = (async () => {
         await source.page.waitForTimeout(Math.max(options.settleMs, 300)).catch(() => undefined);
+        if (currentStep.get(source.page) !== step) return;
         const claim = await source.page
           .locator('[role="status"], [role="alert"], .toast, .notification, .alert')
           .filter({ visible: true })
@@ -180,6 +192,7 @@ export async function recordFlow(
   };
 
   let initialRecorderReady = false;
+  let primaryPage: Page | undefined;
 
   const attachPage = (page: Page): void => {
     page.on("request", (request) => {
@@ -200,8 +213,30 @@ export async function recordFlow(
         step.expected.push(expectation);
       }
     });
+    page.on("download", (download) => {
+      const step = currentStep.get(page);
+      if (!step) return;
+      const escaped = download.suggestedFilename().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      if (!step.expected.some((item) => item.type === "download")) {
+        step.expected.push({ type: "download", fileNamePattern: `^${escaped}$`, nonEmpty: true });
+      }
+    });
+    page.on("popup", (popup) => {
+      const step = currentStep.get(page);
+      if (!step) return;
+      const capture = popup.waitForLoadState("domcontentloaded", { timeout: options.timeoutMs })
+        .catch(() => undefined)
+        .then(() => {
+          const popupUrl = safeUrl(popup.url());
+          const pattern = `^${new URL(popupUrl).pathname.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$`;
+          if (!step.expected.some((item) => item.type === "popup" && item.urlPattern === pattern)) {
+            step.expected.push({ type: "popup", urlPattern: pattern });
+          }
+        });
+      pendingOutcomes.push(capture);
+    });
     page.on("framenavigated", (frame) => {
-      if (frame !== page.mainFrame() || frame.url() === "about:blank") return;
+      if (page !== primaryPage || frame !== page.mainFrame() || frame.url() === "about:blank") return;
       const url = safeUrl(frame.url());
       const last = steps.at(-1);
       if (last?.type === "navigate" && last.url === url) return;
@@ -227,6 +262,9 @@ export async function recordFlow(
   await context.addInitScript({ content: injectionSource(startedAt) });
   debug("Recorder init script installed");
   const page = await context.newPage();
+  primaryPage = page;
+  page.setDefaultTimeout(options.timeoutMs);
+  page.setDefaultNavigationTimeout(options.timeoutMs);
   debug("Page created");
   try {
     await page.goto(options.targetUrl, { waitUntil: "domcontentloaded", timeout: options.timeoutMs });

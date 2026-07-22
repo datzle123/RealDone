@@ -12,7 +12,7 @@ const state = {
 
 function html(title, body, script = "") {
   const expandedBody = title === "RealDone benchmark fixtures"
-    ? body.replace("</nav>", '<a href="/phase-d">Phase D detector lab</a></nav>')
+    ? body.replace("</nav>", '<a href="/phase-d">Phase D detector lab</a><a href="/recorder-complex">Complex recorder lab</a></nav>')
     : body;
   return `<!doctype html><html><head><meta charset="utf-8"><title>${title}</title><style>body{font:16px system-ui;max-width:720px;margin:48px auto;padding:0 24px}nav{display:flex;gap:12px;flex-wrap:wrap;margin:24px 0}form{display:grid;gap:10px;max-width:420px}input,button{font:inherit;padding:10px}li{margin:8px 0}.toast{margin-top:16px;padding:10px;background:#dcfce7}.error{background:#fee2e2}</style></head><body><a href="/">← Fixtures</a><h1>${title}</h1>${expandedBody}<div id="notice" role="status"></div><script>${script}</script></body></html>`;
 }
@@ -171,6 +171,27 @@ export function createFixtureServer() {
         document.getElementById('webhook-missing').onsubmit=async e=>{e.preventDefault();await fetch('/api/webhook',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({event:e.target.event.value})})};
         document.getElementById('webhook-control').onsubmit=async e=>{e.preventDefault();await fetch('/api/webhook',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({event:e.target.event.value})});show('webhook-output','Webhook confirmed '+e.target.event.value)};
       `));
+    }
+    if (url.pathname === "/recorder-complex") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Complex recorder lab", `
+        <label>Receipt file <input id="complex-upload" name="receipt" type="file"></label>
+        <div id="rich-editor" contenteditable="true" aria-label="Rich description">Initial description</div>
+        <label>Command <input id="command" name="command" aria-label="Command"></label>
+        <button id="open-popup">Open receipt popup</button>
+        <a id="complex-download" href="/download-file" download="complex-report.csv">Download complex report</a>
+        <div id="drag-source" draggable="true" aria-label="Source card">Source card</div>
+        <div id="drag-target" aria-label="Target lane">Target lane</div>
+      `, `
+        document.getElementById('command').addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();notice.textContent='Command submitted'}});
+        document.getElementById('open-popup').onclick=()=>window.open('/popup-result','receipt-popup');
+        document.getElementById('drag-target').addEventListener('dragover',event=>event.preventDefault());
+        document.getElementById('drag-target').addEventListener('drop',event=>{event.preventDefault();notice.textContent='Card moved'});
+      `));
+    }
+    if (url.pathname === "/popup-result") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Popup result", "<p>Receipt popup ready</p>"));
     }
     if (url.pathname === "/customers/42") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });

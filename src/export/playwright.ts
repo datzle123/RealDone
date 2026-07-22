@@ -53,6 +53,9 @@ function assertionLines(step: BehaviorStep): string[] {
     if (expectation.type === "cross-role") {
       return [`  // Level 7 cross-role assertion remains in the RealDone contract (${expectation.role}).`];
     }
+    if (expectation.type === "authorization") {
+      return [`  // Level 7 authorization assertion remains in the RealDone contract (${expectation.check}/${expectation.role}).`];
+    }
     return [];
   });
 }
@@ -73,11 +76,15 @@ function stepLines(step: BehaviorStep, baseUrl: string): string[] {
   const locator = locatorExpression(step.fingerprint);
   const lines = [...roleComment, `  const ${step.id} = ${locator};`];
   const request = requestExpectation(step);
+  const download = step.expected.find((expectation): expectation is Extract<ContractExpectation, { type: "download" }> => expectation.type === "download");
+  const popup = step.expected.find((expectation): expectation is Extract<ContractExpectation, { type: "popup" }> => expectation.type === "popup");
   if (request) {
     lines.push(
       `  const ${step.id}Response = page.waitForResponse(response => response.request().method() === ${literal(request.method)} && new RegExp(${literal(request.urlPattern)}).test(new URL(response.url()).pathname + new URL(response.url()).search));`,
     );
   }
+  if (download) lines.push(`  const ${step.id}Download = page.waitForEvent('download');`);
+  if (popup) lines.push(`  const ${step.id}Popup = page.waitForEvent('popup');`);
   if (step.type === "fill") {
     if (step.secretEnv) {
       lines.push(
@@ -94,10 +101,34 @@ function stepLines(step: BehaviorStep, baseUrl: string): string[] {
     lines.push(`  await ${step.id}.selectOption(${literal(step.value ?? "")});`);
   } else if (step.type === "click") {
     lines.push(`  await ${step.id}.click();`);
+  } else if (step.type === "press") {
+    lines.push(`  await ${step.id}.press(${literal(step.key ?? "Enter")});`);
+  } else if (step.type === "upload") {
+    lines.push(
+      `  const ${step.id}File = process.env[${literal(step.fileEnv ?? "REALDONE_UPLOAD_FILE")}];`,
+      `  expect(${step.id}File, ${literal(`Set ${step.fileEnv ?? "REALDONE_UPLOAD_FILE"} before running this test`)}).toBeTruthy();`,
+      `  await ${step.id}.setInputFiles(${step.id}File!);`,
+    );
+  } else if (step.type === "richtext") {
+    lines.push(`  await ${step.id}.fill(${literal(step.value ?? "")});`);
+  } else if (step.type === "drag" && step.targetFingerprint) {
+    lines.push(`  const ${step.id}Target = ${locatorExpression(step.targetFingerprint)};`, `  await ${step.id}.dragTo(${step.id}Target);`);
   }
   if (request) {
     lines.push(`  const ${step.id}ObservedResponse = await ${step.id}Response;`);
     if (request.status !== undefined) lines.push(`  expect(${step.id}ObservedResponse.status()).toBe(${request.status});`);
+  }
+  if (download) {
+    lines.push(`  const ${step.id}ObservedDownload = await ${step.id}Download;`);
+    if (download.fileNamePattern) lines.push(`  expect(${step.id}ObservedDownload.suggestedFilename()).toMatch(new RegExp(${literal(download.fileNamePattern)}));`);
+    if (download.nonEmpty) lines.push(`  expect((await stat((await ${step.id}ObservedDownload.path())!)).size).toBeGreaterThan(0);`);
+  }
+  if (popup) {
+    lines.push(
+      `  const ${step.id}ObservedPopup = await ${step.id}Popup;`,
+      `  await ${step.id}ObservedPopup.waitForLoadState('domcontentloaded');`,
+      `  expect(new URL(${step.id}ObservedPopup.url()).pathname).toMatch(new RegExp(${literal(popup.urlPattern)}));`,
+    );
   }
   lines.push(...assertionLines(step));
   return lines;
@@ -105,7 +136,8 @@ function stepLines(step: BehaviorStep, baseUrl: string): string[] {
 
 export function renderPlaywrightTest(contract: BehaviorContract): string {
   const lines = contract.steps.flatMap((step) => [...stepLines(step, contract.baseUrl), ""]);
-  return `import { test, expect } from '@playwright/test';
+  return `import { stat } from 'node:fs/promises';
+import { test, expect } from '@playwright/test';
 
 test(${literal(contract.name)}, async ({ page }) => {
   const baseURL = process.env.REALDONE_BASE_URL ?? ${literal(contract.baseUrl)};
