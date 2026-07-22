@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/datzle123/RealDone/security/advisories/new
+    about: Report safety and security issues privately

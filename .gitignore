@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.realdone/
+/work/
+/outputs/
+playwright-report/
+test-results/
+*.tgz
+*.log
+.DS_Store
+Thumbs.db

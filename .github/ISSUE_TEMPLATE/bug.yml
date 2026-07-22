@@ -1,0 +1,40 @@
+name: Bug report
+description: Report a reproducible scanner, detector, report, or safety problem
+title: "bug: "
+labels: [bug, triage]
+body:
+  - type: markdown
+    attributes:
+      value: Remove secrets and production data before attaching evidence.
+  - type: input
+    id: version
+    attributes:
+      label: RealDone version
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options: [Discovery, Execution, Evidence, Persistence, Detector, Replay, Report, Safety, Other]
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Include a disposable fixture or public URL and exact command.
+    validations:
+      required: true
+  - type: textarea
+    id: observed
+    attributes:
+      label: Observed evidence and verdict
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected evidence and verdict
+    validations:
+      required: true

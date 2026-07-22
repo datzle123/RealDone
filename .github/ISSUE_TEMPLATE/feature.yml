@@ -1,0 +1,26 @@
+name: Feature proposal
+description: Propose a detector, verifier, adapter, or workflow
+title: "proposal: "
+labels: [enhancement, triage]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Behavioral verification problem
+      description: What can users not prove today?
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Observable evidence
+      description: Which browser, API, storage, database, provider, or cross-role facts would support a verdict?
+    validations:
+      required: true
+  - type: textarea
+    id: controls
+    attributes:
+      label: False-positive controls
+      description: Which correct behaviors must remain unflagged?
+    validations:
+      required: true

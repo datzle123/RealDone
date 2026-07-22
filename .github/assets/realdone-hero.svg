@@ -1,0 +1,30 @@
+<svg width="1200" height="420" viewBox="0 0 1200 420" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">RealDone</title>
+  <desc id="desc">Your app looks done. Prove it works.</desc>
+  <defs>
+    <linearGradient id="bg" x1="60" y1="0" x2="1140" y2="420" gradientUnits="userSpaceOnUse"><stop stop-color="#111820"/><stop offset="1" stop-color="#080B0F"/></linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientTransform="translate(884 72) rotate(132) scale(484 382)" gradientUnits="userSpaceOnUse"><stop stop-color="#39D98A" stop-opacity=".24"/><stop offset="1" stop-color="#39D98A" stop-opacity="0"/></radialGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="18" stdDeviation="24" flood-color="#000" flood-opacity=".42"/></filter>
+  </defs>
+  <rect width="1200" height="420" rx="28" fill="url(#bg)"/>
+  <rect width="1200" height="420" rx="28" fill="url(#glow)"/>
+  <path d="M0 339C240 286 368 389 612 334C814 289 959 169 1200 221" stroke="#27333E" stroke-width="1"/>
+  <path d="M0 363C251 307 399 415 643 354C861 300 1018 196 1200 238" stroke="#1B252E" stroke-width="1"/>
+  <g transform="translate(76 62)">
+    <rect width="72" height="72" rx="20" fill="#39D98A"/>
+    <path d="M22 36L32 46L51 25" stroke="#07100B" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <text x="76" y="190" fill="#F4F7F9" font-family="Inter,Segoe UI,sans-serif" font-size="74" font-weight="760" letter-spacing="-4">RealDone</text>
+  <text x="78" y="243" fill="#A7B3BE" font-family="Inter,Segoe UI,sans-serif" font-size="25" font-weight="450">Your app looks done. <tspan fill="#39D98A" font-weight="700">Prove it works.</tspan></text>
+  <g transform="translate(752 89)" filter="url(#shadow)">
+    <rect width="364" height="244" rx="16" fill="#0D1319" stroke="#2C3944"/>
+    <circle cx="24" cy="23" r="5" fill="#FF647C"/><circle cx="42" cy="23" r="5" fill="#FFBF69"/><circle cx="60" cy="23" r="5" fill="#39D98A"/>
+    <path d="M0 46H364" stroke="#2C3944"/>
+    <text x="24" y="80" fill="#7E8C99" font-family="ui-monospace,Consolas,monospace" font-size="12">RD-014 · SAVE SETTINGS</text>
+    <text x="24" y="112" fill="#F4F7F9" font-family="ui-monospace,Consolas,monospace" font-size="14">✓ Toast: “Saved successfully”</text>
+    <text x="24" y="140" fill="#FF647C" font-family="ui-monospace,Consolas,monospace" font-size="14">✗ Write requests: none</text>
+    <text x="24" y="168" fill="#FF647C" font-family="ui-monospace,Consolas,monospace" font-size="14">✗ Value after reload: absent</text>
+    <rect x="24" y="194" width="148" height="30" rx="15" fill="#381923" stroke="#FF647C" stroke-opacity=".55"/>
+    <text x="42" y="214" fill="#FF8A9D" font-family="ui-monospace,Consolas,monospace" font-size="12" font-weight="700">CONTRADICTORY</text>
+  </g>
+</svg>
