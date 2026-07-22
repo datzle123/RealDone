@@ -20,6 +20,21 @@ test("affected-flow selection uses explicit source scope and route tokens", () =
   assert.deepEqual(selected.map((item) => item.id), ["customer", "critical"]);
 });
 
+test("affected-flow selection falls back to every contract when no mapping is safe", () => {
+  const manifest: BehaviorManifest = {
+    schemaVersion: "1.0",
+    generatedAt: "2026-07-22T00:00:00.000Z",
+    contracts: [
+      { id: "increment", name: "Increment counter", file: "flows/increment.json", hash: "a", tags: [], routes: ["/"], endpoints: [{ method: "POST", pattern: "^/api/counter/increment$" }], sourceFiles: [], stepCount: 2 },
+      { id: "upload", name: "Upload receipt", file: "flows/upload.json", hash: "b", tags: [], routes: ["/"], endpoints: [{ method: "POST", pattern: "^/api/receipts$" }], sourceFiles: [], stepCount: 2 },
+    ],
+  };
+  assert.deepEqual(
+    selectAffectedContracts(manifest, ["server.mjs", "public/app.js"]).map((contract) => contract.id),
+    ["increment", "upload"],
+  );
+});
+
 test("regression classification emits evidence-specific RD901-RD905 outcomes", () => {
   const baseline = {
     id: "customer",

@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "1.0",
+  "verificationId": "20260722T201520Z-68b0",
+  "contractId": "pocket-ledger-role-authorization",
+  "contractName": "Member denial and admin visibility",
+  "browser": "chromium",
+  "roles": [
+    "default",
+    "admin",
+    "member"
+  ],
+  "deep": false,
+  "startedAt": "2026-07-22T20:15:20.290Z",
+  "finishedAt": "2026-07-22T20:15:21.274Z",
+  "passed": true,
+  "steps": [
+    {
+      "stepId": "S001",
+      "type": "navigate",
+      "role": "member",
+      "status": "passed",
+      "durationMs": 919,
+      "reason": "Step and recorded expectations passed.",
+      "assertions": [
+        {
+          "expectation": {
+            "type": "authorization",
+            "check": "ui-only-permission",
+            "role": "member",
+            "request": {
+              "method": "POST",
+              "url": "http://127.0.0.1:37300/api/counter/reset"
+            },
+            "ui": {
+              "pageUrl": "http://127.0.0.1:37300/",
+              "text": "Reset counter",
+              "state": "absent"
+            }
+          },
+          "passed": true,
+          "detail": "Authorization ui-only-permission for member: ui-absent=true, api-status=403",
+          "evidenceLevel": 7,
+          "persistenceScope": "CROSS_USER_CONFIRMED"
+        },
+        {
+          "expectation": {
+            "type": "cross-role",
+            "role": "admin",
+            "pageUrl": "http://127.0.0.1:37300/",
+            "assertion": {
+              "type": "text",
+              "value": "Reset counter",
+              "state": "visible"
+            }
+          },
+          "passed": true,
+          "detail": "Role admin: text visible (Reset counter)",
+          "evidenceLevel": 7,
+          "persistenceScope": "CROSS_USER_CONFIRMED"
+        }
+      ]
+    }
+  ],
+  "artifacts": {
+    "traces": [
+      {
+        "file": "member.zip",
+        "bytes": 113708,
+        "sha256": "174561748eeec55e75c37aa74a2e6f06fb45459fc5cfc923d483bcaa5049c314"
+      },
+      {
+        "file": "admin.zip",
+        "bytes": 81590,
+        "sha256": "eb16c502f737d890ff5bd7bfaf8e8bfdcb36fdc971a4b4a5d9f622822e78d60b"
+      }
+    ],
+    "videos": []
+  }
+}

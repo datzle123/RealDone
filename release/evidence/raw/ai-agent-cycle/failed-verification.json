@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "1.0",
+  "verificationId": "20260722T195413Z-4fc3",
+  "contractId": "increment-persistent-counter-6270",
+  "contractName": "Increment persistent counter",
+  "browser": "chromium",
+  "passed": false,
+  "steps": [
+    {
+      "stepId": "S001",
+      "type": "navigate",
+      "status": "passed"
+    },
+    {
+      "stepId": "S002",
+      "type": "click",
+      "status": "failed",
+      "reason": "The semantic Increment button resolved, but remained disabled until the bounded click timeout."
+    }
+  ],
+  "artifacts": {
+    "trace": "default.zip",
+    "traceBytes": 111461,
+    "traceSha256": "8e15e43e862fc2ae59edfbd6eeb0048739bdb8dc331861aba4af0a97a8fb09d4"
+  }
+}

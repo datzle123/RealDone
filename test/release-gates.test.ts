@@ -36,6 +36,11 @@ function passingEvidence(): ReleaseGateEvidence {
       status: "passed" as const,
       environmentValid: true,
       severeRegressions: 0,
+      capabilities: [
+        ["upload", "export", "ai-generated"],
+        ["postgresql", "supabase", "multi-role"],
+        ["backend-crud", "authentication", "multi-step"],
+      ][index] as ReleaseGateEvidence["externalCases"][number]["capabilities"],
     })),
   };
 }
@@ -79,12 +84,22 @@ test("release evaluator rejects incomplete or invented evidence", () => {
   assert.throws(() => evaluateReleaseGates(passingEvidence(), { requiredExternalCases: 0 }));
 });
 
+test("external gate requires every normative real-world capability instead of only a case count", () => {
+  const evidence = passingEvidence();
+  for (const externalCase of evidence.externalCases) {
+    externalCase.capabilities = externalCase.capabilities.filter((capability) => capability !== "supabase");
+  }
+  const gate = evaluateReleaseGates(evidence).gates.find((candidate) => candidate.id === "RG15");
+  assert.equal(gate?.passed, false);
+  assert.match(gate?.observed ?? "", /missing supabase/);
+});
+
 test("platform attestations merge with worst-case metrics instead of hiding a failing run", () => {
   const evidence = passingEvidence();
   const attestations = evidence.platforms.map((platform): ReleaseRunAttestation => ({
     schemaVersion: "1.0",
     generatedAt: evidence.generatedAt,
-    source: `ci-${platform}`,
+      source: "candidate-sha",
     platform,
     checks: structuredClone(evidence.checks),
     benchmark: structuredClone(evidence.benchmark),
@@ -93,9 +108,32 @@ test("platform attestations merge with worst-case metrics instead of hiding a fa
   assert.ok(windows);
   windows.benchmark.verdictAccuracy = 0.75;
 
-  const merged = mergeReleaseGateEvidence(attestations, evidence.externalCases);
+  const merged = mergeReleaseGateEvidence(attestations, evidence.externalCases, true);
   assert.equal(merged.benchmark.verdictAccuracy, 0.75);
   assert.deepEqual(merged.platforms, ["linux", "macos", "windows"]);
   const report = evaluateReleaseGates(merged);
   assert.equal(report.gates.find((gate) => gate.id === "RG06")?.passed, false);
+
+  attestations[1] = { ...attestations[1]!, source: "different-sha" };
+  assert.throws(
+    () => mergeReleaseGateEvidence(attestations, evidence.externalCases, true),
+    /same source revision/,
+  );
+});
+
+test("committed external-artifact secret failures are folded into RG14", () => {
+  const evidence = passingEvidence();
+  const attestations = evidence.platforms.map((platform): ReleaseRunAttestation => ({
+    schemaVersion: "1.0",
+    generatedAt: evidence.generatedAt,
+      source: "candidate-sha",
+    platform,
+    checks: structuredClone(evidence.checks),
+    benchmark: structuredClone(evidence.benchmark),
+  }));
+
+  assert.equal(mergeReleaseGateEvidence(attestations, evidence.externalCases, true).checks.artifactSecrets, true);
+  const merged = mergeReleaseGateEvidence(attestations, evidence.externalCases, false);
+  assert.equal(merged.checks.artifactSecrets, false);
+  assert.equal(evaluateReleaseGates(merged).gates.find((gate) => gate.id === "RG14")?.passed, false);
 });

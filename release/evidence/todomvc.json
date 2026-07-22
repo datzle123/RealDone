@@ -1,19 +1,20 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-07-22T19:04:59.164Z",
-  "engineFingerprint": "823ee7ab35b8f218cb4f6c275e48786f5841c59192fe17b27efef8509277bc37",
+  "generatedAt": "2026-07-22T20:34:30.000Z",
+  "engineFingerprint": "1f88dd858b13faf079fffb32969319bb0efdef569829de6465ee3d1f2ba9a82e",
   "case": {
     "name": "TodoMVC React",
     "repository": "tastejs/todomvc",
     "pinnedCommit": "ff43b02e59dfa604386bb382034b2cd07c2bcd8a",
     "status": "passed",
     "environmentValid": true,
-    "severeRegressions": 0
+    "severeRegressions": 0,
+    "capabilities": []
   },
   "scan": {
-    "scanId": "20260722T190453Z-b698",
+    "scanId": "20260722T203233Z-7be8",
     "sourceArtifact": "release/evidence/raw/todomvc.scan.json",
-    "sourceSha256": "6347bff861f3cf6b7ce1ecba4ffceb6ef03c3bb795474d8a7aff0304867d0b5f",
+    "sourceSha256": "05cfc47ff3754f148cea0fa85e15faff5c6e46d38d6389bf3aa64953eedc352c",
     "environmentStatus": "VALID",
     "truncated": false,
     "pagesDiscovered": 1,
@@ -32,35 +33,10 @@
     }
   },
   "assertions": [
-    {
-      "id": "environment-valid",
-      "passed": true,
-      "expected": "VALID with zero critical asset failures",
-      "observed": "VALID; 3/3 critical assets loaded"
-    },
-    {
-      "id": "scan-complete",
-      "passed": true,
-      "expected": "not truncated",
-      "observed": "not truncated"
-    },
-    {
-      "id": "enter-action-discovered",
-      "passed": true,
-      "expected": "New Todo Input is executed as an Enter mutation",
-      "observed": "1 Enter mutation executed"
-    },
-    {
-      "id": "known-memory-only-behavior",
-      "passed": true,
-      "expected": "EPHEMERAL with RD101, RD104 and RD201",
-      "observed": "EPHEMERAL with RD101, RD104 and RD201"
-    },
-    {
-      "id": "no-engine-regression",
-      "passed": true,
-      "expected": "zero unexpected BROKEN, CONTRADICTORY or NO_EFFECT verdicts",
-      "observed": "BROKEN=0; CONTRADICTORY=0; NO_EFFECT=0"
-    }
+    { "id": "environment-valid", "passed": true, "expected": "VALID", "observed": "VALID; critical assets loaded" },
+    { "id": "scan-complete", "passed": true, "expected": "not truncated", "observed": "not truncated" },
+    { "id": "enter-action-discovered", "passed": true, "expected": "standalone Enter mutation executed", "observed": "New Todo Input executed" },
+    { "id": "known-memory-only-behavior", "passed": true, "expected": "EPHEMERAL with RD101/RD104/RD201", "observed": "EPHEMERAL with RD101/RD104/RD201" },
+    { "id": "no-engine-regression", "passed": true, "expected": "zero severe regressions", "observed": "BROKEN=0; CONTRADICTORY=0; NO_EFFECT=0" }
   ]
 }

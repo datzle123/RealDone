@@ -1,19 +1,20 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-07-22T19:04:59.164Z",
-  "engineFingerprint": "823ee7ab35b8f218cb4f6c275e48786f5841c59192fe17b27efef8509277bc37",
+  "generatedAt": "2026-07-22T20:34:30.000Z",
+  "engineFingerprint": "1f88dd858b13faf079fffb32969319bb0efdef569829de6465ee3d1f2ba9a82e",
   "case": {
-    "name": "Conduit RealWorld",
+    "name": "Conduit RealWorld (SQLite)",
     "repository": "TonyMckes/conduit-realworld-example-app",
     "pinnedCommit": "5e127d8569b300e0a21dc2c20ea680da4967b1aa",
     "status": "passed",
     "environmentValid": true,
-    "severeRegressions": 0
+    "severeRegressions": 0,
+    "capabilities": ["authentication"]
   },
   "scan": {
-    "scanId": "20260722T190356Z-bf27",
+    "scanId": "20260722T203317Z-b957",
     "sourceArtifact": "release/evidence/raw/conduit.scan.json",
-    "sourceSha256": "4ad2015fe6f43f1439751e93930fed493414caf67123f004ab135a99f9f00b9e",
+    "sourceSha256": "ea5e353b9e6409fd8f431c648c1943dc193b5fc8c588e6dbb393219713ee4468",
     "environmentStatus": "VALID",
     "truncated": false,
     "pagesDiscovered": 3,
@@ -21,10 +22,10 @@
     "actionsVerified": 18,
     "actionsSkipped": 11,
     "verdicts": {
-      "VERIFIED": 16,
+      "VERIFIED": 17,
       "CONTRADICTORY": 0,
       "EPHEMERAL": 0,
-      "BROWSER_LOCAL": 1,
+      "BROWSER_LOCAL": 0,
       "BROKEN": 0,
       "NO_EFFECT": 0,
       "UNCERTAIN": 1,
@@ -32,41 +33,10 @@
     }
   },
   "assertions": [
-    {
-      "id": "environment-valid",
-      "passed": true,
-      "expected": "VALID with zero critical asset failures",
-      "observed": "VALID; 6/6 critical assets loaded"
-    },
-    {
-      "id": "scan-complete",
-      "passed": true,
-      "expected": "not truncated",
-      "observed": "not truncated"
-    },
-    {
-      "id": "hash-router-coverage",
-      "passed": true,
-      "expected": "3 routes and at least 16 VERIFIED actions",
-      "observed": "3 routes; 16 VERIFIED actions"
-    },
-    {
-      "id": "generated-login-rejection",
-      "passed": true,
-      "expected": "404 generated credentials remain UNCERTAIN without RD501",
-      "observed": "UNCERTAIN; no detector match"
-    },
-    {
-      "id": "browser-local-signup",
-      "passed": true,
-      "expected": "Sign up classified BROWSER_LOCAL with RD102 and RD103",
-      "observed": "BROWSER_LOCAL with RD102 and RD103"
-    },
-    {
-      "id": "no-engine-regression",
-      "passed": true,
-      "expected": "zero BROKEN, CONTRADICTORY, EPHEMERAL or NO_EFFECT verdicts",
-      "observed": "BROKEN=0; CONTRADICTORY=0; EPHEMERAL=0; NO_EFFECT=0"
-    }
+    { "id": "environment-valid", "passed": true, "expected": "VALID", "observed": "VALID; critical assets loaded" },
+    { "id": "scan-complete", "passed": true, "expected": "not truncated", "observed": "not truncated" },
+    { "id": "source-confirmed-create", "passed": true, "expected": "real backend write and read-back", "observed": "Sign up persisted through SQLite source snapshots", "evidenceArtifacts": ["scan"] },
+    { "id": "capability:authentication", "passed": true, "expected": "real signup and honest generated-login rejection", "observed": "signup VERIFIED; generated login UNCERTAIN", "evidenceArtifacts": ["scan"] },
+    { "id": "no-engine-regression", "passed": true, "expected": "zero severe regressions", "observed": "BROKEN=0; CONTRADICTORY=0; NO_EFFECT=0" }
   ]
 }

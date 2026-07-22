@@ -34,6 +34,8 @@ Examples: [`realdone.postgres.json`](../examples/realdone.postgres.json), [`real
 
 `allowProduction` is deliberately false by default for Supabase, Firebase, and MongoDB configurations. Set it only for an explicitly selected disposable sandbox/test project; the name is an acknowledgment, not an assertion by RealDone that the endpoint is safe. PostgreSQL verification remains read-only; any PostgreSQL cleanup still requires both CLI confirmation and an allowlisted cleanup key.
 
+During `scan`, configured source adapters take bounded before/after snapshots around each executed action. An error-free added, removed, changed, or soft-deleted row hash establishes `SOURCE_OF_TRUTH_CONFIRMED` at Level 6 even when a fresh anonymous browser context cannot see an authenticated resource. An empty diff never upgrades a verdict, and a source diff cannot hide a failed request, exception, duplicate write, false success, or other higher-priority defect.
+
 ## Contract assertion
 
 ```json

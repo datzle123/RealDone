@@ -18,6 +18,8 @@ Use the opened browser normally, then press Enter or Ctrl+C in the terminal. Rea
 
 Auth state contains cookies and may grant account access. Keep it under `.realdone/`, never commit it, and use disposable staging accounts.
 
+The reviewed local rrweb bundle is installed before each document starts, so recording also works with a strict `script-src` Content Security Policy without weakening the application's headers.
+
 ## Steps and expectations
 
 Steps are `navigate`, `fill`, `check`, `select`, `click`, `press`, `upload`, `richtext`, or `drag`. Interaction steps contain weighted semantic candidates; drag steps carry independent source and target fingerprints. Upload steps store an environment-variable name such as `REALDONE_UPLOAD_RECEIPT_FILE`, never the developer's local file path. Click steps can infer:

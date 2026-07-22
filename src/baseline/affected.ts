@@ -30,9 +30,13 @@ export function selectAffectedContracts(
   changedFiles: string[],
 ): ManifestContract[] {
   if (changedFiles.length === 0) return manifest.contracts;
-  return manifest.contracts.filter(
+  const selected = manifest.contracts.filter(
     (contract) =>
       contract.tags.includes("critical") ||
       changedFiles.some((file) => contractAffected(contract, file)),
   );
+  // A zero-match result is not proof that product behavior is unaffected. This
+  // commonly occurs for a newly recorded contract with no sourceFiles mapping.
+  // Fail closed by verifying the full manifest instead of reporting a 0-flow pass.
+  return selected.length > 0 ? selected : manifest.contracts;
 }

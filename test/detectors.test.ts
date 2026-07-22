@@ -79,6 +79,62 @@ test("classifies refresh-only persistence as browser-local in deep mode", () => 
   assert.equal(result.detectorMatches.some((item) => item.code === "RD301"), false);
 });
 
+test("promotes a browser-local session signal when the configured source confirms the mutation", () => {
+  const result = detect(action, evidence({
+    afterNewContext: state(600, "fresh", false),
+    sourceDiffs: [{
+      adapter: "postgresql",
+      resource: "customers",
+      added: ["customer-key-hash"],
+      removed: [],
+      changed: [],
+      softDeleted: [],
+      truncated: false,
+    }],
+    sourceSnapshotErrors: [],
+  }));
+  assert.equal(result.verdict, "VERIFIED");
+  assert.equal(result.evidenceLevel, 6);
+  assert.equal(result.detectorMatches.some((item) => item.code === "RD102"), false);
+});
+
+test("keeps the browser-local verdict when configured source snapshots show no change", () => {
+  const result = detect(action, evidence({
+    afterNewContext: state(600, "fresh", false),
+    sourceDiffs: [{
+      adapter: "postgresql",
+      resource: "customers",
+      added: [],
+      removed: [],
+      changed: [],
+      softDeleted: [],
+      truncated: false,
+    }],
+    sourceSnapshotErrors: [],
+  }));
+  assert.equal(result.verdict, "BROWSER_LOCAL");
+  assert.ok(result.detectorMatches.some((item) => item.code === "RD102"));
+});
+
+test("does not let a source change hide a failed write", () => {
+  const result = detect(action, evidence({
+    afterNewContext: state(600, "fresh", false),
+    network: [{ id: "net-1", method: "POST", url: "http://localhost/api/customers", resourceType: "fetch", startedAt: 50, status: 500, ok: false }],
+    sourceDiffs: [{
+      adapter: "postgresql",
+      resource: "customers",
+      added: ["customer-key-hash"],
+      removed: [],
+      changed: [],
+      softDeleted: [],
+      truncated: false,
+    }],
+    sourceSnapshotErrors: [],
+  }));
+  assert.equal(result.verdict, "BROKEN");
+  assert.ok(result.detectorMatches.some((item) => item.code === "RD001"));
+});
+
 test("detects a false success when the write fails", () => {
   const result = detect(
     { ...action, intent: "update", label: "Save settings" },

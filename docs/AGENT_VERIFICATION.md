@@ -58,7 +58,7 @@ Use repeated `--agent-arg` and `--build-arg` flags so each argument remains stru
 2. Every supplied behavior contract is hashed and verified before the agent runs. A failing baseline stops the pipeline. The baseline is sealed and restored if the agent modifies it.
 3. The agent runs with a default 30-minute timeout. Stdout and stderr are bounded, redacted, and written as local operational logs.
 4. The rebuild command runs independently with a default five-minute timeout. It defaults to `pnpm build`.
-5. After the independent rebuild completes, RealDone captures the resulting Git commit and uncommitted paths, then selects affected/critical flows from that final post-build change set. Build-created product files are therefore attributed to the run. Behavior-contract changes force a full run and fail the integrity gate unless `--allow-contract-changes` is explicit.
+5. After the independent rebuild completes, RealDone captures the resulting Git commit and uncommitted paths, then selects affected/critical flows from that final post-build change set. Build-created product files are therefore attributed to the run. If no contract can be mapped safely to non-empty changed files, RealDone fails closed by running the full manifest instead of accepting a zero-flow pass. Behavior-contract changes force a full run and fail the integrity gate unless `--allow-contract-changes` is explicit.
 6. A passing run writes `agent-verification.json`. A failing run additionally writes `follow-up.md` using only build diagnostics and failed RealDone assertions.
 
 Output lives under `.realdone/agent-runs/<run-id>/` by default:
@@ -76,6 +76,12 @@ follow-up.md        # failures only
 ```
 
 Known environment secret values, provider-key shapes, bearer tokens, and database URLs are redacted. Treat the directory as sensitive anyway because an application or tool can emit private data in an unexpected format.
+
+## Current qualification evidence
+
+The repository-bound candidate is documented in [`release/evidence/ai-agent-cycle.json`](https://github.com/datzle123/RealDone/blob/main/release/evidence/ai-agent-cycle.json). Authenticated Codex Desktop `0.143.0` session `019f8b5d-c0da-7f72-8a98-01cf58fd1d18` established green baseline verification `20260722T194657Z-ac97`, selected one unchanged contract with one RD901 regression in run `20260722T195413Z-217b`, repaired the application, and selected the same contract with zero regressions in run `20260722T195754Z-a9bd`. The release validator parses SHA-256-bound session, baseline, failed-verification, regression and repair artifacts; it does not trust the agent's final message.
+
+This evidence supports the `IMPLEMENTED` coding-agent row in [`PRODUCT_STATUS.md`](PRODUCT_STATUS.md). It does not close Phase G or §32: the current fingerprint still requires hosted Windows/macOS/Linux aggregation and signed GitHub provenance.
 
 ## Authenticated and Level 6 flows
 

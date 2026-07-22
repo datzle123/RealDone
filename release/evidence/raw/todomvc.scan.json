@@ -1,22 +1,22 @@
 {
   "schemaVersion": "1.0",
-  "scanId": "20260722T190453Z-b698",
+  "scanId": "20260722T203233Z-7be8",
   "targetUrl": "http://127.0.0.1:37127/",
-  "startedAt": "2026-07-22T19:04:53.287Z",
-  "finishedAt": "2026-07-22T19:04:59.164Z",
+  "startedAt": "2026-07-22T20:32:33.060Z",
+  "finishedAt": "2026-07-22T20:32:39.086Z",
   "options": {
     "maxPages": 2,
     "maxActions": 20,
-    "timeoutMs": 10000,
-    "settleMs": 800,
-    "maxDurationMs": 90000,
+    "timeoutMs": 12000,
+    "settleMs": 700,
+    "maxDurationMs": 120000,
     "maxRetries": 2,
     "allowDestructive": false,
     "allowExternal": false,
     "mutationAllowed": true,
     "deep": true,
-    "trace": true,
-    "traceOnFailure": false,
+    "trace": false,
+    "traceOnFailure": true,
     "video": false,
     "environmentTimeoutMs": 10000,
     "acceptEnvironmentRisk": false,
@@ -214,31 +214,31 @@
         ]
       },
       "evidence": {
-        "startedAt": "2026-07-22T19:04:54.857Z",
-        "durationMs": 4275,
-        "canary": "RD_TEST_988F48",
+        "startedAt": "2026-07-22T20:32:34.729Z",
+        "durationMs": 4321,
+        "canary": "RD_TEST_A1A4F9",
         "network": [
           {
             "id": "net-1",
             "method": "GET",
             "url": "http://127.0.0.1:37127/",
             "resourceType": "document",
-            "startedAt": 1890,
+            "startedAt": 1833,
             "status": 200,
             "ok": true,
             "contentType": "text/html",
             "resourceTypeHint": "resource",
-            "finishedAt": 1895
+            "finishedAt": 1841
           },
           {
             "id": "net-2",
             "method": "GET",
             "url": "http://127.0.0.1:37127/app.bundle.js",
             "resourceType": "script",
-            "startedAt": 1895,
+            "startedAt": 1839,
             "status": 200,
             "ok": true,
-            "finishedAt": 1900,
+            "finishedAt": 1846,
             "contentType": "text/javascript",
             "resourceTypeHint": "app.bundle.js"
           },
@@ -247,10 +247,10 @@
             "method": "GET",
             "url": "http://127.0.0.1:37127/app.css",
             "resourceType": "stylesheet",
-            "startedAt": 1895,
+            "startedAt": 1839,
             "status": 200,
             "ok": true,
-            "finishedAt": 1896,
+            "finishedAt": 1840,
             "contentType": "text/css",
             "resourceTypeHint": "app.css"
           },
@@ -259,10 +259,10 @@
             "method": "GET",
             "url": "http://127.0.0.1:37127/base.js",
             "resourceType": "script",
-            "startedAt": 1895,
+            "startedAt": 1839,
             "status": 200,
             "ok": true,
-            "finishedAt": 1896,
+            "finishedAt": 1841,
             "contentType": "text/javascript",
             "resourceTypeHint": "base.js"
           },
@@ -271,10 +271,10 @@
             "method": "GET",
             "url": "http://127.0.0.1:37127/learn.json",
             "resourceType": "xhr",
-            "startedAt": 1897,
+            "startedAt": 1841,
             "status": 200,
             "ok": true,
-            "finishedAt": 1898,
+            "finishedAt": 1843,
             "contentType": "text/html",
             "resourceTypeHint": "learn.json"
           },
@@ -283,22 +283,22 @@
             "method": "GET",
             "url": "http://127.0.0.1:37127/",
             "resourceType": "document",
-            "startedAt": 2459,
+            "startedAt": 2413,
             "status": 200,
             "ok": true,
             "contentType": "text/html",
             "resourceTypeHint": "resource",
-            "finishedAt": 2465
+            "finishedAt": 2419
           },
           {
             "id": "net-7",
             "method": "GET",
             "url": "http://127.0.0.1:37127/app.bundle.js",
             "resourceType": "script",
-            "startedAt": 2464,
+            "startedAt": 2418,
             "status": 200,
             "ok": true,
-            "finishedAt": 2469,
+            "finishedAt": 2425,
             "contentType": "text/javascript",
             "resourceTypeHint": "app.bundle.js"
           },
@@ -307,22 +307,22 @@
             "method": "GET",
             "url": "http://127.0.0.1:37127/app.css",
             "resourceType": "stylesheet",
-            "startedAt": 2464,
+            "startedAt": 2418,
             "status": 200,
             "ok": true,
-            "finishedAt": 2465,
             "contentType": "text/css",
-            "resourceTypeHint": "app.css"
+            "resourceTypeHint": "app.css",
+            "finishedAt": 2420
           },
           {
             "id": "net-9",
             "method": "GET",
             "url": "http://127.0.0.1:37127/base.js",
             "resourceType": "script",
-            "startedAt": 2464,
+            "startedAt": 2418,
             "status": 200,
             "ok": true,
-            "finishedAt": 2466,
+            "finishedAt": 2420,
             "contentType": "text/javascript",
             "resourceTypeHint": "base.js"
           },
@@ -331,10 +331,10 @@
             "method": "GET",
             "url": "http://127.0.0.1:37127/learn.json",
             "resourceType": "xhr",
-            "startedAt": 2466,
+            "startedAt": 2420,
             "status": 200,
             "ok": true,
-            "finishedAt": 2466,
+            "finishedAt": 2421,
             "contentType": "text/html",
             "resourceTypeHint": "learn.json"
           }
@@ -347,7 +347,7 @@
             "selector": "[data-testid=\"text-input\"]",
             "name": "New Todo Input",
             "type": "text",
-            "value": "RD_TEST_988F48_1",
+            "value": "RD_TEST_A1A4F9_1",
             "redacted": false
           }
         ],
@@ -363,7 +363,7 @@
               "weight": 100,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 25
+              "elapsedMs": 18
             }
           ],
           "chosenStrategy": "testid",
@@ -371,7 +371,7 @@
           "retryCount": 0
         },
         "before": {
-          "at": 833,
+          "at": 876,
           "url": "http://127.0.0.1:37127/",
           "title": "TodoMVC: React",
           "domHash": "8481d3f92c9191d1",
@@ -422,10 +422,10 @@
           }
         },
         "beforeAction": {
-          "at": 882,
+          "at": 914,
           "url": "http://127.0.0.1:37127/",
           "title": "TodoMVC: React",
-          "domHash": "a1fdf0ad00c70777",
+          "domHash": "b8f881e3c836ef97",
           "canaryPresent": true,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -443,7 +443,7 @@
               {
                 "tag": "input",
                 "type": "text",
-                "valueHash": "1342dfc53c1759b1",
+                "valueHash": "a3612c9a8da8043d",
                 "checked": false,
                 "disabled": false
               },
@@ -476,10 +476,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 1855,
+          "at": 1797,
           "url": "http://127.0.0.1:37127/",
           "title": "TodoMVC: React",
-          "domHash": "a2a0a5433a9b44e8",
+          "domHash": "fb8ad57eee4ac73e",
           "canaryPresent": true,
           "bodyCanaryPresent": true,
           "temporaryBlobUrls": 0,
@@ -491,8 +491,8 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "1d781c8a269848eb",
-            "text": "todos Toggle All Input RD_TEST_988F48_1 1 item left! AllActiveCompleted Double-click to edit a todo Created by the TodoMVC Team Part of TodoMVC",
+            "textHash": "9aec41ad03de2156",
+            "text": "todos Toggle All Input RD_TEST_A1A4F9_1 1 item left! AllActiveCompleted Double-click to edit a todo Created by the TodoMVC Team Part of TodoMVC",
             "controls": [
               {
                 "tag": "input",
@@ -541,7 +541,7 @@
         },
         "screenshot": "screenshots/92f9d29fabad-after.png",
         "afterRefresh": {
-          "at": 2424,
+          "at": 2377,
           "url": "http://127.0.0.1:37127/",
           "title": "TodoMVC: React",
           "domHash": "8481d3f92c9191d1",
@@ -593,7 +593,7 @@
         },
         "refreshScreenshot": "screenshots/92f9d29fabad-refresh.png",
         "afterHardRefresh": {
-          "at": 2994,
+          "at": 2956,
           "url": "http://127.0.0.1:37127/",
           "title": "TodoMVC: React",
           "domHash": "8481d3f92c9191d1",
@@ -644,7 +644,7 @@
           }
         },
         "afterNewTab": {
-          "at": 3637,
+          "at": 3618,
           "url": "http://127.0.0.1:37127/",
           "title": "TodoMVC: React",
           "domHash": "8481d3f92c9191d1",
@@ -695,7 +695,7 @@
           }
         },
         "afterNewContext": {
-          "at": 4272,
+          "at": 4318,
           "url": "http://127.0.0.1:37127/",
           "title": "TodoMVC: React",
           "domHash": "8481d3f92c9191d1",
@@ -846,8 +846,8 @@
   ],
   "environment": {
     "status": "VALID",
-    "checkedAt": "2026-07-22T19:04:53.364Z",
-    "durationMs": 707,
+    "checkedAt": "2026-07-22T20:32:33.133Z",
+    "durationMs": 767,
     "targetUrl": "http://127.0.0.1:37127/",
     "mainDocument": {
       "status": 200,

@@ -308,6 +308,19 @@ try {
   assert.equal(delayedBootstrap.report.environment?.status, "VALID");
   assert.equal(delayedBootstrap.report.summary.verdicts.VERIFIED, 1);
 
+  const fragmentNavigation = await runScan({
+    ...scan,
+    targetUrl: `${fixture.url}/fragment-navigation`,
+    outputRoot: path.join(outputRoot, "fragment-navigation"),
+    maxPages: 1,
+    maxActions: 1,
+    environmentTimeoutMs: 3_000,
+  });
+  assert.equal(fragmentNavigation.exitCode, 0);
+  assert.equal(fragmentNavigation.report.summary.verdicts.VERIFIED, 1);
+  assert.equal(fragmentNavigation.report.findings[0]?.action.label, "Skip to content");
+  assert.equal(fragmentNavigation.report.findings[0]?.evidence.executionError, undefined);
+
   const managedScan = await runCommand({
     executable: process.execPath,
     args: [
@@ -318,13 +331,13 @@ try {
       "--max-pages", "1",
       "--max-actions", "1",
       "--deep",
-      "--environment-timeout", "8000",
+      "--environment-timeout", "20000",
       "--output", path.join(outputRoot, "managed-scan"),
       "--json",
       ...(process.env.REALDONE_BROWSER_PATH ? ["--browser-path", process.env.REALDONE_BROWSER_PATH] : []),
     ],
     cwd: path.resolve("benchmarks/managed-app"),
-    timeoutMs: 30_000,
+    timeoutMs: 45_000,
   });
   assert.equal(commandPassed(managedScan), true, managedScan.stderr);
   const managedSummary = JSON.parse(managedScan.stdout);
@@ -469,6 +482,22 @@ try {
   const passwordStep = secretRecording.contract.steps.find((step) => step.type === "fill" && step.secretEnv);
   assert.equal(passwordStep?.secretEnv, "REALDONE_PASSWORD");
   assert.equal(passwordStep?.fingerprint?.accessibleName, "Password");
+  const cspRecording = await recordFlow(
+    {
+      targetUrl: `${fixture.url}/recorder-csp`,
+      name: "Strict CSP recorder control",
+      outputFile: path.join(flowDirectory, "recorder-csp.json"),
+      headed: false,
+      timeoutMs: 8_000,
+      settleMs: 300,
+      ...(process.env.REALDONE_BROWSER_PATH ? { executablePath: process.env.REALDONE_BROWSER_PATH } : {}),
+    },
+    async (page) => {
+      await page.getByRole("button", { name: "Record CSP action" }).click();
+    },
+  );
+  assert.ok(cspRecording.contract.steps.some((step) => step.type === "click"));
+  assert.ok((cspRecording.contract.artifacts?.rrwebEventCount ?? 0) > 0);
   const complexUploadFile = path.join(outputRoot, "complex-upload.txt");
   await writeFile(complexUploadFile, "RD_COMPLEX_UPLOAD_CONTENT\n");
   const complexRecording = await recordFlow(

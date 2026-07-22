@@ -42,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: datzle123/RealDone@v1.2.0
+      - uses: datzle123/RealDone@v1.3.0
         with:
           baseline: .realdone/baseline.json
           contracts: .realdone/flows
@@ -78,3 +78,21 @@ realdone export-playwright .realdone/flows/create-customer.json \
 Exported specs import `@playwright/test`; install it in the project that executes the generated test. RealDone's own release gate runs an exported external-project flow with the matching Playwright test runner.
 
 Exported tests use user-facing locators where possible and preserve request/status, URL, text, persistence, and secret-environment expectations. Level 6 source assertions remain in the RealDone contract and are emitted as comments because a plain Playwright test has no source-adapter policy.
+
+## Hosted release provenance
+
+Aggregation rejects platform attestations from mixed source revisions and duplicate external case/evidence identities.
+
+After the Linux, Windows, and macOS jobs pass, the `normative release gates (15/15)` job merges their attestations with repository-bound external-case evidence and evaluates all 15 specification gates. Gate 15 requires passing evidence for all nine §27 classes: backend CRUD, PostgreSQL, Supabase, authentication, upload, export, multi-role, AI-generated apps, and multi-step flows. The validator parses the cited raw scans and SHA-256-bound artifacts for source-confirmed CRUD, database-adapter mutations, persistent authentication, real upload/download bytes, Level 7 roles, multi-step contracts, and the agent cycle; an assertion label alone never qualifies. The merge also scans every committed `release/evidence` artifact for secrets and folds the result into RG14.
+
+For coding-agent qualification, the evidence validator additionally parses a bound Codex session projection, green baseline, selected RD901 regression, failed browser verification, and repaired zero-regression run. Contract hashes must remain unchanged across the cycle.
+
+After the aggregate succeeds on a push to `main`, GitHub Actions creates a signed artifact attestation for the merged `release-evidence.json` and `release-gates.json` files before uploading them.
+
+Download those two files from the workflow run and verify either one with:
+
+```bash
+gh attestation verify release-gates.json --repo datzle123/RealDone
+```
+
+A local file, maintainer statement, or skipped aggregate job is not hosted release qualification.

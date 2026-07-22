@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "1.0",
+  "generatedAt": "2026-07-22T20:34:30.000Z",
+  "engineFingerprint": "1f88dd858b13faf079fffb32969319bb0efdef569829de6465ee3d1f2ba9a82e",
+  "case": {
+    "name": "Pocket Ledger (Codex-generated)",
+    "repository": "local/Pocket-Ledger",
+    "pinnedCommit": "fab4847595ec9edff4442fd93d622d5f8ca7d519",
+    "status": "passed",
+    "environmentValid": true,
+    "severeRegressions": 0,
+    "capabilities": ["upload", "export", "multi-role", "ai-generated", "multi-step"]
+  },
+  "scan": {
+    "scanId": "20260722T203233Z-2958",
+    "sourceArtifact": "release/evidence/raw/ai-agent-cycle.scan.json",
+    "sourceSha256": "6acc653145cfce026446fc819741e59d250c64a5f0bd61b75a4cfb4fc1d267e7",
+    "environmentStatus": "VALID",
+    "truncated": false,
+    "pagesDiscovered": 1,
+    "visibleActions": 6,
+    "actionsVerified": 6,
+    "actionsSkipped": 0,
+    "verdicts": {
+      "VERIFIED": 6,
+      "CONTRADICTORY": 0,
+      "EPHEMERAL": 0,
+      "BROWSER_LOCAL": 0,
+      "BROKEN": 0,
+      "NO_EFFECT": 0,
+      "UNCERTAIN": 0,
+      "SKIPPED": 0
+    }
+  },
+  "artifacts": [
+    { "id": "codex-session", "kind": "agent-session", "sourceArtifact": "release/evidence/raw/ai-agent-cycle/codex-session.json", "sourceSha256": "7b92b5e41b4ea11beeb17dd8a1112161d590d82dfa730ae6211cd89cdddc9c23" },
+    { "id": "agent-baseline", "kind": "agent-baseline", "sourceArtifact": "release/evidence/raw/ai-agent-cycle/baseline.json", "sourceSha256": "e8f2f8cdc48b16f4f7c80261fe921892362c437d38674c8ede27ec7cf16f9f60" },
+    { "id": "agent-regression", "kind": "agent-regression", "sourceArtifact": "release/evidence/raw/ai-agent-cycle/regression.json", "sourceSha256": "ebf2654abd76b2fe3b21af4ef22ca02b3424a5a58f4bff15abe5c3171ced8629" },
+    { "id": "failed-verification", "kind": "contract-verification", "sourceArtifact": "release/evidence/raw/ai-agent-cycle/failed-verification.json", "sourceSha256": "72f517861d5e12665bd9665e141eb415a21939d0a723379fedfd41d89b39e151" },
+    { "id": "agent-repair", "kind": "agent-repair", "sourceArtifact": "release/evidence/raw/ai-agent-cycle/repair.json", "sourceSha256": "05b47bfaaab52b80e22ad680929b43206beec233f567cfb0d68732ff6384e8db" },
+    { "id": "role-verification", "kind": "contract-verification", "sourceArtifact": "release/evidence/raw/ai-agent-cycle/role-verification.json", "sourceSha256": "a1aa27f8b77e7dba7912f1ed38364929ec286015fab6f75fa62ee99def96423f" }
+  ],
+  "qualification": {
+    "kind": "codex-agent-cycle",
+    "sessionArtifact": "codex-session",
+    "baselineArtifact": "agent-baseline",
+    "regressionArtifact": "agent-regression",
+    "failedVerificationArtifact": "failed-verification",
+    "repairedArtifact": "agent-repair"
+  },
+  "assertions": [
+    { "id": "environment-valid", "passed": true, "expected": "VALID", "observed": "VALID; primary scan not truncated" },
+    { "id": "capability:upload", "passed": true, "expected": "real multipart text upload", "observed": "POST /api/receipts 200; stored filename and size survived reload", "evidenceArtifacts": ["scan"] },
+    { "id": "capability:export", "passed": true, "expected": "non-empty CSV browser download", "observed": "pocket-ledger.csv downloaded with 117 bytes and content hash", "evidenceArtifacts": ["scan"] },
+    { "id": "capability:multi-role", "passed": true, "expected": "member API denial and admin UI visibility", "observed": "member Reset absent/API 403; admin Reset visible; Level 7", "evidenceArtifacts": ["role-verification"] },
+    { "id": "capability:ai-generated", "passed": true, "expected": "authenticated Codex baseline/regression/repair cycle", "observed": "1 selected/1 RD901 regression, then 1 selected/0 regressions", "evidenceArtifacts": ["codex-session", "agent-baseline", "agent-regression", "failed-verification", "agent-repair"] },
+    { "id": "capability:multi-step", "passed": true, "expected": "versioned multi-step behavior contract", "observed": "unchanged 2-step Increment contract verified before and after repair", "evidenceArtifacts": ["agent-baseline", "agent-regression", "agent-repair"] },
+    { "id": "all-visible-actions", "passed": true, "expected": "all 6 visible actions verified", "observed": "6 VERIFIED; zero skipped or uncertain" }
+  ]
+}

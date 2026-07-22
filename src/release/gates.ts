@@ -2,6 +2,18 @@ import { z } from "zod";
 
 const platformSchema = z.enum(["linux", "macos", "windows"]);
 const sha256Schema = z.string().regex(/^[0-9a-f]{64}$/i);
+export const releaseExternalCapabilitySchema = z.enum([
+  "backend-crud",
+  "postgresql",
+  "supabase",
+  "authentication",
+  "upload",
+  "export",
+  "multi-role",
+  "ai-generated",
+  "multi-step",
+]);
+export const requiredExternalCapabilities = releaseExternalCapabilitySchema.options;
 export const releaseExternalCaseSchema = z.object({
   name: z.string().min(1),
   repository: z.string().min(1),
@@ -12,6 +24,9 @@ export const releaseExternalCaseSchema = z.object({
   status: z.enum(["passed", "failed", "blocked"]),
   environmentValid: z.boolean(),
   severeRegressions: z.number().int().nonnegative(),
+  capabilities: z.array(releaseExternalCapabilitySchema)
+    .refine((values) => new Set(values).size === values.length, "External capabilities must be unique.")
+    .default([]),
 });
 
 const releaseChecksSchema = z.object({
@@ -56,6 +71,7 @@ export const releaseGateEvidenceSchema = z.object({
 export type ReleaseGateEvidence = z.infer<typeof releaseGateEvidenceSchema>;
 export type ReleaseRunAttestation = z.infer<typeof releaseRunAttestationSchema>;
 export type ReleaseExternalCase = z.infer<typeof releaseExternalCaseSchema>;
+export type ReleaseExternalCapability = z.infer<typeof releaseExternalCapabilitySchema>;
 export type ReleasePlatform = z.infer<typeof platformSchema>;
 
 export interface ReleaseGateThresholds {
@@ -95,9 +111,17 @@ function percent(value: number): string {
   return `${(value * 100).toFixed(2)}%`;
 }
 
-export function mergeReleaseGateEvidence(attestationInput: unknown, externalCaseInput: unknown): ReleaseGateEvidence {
+export function mergeReleaseGateEvidence(
+  attestationInput: unknown,
+  externalCaseInput: unknown,
+  externalArtifactSecretsPassed: boolean,
+): ReleaseGateEvidence {
   const attestations = z.array(releaseRunAttestationSchema).min(1).parse(attestationInput);
   const externalCases = z.array(releaseExternalCaseSchema).parse(externalCaseInput);
+  const attestationSources = new Set(attestations.map((item) => item.source));
+  if (attestationSources.size !== 1) {
+    throw new Error("Release attestations must describe the same source revision.");
+  }
   const minimum = (select: (attestation: ReleaseRunAttestation) => number): number => Math.min(...attestations.map(select));
   const maximum = (select: (attestation: ReleaseRunAttestation) => number): number => Math.max(...attestations.map(select));
   const everyCheck = (select: (attestation: ReleaseRunAttestation) => boolean): boolean => attestations.every(select);
@@ -111,7 +135,7 @@ export function mergeReleaseGateEvidence(attestationInput: unknown, externalCase
       cleanup: everyCheck((item) => item.checks.cleanup),
       environmentHealth: everyCheck((item) => item.checks.environmentHealth),
       schemaCompatibility: everyCheck((item) => item.checks.schemaCompatibility),
-      artifactSecrets: everyCheck((item) => item.checks.artifactSecrets),
+      artifactSecrets: everyCheck((item) => item.checks.artifactSecrets) && externalArtifactSecretsPassed,
     },
     benchmark: {
       truncated: attestations.some((item) => item.benchmark.truncated),
@@ -147,6 +171,10 @@ export function evaluateReleaseGates(
   const externalPassed = evidence.externalCases.filter((item) =>
     item.status === "passed" && item.environmentValid && item.severeRegressions === 0,
   );
+  const coveredExternalCapabilities = new Set(externalPassed.flatMap((item) => item.capabilities));
+  const missingExternalCapabilities = requiredExternalCapabilities.filter(
+    (capability) => !coveredExternalCapabilities.has(capability),
+  );
   const gates: ReleaseGateResult[] = [
     { id: "RG01", specificationItem: 1, name: "Typecheck", passed: evidence.checks.typecheck, expected: "pass", observed: evidence.checks.typecheck ? "pass" : "fail" },
     { id: "RG02", specificationItem: 2, name: "Unit tests", passed: evidence.checks.unitTests, expected: "pass", observed: evidence.checks.unitTests ? "pass" : "fail" },
@@ -162,7 +190,16 @@ export function evaluateReleaseGates(
     { id: "RG12", specificationItem: 12, name: "Cross-platform smoke", passed: requiredPlatforms.every((platform) => platforms.has(platform)), expected: requiredPlatforms.join(", "), observed: [...platforms].sort().join(", ") || "none" },
     { id: "RG13", specificationItem: 13, name: "Report schema compatibility", passed: evidence.checks.schemaCompatibility, expected: "pass", observed: evidence.checks.schemaCompatibility ? "pass" : "fail" },
     { id: "RG14", specificationItem: 14, name: "Artifact secret scan", passed: evidence.checks.artifactSecrets, expected: "no findings", observed: evidence.checks.artifactSecrets ? "no findings" : "findings or scan failure" },
-    { id: "RG15", specificationItem: 15, name: "External case studies", passed: externalPassed.length >= thresholds.requiredExternalCases && externalPassed.length === evidence.externalCases.length, expected: `>= ${thresholds.requiredExternalCases} passed; valid environment; zero severe regressions`, observed: `${externalPassed.length}/${evidence.externalCases.length} passed` },
+    {
+      id: "RG15",
+      specificationItem: 15,
+      name: "External case studies",
+      passed: externalPassed.length >= thresholds.requiredExternalCases
+        && externalPassed.length === evidence.externalCases.length
+        && missingExternalCapabilities.length === 0,
+      expected: `>= ${thresholds.requiredExternalCases} passed; valid environment; zero severe regressions; ${requiredExternalCapabilities.length}/${requiredExternalCapabilities.length} required capabilities`,
+      observed: `${externalPassed.length}/${evidence.externalCases.length} passed; ${coveredExternalCapabilities.size}/${requiredExternalCapabilities.length} capabilities${missingExternalCapabilities.length > 0 ? `; missing ${missingExternalCapabilities.join(", ")}` : ""}`,
+    },
   ];
   const passedGates = gates.filter((gate) => gate.passed).length;
   return {

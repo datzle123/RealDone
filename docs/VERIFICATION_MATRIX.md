@@ -49,7 +49,7 @@ pnpm pack
 pnpm smoke:package ./realdone-*.tgz
 ```
 
-Hosted CI additionally gates PostgreSQL 17, Chromium/Firefox/WebKit, Ubuntu/Windows/macOS, Node 20/22, package creation, and the full Chromium browser smoke on every OS family. A subset release tag is created only after the hosted run succeeds. A future full-product release also requires every gate in specification §29 and every status row to be `IMPLEMENTED`.
+Hosted CI additionally gates PostgreSQL 17, Chromium/Firefox/WebKit, Ubuntu/Windows/macOS, Node 20/22, package creation, and the full Chromium browser smoke on every OS family. External gate 15 now requires bound evidence for backend CRUD, PostgreSQL, Supabase, authentication, upload, export, multi-role, AI-generated apps and multi-step flows; successful `main` aggregates are signed with GitHub artifact attestations. A release tag is created only after the hosted run succeeds and every status row is `IMPLEMENTED`.
 
 ## Product boundaries
 

@@ -4,11 +4,23 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-07-23
+
 ### Added
 
 - Provider-aware finding replay with value-free provider name/kind/resource/operation/state requirements across CLI and MCP; missing, mismatched, failed, or non-causal confirmation now returns `REPLAY_UNCERTAIN`.
 - Pre-execution browser safety reclassification from live form action/method, cross-origin and non-HTTP targets, upload fields, provider/endpoint hints, downloads, authentication popups, and destructive endpoints.
 - Schema-validated, path-safe replay that never inherits historical external, destructive, or staging-host authority; CLI replay requires fresh explicit grants and MCP replay remains side-effect-disabled.
+- CSP-compatible rrweb recording through a pre-document browser init script, gated by a strict `script-src 'self'` browser control.
+- Fail-closed affected-flow selection: a non-empty change set that maps to zero contracts now verifies the full manifest instead of reporting a zero-flow pass.
+- Managed-runtime health failures now surface bounded, secret-redacted startup logs, and the hosted smoke allowance covers cold Windows package startup without weakening the finite production timeout.
+- GitHub-hosted 15-gate evidence is now cryptographically attested on successful `main` runs and can be verified with `gh attestation verify`.
+- Engine fingerprints ignore release-only modules and version metadata, so a package version bump cannot invalidate unchanged browser-behavior evidence.
+- External-case release qualification now requires semantic observable proof for all nine normative §27 capability classes, SHA-256-bound supporting artifacts, and an executable Codex baseline → observed RD901 regression → unchanged-contract repair proof instead of trusting assertion labels or a case-count claim.
+- The hosted release merge secret-scans committed external-case evidence and folds that result into RG14 before GitHub can attest the aggregate.
+- Release aggregation rejects duplicate external cases/evidence files and platform attestations from mixed source revisions.
+- Same-document anchors now use their keyboard activation path, so focus-revealed skip links are exercised without false `BROKEN` click timeouts when CSS keeps them offscreen until focus.
+- Configured source snapshots with an error-free added/removed/changed/soft-delete diff now outrank browser-session absence and produce `SOURCE_OF_TRUTH_CONFIRMED` Level 6 evidence; runtime/write failures retain verdict priority.
 - Raw external-project `scan.json` verification: committed source artifacts must remain repository-confined, SHA-256 intact, and exactly consistent with their release-evidence summaries.
 - One-question project action consent for every autonomously browser-operating interactive CLI command, explicit `--yes` for non-interactive CLI/CI runs, and user-owned `--allow-project-actions` authorization for MCP project sessions.
 - Authenticated Codex CLI qualification of the RealDone MCP scan path against the pinned Conduit project, with the resulting browser report retained as evidence rather than trusting the agent response.
@@ -48,7 +60,7 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 
 ### Changed
 
-- The current safety/replay/agent-integrity fingerprint passed hosted run `29950496830` across Windows, macOS, Linux, Node 20/22, the browser matrix, package smoke, and all 15 normative release gates.
+- Hosted run `29950496830` qualified the preceding safety/replay/agent-integrity fingerprint across Windows, macOS, Linux, Node 20/22, the browser matrix, package smoke, and all 15 normative release gates; the new fingerprint still requires its own hosted run.
 - Coding-agent verification now attributes changes and selects affected flows from the final post-build Git state, so generated product files cannot escape independent verification.
 - Production-like targets require an explicit host allowlist for mutation, destructive, and external-effect execution even when the corresponding action opt-in is present.
 - Runtime DOM changes that increase action risk are reported as `SKIPPED`/RD008 before fields are filled or controls are activated; same-origin opt-in canary uploads remain supported.

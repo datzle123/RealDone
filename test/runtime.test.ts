@@ -67,3 +67,32 @@ test("managed runtime performs only the configured number of crash restarts", { 
     await rm(root, { recursive: true, force: true });
   }
 });
+
+test("managed runtime health failures include bounded redacted startup diagnostics", { timeout: 10_000 }, async () => {
+  const root = await mkdtemp(path.join(tmpdir(), "realdone-runtime-diagnostic-"));
+  const port = await availablePort();
+  const secret = "RD_RUNTIME_DIAGNOSTIC_SECRET_123456";
+  const script = "console.error('startup token='+process.env.REALDONE_TEST_TOKEN);process.exit(17)";
+  const manager = new RuntimeManager({
+    cwd: root,
+    command: { executable: process.execPath, args: ["-e", script], source: "runtime diagnostic test" },
+    healthUrl: `http://127.0.0.1:${port}/health`,
+    healthTimeoutMs: 2_000,
+    restartLimit: 0,
+    environment: { REALDONE_TEST_TOKEN: secret },
+  });
+  try {
+    await assert.rejects(
+      () => manager.start(),
+      (error: Error) => {
+        assert.match(error.message, /Recent runtime logs:/);
+        assert.match(error.message, /startup token=\[REDACTED_REALDONE_TEST_TOKEN\]/);
+        assert.equal(error.message.includes(secret), false);
+        return true;
+      },
+    );
+  } finally {
+    await manager.stop();
+    await rm(root, { recursive: true, force: true });
+  }
+});

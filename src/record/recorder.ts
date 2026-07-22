@@ -184,7 +184,6 @@ export async function recordFlow(
       .evaluate(() => Boolean((window as Window & { __realdoneRrwebStarted?: boolean }).__realdoneRrwebStarted))
       .catch(() => true);
     if (alreadyStarted) return;
-    await page.addScriptTag({ path: rrwebBundlePath() });
     await page.evaluate(() => {
       const target = window as Window & { __realdoneStartRrweb?: () => boolean };
       target.__realdoneStartRrweb?.();
@@ -259,6 +258,9 @@ export async function recordFlow(
   };
 
   context.on("page", attachPage);
+  // Pre-document init scripts survive strict application script-src policies
+  // and are reinstalled automatically for every navigation and popup.
+  await context.addInitScript({ path: rrwebBundlePath() });
   await context.addInitScript({ content: injectionSource(startedAt) });
   debug("Recorder init script installed");
   const page = await context.newPage();

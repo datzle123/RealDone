@@ -1,19 +1,20 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-07-22T19:04:59.164Z",
-  "engineFingerprint": "823ee7ab35b8f218cb4f6c275e48786f5841c59192fe17b27efef8509277bc37",
+  "generatedAt": "2026-07-22T20:34:30.000Z",
+  "engineFingerprint": "1f88dd858b13faf079fffb32969319bb0efdef569829de6465ee3d1f2ba9a82e",
   "case": {
     "name": "Actual Budget",
     "repository": "actualbudget/actual",
     "pinnedCommit": "7325498af773d591a7bc70d5af16d3912f566654",
     "status": "passed",
     "environmentValid": true,
-    "severeRegressions": 0
+    "severeRegressions": 0,
+    "capabilities": []
   },
   "scan": {
-    "scanId": "20260722T190320Z-d7dd",
+    "scanId": "20260722T203233Z-77e5",
     "sourceArtifact": "release/evidence/raw/actual-budget.scan.json",
-    "sourceSha256": "ce1846bed3d66f836494a38f9644ff42aa84885be9473bee8c05dcaebbf90e38",
+    "sourceSha256": "73f3a18f561321f607c80c7e7185c04c05f854fdc77d83d26ec659adb7a85b68",
     "environmentStatus": "VALID",
     "truncated": false,
     "pagesDiscovered": 2,
@@ -32,35 +33,10 @@
     }
   },
   "assertions": [
-    {
-      "id": "environment-valid",
-      "passed": true,
-      "expected": "VALID with zero critical asset failures",
-      "observed": "VALID; 30/30 critical assets loaded"
-    },
-    {
-      "id": "scan-complete",
-      "passed": true,
-      "expected": "not truncated",
-      "observed": "not truncated"
-    },
-    {
-      "id": "observable-controls",
-      "passed": true,
-      "expected": "at least 6 actions VERIFIED",
-      "observed": "6 actions VERIFIED"
-    },
-    {
-      "id": "history-dependent-target",
-      "passed": true,
-      "expected": "missing Back target remains unexecuted and UNCERTAIN",
-      "observed": "1 target-missing UNCERTAIN; no substitute element executed"
-    },
-    {
-      "id": "no-engine-regression",
-      "passed": true,
-      "expected": "zero BROKEN, CONTRADICTORY, EPHEMERAL or NO_EFFECT verdicts",
-      "observed": "BROKEN=0; CONTRADICTORY=0; EPHEMERAL=0; NO_EFFECT=0"
-    }
+    { "id": "environment-valid", "passed": true, "expected": "VALID", "observed": "VALID; 30/30 critical assets loaded" },
+    { "id": "scan-complete", "passed": true, "expected": "not truncated", "observed": "not truncated" },
+    { "id": "observable-controls", "passed": true, "expected": "at least 6 VERIFIED", "observed": "6 VERIFIED" },
+    { "id": "history-dependent-target", "passed": true, "expected": "missing Back target remains UNCERTAIN", "observed": "1 UNCERTAIN; no substitute executed" },
+    { "id": "no-engine-regression", "passed": true, "expected": "zero severe regressions", "observed": "BROKEN=0; CONTRADICTORY=0; NO_EFFECT=0" }
   ]
 }

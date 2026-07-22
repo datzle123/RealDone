@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "1.0",
+  "sessionId": "019f8b5d-c0da-7f72-8a98-01cf58fd1d18",
+  "originator": "Codex Desktop",
+  "source": "exec",
+  "modelProvider": "codex_local_access",
+  "cliVersion": "0.143.0",
+  "mcpEvents": [
+    {
+      "tool": "baseline",
+      "passed": true
+    },
+    {
+      "tool": "verify_change",
+      "passed": false,
+      "runId": "20260722T195413Z-217b",
+      "selectedContracts": 1,
+      "regressions": 1
+    },
+    {
+      "tool": "verify_change",
+      "passed": true,
+      "runId": "20260722T195754Z-a9bd",
+      "selectedContracts": 1,
+      "regressions": 0
+    }
+  ]
+}

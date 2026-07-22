@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "1.0",
+  "generatedAt": "2026-07-22T19:46:58.368Z",
+  "contracts": [
+    {
+      "id": "increment-persistent-counter-6270",
+      "name": "Increment persistent counter",
+      "file": "flows/increment.json",
+      "hash": "a7a5dc82b85241e2e8166aaf58a1c3bb0bc86eb6faba4b4b78cc189055e3aeeb",
+      "stepCount": 2,
+      "baseline": {
+        "passed": true,
+        "verificationId": "20260722T194657Z-ac97"
+      }
+    }
+  ]
+}

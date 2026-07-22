@@ -408,6 +408,17 @@ export function createFixtureServer() {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
       return response.end(html("Recorder secret control", `<form id="login"><label>Email <input name="email" type="email" placeholder="Email"></label><label>Password <input name="password" type="password" placeholder="Password"></label><button>Login</button></form>`, `login.addEventListener('submit',event=>{event.preventDefault();notice.className='toast';notice.textContent='Login complete'})`));
     }
+    if (url.pathname === "/recorder-csp") {
+      response.writeHead(200, {
+        "content-type": "text/html; charset=utf-8",
+        "content-security-policy": "default-src 'self'; script-src 'self'; object-src 'none'",
+      });
+      return response.end(`<!doctype html><html><head><meta charset="utf-8"><title>Strict CSP recorder control</title></head><body><main><h1>Strict CSP recorder control</h1><button id="csp-action" type="button">Record CSP action</button></main></body></html>`);
+    }
+    if (url.pathname === "/fragment-navigation") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(`<!doctype html><html><head><meta charset="utf-8"><title>Fragment navigation control</title><style>.skip{position:fixed;top:0;left:0;transform:translateY(-200%)}.skip:focus{transform:none}</style></head><body><a class="skip" href="#main">Skip to content</a><main id="main" tabindex="-1"><h1>Fragment navigation control</h1><p>Keyboard-first same-document navigation.</p></main></body></html>`);
+    }
     if (url.pathname === "/environment-control") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
       return response.end(`<!doctype html><html><head><meta charset="utf-8"><title>Healthy environment</title><link rel="stylesheet" href="/environment.css"></head><body><main><h1>Healthy application</h1><button id="ready">Ready control</button></main><script src="/environment.js"></script></body></html>`);

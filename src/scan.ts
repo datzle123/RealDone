@@ -330,6 +330,10 @@ export async function runScan(
           return after ? [diffSourceSnapshots(before, after)] : [];
         });
         evidence.sourceSnapshotErrors = [...sourceBefore.errors, ...sourceAfter.errors];
+        const sourceChangeConfirmed = evidence.sourceSnapshotErrors.length === 0 && evidence.sourceDiffs.some((diff) =>
+          diff.added.length > 0 || diff.removed.length > 0 || diff.changed.length > 0 || diff.softDeleted.length > 0,
+        );
+        if (sourceChangeConfirmed) evidence.persistenceScope = "SOURCE_OF_TRUTH_CONFIRMED";
       }
       const finding = findingFromEvidence(findingId, action, evidence);
       if (sourceEnabled && (evidence.sourceSnapshotErrors?.length ?? 0) > 0 && finding.verdict === "VERIFIED") {

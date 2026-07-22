@@ -141,7 +141,9 @@ export class RuntimeManager {
       if (this.#snapshot.state === "failed" && !this.#restartTimer) break;
       await delay(150);
     }
-    throw new Error(`Managed runtime did not become healthy at ${this.options.healthUrl}: ${lastError}`);
+    const recentLogs = this.#snapshot.logs.slice(-8);
+    const diagnostic = recentLogs.length > 0 ? `\nRecent runtime logs:\n${recentLogs.join("\n")}` : "";
+    throw new Error(`Managed runtime did not become healthy at ${this.options.healthUrl}: ${lastError}${diagnostic}`);
   }
 
   async start(): Promise<RuntimeSnapshot> {

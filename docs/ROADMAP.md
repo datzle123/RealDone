@@ -10,7 +10,9 @@ A phase gate is complete only when its production behavior, broken fixtures, cor
 
 These releases established browser scanning, evidence reports, replay and cleanup, semantic recording/contracts, baseline/CI, PostgreSQL read-back, coding-agent adapters, multi-role/provider contracts, multi-browser execution, plugin isolation, and performance budgets. They remain supported, but some are `PARTIAL` against the expanded full-product specification. Historical release completion is not the same as §32 full-product completion.
 
-## Active release — real-world correctness (`v1.2.0`)
+## Released real-world correctness (`v1.2.0`)
+
+The active `v1.3.0` full-product qualification is Phase G below.
 
 Contributes evidence to: §8.2, §16, §25–29.
 
@@ -116,4 +118,4 @@ Gate:
 - All 15 release gates in §29 are executable and green on Windows, macOS and Linux.
 - Every row in `PRODUCT_STATUS.md` is `IMPLEMENTED`; only then may RealDone be called a completed full product.
 
-Current progress: causal automatic provider linkage plus provider-aware replay, the shared-core MCP surface, an authenticated Codex → RealDone MCP → Conduit browser scan, final post-build agent attribution, explicit project action consent, live pre-execution safety escalation, bounded performance primitives, and artifact/schema/raw-case safety checks passed hosted run `29950496830` on Windows, macOS, and Linux with all 15 gates green. Phase G remains open because an authenticated baseline → change → `verify_change` cycle, the broader external-project matrix, and §32 are still open in `PRODUCT_STATUS.md`.
+Current progress: the authenticated Codex baseline → selected RD901 regression → unchanged-contract repair cycle is complete and accepted by the local release-evidence validator. Fingerprint `1f88dd858…` has current raw evidence across TodoMVC, Actual Budget, Conduit/SQLite, Conduit/PostgreSQL 17 + Supabase Data API, and Codex-generated Pocket Ledger; the union covers all nine required external capability classes, real PostgreSQL create/update/delete cleanup, upload/export, Level 7 roles and multi-step flow evidence. Phase G remains open until this candidate passes the hosted Windows/macOS/Linux 15-gate aggregate and GitHub signs the merged release evidence; `PRODUCT_STATUS.md` remains authoritative until then.

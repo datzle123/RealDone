@@ -265,6 +265,20 @@ export function resolvePersistenceScope(evidence: ExecutionEvidence): ExecutionE
   return undefined;
 }
 
+function isSameDocumentAnchor(href: string | undefined, pageUrl: string): boolean {
+  if (!href) return false;
+  try {
+    const target = new URL(href, pageUrl);
+    const source = new URL(pageUrl);
+    return Boolean(target.hash)
+      && target.origin === source.origin
+      && target.pathname === source.pathname
+      && target.search === source.search;
+  } catch {
+    return false;
+  }
+}
+
 export async function executeAction(
   browser: Browser,
   action: ActionSpec,
@@ -354,6 +368,12 @@ export async function executeAction(
       await liveLocator.hover({ timeout: options.timeoutMs });
     } else if (action.activation === "contextmenu") {
       await liveLocator.click({ button: "right", timeout: options.timeoutMs });
+    } else if (action.kind === "navigation" && action.fingerprint.tag === "a" && isSameDocumentAnchor(action.fingerprint.href, action.pageUrl)) {
+      // Same-document anchors include keyboard-first skip links that are kept
+      // outside the viewport until focused. Enter dispatches the normal anchor
+      // activation while preserving the accessible interaction path.
+      await liveLocator.focus({ timeout: options.timeoutMs });
+      await liveLocator.press("Enter", { timeout: options.timeoutMs });
     } else if (action.fingerprint.tag === "form" || action.activation === "submit") {
       const submit = liveLocator.locator('button[type="submit"], input[type="submit"], input[type="image"], button:not([type])').first();
       if ((await submit.count()) > 0) await submit.click({ timeout: options.timeoutMs });

@@ -103,6 +103,11 @@ export function detect(action: ActionSpec, evidence: ExecutionEvidence): Detecti
     !providerUnavailable &&
     providerChecks.every((entry) => entry.passed && entry.automaticLinkage?.causallyLinked === true);
   const paymentProviderConfirmed = providerConfirmed && providerChecks.some((entry) => entry.kind === "payment");
+  const sourceConfirmed =
+    (evidence.sourceSnapshotErrors?.length ?? 0) === 0 &&
+    (evidence.sourceDiffs?.some((diff) =>
+      diff.added.length > 0 || diff.removed.length > 0 || diff.changed.length > 0 || diff.softDeleted.length > 0
+    ) ?? false);
 
   if ((evidence.executionError && !evidence.targetNotFound) || evidence.pageErrors.length > 0 || (hardFailures.length > 0 && !generatedCredentialRejection)) {
     matches.push(
@@ -174,6 +179,7 @@ export function detect(action: ActionSpec, evidence: ExecutionEvidence): Detecti
     canarySurvived &&
     evidence.afterNewContext !== undefined &&
     !evidence.afterNewContext.canaryPresent &&
+    !sourceConfirmed &&
     !(evidence.apiReadBack?.ok && evidence.apiReadBack.canaryPresent);
   const browserLocalDelete =
     action.intent === "delete" &&
@@ -322,6 +328,9 @@ export function detect(action: ActionSpec, evidence: ExecutionEvidence): Detecti
   }
   if (providerConfirmed && effect) {
     return { verdict: "VERIFIED", evidenceLevel: 6, reason: "The configured provider independently confirmed the expected external state.", detectorMatches: matches };
+  }
+  if (sourceConfirmed && effect) {
+    return { verdict: "VERIFIED", evidenceLevel: 6, reason: "The configured source of truth independently confirmed a persisted change during the action.", detectorMatches: matches };
   }
   if (authenticationAttempt && successfulWrites.length > 0 && (evidence.afterRefresh?.auth?.artifacts ?? 0) > 0 && evidence.afterRefresh?.auth?.privateContent) {
     return { verdict: "VERIFIED", evidenceLevel: 5, reason: "Authentication produced a session artifact and private state that survived reload.", detectorMatches: matches };

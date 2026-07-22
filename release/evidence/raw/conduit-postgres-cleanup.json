@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "1.0",
+  "scanId": "conduit-postgresql-external-cleanup",
+  "targetUrl": "http://127.0.0.1:3000",
+  "resources": [
+    {
+      "id": "cleanup-conduit-user-3",
+      "findingId": "20260722T200936Z-8a14:RD-026",
+      "actionId": "signup",
+      "type": "users",
+      "canary": "RD_TEST_0A90D4",
+      "createdAt": "2026-07-22T20:10:19.483Z",
+      "sourceUrl": "postgresql:users",
+      "strategy": "postgresql",
+      "database": {
+        "adapter": "postgresql",
+        "resource": "users",
+        "filters": [
+          {
+            "field": "id",
+            "value": 3
+          }
+        ]
+      },
+      "postgres": {
+        "adapter": "postgresql",
+        "resource": "users",
+        "filters": [
+          {
+            "field": "id",
+            "value": 3
+          }
+        ]
+      },
+      "dependsOn": [],
+      "status": "cleaned",
+      "attempts": 1,
+      "lastAttemptAt": "2026-07-22T20:17:12.688Z"
+    },
+    {
+      "id": "cleanup-conduit-user-4",
+      "findingId": "conduit-auth-provisioning",
+      "actionId": "signup",
+      "type": "users",
+      "canary": "RD_TEST_POSTGRES_AUTH",
+      "createdAt": "2026-07-22T20:12:14.000Z",
+      "sourceUrl": "postgresql:users",
+      "strategy": "postgresql",
+      "database": {
+        "adapter": "postgresql",
+        "resource": "users",
+        "filters": [
+          {
+            "field": "id",
+            "value": 4
+          }
+        ]
+      },
+      "postgres": {
+        "adapter": "postgresql",
+        "resource": "users",
+        "filters": [
+          {
+            "field": "id",
+            "value": 4
+          }
+        ]
+      },
+      "dependsOn": [],
+      "status": "cleaned",
+      "attempts": 1,
+      "lastAttemptAt": "2026-07-22T20:17:12.631Z"
+    }
+  ]
+}

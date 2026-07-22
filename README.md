@@ -99,9 +99,9 @@ Review policies before testing any environment with real users or money.
 
 RealDone is a tested open-source preview, not yet the completed full product.
 
-- Current `main` passed all 15 normative gates on Windows, macOS, and Linux in [run 29950496830](https://github.com/datzle123/RealDone/actions/runs/29950496830); every new fingerprint must pass again before release.
-- 19 of 22 normative product areas are `IMPLEMENTED`.
-- Authenticated Codex-to-MCP scanning passes; the full agent change cycle and broader external-project matrix remain open, so the full-product claim stays closed.
+- The preceding source fingerprint passed all 15 normative gates on Windows, macOS, and Linux in [run 29950496830](https://github.com/datzle123/RealDone/actions/runs/29950496830). The new full-matrix candidate still needs its own hosted run.
+- 20 of 22 normative product areas are `IMPLEMENTED`.
+- The authenticated Codex regression/repair cycle and all nine external capability classes have repository-bound local evidence. Hosted cross-platform 15-gate qualification and signed provenance are still required for the full-product claim.
 
 [`PRODUCT_STATUS.md`](docs/PRODUCT_STATUS.md) is the only area-completeness ledger. [`PRODUCT_SPECIFICATION.md`](docs/PRODUCT_SPECIFICATION.md) is the full source of truth. A completed roadmap phase is not the same as a completed full product.
 
