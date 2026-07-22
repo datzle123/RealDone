@@ -56,6 +56,18 @@ test("detects fake create after refresh disappearance", () => {
   assert.ok(result.detectorMatches.some((item) => item.code === "RD201"));
 });
 
+test("classifies refresh-only persistence as browser-local in deep mode", () => {
+  const result = detect(action, evidence({
+    afterNewContext: state(600, "fresh", false),
+    network: [],
+    uiClaims: [{ kind: "success", text: "Saved locally", at: 80 }],
+  }));
+  assert.equal(result.verdict, "BROWSER_LOCAL");
+  assert.equal(result.evidenceLevel, 5);
+  assert.ok(result.detectorMatches.some((item) => item.code === "RD102"));
+  assert.equal(result.detectorMatches.some((item) => item.code === "RD301"), false);
+});
+
 test("detects a false success when the write fails", () => {
   const result = detect(
     { ...action, intent: "update", label: "Save settings" },

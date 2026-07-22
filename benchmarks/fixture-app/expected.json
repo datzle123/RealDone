@@ -23,6 +23,13 @@
       "expectedCodes": []
     },
     {
+      "id": "browser-local-control",
+      "match": { "pagePath": "/browser-local", "label": "Save draft locally" },
+      "shouldFlag": false,
+      "expectedVerdict": "BROWSER_LOCAL",
+      "expectedCodes": ["RD102"]
+    },
+    {
       "id": "false-success",
       "match": { "pagePath": "/success-despite-failure", "label": "Save settings" },
       "shouldFlag": true,

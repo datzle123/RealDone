@@ -60,7 +60,7 @@ export function createFixtureServer() {
 
     if (url.pathname === "/") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
-      return response.end(html("RealDone benchmark fixtures", `<p>Each page contains one known behavior.</p><nav><a href="/fake-create">Fake create</a><a href="/fake-update">Fake update</a><a href="/real-create">Real create control</a><a href="/success-despite-failure">False success</a><a href="/duplicate-submit">Duplicate submit</a><a href="/fake-delete">Fake delete</a><a href="/no-effect">No effect</a><a href="/selector-shift">Selector survival control</a><a href="/missing">Broken navigation</a></nav>`));
+      return response.end(html("RealDone benchmark fixtures", `<p>Each page contains one known behavior.</p><nav><a href="/fake-create">Fake create</a><a href="/fake-update">Fake update</a><a href="/real-create">Real create control</a><a href="/browser-local">Browser-local control</a><a href="/success-despite-failure">False success</a><a href="/duplicate-submit">Duplicate submit</a><a href="/fake-delete">Fake delete</a><a href="/no-effect">No effect</a><a href="/selector-shift">Selector survival control</a><a href="/missing">Broken navigation</a></nav>`));
     }
     if (url.pathname === "/fake-create") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
@@ -69,6 +69,10 @@ export function createFixtureServer() {
     if (url.pathname === "/real-create") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
       return response.end(html("Real create control", `<form id="create"><label>Customer name <input name="name" required></label><button type="submit">Create customer</button></form><ul id="list"></ul>`, `async function load(){const values=await fetch('/api/customers').then(r=>r.json());list.innerHTML=values.map(v=>'<li>'+v+'</li>').join('')}load();create.addEventListener('submit',async e=>{e.preventDefault();const name=create.name.value;await fetch('/api/customers',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({name})});await load();notice.className='toast';notice.textContent='Customer created successfully'})`));
+    }
+    if (url.pathname === "/browser-local") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Browser-local persistence", `<form id="draft"><label>Draft name <input name="name" required></label><button type="submit">Save draft locally</button></form><p id="current"></p>`, `const key='realdone-browser-local';function load(){current.textContent=localStorage.getItem(key)||''}load();draft.addEventListener('submit',e=>{e.preventDefault();localStorage.setItem(key,draft.name.value);load();notice.className='toast';notice.textContent='Draft saved locally'})`));
     }
     if (url.pathname === "/fake-update") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });

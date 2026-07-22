@@ -91,6 +91,7 @@ realdone replay RD-014 --report-dir .realdone/reports/<scan-id>
 - `RD002` no observable effect
 - `RD003` duplicate submission
 - `RD101` refresh disappearance
+- `RD102` new-session disappearance
 - `RD201` fake create
 - `RD202` fake update
 - `RD203` fake delete
@@ -113,6 +114,9 @@ realdone scan <url>
   --allow-external         opt in to external effects
   --browser-path <file>    existing Chrome/Chromium executable
   --policy <file>          rules, overrides, hosts, and budgets
+  --deep                   confirm mutations in a fresh browser context
+  --trace                  capture a Playwright trace per executed action
+  --video                  capture browser video per executed action
   --max-duration <ms>      global time budget
   --retries <n>            transient navigation/locator retries
 
@@ -121,6 +125,7 @@ realdone cleanup --report-dir <scan-directory> [--confirm]
 realdone benchmark <url> --expected <expectations.json> [--verify-replays]
 realdone record <url> --name "Create customer"
 realdone verify .realdone/flows/create-customer.json
+realdone verify .realdone/flows/create-customer.json --deep
 realdone verify .realdone/flows/create-customer.json --postgres-config .realdone/postgres.json
 realdone matrix .realdone/flows/create-customer.json
 realdone baseline .realdone/flows --out .realdone/baseline.json
@@ -187,7 +192,7 @@ See [Behavior contracts](docs/CONTRACTS.md) for editing assertions, secret handl
 
 ```yaml
 - uses: actions/checkout@v6
-- uses: datzle123/RealDone@v1.0.0
+- uses: datzle123/RealDone@v1.1.0
   with:
     baseline: .realdone/baseline.json
     contracts: .realdone/flows
@@ -227,6 +232,10 @@ realdone matrix .realdone/flows/create-customer.json
 
 `matrix` runs a contract against Chromium, Firefox, and WebKit and writes complete per-engine evidence plus `matrix.json`, `matrix.md`, and `matrix.html`. See [Advanced verification](docs/ADVANCED.md) and the [compatibility matrix](docs/COMPATIBILITY.md).
 
+`--deep` adds a clean-context read-back after normal reload persistence. State that survives reload but disappears in the fresh context is reported as `BROWSER_LOCAL` with detector `RD102`; recorded `persistence` expectations must pass in both contexts.
+
+Add `--trace` or `--video` only when full debugging evidence is worth the extra disk and runtime cost. Scan and verification reports link the resulting portable artifacts.
+
 ## Provider plugins and performance budgets
 
 Plugin SDK v1 lets reviewed local plugins observe payment-sandbox, test-inbox, and object-storage outcomes. Plugins return typed observations; RealDone validates the evidence and computes the verdict. Each call receives a fresh worker with explicit time and memory bounds, but plugins remain trusted code rather than security-sandboxed code.
@@ -250,6 +259,8 @@ node dist/cli.js scan http://127.0.0.1:<printed-port> --allow-destructive
 ```
 
 Run the full browser smoke test with `pnpm smoke`. It also verifies selector survival, a bounded replay sample, cleanup, roles, provider evidence, performance budgets, and the coding-agent pipeline. The standalone `benchmark` command writes precision/recall/FPR and operational metrics to `benchmark.json` plus Markdown and HTML dashboards.
+
+The [functional verification matrix](docs/VERIFICATION_MATRIX.md) maps every public capability to its executable release gate and records the product's intentional boundaries.
 
 ## Roadmap
 

@@ -18,6 +18,8 @@ export async function writeReport(
     mkdir(path.join(reportDirectory, "screenshots"), { recursive: true }),
     mkdir(path.join(reportDirectory, "network"), { recursive: true }),
     mkdir(path.join(reportDirectory, "reproductions"), { recursive: true }),
+    mkdir(path.join(reportDirectory, "traces"), { recursive: true }),
+    mkdir(path.join(reportDirectory, "videos"), { recursive: true }),
   ]);
   const report = structuredClone(sourceReport);
   for (const finding of report.findings) {
@@ -27,6 +29,12 @@ export async function writeReport(
     else delete finding.evidence.screenshot;
     if (refreshScreenshot) finding.evidence.refreshScreenshot = refreshScreenshot;
     else delete finding.evidence.refreshScreenshot;
+    const trace = portablePath(reportDirectory, finding.evidence.trace);
+    const video = portablePath(reportDirectory, finding.evidence.video);
+    if (trace) finding.evidence.trace = trace;
+    else delete finding.evidence.trace;
+    if (video) finding.evidence.video = video;
+    else delete finding.evidence.video;
 
     const reproduction: Reproduction = {
       schemaVersion: "1.0",
@@ -41,6 +49,9 @@ export async function writeReport(
         maxRetries: report.options.maxRetries,
         allowDestructive: report.options.allowDestructive,
         allowExternal: report.options.allowExternal,
+        deep: Boolean(report.options.deep),
+        trace: Boolean(report.options.trace),
+        video: Boolean(report.options.video),
       },
     };
     await Promise.all([

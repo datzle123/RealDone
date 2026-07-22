@@ -1,6 +1,10 @@
 # Performance budgets
 
-Quick scan remains intentionally light: one Chromium worker, no provider/database adapter, no extra role, and trace-heavy evidence only when needed.
+Quick scan remains intentionally light: one Chromium worker, no provider/database adapter, no extra role, and no trace or video unless explicitly requested.
+
+`--deep` opens one additional browser context per executed mutation to confirm persistence scope. Keep it opt-in for important flows or scheduled audits rather than paying that cost in every quick scan.
+
+`--trace` records Playwright snapshots/screenshots and `--video` records the browser viewport. Both add I/O, storage, and post-processing work; use them for diagnosis or release evidence rather than routine scans.
 
 Recorded verification can enforce an explicit budget:
 

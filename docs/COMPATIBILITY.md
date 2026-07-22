@@ -1,6 +1,6 @@
 # Compatibility matrix
 
-`v1.0.0` is release-gated on the matrix below.
+`v1.1.0` is release-gated on the matrix below.
 
 | Surface | Release gate |
 | --- | --- |
@@ -11,7 +11,7 @@
 | Package managers | pnpm 10 for repository development; npm-compatible published package |
 | Module format | Node ESM with generated declarations and source maps |
 
-The Ubuntu full gate runs PostgreSQL integration, all three browser engines, browser/agent/provider smoke, dependency audit, and package creation. Windows and macOS run typecheck, unit/failure-mode tests, and production build on Node 20/22.
+The Ubuntu full gate runs PostgreSQL integration, all three browser engines, browser/agent/provider smoke, dependency audit, and package creation. Windows and macOS run typecheck, unit/failure-mode tests, production build, Chromium installation, and the complete single-browser smoke on Node 20/22.
 
 Chromium accepts a custom executable through `--browser-path`. Firefox and WebKit use Playwright-managed binaries so RealDone does not accidentally launch an incompatible system browser.
 

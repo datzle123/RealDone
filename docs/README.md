@@ -12,4 +12,5 @@ RealDone is a local-first runtime behavioral verifier. Start with the [project R
 - [Performance](PERFORMANCE.md) — enforceable budgets and benchmark dashboard.
 - [Compatibility](COMPATIBILITY.md) — release-gated operating systems, Node versions, browsers, and integrations.
 - [Threat model](THREAT_MODEL.md) — trust boundaries, mitigations, and residual risk.
+- [Functional verification matrix](VERIFICATION_MATRIX.md) — public capabilities mapped to executable release gates.
 - [Roadmap](ROADMAP.md) — phase gates from core proof through `v1.0.0`.

@@ -166,6 +166,7 @@ export interface ExecutionEvidence {
   before?: StateSnapshot;
   after?: StateSnapshot;
   afterRefresh?: StateSnapshot;
+  afterNewContext?: StateSnapshot;
   network: NetworkEvidence[];
   console: ConsoleEvidence[];
   pageErrors: string[];
@@ -176,8 +177,11 @@ export interface ExecutionEvidence {
   targetText?: string;
   targetVisibleAfter?: boolean;
   targetVisibleAfterRefresh?: boolean;
+  targetVisibleAfterNewContext?: boolean;
   screenshot?: string;
   refreshScreenshot?: string;
+  trace?: string;
+  video?: string;
   executionError?: string;
   locatorResolution?: LocatorResolution;
 }
@@ -229,6 +233,9 @@ export interface PublicScanOptions {
   allowDestructive: boolean;
   allowExternal: boolean;
   mutationAllowed: boolean;
+  deep?: boolean;
+  trace?: boolean;
+  video?: boolean;
 }
 
 export interface ScanOptions extends PublicScanOptions {
@@ -285,5 +292,8 @@ export interface Reproduction {
     | "maxRetries"
     | "allowDestructive"
     | "allowExternal"
+    | "deep"
+    | "trace"
+    | "video"
   >;
 }

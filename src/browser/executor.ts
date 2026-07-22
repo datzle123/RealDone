@@ -81,11 +81,23 @@ export async function executeAction(
     dialogs: [],
     downloads: [],
   };
+  const reportDirectory = path.dirname(screenshotDirectory);
+  const traceDirectory = path.join(reportDirectory, "traces");
+  const videoDirectory = path.join(reportDirectory, "videos");
+  await Promise.all([
+    mkdir(screenshotDirectory, { recursive: true }),
+    ...(options.trace ? [mkdir(traceDirectory, { recursive: true })] : []),
+    ...(options.video ? [mkdir(videoDirectory, { recursive: true })] : []),
+  ]);
   const context = await browser.newContext(
-    options.storageStatePath ? { storageState: options.storageStatePath } : {},
+    {
+      ...(options.storageStatePath ? { storageState: options.storageStatePath } : {}),
+      ...(options.video ? { recordVideo: { dir: videoDirectory } } : {}),
+    },
   );
   const page = await context.newPage();
-  await mkdir(screenshotDirectory, { recursive: true });
+  const video = page.video();
+  if (options.trace) await context.tracing.start({ screenshots: true, snapshots: true, sources: false });
   let attached: ReturnType<typeof attachEvidence> | undefined;
 
   try {
@@ -138,6 +150,28 @@ export async function executeAction(
       const refreshPath = path.join(screenshotDirectory, screenshotName(action, "refresh"));
       await page.screenshot({ path: refreshPath, fullPage: true });
       evidence.refreshScreenshot = refreshPath;
+
+      if (options.deep) {
+        const persistenceUrl = page.url();
+        const freshContext = await browser.newContext(
+          options.storageStatePath ? { storageState: options.storageStatePath } : {},
+        );
+        try {
+          const freshPage = await freshContext.newPage();
+          await withRetry(
+            () => freshPage.goto(persistenceUrl, { waitUntil: "domcontentloaded", timeout: options.timeoutMs }),
+            { retries: options.maxRetries, shouldRetry: isTransientBrowserError },
+          );
+          await freshPage.waitForTimeout(options.settleMs);
+          evidence.afterNewContext = await captureState(freshPage, canary, startedAt);
+          const targetVisibleAfterNewContext = await targetIsVisible(freshPage, evidence.targetText);
+          if (targetVisibleAfterNewContext !== undefined) {
+            evidence.targetVisibleAfterNewContext = targetVisibleAfterNewContext;
+          }
+        } finally {
+          await freshContext.close();
+        }
+      }
     }
   } catch (error) {
     evidence.executionError = error instanceof Error ? error.message : String(error);
@@ -148,7 +182,16 @@ export async function executeAction(
     await attached?.flush();
     attached?.detach();
     evidence.durationMs = Date.now() - startedAt;
+    if (options.trace) {
+      const tracePath = path.join(traceDirectory, `${action.id}.zip`);
+      const saved = await context.tracing.stop({ path: tracePath }).then(() => true).catch(() => false);
+      if (saved) evidence.trace = tracePath;
+    }
     await context.close();
+    if (video) {
+      const videoPath = await video.path().catch(() => undefined);
+      if (videoPath) evidence.video = videoPath;
+    }
   }
   return evidence;
 }

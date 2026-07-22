@@ -96,6 +96,16 @@ export function detect(action: ActionSpec, evidence: ExecutionEvidence): Detecti
 
   const canaryAppeared = evidence.after?.canaryPresent === true;
   const canarySurvived = evidence.afterRefresh?.canaryPresent === true;
+  const browserLocalCanary =
+    action.kind === "mutation" &&
+    canarySurvived &&
+    evidence.afterNewContext !== undefined &&
+    !evidence.afterNewContext.canaryPresent;
+  const browserLocalDelete =
+    action.intent === "delete" &&
+    evidence.targetVisibleAfter === false &&
+    evidence.targetVisibleAfterRefresh === false &&
+    evidence.targetVisibleAfterNewContext === true;
   if (action.kind === "mutation" && canaryAppeared && evidence.afterRefresh && !canarySurvived) {
     matches.push(match("RD101", "Refresh disappearance", "The generated canary appeared after the action and disappeared after reload."));
     if (action.intent === "create") matches.push(match("RD201", "Fake create", "The created resource was not persistent."));
@@ -108,7 +118,10 @@ export function detect(action: ActionSpec, evidence: ExecutionEvidence): Detecti
   ) {
     matches.push(match("RD203", "Fake delete", "The resource disappeared from the current DOM and returned after reload."));
   }
-  if (successClaim && writeRequests.length === 0 && action.kind === "mutation") {
+  if (browserLocalCanary || browserLocalDelete) {
+    matches.push(match("RD102", "New-session disappearance", "The result survived reload in the current browser context but was absent in a fresh context."));
+  }
+  if (successClaim && writeRequests.length === 0 && action.kind === "mutation" && !browserLocalCanary && !browserLocalDelete) {
     matches.push(match("RD301", "Success before proof", "The interface reported success without an observed write request."));
   }
 
@@ -121,6 +134,9 @@ export function detect(action: ActionSpec, evidence: ExecutionEvidence): Detecti
   }
   if (matches.some((item) => item.code === "RD001" || item.code === "RD303" || item.code === "RD003")) {
     return { verdict: "BROKEN", evidenceLevel: writeRequests.length > 0 ? 2 : 1, reason: first?.detail ?? "Broken action", detectorMatches: matches };
+  }
+  if (matches.some((item) => item.code === "RD102")) {
+    return { verdict: "BROWSER_LOCAL", evidenceLevel: 5, reason: matches.find((item) => item.code === "RD102")?.detail ?? "Browser-local persistence", detectorMatches: matches };
   }
   if (matches.some((item) => item.code === "RD002")) {
     return { verdict: "NO_EFFECT", evidenceLevel: 1, reason: first?.detail ?? "No observable effect", detectorMatches: matches };

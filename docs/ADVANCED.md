@@ -2,6 +2,25 @@
 
 Advanced features are opt-in. Default `scan` remains one Chromium worker with no database, provider, plugin, extra role, video, or AI requirement.
 
+## Deep fresh-context verification
+
+Standard mutation scans reload the current page. Deep mode adds an independent browser context using only the configured initial auth state:
+
+```bash
+realdone scan http://localhost:3000 --deep
+realdone verify .realdone/flows/create-customer.json --deep
+```
+
+For automatic scans, a canary that survives reload but disappears in the fresh context produces `BROWSER_LOCAL` and `RD102`. This describes persistence scope rather than automatically treating browser-local state as a defect. For recorded contracts, each explicit `persistence` expectation must also be visible in the fresh context, so the contract decides whether browser-local storage is acceptable.
+
+Capture full debugging artifacts explicitly when needed:
+
+```bash
+realdone verify flow.json --deep --trace --video
+```
+
+Trace ZIPs and browser videos are linked from local HTML/JSON evidence. They can contain application content, so keep them under the ignored `.realdone/` tree and review them before sharing.
+
 ## Multi-role contracts and Level 7
 
 Declare named roles with separate Playwright storage-state files. The primary role continues to use the top-level `authState`.

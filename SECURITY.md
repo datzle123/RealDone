@@ -16,6 +16,8 @@ RealDone drives a real browser. The default policy limits mutations to local/tes
 
 Recorded password-like inputs are replaced by environment-variable references and rrweb runs with all input masking enabled. Playwright auth-state files contain sensitive cookies and may grant account access; keep them under the ignored `.realdone/` directory, never commit them, and rotate staging credentials after suspected exposure.
 
+Playwright traces and browser videos can contain visible application content, URLs, and interaction state that generic secret redaction cannot remove. They are opt-in, remain in the ignored local report tree, and must be reviewed before sharing or attaching to a public issue.
+
 PostgreSQL credentials and CA material must be provided through the environment names referenced by the adapter config. Prefer a dedicated least-privilege read-only role. Source verification also opens a read-only transaction. Database cleanup is a separate opt-in path requiring CLI confirmation, config permission, exact allowlisted key fields, and a maximum-row rollback guard; use it only against disposable local or staging data.
 
 Agent verification executes a real coding agent and rebuild command in the selected Git worktree. It refuses pre-existing changes by default, uses argument-array process spawning instead of a shell, bounds execution time and captured output, and redacts known/environment-provided secrets from logs. Use a disposable branch or worktree, least-privilege agent credentials, and review local `.realdone/agent-runs` logs before sharing them; arbitrary application output can still be sensitive.

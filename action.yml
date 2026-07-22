@@ -62,6 +62,18 @@ inputs:
     description: Optional verification performance budget JSON path
     required: false
     default: ""
+  deep:
+    description: Require persistence expectations to pass in a fresh browser context
+    required: false
+    default: "false"
+  trace:
+    description: Capture Playwright traces for verification contexts
+    required: false
+    default: "false"
+  video:
+    description: Capture browser video for verification contexts
+    required: false
+    default: "false"
 
 runs:
   using: composite
@@ -99,12 +111,18 @@ runs:
         RD_PLUGIN_TIMEOUT: ${{ inputs.plugin-timeout }}
         RD_PLUGIN_MEMORY: ${{ inputs.plugin-memory }}
         RD_PERFORMANCE_BUDGET: ${{ inputs.performance-budget }}
+        RD_DEEP: ${{ inputs.deep }}
+        RD_TRACE: ${{ inputs.trace }}
+        RD_VIDEO: ${{ inputs.video }}
       run: |
         cd "$GITHUB_WORKSPACE/$RD_WORKING_DIRECTORY"
         args=(ci --baseline "$RD_BASELINE" --contracts "$RD_CONTRACTS" --output "$RD_OUTPUT" --browser "$RD_BROWSER")
         if [[ -n "$RD_ALLOW_HOST" ]]; then args+=(--allow-host "$RD_ALLOW_HOST"); fi
         if [[ -n "$RD_POSTGRES_CONFIG" ]]; then args+=(--postgres-config "$RD_POSTGRES_CONFIG"); fi
         if [[ -n "$RD_PERFORMANCE_BUDGET" ]]; then args+=(--performance-budget "$RD_PERFORMANCE_BUDGET"); fi
+        if [[ "$RD_DEEP" == "true" ]]; then args+=(--deep); fi
+        if [[ "$RD_TRACE" == "true" ]]; then args+=(--trace); fi
+        if [[ "$RD_VIDEO" == "true" ]]; then args+=(--video); fi
         if [[ -n "$RD_PLUGIN_TIMEOUT" ]]; then args+=(--plugin-timeout "$RD_PLUGIN_TIMEOUT"); fi
         if [[ -n "$RD_PLUGIN_MEMORY" ]]; then args+=(--plugin-memory "$RD_PLUGIN_MEMORY"); fi
         while IFS= read -r role_state; do

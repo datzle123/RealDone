@@ -125,3 +125,5 @@ realdone verify .realdone/flows/create-customer.json \
 Verification stops after the first failed step unless `--continue` is supplied. Production-like mutation hosts require `--allow-host`; destructive and external actions require `--allow-destructive` or `--allow-external` respectively.
 
 Use `realdone matrix <contract>` to verify the same contract across Chromium, Firefox, and WebKit. Performance-budget violations fail the run just like behavioral assertion failures.
+
+Add `--deep` when a `persistence` expectation must survive both reload and a fresh browser context initialized from the configured auth state. This is stricter than normal verification and intentionally rejects values that exist only in the current context's local storage.

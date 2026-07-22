@@ -45,6 +45,7 @@ function findingTimeline(finding: Finding): string {
   }
   for (const claim of evidence.uiClaims) items.push({ at: claim.at, text: `UI ${claim.kind}: ${claim.text}` });
   if (evidence.afterRefresh) items.push({ at: evidence.afterRefresh.at, text: `Reloaded; canary present: ${evidence.afterRefresh.canaryPresent}` });
+  if (evidence.afterNewContext) items.push({ at: evidence.afterNewContext.at, text: `Fresh browser context; canary present: ${evidence.afterNewContext.canaryPresent}` });
   if (evidence.executionError) items.push({ at: evidence.durationMs, text: `Execution error: ${evidence.executionError}` });
   return items
     .sort((a, b) => a.at - b.at)
@@ -62,6 +63,10 @@ function findingCard(finding: Finding): string {
   const screenshot = finding.evidence.screenshot
     ? `<a class="shot" href="${escapeHtml(finding.evidence.screenshot)}"><img src="${escapeHtml(finding.evidence.screenshot)}" alt="Evidence screenshot for ${escapeHtml(finding.id)}"></a>`
     : "";
+  const artifacts = [
+    finding.evidence.trace ? `<a href="${escapeHtml(finding.evidence.trace)}">Playwright trace</a>` : "",
+    finding.evidence.video ? `<a href="${escapeHtml(finding.evidence.video)}">Browser video</a>` : "",
+  ].filter(Boolean).join(" · ");
   return `<details class="finding ${verdictClass(finding.verdict)}" ${finding.verdict === "VERIFIED" || finding.verdict === "SKIPPED" ? "" : "open"}>
     <summary>
       <span class="verdict">${escapeHtml(finding.verdict)}</span>
@@ -73,6 +78,7 @@ function findingCard(finding: Finding): string {
       ${finding.skippedReason ? `<p class="skip-note">${escapeHtml(finding.skippedReason)}</p>` : ""}
       ${detectors ? `<h4>Detector matches</h4><ul class="detectors">${detectors}</ul>` : ""}
       ${finding.evidence.startedAt ? `<h4>Timeline</h4><ol class="timeline">${findingTimeline(finding)}</ol>` : ""}
+      ${artifacts ? `<h4>Full evidence</h4><p>${artifacts}</p>` : ""}
       ${screenshot}
     </div>
   </details>`;

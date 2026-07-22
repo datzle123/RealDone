@@ -1,7 +1,7 @@
 import { randomBytes } from "node:crypto";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
-import type { Browser, BrowserContext, Locator, Page } from "playwright";
+import type { Browser, BrowserContext, Locator, Page, Video } from "playwright";
 import { createPostgresAdapterFromFile, type PostgresSourceAdapter } from "../adapters/postgres/index.js";
 import { attachEvidence, type EvidenceSink } from "../browser/evidence.js";
 import { resolveSemanticLocator } from "../browser/locator.js";
@@ -35,6 +35,9 @@ export interface VerifyContractOptions {
   pluginTimeoutMs?: number;
   pluginMemoryLimitMb?: number;
   performanceBudgetFile?: string;
+  deep?: boolean;
+  trace?: boolean;
+  video?: boolean;
 }
 
 export interface VerifyContractResult {
@@ -128,6 +131,10 @@ async function verifyExpectation(
   postgres?: PostgresSourceAdapter,
   rolePage?: (role: string) => Promise<Page>,
   plugins?: PluginHost,
+  freshRolePage?: (role?: string) => Promise<Page>,
+  deep = false,
+  stepRole = "default",
+  settleMs = 0,
 ): Promise<StepVerification["assertions"][number]> {
   switch (expectation.type) {
     case "request": {
@@ -150,8 +157,23 @@ async function verifyExpectation(
     }
     case "persistence": {
       await page.reload({ waitUntil: "domcontentloaded" });
-      const passed = await page.getByText(expectation.value, { exact: false }).last().isVisible().catch(() => false);
-      return { expectation, passed, detail: `Text persisted after reload: ${expectation.value}`, evidenceLevel: 5 };
+      const reloadPassed = await page.getByText(expectation.value, { exact: false }).last().isVisible().catch(() => false);
+      if (!deep || !reloadPassed) {
+        return { expectation, passed: reloadPassed, detail: `Text persisted after reload: ${expectation.value}`, evidenceLevel: 5 };
+      }
+      if (!freshRolePage) {
+        return { expectation, passed: false, detail: "Deep persistence verifier is unavailable.", evidenceLevel: 5 };
+      }
+      const fresh = await freshRolePage(stepRole);
+      await fresh.goto(page.url(), { waitUntil: "domcontentloaded" });
+      if (settleMs > 0) await fresh.waitForTimeout(settleMs);
+      const freshPassed = await fresh.getByText(expectation.value, { exact: false }).last().isVisible().catch(() => false);
+      return {
+        expectation,
+        passed: freshPassed,
+        detail: `Text persisted after reload and in a fresh browser context: ${expectation.value}`,
+        evidenceLevel: 5,
+      };
     }
     case "source": {
       const reportExpectation = redactSourceExpectation(expectation);
@@ -249,7 +271,8 @@ async function verifyExpectation(
 
 interface RolePages {
   page(role?: string): Promise<Page>;
-  close(): Promise<void>;
+  freshPage(role?: string): Promise<Page>;
+  close(): Promise<{ traces: string[]; videos: string[] }>;
 }
 
 function createRolePages(
@@ -257,8 +280,17 @@ function createRolePages(
   contractFile: string,
   contract: Awaited<ReturnType<typeof loadBehaviorContract>>,
   options: VerifyContractOptions,
+  outputDirectory: string,
 ): RolePages {
-  const opened = new Map<string, { context: BrowserContext; page: Page }>();
+  interface ContextEntry {
+    context: BrowserContext;
+    page: Page;
+    name: string;
+    video: Video | null;
+  }
+  const opened = new Map<string, ContextEntry>();
+  const contexts: ContextEntry[] = [];
+  let freshSequence = 0;
   const contractDirectory = path.dirname(contractFile);
   const storageFor = (role: string): string | undefined => {
     if (role === "default") {
@@ -272,20 +304,50 @@ function createRolePages(
     const configured = contract.roles?.[role]?.authState.path;
     return configured ? path.resolve(contractDirectory, configured) : undefined;
   };
+  const open = async (role: string, fresh: boolean): Promise<ContextEntry> => {
+      if (role !== "default" && !contract.roles?.[role]) throw new Error(`Unknown behavior role: ${role}`);
+      const storageState = storageFor(role);
+      const context = await browser.newContext({
+        ...(storageState ? { storageState } : {}),
+        ...(options.video ? { recordVideo: { dir: path.join(outputDirectory, "videos") } } : {}),
+      });
+      const page = await context.newPage();
+      const name = fresh ? `${role}-fresh-${++freshSequence}` : role;
+      if (options.trace) await context.tracing.start({ screenshots: true, snapshots: true, sources: false });
+      const entry = { context, page, name, video: page.video() };
+      contexts.push(entry);
+      return entry;
+  };
+  const portable = (value: string): string => path.relative(outputDirectory, value).split(path.sep).join("/");
   return {
     page: async (role = "default") => {
       const existing = opened.get(role);
       if (existing) return existing.page;
-      if (role !== "default" && !contract.roles?.[role]) throw new Error(`Unknown behavior role: ${role}`);
-      const storageState = storageFor(role);
-      const context = await browser.newContext(storageState ? { storageState } : {});
-      const page = await context.newPage();
-      opened.set(role, { context, page });
-      return page;
+      const entry = await open(role, false);
+      opened.set(role, entry);
+      return entry.page;
+    },
+    freshPage: async (role = "default") => {
+      return (await open(role, true)).page;
     },
     close: async () => {
-      await Promise.allSettled([...opened.values()].map(({ context }) => context.close()));
+      const traces: string[] = [];
+      const videos: string[] = [];
+      for (const entry of contexts) {
+        if (options.trace) {
+          const tracePath = path.join(outputDirectory, "traces", `${entry.name}.zip`);
+          const saved = await entry.context.tracing.stop({ path: tracePath }).then(() => true).catch(() => false);
+          if (saved) traces.push(portable(tracePath));
+        }
+        await entry.context.close().catch(() => undefined);
+        if (entry.video) {
+          const videoPath = await entry.video.path().catch(() => undefined);
+          if (videoPath) videos.push(portable(videoPath));
+        }
+      }
       opened.clear();
+      contexts.length = 0;
+      return { traces, videos };
     },
   };
 }
@@ -301,7 +363,11 @@ export async function verifyContract(
     : undefined;
   const id = verificationId();
   const outputDirectory = path.resolve(options.outputRoot, id);
-  await mkdir(outputDirectory, { recursive: true });
+  await Promise.all([
+    mkdir(outputDirectory, { recursive: true }),
+    ...(options.trace ? [mkdir(path.join(outputDirectory, "traces"), { recursive: true })] : []),
+    ...(options.video ? [mkdir(path.join(outputDirectory, "videos"), { recursive: true })] : []),
+  ]);
   const needsPostgres = contract.steps.some((step) => step.expected.some((expectation) => expectation.type === "source"));
   const postgres = needsPostgres && options.postgresConfigPath
     ? await createPostgresAdapterFromFile(options.postgresConfigPath)
@@ -319,9 +385,10 @@ export async function verifyContract(
     browserName: options.browserName ?? "chromium",
     ...(options.executablePath ? { executablePath: options.executablePath } : {}),
   });
-  const rolePages = createRolePages(browser, absoluteContract, contract, options);
+  const rolePages = createRolePages(browser, absoluteContract, contract, options, outputDirectory);
   const startedAt = new Date();
   const results: StepVerification[] = [];
+  let artifacts: { traces: string[]; videos: string[] } = { traces: [], videos: [] };
   let blocked = false;
   try {
     for (const step of contract.steps) {
@@ -367,7 +434,18 @@ export async function verifyContract(
         await attached.flush();
         const assertions: StepVerification["assertions"] = [];
         for (const expectation of step.expected) {
-          assertions.push(await verifyExpectation(page, expectation, sink.network, postgres, rolePages.page, plugins));
+          assertions.push(await verifyExpectation(
+            page,
+            expectation,
+            sink.network,
+            postgres,
+            rolePages.page,
+            plugins,
+            rolePages.freshPage,
+            Boolean(options.deep),
+            role,
+            options.settleMs,
+          ));
         }
         const passed = assertions.every((assertion) => assertion.passed) && sink.pageErrors.length === 0;
         results.push({
@@ -399,7 +477,7 @@ export async function verifyContract(
       }
     }
   } finally {
-    await rolePages.close();
+    artifacts = await rolePages.close();
     await browser.close();
     await postgres?.close();
   }
@@ -410,6 +488,7 @@ export async function verifyContract(
     contractName: contract.name,
     browser: options.browserName ?? "chromium",
     roles: ["default", ...Object.keys(contract.roles ?? {}).sort()],
+    deep: Boolean(options.deep),
     startedAt: startedAt.toISOString(),
     finishedAt: new Date().toISOString(),
     passed: false,
@@ -424,6 +503,7 @@ export async function verifyContract(
     : undefined;
   verification.passed = results.every((step) => step.status === "passed") && (performance?.passed ?? true);
   if (performance) verification.performance = performance;
+  if (artifacts.traces.length > 0 || artifacts.videos.length > 0) verification.artifacts = artifacts;
   await Promise.all([
     writeFile(path.join(outputDirectory, "verification.json"), `${JSON.stringify(verification, null, 2)}\n`),
     writeFile(path.join(outputDirectory, "report.html"), renderContractVerification(verification)),

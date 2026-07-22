@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdir, mkdtemp, writeFile } from "node:fs/promises";
+import { access, mkdir, mkdtemp, readdir, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { spawn } from "node:child_process";
@@ -56,6 +56,7 @@ try {
     settleMs: 250,
     maxDurationMs: 90_000,
     maxRetries: 2,
+    deep: true,
     ...(process.env.REALDONE_BROWSER_PATH ? { executablePath: process.env.REALDONE_BROWSER_PATH } : {}),
   };
   const result = await runBenchmark({
@@ -64,20 +65,64 @@ try {
     verifyReplays: true,
     maxReplays: 2,
   });
-  assert.ok(result.report.summary.pagesDiscovered >= 9);
+  assert.ok(result.report.summary.pagesDiscovered >= 10);
   assert.ok(result.report.findings.some((finding) => finding.detectorMatches.some((item) => item.code === "RD201")));
   assert.ok(result.report.findings.some((finding) => finding.detectorMatches.some((item) => item.code === "RD302")));
   assert.ok(result.report.findings.some((finding) => finding.detectorMatches.some((item) => item.code === "RD003")));
   assert.ok(result.report.findings.some((finding) => finding.detectorMatches.some((item) => item.code === "RD203")));
   assert.ok(result.report.findings.some((finding) => finding.verdict === "VERIFIED"));
+  assert.ok(result.report.findings.some((finding) => finding.verdict === "BROWSER_LOCAL" && finding.detectorMatches.some((item) => item.code === "RD102")));
   assert.equal(result.metrics.precision, 1);
   assert.equal(result.metrics.recall, 1);
   assert.equal(result.metrics.falsePositiveRate, 0);
   assert.equal(result.metrics.actionDiscoveryRate, 1);
   assert.equal(result.metrics.detectorAccuracy, 1);
   assert.equal(result.metrics.reproductionSuccessRate, 1);
+  for (const artifact of [
+    "report.html",
+    "summary.json",
+    "findings.json",
+    "scan.json",
+    "cleanup-ledger.json",
+    "benchmark.json",
+    "benchmark.md",
+    "benchmark.html",
+  ]) {
+    await access(path.join(result.reportDirectory, artifact));
+  }
+  assert.ok((await readdir(path.join(result.reportDirectory, "screenshots"))).length > 0);
+  assert.ok((await readdir(path.join(result.reportDirectory, "network"))).length > 0);
+  assert.ok((await readdir(path.join(result.reportDirectory, "reproductions"))).length > 0);
+  const cliScan = await runCommand({
+    executable: process.execPath,
+    args: [
+      "dist/cli.js",
+      "scan",
+      `${fixture.url}/browser-local`,
+      "--deep",
+      "--trace",
+      "--video",
+      "--max-pages", "1",
+      "--max-actions", "2",
+      "--settle", "100",
+      "--output", path.join(outputRoot, "cli-scan"),
+      "--json",
+      ...(process.env.REALDONE_BROWSER_PATH ? ["--browser-path", process.env.REALDONE_BROWSER_PATH] : []),
+    ],
+    cwd: process.cwd(),
+    timeoutMs: 30_000,
+  });
+  assert.equal(commandPassed(cliScan), true, cliScan.stderr);
+  const cliSummary = JSON.parse(cliScan.stdout);
+  assert.equal(cliSummary.verdicts.BROWSER_LOCAL, 1);
+  const cliReportNames = await readdir(path.join(outputRoot, "cli-scan"), { withFileTypes: true });
+  const cliReportDirectory = path.join(outputRoot, "cli-scan", cliReportNames.find((entry) => entry.isDirectory()).name);
+  assert.ok((await readdir(path.join(cliReportDirectory, "traces"))).length > 0);
+  assert.ok((await readdir(path.join(cliReportDirectory, "videos"))).length > 0);
   const selectorFinding = result.report.findings.find((finding) => finding.action.label.includes("Toggle resilient"));
   assert.equal(selectorFinding?.evidence.locatorResolution?.chosenStrategy, "role");
+  const cleanupDryRun = await runCleanup(result.reportDirectory, { confirm: false, allowHosts: [], retries: 1 });
+  assert.ok(cleanupDryRun.pending > 0);
   const cleanup = await runCleanup(result.reportDirectory, { confirm: true, allowHosts: [], retries: 1 });
   assert.equal(cleanup.failed, 0);
   assert.ok(cleanup.cleaned >= 1);
@@ -141,6 +186,10 @@ try {
     reference: { value: "RECORDED_CUSTOMER" },
     state: "confirmed",
   });
+  recordedClick.expected.push({
+    type: "persistence",
+    value: "RECORDED_CUSTOMER",
+  });
   await writeBehaviorContract(recording.contractFile, recording.contract);
   const verification = await verifyContract(recording.contractFile, {
     outputRoot: path.join(outputRoot, "verifications"),
@@ -154,12 +203,24 @@ try {
     allowHosts: [],
     pluginManifests: [pluginManifest],
     performanceBudgetFile: path.resolve("examples/realdone.performance.json"),
+    deep: true,
+    trace: true,
+    video: true,
     ...(process.env.REALDONE_BROWSER_PATH ? { executablePath: process.env.REALDONE_BROWSER_PATH } : {}),
   });
   assert.equal(verification.verification.passed, true);
   assert.ok(verification.verification.steps.some((step) => step.assertions.some((assertion) => assertion.evidenceLevel === 7 && assertion.passed)));
   assert.ok(verification.verification.steps.some((step) => step.assertions.some((assertion) => assertion.providerEvidence?.passed)));
   assert.equal(verification.verification.performance?.passed, true);
+  assert.equal(verification.verification.deep, true);
+  assert.ok((verification.verification.artifacts?.traces.length ?? 0) > 0);
+  assert.ok((verification.verification.artifacts?.videos.length ?? 0) > 0);
+  for (const artifact of [
+    ...(verification.verification.artifacts?.traces ?? []),
+    ...(verification.verification.artifacts?.videos ?? []),
+  ]) {
+    await access(path.join(verification.outputDirectory, artifact));
+  }
   const verifyOptions = {
     outputRoot: path.join(outputRoot, "baseline-runs"),
     headed: false,
@@ -172,6 +233,7 @@ try {
     allowHosts: [],
     pluginManifests: [pluginManifest],
     performanceBudgetFile: path.resolve("examples/realdone.performance.json"),
+    deep: true,
     ...(process.env.REALDONE_BROWSER_PATH ? { executablePath: process.env.REALDONE_BROWSER_PATH } : {}),
   };
   const baselineFile = path.join(outputRoot, "baseline.json");

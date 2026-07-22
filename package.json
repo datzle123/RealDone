@@ -1,6 +1,6 @@
 {
   "name": "realdone",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Behavioral verification for AI-built web applications",
   "type": "module",
   "main": "./dist/index.js",
@@ -22,6 +22,7 @@
     "docs/PERFORMANCE.md",
     "docs/PLUGIN_SDK.md",
     "docs/THREAT_MODEL.md",
+    "docs/VERIFICATION_MATRIX.md",
     "examples/plugins/storage-fixture",
     "examples/realdone.performance.json",
     "README.md",

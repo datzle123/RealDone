@@ -4,6 +4,22 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-07-22
+
+### Added
+
+- `--deep` scan and recorded-verification mode that confirms persistence in a fresh browser context.
+- Runtime `RD102` detection and `BROWSER_LOCAL` verdict for state that survives reload but disappears in a clean context.
+- Browser-local public fixture and end-to-end CLI smoke coverage for deep persistence scope.
+- Opt-in Playwright trace and browser-video artifacts for automatic scans and recorded verification.
+- Cross-platform CLI surface tests covering every release command and advanced verification option.
+
+### Changed
+
+- Reproduction contracts preserve deep-mode semantics so an `RD102` result can be replayed deterministically.
+- GitHub Action exposes deep verification as an explicit opt-in input.
+- HTML/JSON reports link portable trace and video evidence when capture is enabled.
+
 ## [1.0.0] - 2026-07-22
 
 ### Added

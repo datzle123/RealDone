@@ -88,7 +88,7 @@ const program = new Command();
 program
   .name("realdone")
   .description("Behavioral verification for AI-built web applications")
-  .version("1.0.0")
+  .version("1.1.0")
   .showHelpAfterError();
 
 program
@@ -109,6 +109,9 @@ program
   .option("--storage-state <file>", "Playwright storage state for authenticated pages")
   .option("--browser-path <file>", "use an existing Chromium/Chrome executable")
   .option("--policy <file>", "JSON action policy and budget file")
+  .option("--deep", "confirm mutation persistence in a fresh browser context", false)
+  .option("--trace", "capture a Playwright trace for every executed action", false)
+  .option("--video", "capture browser video for every executed action", false)
   .option("--json", "print the machine-readable summary", false)
   .action(async (url: string, values: Record<string, unknown>) => {
     const policy = values.policy ? await loadActionPolicy(path.resolve(String(values.policy))) : undefined;
@@ -126,6 +129,9 @@ program
       settleMs: Number(values.settle),
       maxDurationMs: Number(values.maxDuration ?? policy?.budgets?.maxDurationMs ?? 120_000),
       maxRetries: Number(values.retries ?? policy?.budgets?.maxRetries ?? 2),
+      deep: Boolean(values.deep),
+      trace: Boolean(values.trace),
+      video: Boolean(values.video),
       ...(policy ? { policy } : {}),
       ...(values.storageState ? { storageStatePath: path.resolve(String(values.storageState)) } : {}),
       ...(values.browserPath ? { executablePath: path.resolve(String(values.browserPath)) } : {}),
@@ -221,6 +227,9 @@ program
   .option("--plugin-timeout <milliseconds>", "per-plugin verification timeout", positiveInteger, 5_000)
   .option("--plugin-memory <megabytes>", "per-plugin worker memory limit", positiveInteger, 64)
   .option("--performance-budget <file>", "verification performance budget JSON")
+  .option("--deep", "require persistence expectations to pass in a fresh browser context", false)
+  .option("--trace", "capture Playwright traces for verification contexts", false)
+  .option("--video", "capture browser video for verification contexts", false)
   .action(async (contract: string, values: Record<string, unknown>) => {
     const result = await verifyContract(path.resolve(contract), {
       outputRoot: path.resolve(String(values.output)),
@@ -228,6 +237,9 @@ program
       timeoutMs: Number(values.timeout),
       settleMs: Number(values.settle),
       maxRetries: Number(values.retries),
+      deep: Boolean(values.deep),
+      trace: Boolean(values.trace),
+      video: Boolean(values.video),
       continueOnFailure: Boolean(values.continue),
       allowDestructive: Boolean(values.allowDestructive),
       allowExternal: Boolean(values.allowExternal),
@@ -266,6 +278,9 @@ program
   .option("--browser-path <file>", "existing Chromium/Chrome executable")
   .option("--verify-replays", "re-run a bounded sample of findings", false)
   .option("--max-replays <number>", "maximum reproductions to verify", positiveInteger, 3)
+  .option("--deep", "confirm mutation persistence in a fresh browser context", false)
+  .option("--trace", "capture a Playwright trace for every executed action", false)
+  .option("--video", "capture browser video for every executed action", false)
   .action(async (url: string, values: Record<string, unknown>) => {
     const result = await runBenchmark(
       {
@@ -286,6 +301,9 @@ program
           settleMs: Number(values.settle),
           maxDurationMs: Number(values.maxDuration),
           maxRetries: Number(values.retries),
+          deep: Boolean(values.deep),
+          trace: Boolean(values.trace),
+          video: Boolean(values.video),
           ...(values.storageState ? { storageStatePath: path.resolve(String(values.storageState)) } : {}),
           ...(values.browserPath ? { executablePath: path.resolve(String(values.browserPath)) } : {}),
         },
@@ -327,6 +345,9 @@ program
   .option("--plugin-timeout <milliseconds>", "per-plugin verification timeout", positiveInteger, 5_000)
   .option("--plugin-memory <megabytes>", "per-plugin worker memory limit", positiveInteger, 64)
   .option("--performance-budget <file>", "verification performance budget JSON")
+  .option("--deep", "require persistence expectations to pass in a fresh browser context", false)
+  .option("--trace", "capture Playwright traces for verification contexts", false)
+  .option("--video", "capture browser video for verification contexts", false)
   .action(async (contracts: string[], values: Record<string, unknown>) => {
     const output = path.resolve(String(values.out));
     const manifest = await captureBaseline(
@@ -338,6 +359,9 @@ program
         timeoutMs: Number(values.timeout),
         settleMs: Number(values.settle),
         maxRetries: Number(values.retries),
+        deep: Boolean(values.deep),
+        trace: Boolean(values.trace),
+        video: Boolean(values.video),
         continueOnFailure: false,
         allowDestructive: Boolean(values.allowDestructive),
         allowExternal: Boolean(values.allowExternal),
@@ -382,6 +406,9 @@ program
   .option("--plugin-timeout <milliseconds>", "per-plugin verification timeout", positiveInteger, 5_000)
   .option("--plugin-memory <megabytes>", "per-plugin worker memory limit", positiveInteger, 64)
   .option("--performance-budget <file>", "verification performance budget JSON")
+  .option("--deep", "require persistence expectations to pass in a fresh browser context", false)
+  .option("--trace", "capture Playwright traces for verification contexts", false)
+  .option("--video", "capture browser video for verification contexts", false)
   .action(async (values: Record<string, unknown>) => {
     const result = await runRegressionGate({
       baselineFile: path.resolve(String(values.baseline)),
@@ -394,6 +421,9 @@ program
         timeoutMs: Number(values.timeout),
         settleMs: Number(values.settle),
         maxRetries: Number(values.retries),
+        deep: Boolean(values.deep),
+        trace: Boolean(values.trace),
+        video: Boolean(values.video),
         continueOnFailure: false,
         allowDestructive: Boolean(values.allowDestructive),
         allowExternal: Boolean(values.allowExternal),
@@ -435,6 +465,9 @@ program
   .option("--plugin-timeout <milliseconds>", "per-plugin verification timeout", positiveInteger, 5_000)
   .option("--plugin-memory <megabytes>", "per-plugin worker memory limit", positiveInteger, 64)
   .option("--performance-budget <file>", "verification performance budget JSON")
+  .option("--deep", "require persistence expectations to pass in a fresh browser context", false)
+  .option("--trace", "capture Playwright traces for verification contexts", false)
+  .option("--video", "capture browser video for verification contexts", false)
   .action(async (contract: string, values: Record<string, unknown>) => {
     const browsers = values.browser as BrowserName[];
     const result = await runBrowserMatrix(
@@ -446,6 +479,9 @@ program
         timeoutMs: Number(values.timeout),
         settleMs: Number(values.settle),
         maxRetries: Number(values.retries),
+        deep: Boolean(values.deep),
+        trace: Boolean(values.trace),
+        video: Boolean(values.video),
         continueOnFailure: Boolean(values.continue),
         allowDestructive: Boolean(values.allowDestructive),
         allowExternal: Boolean(values.allowExternal),
@@ -522,6 +558,9 @@ program
   .option("--plugin-timeout <milliseconds>", "per-plugin verification timeout", positiveInteger, 5_000)
   .option("--plugin-memory <megabytes>", "per-plugin worker memory limit", positiveInteger, 64)
   .option("--performance-budget <file>", "verification performance budget JSON")
+  .option("--deep", "require persistence expectations to pass in a fresh browser context", false)
+  .option("--trace", "capture Playwright traces for verification contexts", false)
+  .option("--video", "capture browser video for verification contexts", false)
   .action(async (presetValue: string, values: Record<string, unknown>) => {
     const workingDirectory = path.resolve(String(values.workingDirectory));
     const task = await loadTask(
@@ -552,6 +591,9 @@ program
         timeoutMs: Number(values.timeout),
         settleMs: Number(values.settle),
         maxRetries: Number(values.retries),
+        deep: Boolean(values.deep),
+        trace: Boolean(values.trace),
+        video: Boolean(values.video),
         continueOnFailure: false,
         allowDestructive: Boolean(values.allowDestructive),
         allowExternal: Boolean(values.allowExternal),

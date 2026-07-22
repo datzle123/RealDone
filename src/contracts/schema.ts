@@ -90,10 +90,12 @@ export interface ContractVerification {
   contractName: string;
   browser: BrowserName;
   roles: string[];
+  deep: boolean;
   startedAt: string;
   finishedAt: string;
   passed: boolean;
   performance?: PerformanceEvaluation;
+  artifacts?: { traces: string[]; videos: string[] };
   steps: StepVerification[];
 }
 
