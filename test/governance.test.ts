@@ -8,11 +8,12 @@ async function read(path: string): Promise<string> {
   return readFile(new URL(path, root), "utf8");
 }
 
-test("normative product truth is linked and shipped", async () => {
-  const [specification, status, roadmap, readme, docsIndex, contributing, agents, pullRequest, packageText, workflow] = await Promise.all([
+test("normative product truth is linked, consistent, and shipped", async () => {
+  const [specification, status, roadmap, matrix, readme, docsIndex, contributing, agents, pullRequest, packageText, workflow] = await Promise.all([
     read("docs/PRODUCT_SPECIFICATION.md"),
     read("docs/PRODUCT_STATUS.md"),
     read("docs/ROADMAP.md"),
+    read("docs/VERIFICATION_MATRIX.md"),
     read("README.md"),
     read("docs/README.md"),
     read("CONTRIBUTING.md"),
@@ -27,12 +28,39 @@ test("normative product truth is linked and shipped", async () => {
   assert.match(specification, /# 32\. Định nghĩa hoàn thành full project/);
   assert.match(status, /Full product:\*\* \*\*CHƯA HOÀN THÀNH/);
   assert.match(roadmap, /PRODUCT_SPECIFICATION\.md/);
+  assert.match(roadmap, /only area-completeness ledger/i);
+  assert.doesNotMatch(roadmap, /Mapped specification:/);
+  assert.match(matrix, /not a product-status ledger/i);
+  assert.doesNotMatch(status, /16\/58/);
+
+  const rows = [...status.matchAll(/^\| ([^|]+) \| (IMPLEMENTED|PARTIAL|PLANNED) \|/gm)]
+    .map((match) => ({ area: match[1]?.trim() ?? "", state: match[2] ?? "" }));
+  const counts = {
+    IMPLEMENTED: rows.filter((row) => row.state === "IMPLEMENTED").length,
+    PARTIAL: rows.filter((row) => row.state === "PARTIAL").length,
+    PLANNED: rows.filter((row) => row.state === "PLANNED").length,
+  };
+  assert.deepEqual(counts, { IMPLEMENTED: 15, PARTIAL: 6, PLANNED: 1 });
+  assert.ok(status.includes(`Area coverage:** **${counts.IMPLEMENTED}/${rows.length} \`IMPLEMENTED\``));
+  assert.match(status, /Detector catalog: \*\*58\/58 production-classified and gated\*\*/);
+  for (const area of ["§4 Record and verify", "§19–20 Contracts and replay", "§21 Report", "§22 Database adapters", "§23 Provider adapters", "§26 Benchmark"]) {
+    assert.equal(rows.find((row) => row.area === area)?.state, "IMPLEMENTED", `${area} must agree with its completed phase gate`);
+  }
+  assert.equal(rows.find((row) => row.area === "§4 Coding-agent verification")?.state, "PARTIAL");
+  assert.equal(rows.find((row) => row.area === "§32 Full-product definition")?.state, "PLANNED");
 
   for (const surface of [readme, docsIndex, contributing, agents, pullRequest]) {
     assert.match(surface, /PRODUCT_SPECIFICATION\.md/);
   }
+  assert.ok(readme.split(/\r?\n/).length <= 180, "GitHub README must stay scannable in under 180 lines");
+  const readmeOpening = readme.split(/\r?\n/).slice(0, 45).join("\n");
+  for (const message of ["Prove that a web app works", "## Try it", "pnpm realdone scan", "does **not** score visual design"]) {
+    assert.ok(readmeOpening.includes(message), `README opening is missing: ${message}`);
+  }
+  assert.doesNotMatch(readme, /npx realdone/, "README must not advertise npm installation before the package is published");
 
-  const packageJson = JSON.parse(packageText) as { files?: string[] };
+  const packageJson = JSON.parse(packageText) as { files?: string[]; scripts?: Record<string, string> };
+  assert.equal(packageJson.scripts?.realdone, "node dist/cli.js");
   for (const file of ["docs/PRODUCT_SPECIFICATION.md", "docs/PRODUCT_STATUS.md", "docs/ROADMAP.md"]) {
     const shipped = packageJson.files?.some((entry) => file === entry || file.startsWith(`${entry.replace(/\/$/, "")}/`));
     assert.ok(shipped, `${file} must ship in the package`);

@@ -33,7 +33,8 @@
     "fixture": "node benchmarks/fixture-app/server.mjs",
     "capture-report": "node scripts/capture-report.mjs",
     "postgres:up": "docker compose -f benchmarks/postgres/docker-compose.yml up -d --wait",
-    "test:postgres": "node --import tsx --test test/postgres.integration.test.ts"
+    "test:postgres": "node --import tsx --test test/postgres.integration.test.ts",
+    "realdone": "node dist/cli.js"
   },
   "keywords": [
     "playwright",

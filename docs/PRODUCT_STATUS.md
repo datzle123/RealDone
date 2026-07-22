@@ -2,6 +2,7 @@
 
 **Snapshot:** 2026-07-22
 **Full product:** **CHƯA HOÀN THÀNH**
+**Area coverage:** **15/22 `IMPLEMENTED`**, **6/22 `PARTIAL`**, **1/22 `PLANNED`**. Detector catalog: **58/58 production-classified and gated**.
 
 This file reports current evidence against the normative [`PRODUCT_SPECIFICATION.md`](PRODUCT_SPECIFICATION.md). It does not reduce that specification. `IMPLEMENTED` requires executable evidence; `PARTIAL` means useful code exists but the full normative behavior or release gate does not.
 
