@@ -1,11 +1,14 @@
 import { z } from "zod";
 
 const platformSchema = z.enum(["linux", "macos", "windows"]);
+const sha256Schema = z.string().regex(/^[0-9a-f]{64}$/i);
 export const releaseExternalCaseSchema = z.object({
   name: z.string().min(1),
   repository: z.string().min(1),
   pinnedCommit: z.string().regex(/^[0-9a-f]{7,40}$/i),
   evidenceFile: z.string().min(1),
+  evidenceSha256: sha256Schema,
+  engineFingerprint: sha256Schema,
   status: z.enum(["passed", "failed", "blocked"]),
   environmentValid: z.boolean(),
   severeRegressions: z.number().int().nonnegative(),

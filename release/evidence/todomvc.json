@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "1.0",
+  "generatedAt": "2026-07-22T14:55:19.400Z",
+  "engineFingerprint": "2d65bc79c802dd0bc260e5886044379538c2af8f6023b923ac3b5ea1b2f9cdaa",
+  "case": {
+    "name": "TodoMVC React",
+    "repository": "tastejs/todomvc",
+    "pinnedCommit": "ff43b02e59dfa604386bb382034b2cd07c2bcd8a",
+    "status": "passed",
+    "environmentValid": true,
+    "severeRegressions": 0
+  },
+  "scan": {
+    "scanId": "20260722T145513Z-a469",
+    "sourceArtifact": "work/real-runs/release-final-todomvc/20260722T145513Z-a469/scan.json",
+    "sourceSha256": "1d8529112aa8ec0b383eef3392c7aa01bf7800dec434736fb38e159d9da6831a",
+    "environmentStatus": "VALID",
+    "truncated": false,
+    "pagesDiscovered": 1,
+    "visibleActions": 2,
+    "actionsVerified": 1,
+    "actionsSkipped": 1,
+    "verdicts": {
+      "VERIFIED": 0,
+      "CONTRADICTORY": 0,
+      "EPHEMERAL": 1,
+      "BROWSER_LOCAL": 0,
+      "BROKEN": 0,
+      "NO_EFFECT": 0,
+      "UNCERTAIN": 0,
+      "SKIPPED": 1
+    }
+  },
+  "assertions": [
+    {
+      "id": "environment-valid",
+      "passed": true,
+      "expected": "VALID with zero critical asset failures",
+      "observed": "VALID; 3/3 critical assets loaded"
+    },
+    {
+      "id": "scan-complete",
+      "passed": true,
+      "expected": "not truncated",
+      "observed": "not truncated"
+    },
+    {
+      "id": "enter-action-discovered",
+      "passed": true,
+      "expected": "New Todo Input is executed as an Enter mutation",
+      "observed": "1 Enter mutation executed"
+    },
+    {
+      "id": "known-memory-only-behavior",
+      "passed": true,
+      "expected": "EPHEMERAL with RD101, RD104 and RD201",
+      "observed": "EPHEMERAL with RD101, RD104 and RD201"
+    },
+    {
+      "id": "no-engine-regression",
+      "passed": true,
+      "expected": "zero unexpected BROKEN, CONTRADICTORY or NO_EFFECT verdicts",
+      "observed": "BROKEN=0; CONTRADICTORY=0; NO_EFFECT=0"
+    }
+  ]
+}

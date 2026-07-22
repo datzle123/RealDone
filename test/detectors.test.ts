@@ -214,6 +214,32 @@ test("keeps generated login credential rejection uncertain", () => {
   assert.equal(result.detectorMatches.some((item) => ["RD001", "RD101", "RD303"].includes(item.code)), false);
 });
 
+test("does not report fake login when a public account prompt remains visible after credential rejection", () => {
+  const login = {
+    ...action,
+    label: "Login",
+    intent: "submit" as const,
+    fields: [
+      { selector: "#email", tag: "input" as const, type: "email", name: "email", required: true, disabled: false },
+      { selector: "#password", tag: "input" as const, type: "password", name: "password", required: true, disabled: false },
+    ],
+  };
+  const publicLoginState = signaledState({
+    auth: { artifacts: 0, expiredArtifacts: 0, privateContent: true, adminContent: false, accessDenied: false },
+    semanticDom: { textHash: "login", text: "Sign in Need an account? Email not found", controls: [] },
+  });
+  const result = detect(login, evidence({
+    before: publicLoginState,
+    beforeAction: publicLoginState,
+    after: { ...publicLoginState, domHash: "after-error" },
+    afterRefresh: publicLoginState,
+    network: [{ id: "net-1", method: "POST", url: "http://localhost/api/users/login", resourceType: "fetch", startedAt: 50, finishedAt: 80, status: 404, ok: false }],
+  }));
+
+  assert.equal(result.verdict, "UNCERTAIN");
+  assert.equal(result.detectorMatches.some((item) => item.code === "RD501"), false);
+});
+
 test("detects observable mock, search, dashboard, and placeholder behavior", () => {
   const cases: Array<[ActionSpec, ExecutionEvidence, string]> = [
     [{ ...action, kind: "local" as const, intent: "interact" as const, label: "Load demo data" }, evidence({ network: [] }), "RD401"],
@@ -236,6 +262,13 @@ test("detects authentication and session integrity failures", () => {
   };
   const privateState = signaledState({ auth: { artifacts: 0, expiredArtifacts: 0, privateContent: true, adminContent: false, accessDenied: false } });
   assert.ok(detect(login, evidence({ network: [], after: privateState, afterRefresh: privateState })).detectorMatches.some((item) => item.code === "RD501"));
+  const pollutedPrivateState = signaledState({ url: "http://localhost/login-lab", auth: { artifacts: 0, expiredArtifacts: 0, privateContent: true, adminContent: false, accessDenied: false } });
+  assert.ok(detect(login, evidence({
+    network: [],
+    before: pollutedPrivateState,
+    beforeAction: pollutedPrivateState,
+    after: { ...privateState, url: "http://localhost/welcome", domHash: "private-welcome" },
+  })).detectorMatches.some((item) => item.code === "RD501"));
   assert.ok(detect(
     { ...action, kind: "local", intent: "interact", label: "Logout" },
     evidence({ network: [], before: signaledState({ auth: { artifacts: 1, expiredArtifacts: 0, privateContent: true, adminContent: false, accessDenied: false } }), after: signaledState({ auth: { artifacts: 1, expiredArtifacts: 0, privateContent: true, adminContent: false, accessDenied: false } }) }),

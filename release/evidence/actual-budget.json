@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "1.0",
+  "generatedAt": "2026-07-22T14:55:42.844Z",
+  "engineFingerprint": "2d65bc79c802dd0bc260e5886044379538c2af8f6023b923ac3b5ea1b2f9cdaa",
+  "case": {
+    "name": "Actual Budget",
+    "repository": "actualbudget/actual",
+    "pinnedCommit": "7325498af773d591a7bc70d5af16d3912f566654",
+    "status": "passed",
+    "environmentValid": true,
+    "severeRegressions": 0
+  },
+  "scan": {
+    "scanId": "20260722T145513Z-72d2",
+    "sourceArtifact": "work/real-runs/release-final-actual/20260722T145513Z-72d2/scan.json",
+    "sourceSha256": "cef46c10631c1e95cbb4493110e3a7d0117c303aed0ba8bace98ab0220a3f0ae",
+    "environmentStatus": "VALID",
+    "truncated": false,
+    "pagesDiscovered": 2,
+    "visibleActions": 10,
+    "actionsVerified": 7,
+    "actionsSkipped": 3,
+    "verdicts": {
+      "VERIFIED": 6,
+      "CONTRADICTORY": 0,
+      "EPHEMERAL": 0,
+      "BROWSER_LOCAL": 0,
+      "BROKEN": 0,
+      "NO_EFFECT": 0,
+      "UNCERTAIN": 1,
+      "SKIPPED": 3
+    }
+  },
+  "assertions": [
+    {
+      "id": "environment-valid",
+      "passed": true,
+      "expected": "VALID with zero critical asset failures",
+      "observed": "VALID; 30/30 critical assets loaded"
+    },
+    {
+      "id": "scan-complete",
+      "passed": true,
+      "expected": "not truncated",
+      "observed": "not truncated"
+    },
+    {
+      "id": "observable-controls",
+      "passed": true,
+      "expected": "at least 6 actions VERIFIED",
+      "observed": "6 actions VERIFIED"
+    },
+    {
+      "id": "history-dependent-target",
+      "passed": true,
+      "expected": "missing Back target remains unexecuted and UNCERTAIN",
+      "observed": "1 target-missing UNCERTAIN; no substitute element executed"
+    },
+    {
+      "id": "no-engine-regression",
+      "passed": true,
+      "expected": "zero BROKEN, CONTRADICTORY, EPHEMERAL or NO_EFFECT verdicts",
+      "observed": "BROKEN=0; CONTRADICTORY=0; EPHEMERAL=0; NO_EFFECT=0"
+    }
+  ]
+}

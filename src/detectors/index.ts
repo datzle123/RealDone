@@ -223,7 +223,14 @@ export function detect(action: ActionSpec, evidence: ExecutionEvidence): Detecti
     matches.push(match("RD304", "False success redirect", "The action navigated to a success-like route without an observed write."));
     matches.push(match("RD305", "Hard-coded success endpoint", "A success endpoint was reachable without backend mutation evidence."));
   }
-  if (authenticationAttempt && effect && successfulWrites.length === 0 && (evidence.after?.auth?.privateContent || successClaim) && (evidence.after?.auth?.artifacts ?? 0) === 0) {
+  const stateBeforeAuthentication = evidence.beforeAction ?? evidence.before;
+  const enteredPrivateState = evidence.after?.auth?.privateContent === true
+    && evidence.after.auth.accessDenied !== true
+    && (
+      (stateBeforeAuthentication?.auth?.privateContent ?? false) === false
+      || (stateBeforeAuthentication?.url !== undefined && stateBeforeAuthentication.url !== evidence.after.url)
+    );
+  if (authenticationAttempt && effect && successfulWrites.length === 0 && (enteredPrivateState || successClaim) && (evidence.after?.auth?.artifacts ?? 0) === 0) {
     matches.push(match("RD501", "Fake login", "The interface entered an authenticated-looking state without a successful authentication write or session artifact."));
   }
   if (logoutAttempt && (evidence.before?.auth?.artifacts ?? 0) > 0 && (evidence.after?.auth?.artifacts ?? 0) >= (evidence.before?.auth?.artifacts ?? 0) && evidence.after?.auth?.privateContent && !evidence.after.auth.accessDenied) {

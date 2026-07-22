@@ -107,3 +107,36 @@ jobs:
           name: release-attestation-${{ runner.os }}-node-${{ matrix.node }}
           path: .realdone/release-attestation.json
           retention-days: 14
+
+  release-gates:
+    name: normative release gates (15/15)
+    needs: [check, compatibility]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 10.34.5
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: release-attestation-*
+          path: .realdone/release/attestations
+      - name: Validate and merge platform plus external-case evidence
+        run: pnpm release:merge .realdone/release/attestations release/external-cases.json .realdone/release/release-evidence.json
+      - name: Require all 15 normative gates
+        run: pnpm release:gates .realdone/release/release-evidence.json .realdone/release/release-gates.json
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: normative-release-gates
+          path: |
+            .realdone/release/release-evidence.json
+            .realdone/release/release-gates.json
+          if-no-files-found: warn
+          retention-days: 30

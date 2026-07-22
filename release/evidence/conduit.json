@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "1.0",
+  "generatedAt": "2026-07-22T14:56:05.130Z",
+  "engineFingerprint": "2d65bc79c802dd0bc260e5886044379538c2af8f6023b923ac3b5ea1b2f9cdaa",
+  "case": {
+    "name": "Conduit RealWorld",
+    "repository": "TonyMckes/conduit-realworld-example-app",
+    "pinnedCommit": "5e127d8569b300e0a21dc2c20ea680da4967b1aa",
+    "status": "passed",
+    "environmentValid": true,
+    "severeRegressions": 0
+  },
+  "scan": {
+    "scanId": "20260722T145513Z-bf18",
+    "sourceArtifact": "work/real-runs/release-final-conduit/20260722T145513Z-bf18/scan.json",
+    "sourceSha256": "23df52a6bf67e24abb94058d17bb33177d4eebc51e476927cdf9685cc5262fa7",
+    "environmentStatus": "VALID",
+    "truncated": false,
+    "pagesDiscovered": 3,
+    "visibleActions": 29,
+    "actionsVerified": 18,
+    "actionsSkipped": 11,
+    "verdicts": {
+      "VERIFIED": 16,
+      "CONTRADICTORY": 0,
+      "EPHEMERAL": 0,
+      "BROWSER_LOCAL": 1,
+      "BROKEN": 0,
+      "NO_EFFECT": 0,
+      "UNCERTAIN": 1,
+      "SKIPPED": 11
+    }
+  },
+  "assertions": [
+    {
+      "id": "environment-valid",
+      "passed": true,
+      "expected": "VALID with zero critical asset failures",
+      "observed": "VALID; 6/6 critical assets loaded"
+    },
+    {
+      "id": "scan-complete",
+      "passed": true,
+      "expected": "not truncated",
+      "observed": "not truncated"
+    },
+    {
+      "id": "hash-router-coverage",
+      "passed": true,
+      "expected": "3 routes and at least 16 VERIFIED actions",
+      "observed": "3 routes; 16 VERIFIED actions"
+    },
+    {
+      "id": "generated-login-rejection",
+      "passed": true,
+      "expected": "404 generated credentials remain UNCERTAIN without RD501",
+      "observed": "UNCERTAIN; no detector match"
+    },
+    {
+      "id": "browser-local-signup",
+      "passed": true,
+      "expected": "Sign up classified BROWSER_LOCAL with RD102 and RD103",
+      "observed": "BROWSER_LOCAL with RD102 and RD103"
+    },
+    {
+      "id": "no-engine-regression",
+      "passed": true,
+      "expected": "zero BROKEN, CONTRADICTORY, EPHEMERAL or NO_EFFECT verdicts",
+      "observed": "BROKEN=0; CONTRADICTORY=0; EPHEMERAL=0; NO_EFFECT=0"
+    }
+  ]
+}

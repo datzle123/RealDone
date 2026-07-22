@@ -41,6 +41,20 @@ The scan discovered 2 pages and 15 visible actions. Three actions were executed 
 
 Replaying the React finding reproduced the same `EPHEMERAL` verdict and the same `RD101`/`RD201` detector set.
 
+## Current-engine release-gate rerun
+
+The Phase G rerun binds each compact evidence document to both the raw `scan.json` SHA-256 and a fingerprint of the current RealDone execution engine. Any behavior-code change makes the checked-in case evidence stale and fails aggregation.
+
+| Pinned application | Environment | Observable result | Severe RealDone regressions |
+| --- | --- | --- | --- |
+| TodoMVC React | `VALID`, 3/3 assets | Enter mutation executed; known memory-only behavior remained `EPHEMERAL` with RD101/RD104/RD201 | 0 |
+| Actual Budget | `VALID`, 30/30 assets | 6 `VERIFIED`; one history-dependent missing target remained safely `UNCERTAIN` | 0 |
+| Conduit | `VALID`, 6/6 assets | 16 `VERIFIED`, 1 `BROWSER_LOCAL`, 1 generated-credential `UNCERTAIN` | 0 |
+
+The first current-engine Conduit rerun exposed an RD501 false positive: the public login page contained “Need an account?”, so an unchanged public state looked private after a real 404 login rejection. RD501 now requires an actual transition into private state or an explicit success claim. A broken fake-login control still triggers RD501, the public rejection control does not, and the real Conduit rerun returned to zero `CONTRADICTORY` findings.
+
+Machine-readable release inputs are in `release/external-cases.json` and `release/evidence/`. Combined with the six attestations from hosted run `29928279994`, the local normative evaluator passed 15/15 gates. Hosted aggregation on the final head remains the closure condition.
+
 ### Actual Budget original application
 
 ```bash

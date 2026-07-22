@@ -273,6 +273,11 @@ export async function captureState(
     const authStorage = storageEntries.filter(([key, value]) => /auth|session|token|jwt|credential/i.test(key) || value.split(".").length === 3);
     const normalizedUrl = location.pathname.toLowerCase();
     const normalizedText = bodyText.toLowerCase();
+    const authEvidenceText = [...document.querySelectorAll("body *")]
+      .filter((element) => element.childElementCount === 0 && !element.closest("nav, a, form") && !element.hasAttribute("hidden") && element.getAttribute("aria-hidden") !== "true")
+      .map((element) => element.textContent?.trim().toLowerCase() ?? "")
+      .filter(Boolean)
+      .join(" ");
     const indexedDb: Array<{ name: string; version: number; stores: Array<{ name: string; count: number }> }> = [];
     if (globalThis.indexedDB && typeof indexedDB.databases === "function") {
       const databases = await indexedDB.databases().catch(() => []);
@@ -314,8 +319,8 @@ export async function captureState(
       auth: {
         storageArtifacts: authStorage.length,
         expiredStorageArtifacts: authStorage.filter(([, value]) => jwtExpired(value)).length,
-        privateContent: /\b(account|profile|settings|private|member|tenant|billing|dashboard)\b/.test(normalizedText) || /\/(account|profile|settings|private|member|tenant|billing|dashboard)(\/|$)/.test(normalizedUrl),
-        adminContent: /\badmin(istration|istrator)?\b/.test(normalizedText) || /\/admin(\/|$)/.test(normalizedUrl),
+        privateContent: /\b(private account|account dashboard|account settings|profile settings|member dashboard|tenant dashboard|billing dashboard|signed in as|sign out|log out|logout)\b/.test(authEvidenceText) || /\/(account|profile|settings|private|member|tenant|billing|dashboard)(\/|$)/.test(normalizedUrl),
+        adminContent: /\b(admin dashboard|admin panel|administration|signed in as admin)\b/.test(authEvidenceText) || /\/admin(\/|$)/.test(normalizedUrl),
         accessDenied: /\b(unauthorized|forbidden|access denied|sign in required|login required)\b/.test(normalizedText),
       },
       busyControls: controls.filter((control) => control.busy === "true").length,

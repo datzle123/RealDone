@@ -11,6 +11,7 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 - A no-URL managed scan path that discovers, starts, scans, and stops the current web project.
 - `scan --full` for large bounded safe-audit budgets and deep persistence without enabling destructive or external effects.
 - Machine-readable artifact secret/ZIP scanning, backward-compatible artifact schema checks, cross-platform release attestations, and an evaluator for all 15 normative release gates.
+- SHA-256 and engine-fingerprint-bound TodoMVC, Actual Budget, and Conduit evidence plus a CI aggregation job that requires all 15 normative gates across Linux, macOS, and Windows.
 - Trace-on-failure for scans and contract verification, a deterministic 1–16 worker pool for contract suites/browser matrices, and content-addressed snapshot indexes with shared SHA-256 blobs.
 - `realdone init` project discovery for framework, package manager, lifecycle commands, port, conventional routes, SQLite/PostgreSQL/provider hints, auth/test tooling and environment filenames, including bounded monorepo workspaces.
 - `scan --manage-runtime` lifecycle ownership with development/production/Docker modes, HTTP health checks, bounded crash restarts, secret-redacted logs and cross-platform process cleanup.
@@ -45,6 +46,7 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 - Complex upload, canvas, rich-text and drag/drop actions are surfaced as recorded-flow requirements instead of guessed automatic interactions.
 - Multi-field mutations use independent canary values, and successful POST/PUT/PATCH requests are read back through a bounded same-context API request before verdict resolution.
 - Password-bearing forms are classified as authentication before generic email/external heuristics, and successful sessions are verified from persisted auth artifacts rather than requiring credentials to reappear in the UI.
+- Fake-login detection now requires a transition into private state (or an explicit success claim), so a rejected login on a public page containing “Need an account?” remains `UNCERTAIN` instead of becoming a false RD501 finding.
 - Benchmark release gates now run and require successful cleanup; recorder interaction and navigation waits inherit the configured finite timeout.
 - Published packages include the complete linked documentation set and report preview instead of leaving installed README links unresolved.
 - Published packages now include every database/provider example and both provider/source plugin examples; optional SQLite and MongoDB dependencies are license-noticed alongside PostgreSQL.

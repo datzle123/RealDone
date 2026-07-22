@@ -1,0 +1,35 @@
+[
+  {
+    "name": "TodoMVC React",
+    "repository": "tastejs/todomvc",
+    "pinnedCommit": "ff43b02e59dfa604386bb382034b2cd07c2bcd8a",
+    "evidenceFile": "release/evidence/todomvc.json",
+    "evidenceSha256": "abc8f52df0555ff6c8cc8e87e7a614608b7eb90af292d871f71821d965cf7882",
+    "engineFingerprint": "2d65bc79c802dd0bc260e5886044379538c2af8f6023b923ac3b5ea1b2f9cdaa",
+    "status": "passed",
+    "environmentValid": true,
+    "severeRegressions": 0
+  },
+  {
+    "name": "Actual Budget",
+    "repository": "actualbudget/actual",
+    "pinnedCommit": "7325498af773d591a7bc70d5af16d3912f566654",
+    "evidenceFile": "release/evidence/actual-budget.json",
+    "evidenceSha256": "e30db829b862b650456fb41e0e293cf5a8a1c9276acc01c9ab748a0d2ed59c81",
+    "engineFingerprint": "2d65bc79c802dd0bc260e5886044379538c2af8f6023b923ac3b5ea1b2f9cdaa",
+    "status": "passed",
+    "environmentValid": true,
+    "severeRegressions": 0
+  },
+  {
+    "name": "Conduit RealWorld",
+    "repository": "TonyMckes/conduit-realworld-example-app",
+    "pinnedCommit": "5e127d8569b300e0a21dc2c20ea680da4967b1aa",
+    "evidenceFile": "release/evidence/conduit.json",
+    "evidenceSha256": "733ebd28bd829296a6da5eb9b16762c0317acb2320f2bc50761e2a2c2667ba7f",
+    "engineFingerprint": "2d65bc79c802dd0bc260e5886044379538c2af8f6023b923ac3b5ea1b2f9cdaa",
+    "status": "passed",
+    "environmentValid": true,
+    "severeRegressions": 0
+  }
+]

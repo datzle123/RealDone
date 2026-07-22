@@ -31,6 +31,8 @@ function passingEvidence(): ReleaseGateEvidence {
       repository: `example/case-${index}`,
       pinnedCommit: `abcdef${index}`,
       evidenceFile: `external/case-${index}.json`,
+      evidenceSha256: "a".repeat(64),
+      engineFingerprint: "b".repeat(64),
       status: "passed" as const,
       environmentValid: true,
       severeRegressions: 0,

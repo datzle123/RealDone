@@ -1,6 +1,7 @@
 import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { mergeReleaseGateEvidence, releaseRunAttestationSchema } from "../dist/release/gates.js";
+import { validateExternalCaseEvidenceFiles } from "../dist/release/external-evidence.js";
 
 const [attestationArgument, externalCaseArgument, outputArgument] = process.argv.slice(2);
 if (!attestationArgument || !externalCaseArgument) {
@@ -26,7 +27,10 @@ for (const file of await filesUnder(attestationRoot)) {
 if (attestations.length === 0) throw new Error(`No valid release attestations were found in ${attestationRoot}.`);
 
 const externalCaseFile = path.resolve(externalCaseArgument);
-const externalCases = JSON.parse(await readFile(externalCaseFile, "utf8"));
+const externalCases = await validateExternalCaseEvidenceFiles(
+  JSON.parse(await readFile(externalCaseFile, "utf8")),
+  process.cwd(),
+);
 const evidence = mergeReleaseGateEvidence(attestations, externalCases);
 const outputFile = path.resolve(outputArgument ?? ".realdone/release/release-evidence.json");
 await mkdir(path.dirname(outputFile), { recursive: true });
