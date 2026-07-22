@@ -75,15 +75,15 @@ const ledgerSchema = z.object({
   resources: z.array(resourceSchema),
 });
 
-function ledgerId(finding: Finding): string {
+function ledgerId(finding: Finding, request?: NetworkEvidence, index = 0): string {
   return `cleanup-${createHash("sha256")
-    .update(`${finding.id}|${finding.action.id}|${finding.evidence.canary}`)
+    .update(`${finding.id}|${finding.action.id}|${finding.evidence.canary}|${request?.id ?? index}|${request?.responseResourceId ?? "manual"}`)
     .digest("hex")
     .slice(0, 10)}`;
 }
 
-function cleanupRequest(finding: Finding): NetworkEvidence | undefined {
-  return finding.evidence.network.find(
+function cleanupRequests(finding: Finding): NetworkEvidence[] {
+  return finding.evidence.network.filter(
     (entry) => entry.method === "POST" && entry.ok && (entry.responseResourceId || entry.location),
   );
 }
@@ -106,13 +106,14 @@ function deriveCleanupUrl(requestEvidence?: NetworkEvidence): string | undefined
 export function createCleanupLedger(report: ScanReport): CleanupLedger {
   const resources = report.findings.flatMap((finding): CleanupResource[] => {
     if (finding.action.kind !== "mutation" || finding.action.intent === "delete" || finding.verdict === "SKIPPED") return [];
-    const requestEvidence = cleanupRequest(finding);
-    const cleanupUrl = deriveCleanupUrl(requestEvidence);
-    const wasCreated = finding.action.intent === "create" || requestEvidence?.method === "POST";
+    const requests = cleanupRequests(finding);
+    const wasCreated = finding.action.intent === "create" || requests.length > 0;
     if (!wasCreated && !finding.evidence.after?.canaryPresent) return [];
-    return [
-      {
-        id: ledgerId(finding),
+    const candidates: Array<NetworkEvidence | undefined> = requests.length > 0 ? requests : [undefined];
+    return candidates.map((requestEvidence, index): CleanupResource => {
+      const cleanupUrl = deriveCleanupUrl(requestEvidence);
+      return {
+        id: ledgerId(finding, requestEvidence, index),
         findingId: finding.id,
         actionId: finding.action.id,
         type: requestEvidence?.resourceTypeHint ?? finding.action.intent,
@@ -125,8 +126,8 @@ export function createCleanupLedger(report: ScanReport): CleanupLedger {
         dependsOn: [],
         status: cleanupUrl ? "pending" : "manual",
         attempts: 0,
-      },
-    ];
+      };
+    });
   });
   return { schemaVersion: "1.0", scanId: report.scanId, targetUrl: report.targetUrl, resources };
 }

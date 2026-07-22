@@ -25,6 +25,8 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 - Recorder fingerprints never derive accessible names from live input values; secret fields use stable environment references, and outcome capture no longer waits the default 30 seconds when no status element appears.
 - Playwright export preserves hash-router navigation and evaluates contract URL patterns against the pathname, matching deterministic verifier semantics.
 - The development/release environment installs `@playwright/test` directly so generated specs are executed rather than syntax-inspected only.
+- Nearby-field discovery is limited to direct fields in a single-action container, preventing unrelated inputs from making a no-effect button look successful.
+- Cleanup ledgers track every successful resource ID from duplicate POST submissions instead of leaking all but the first created resource.
 
 ## [1.1.0] - 2026-07-22
 

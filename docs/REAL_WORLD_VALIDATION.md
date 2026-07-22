@@ -69,6 +69,10 @@ A disposable user then drove the actual product workflow, not a mocked verifier:
 | `run generic` | baseline, external build and post-agent behavior passed; agent claim remained operational output only |
 | `cleanup` | dry run completed safely; both created resources remained `manual` because the external app has no user-delete endpoint |
 
+The first intentional-defect Conduit copy also caught an over-broad nearby-field heuristic: the unrelated `Do nothing` button inherited inputs from other forms and looked effective because RealDone itself filled them. Nearby fields are now limited to direct siblings in a single-action container; a multi-form correct control prevents that false pass.
+
+The duplicate-write action created two SQLite rows while the cleanup ledger initially tracked only the first successful POST. Cleanup generation now emits one dependency-safe entry per created response ID, so duplicate findings do not leave the second resource behind.
+
 ## Product changes driven by this run
 
 The first scan exposed that RealDone only treated forms, links, and buttons as actions. TodoMVC creates an item through a standalone input's Enter key, so RealDone initially missed the primary behavior. The runtime now:

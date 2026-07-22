@@ -50,8 +50,8 @@ try {
     allowDestructive: true,
     allowExternal: false,
     mutationAllowed: true,
-    maxPages: 14,
-    maxActions: 50,
+    maxPages: 15,
+    maxActions: 55,
     timeoutMs: 8_000,
     settleMs: 250,
     maxDurationMs: 90_000,
@@ -75,6 +75,7 @@ try {
   assert.ok(result.report.findings.some((finding) => finding.action.activation === "enter" && finding.detectorMatches.some((item) => item.code === "RD201")));
   assert.ok(result.report.findings.some((finding) => finding.action.label === "Back" && finding.verdict === "UNCERTAIN" && finding.evidence.targetNotFound && !finding.evidence.locatorResolution?.chosenStrategy));
   assert.ok(result.report.findings.some((finding) => finding.action.label === "Use current domain" && finding.verdict === "VERIFIED"));
+  assert.ok(result.report.findings.some((finding) => finding.action.label === "Do nothing nearby" && finding.verdict === "NO_EFFECT" && finding.evidence.filledFields.length === 0));
   assert.equal(result.metrics.precision, 1);
   assert.equal(result.metrics.recall, 1);
   assert.equal(result.metrics.falsePositiveRate, 0);

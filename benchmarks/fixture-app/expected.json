@@ -65,6 +65,13 @@
       "expectedCodes": ["RD002"]
     },
     {
+      "id": "unrelated-fields-no-effect",
+      "match": { "pagePath": "/unrelated-fields", "label": "Do nothing nearby" },
+      "shouldFlag": true,
+      "expectedVerdict": "NO_EFFECT",
+      "expectedCodes": ["RD002"]
+    },
+    {
       "id": "selector-survival-control",
       "match": { "pagePath": "/selector-shift", "label": "Toggle resilient" },
       "shouldFlag": false,

@@ -60,7 +60,7 @@ export function createFixtureServer() {
 
     if (url.pathname === "/") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
-      return response.end(html("RealDone benchmark fixtures", `<p>Each page contains one known behavior.</p><nav><a href="/fake-create">Fake create</a><a href="/fake-update">Fake update</a><a href="/real-create">Real create control</a><a href="/enter-submit">Enter-submit create</a><a href="/browser-local">Browser-local control</a><a href="/success-despite-failure">False success</a><a href="/duplicate-submit">Duplicate submit</a><a href="/fake-delete">Fake delete</a><a href="/no-effect">No effect</a><a href="/selector-shift">Selector survival control</a><a href="/stateful-action">Stateful action control</a><a href="/live-control-state">Live control-state control</a><a href="/missing">Broken navigation</a></nav>`));
+      return response.end(html("RealDone benchmark fixtures", `<p>Each page contains one known behavior.</p><nav><a href="/fake-create">Fake create</a><a href="/fake-update">Fake update</a><a href="/real-create">Real create control</a><a href="/enter-submit">Enter-submit create</a><a href="/browser-local">Browser-local control</a><a href="/success-despite-failure">False success</a><a href="/duplicate-submit">Duplicate submit</a><a href="/fake-delete">Fake delete</a><a href="/no-effect">No effect</a><a href="/unrelated-fields">Unrelated fields control</a><a href="/selector-shift">Selector survival control</a><a href="/stateful-action">Stateful action control</a><a href="/live-control-state">Live control-state control</a><a href="/missing">Broken navigation</a></nav>`));
     }
     if (url.pathname === "/fake-create") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
@@ -105,6 +105,10 @@ export function createFixtureServer() {
     if (url.pathname === "/no-effect") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
       return response.end(html("No effect", `<button id="nothing">Do nothing</button>`));
+    }
+    if (url.pathname === "/unrelated-fields") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Unrelated fields", `<div><form><label>Customer name <input name="customer"></label><button>Create customer preview</button></form><form><label>Display name <input name="display"></label><button>Save profile preview</button></form><button id="unrelated">Do nothing nearby</button></div>`));
     }
     if (url.pathname === "/selector-shift") {
       state.selectorShiftLoads += 1;

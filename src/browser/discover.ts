@@ -203,9 +203,12 @@ export async function discoverActions(page: Page): Promise<ActionSpec[]> {
         const form = tag === "form" ? (element as HTMLFormElement) : undefined;
         const nearbyContainer = !form && !enterInput ? element.parentElement : undefined;
         const nearbyElements = nearbyContainer
-          ? [...nearbyContainer.querySelectorAll("input, textarea, select")].filter(visible)
+          ? [...nearbyContainer.querySelectorAll(":scope > input, :scope > textarea, :scope > select, :scope > label > input, :scope > label > textarea, :scope > label > select")].filter(visible)
           : [];
-        const nearbyFields = nearbyElements.length <= 4
+        const nearbyActionCount = nearbyContainer
+          ? nearbyContainer.querySelectorAll(":scope > button, :scope > input[type=submit], :scope > input[type=button], :scope > [role=button]").length
+          : 0;
+        const nearbyFields = nearbyElements.length <= 4 && nearbyActionCount === 1
           ? nearbyElements.map(fieldFor).filter((field): field is RawField => Boolean(field))
           : [];
         const fields = form

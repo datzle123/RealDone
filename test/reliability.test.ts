@@ -107,3 +107,41 @@ test("cleanup ledger derives an idempotent resource URL from POST evidence", () 
   assert.equal(ledger.resources[0]?.cleanupUrl, "http://localhost/api/customers/42");
   assert.equal(ledger.resources[0]?.status, "pending");
 });
+
+test("cleanup ledger tracks every resource created by duplicate submissions", () => {
+  const report: ScanReport = {
+    schemaVersion: "1.0",
+    scanId: "duplicate-scan",
+    targetUrl: "http://localhost",
+    startedAt: "2026-07-22T00:00:00.000Z",
+    finishedAt: "2026-07-22T00:00:01.000Z",
+    options: {
+      maxPages: 1, maxActions: 1, timeoutMs: 1000, settleMs: 100, maxDurationMs: 10_000,
+      maxRetries: 2, allowDestructive: false, allowExternal: false, mutationAllowed: true,
+    },
+    summary: {
+      pagesDiscovered: 1, visibleActions: 1, actionsVerified: 1, actionsSkipped: 0,
+      verdicts: { VERIFIED: 0, CONTRADICTORY: 0, EPHEMERAL: 0, BROWSER_LOCAL: 0, BROKEN: 1, NO_EFFECT: 0, UNCERTAIN: 0, SKIPPED: 0 },
+    },
+    pages: [],
+    findings: [{
+      id: "RD-001",
+      action: { ...action, intent: "create", label: "Create invoice" },
+      verdict: "BROKEN",
+      evidenceLevel: 2,
+      reason: "duplicate",
+      detectorMatches: [{ code: "RD003", title: "Duplicate submission", detail: "two writes" }],
+      evidence: {
+        startedAt: "2026-07-22T00:00:00.000Z", durationMs: 100, canary: "RD_TEST_DUPLICATE",
+        network: [
+          { id: "net-1", method: "POST", url: "http://localhost/api/items", resourceType: "fetch", resourceTypeHint: "items", responseResourceId: "41", startedAt: 20, status: 201, ok: true },
+          { id: "net-2", method: "POST", url: "http://localhost/api/items", resourceType: "fetch", resourceTypeHint: "items", responseResourceId: "42", startedAt: 22, status: 201, ok: true },
+        ],
+        console: [], pageErrors: [], uiClaims: [], filledFields: [], dialogs: [], downloads: [],
+      },
+    }],
+  };
+  const ledger = createCleanupLedger(report);
+  assert.deepEqual(ledger.resources.map((resource) => resource.resourceId), ["41", "42"]);
+  assert.equal(new Set(ledger.resources.map((resource) => resource.id)).size, 2);
+});
