@@ -322,7 +322,7 @@ RealDone is also exercised against external open-source applications rather than
 
 Releases `v0.1.0` through `v1.1.0` delivered the tested foundation: scanning, evidence, replay, recording/contracts, baseline/CI, PostgreSQL, coding-agent adapters, roles, provider contracts, multi-browser execution, plugins, and budgets. Some of those capabilities remain `PARTIAL` against the broader normative specification.
 
-The current development line has completed the environment, execution, persistence, detector, contract/replay, and report phase gates. Source-of-truth/provider ecosystem implementation and local acceptance are complete and await the hosted Phase F matrix; coding-agent/full-product qualification remains. See the [roadmap](docs/ROADMAP.md) and [current status](docs/PRODUCT_STATUS.md); phase completion requires executable evidence and a green hosted gate.
+The current development line has completed the environment, execution, persistence, detector, contract/replay, report, and source-of-truth/provider ecosystem phase gates. Coding-agent/full-product qualification remains. See the [roadmap](docs/ROADMAP.md) and [current status](docs/PRODUCT_STATUS.md); phase completion requires executable evidence and a green hosted gate.
 
 ## Contributing
 
