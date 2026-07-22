@@ -1,4 +1,4 @@
-import type { Frame, Page, Request, Response } from "playwright";
+import type { Frame, Page, Request, Response, WebSocket } from "playwright";
 import { hashText, redactText, safeUrl } from "../core/redact.js";
 import type {
   ConsoleEvidence,
@@ -6,6 +6,7 @@ import type {
   StateSnapshot,
   StorageEntryDigest,
   UiClaim,
+  WebSocketEvidence,
 } from "../types.js";
 
 export interface EvidenceSink {
@@ -14,6 +15,7 @@ export interface EvidenceSink {
   pageErrors: string[];
   dialogs: string[];
   downloads: string[];
+  webSockets?: WebSocketEvidence[];
 }
 
 export interface AttachedEvidence {
@@ -102,6 +104,21 @@ export function attachEvidence(page: Page, startedAt: number, sink: EvidenceSink
   const onDownload = (download: { suggestedFilename(): string }): void => {
     sink.downloads.push(download.suggestedFilename());
   };
+  const onWebSocket = (socket: WebSocket): void => {
+    const entry: WebSocketEvidence = {
+      url: safeUrl(socket.url()),
+      openedAt: now(),
+      sentFrames: 0,
+      receivedFrames: 0,
+      errors: [],
+    };
+    sink.webSockets ??= [];
+    sink.webSockets.push(entry);
+    socket.on("framesent", () => { entry.sentFrames += 1; });
+    socket.on("framereceived", () => { entry.receivedFrames += 1; });
+    socket.on("socketerror", (error) => entry.errors.push(redactText(error).slice(0, 500)));
+    socket.on("close", () => { entry.closedAt = now(); });
+  };
 
   page.on("request", onRequest);
   page.on("response", onResponse);
@@ -111,6 +128,7 @@ export function attachEvidence(page: Page, startedAt: number, sink: EvidenceSink
   page.on("pageerror", onPageError);
   page.on("dialog", onDialog);
   page.on("download", onDownload);
+  page.on("websocket", onWebSocket);
 
   return {
     waitForIdle: async (timeoutMs) => {
@@ -139,6 +157,7 @@ export function attachEvidence(page: Page, startedAt: number, sink: EvidenceSink
       page.off("pageerror", onPageError);
       page.off("dialog", onDialog);
       page.off("download", onDownload);
+      page.off("websocket", onWebSocket);
     },
   };
 }
@@ -159,7 +178,7 @@ export async function captureState(
   canary: string,
   startedAt: number,
 ): Promise<StateSnapshot> {
-  const state = await page.evaluate((needle) => {
+  const state = await page.evaluate(async (needle) => {
     const normalize = (value: string): string => value.replace(/\s+/g, " ").trim();
     const bodyText = normalize(document.body?.innerText ?? "").slice(0, 100_000);
     const controls = [...document.querySelectorAll("input, textarea, select, button")]
@@ -182,16 +201,45 @@ export async function captureState(
         };
       });
     const controlText = JSON.stringify(controls);
+    const indexedDb: Array<{ name: string; version: number; stores: Array<{ name: string; count: number }> }> = [];
+    if (globalThis.indexedDB && typeof indexedDB.databases === "function") {
+      const databases = await indexedDB.databases().catch(() => []);
+      for (const info of databases.slice(0, 20)) {
+        if (!info.name) continue;
+        const database = await new Promise<IDBDatabase | undefined>((resolve) => {
+          const request = indexedDB.open(info.name as string);
+          const timer = setTimeout(() => resolve(undefined), 500);
+          request.onsuccess = () => { clearTimeout(timer); resolve(request.result); };
+          request.onerror = () => { clearTimeout(timer); resolve(undefined); };
+          request.onblocked = () => { clearTimeout(timer); resolve(undefined); };
+        });
+        if (!database) continue;
+        const stores: Array<{ name: string; count: number }> = [];
+        for (const name of [...database.objectStoreNames].slice(0, 30)) {
+          const count = await new Promise<number>((resolve) => {
+            const transaction = database.transaction(name, "readonly");
+            const request = transaction.objectStore(name).count();
+            request.onsuccess = () => resolve(request.result);
+            request.onerror = () => resolve(-1);
+          });
+          stores.push({ name, count });
+        }
+        indexedDb.push({ name: info.name, version: database.version, stores });
+        database.close();
+      }
+    }
     return {
       url: location.href,
       title: document.title,
       bodyText,
       controlText,
+      controls,
       canaryPresent: `${bodyText}\n${controlText}`.toLowerCase().includes(needle.toLowerCase()),
       busyControls: controls.filter((control) => control.busy === "true").length,
       disabledControls: controls.filter((control) => control.disabled).length,
       local: Object.entries(localStorage),
       session: Object.entries(sessionStorage),
+      indexedDb,
     };
   }, canary);
   const cookies = await ("context" in page ? page.context() : page.page().context()).cookies(page.url());
@@ -201,12 +249,38 @@ export async function captureState(
     title: state.title.slice(0, 300),
     domHash: hashText(`${state.bodyText}\n${state.controlText}`),
     canaryPresent: state.canaryPresent,
+    semanticDom: {
+      textHash: hashText(state.bodyText),
+      controls: state.controls.map((control) => ({
+        tag: control.tag,
+        type: control.type,
+        ...(control.name ? { name: control.name } : {}),
+        valueHash: hashText(control.value),
+        checked: control.checked,
+        disabled: control.disabled,
+        ...(control.expanded === null ? {} : { expanded: control.expanded }),
+        ...(control.pressed === null ? {} : { pressed: control.pressed }),
+        ...(control.selected === null ? {} : { selected: control.selected }),
+        ...(control.busy === null ? {} : { busy: control.busy }),
+      })),
+    },
     busyControls: state.busyControls,
     disabledControls: state.disabledControls,
     storage: {
       local: digestStorage(state.local, canary),
       session: digestStorage(state.session, canary),
       cookieNames: [...new Set(cookies.map((cookie) => cookie.name))].sort(),
+      cookies: cookies.map((cookie) => ({
+        name: cookie.name,
+        domain: cookie.domain,
+        path: cookie.path,
+        valueHash: hashText(cookie.value),
+        containsCanary: cookie.value.toLowerCase().includes(canary.toLowerCase()),
+        secure: cookie.secure,
+        httpOnly: cookie.httpOnly,
+        sameSite: cookie.sameSite,
+      })),
+      indexedDb: state.indexedDb,
     },
   };
 }

@@ -206,6 +206,11 @@ export class RuntimeManager {
     await this.#writeLog("runtime", "Target process stopped.");
     return this.snapshot();
   }
+
+  async restart(): Promise<RuntimeSnapshot> {
+    await this.stop();
+    return this.start();
+  }
 }
 
 export async function runBuildCommand(

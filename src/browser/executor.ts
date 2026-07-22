@@ -32,9 +32,9 @@ function scopeFor(page: Page, action: ActionSpec): InteractionScope {
 
 async function fillForm(page: InteractionScope, action: ActionSpec, canary: string): Promise<FilledField[]> {
   const filled: FilledField[] = [];
-  for (const field of action.fields) {
+  for (const [fieldIndex, field] of action.fields.entries()) {
     if (field.disabled) continue;
-    const plan = valueForField(field, canary);
+    const plan = valueForField(field, `${canary}_${fieldIndex + 1}`);
     const locator = page.locator(field.selector).first();
     if ((await locator.count()) === 0 || !(await locator.isVisible().catch(() => false))) continue;
     try {
@@ -80,6 +80,55 @@ async function targetIsVisible(page: InteractionScope, targetText?: string): Pro
 
 function screenshotName(action: ActionSpec, suffix: string): string {
   return `${action.id}-${suffix}.png`;
+}
+
+function readBackUrl(evidence: ExecutionEvidence): string | undefined {
+  const write = evidence.network.find((request) =>
+    ["POST", "PUT", "PATCH"].includes(request.method) && request.ok &&
+    (request.method !== "POST" || request.location || request.responseResourceId),
+  );
+  if (!write) return undefined;
+  if (write.location) return write.location;
+  if (write.method !== "POST") return write.url;
+  const url = new URL(write.url);
+  url.pathname = `${url.pathname.replace(/\/$/, "")}/${encodeURIComponent(write.responseResourceId as string)}`;
+  return url.toString();
+}
+
+async function captureApiReadBack(page: Page, evidence: ExecutionEvidence): Promise<void> {
+  const url = readBackUrl(evidence);
+  if (!url) return;
+  try {
+    const response = await page.context().request.get(url, { timeout: 5_000 });
+    const body = await response.text().catch(() => "");
+    const expectedValues = evidence.filledFields.filter((field) => !field.redacted && !["true", "false"].includes(field.value));
+    const matchedFieldValues = expectedValues.filter((field) => body.includes(field.value)).length;
+    evidence.apiReadBack = {
+      url: safeUrl(url),
+      status: response.status(),
+      ok: response.ok(),
+      canaryPresent: body.toLowerCase().includes(evidence.canary.toLowerCase()),
+      expectedFieldValues: expectedValues.length,
+      matchedFieldValues,
+    };
+  } catch (error) {
+    evidence.apiReadBack = {
+      url: safeUrl(url),
+      ok: false,
+      canaryPresent: false,
+      error: error instanceof Error ? error.message : String(error),
+    };
+  }
+}
+
+export function resolvePersistenceScope(evidence: ExecutionEvidence): ExecutionEvidence["persistenceScope"] {
+  if (evidence.apiReadBack?.ok && evidence.apiReadBack.canaryPresent) return "BACKEND_PERSISTENT";
+  if (evidence.afterNewContext?.canaryPresent) return "BACKEND_PERSISTENT";
+  if (evidence.afterNewTab?.canaryPresent && evidence.afterHardRefresh?.canaryPresent) return "BROWSER_LOCAL";
+  if (evidence.afterHardRefresh?.canaryPresent) return "SESSION_PERSISTENT";
+  if (evidence.afterRefresh?.canaryPresent) return "TAB_PERSISTENT";
+  if (evidence.after?.canaryPresent) return "MEMORY_ONLY";
+  return undefined;
 }
 
 export async function executeAction(
@@ -195,6 +244,8 @@ export async function executeAction(
     }
 
     if (action.kind === "mutation") {
+      await attached.flush();
+      await captureApiReadBack(page, evidence);
       await page.reload({ waitUntil: "domcontentloaded", timeout: options.timeoutMs });
       await waitForEnvironmentRender(page, Math.min(options.timeoutMs, 5_000), options.settleMs, true);
       const refreshedScope = scopeFor(page, action);
@@ -204,6 +255,21 @@ export async function executeAction(
       const refreshPath = path.join(screenshotDirectory, screenshotName(action, "refresh"));
       await page.screenshot({ path: refreshPath, fullPage: true });
       evidence.refreshScreenshot = refreshPath;
+
+      await context.setExtraHTTPHeaders({ "cache-control": "no-cache", pragma: "no-cache" });
+      await page.reload({ waitUntil: "domcontentloaded", timeout: options.timeoutMs });
+      await waitForEnvironmentRender(page, Math.min(options.timeoutMs, 5_000), options.settleMs, true);
+      evidence.afterHardRefresh = await captureState(scopeFor(page, action), canary, startedAt);
+      await context.setExtraHTTPHeaders({});
+
+      const newTab = await context.newPage();
+      try {
+        await newTab.goto(action.pageUrl, { waitUntil: "domcontentloaded", timeout: options.timeoutMs });
+        await waitForEnvironmentRender(newTab, Math.min(options.timeoutMs, 5_000), options.settleMs, true);
+        evidence.afterNewTab = await captureState(scopeFor(newTab, action), canary, startedAt);
+      } finally {
+        await newTab.close();
+      }
 
       if (options.deep) {
         const persistenceUrl = page.url();
@@ -227,6 +293,15 @@ export async function executeAction(
           await freshContext.close();
         }
       }
+
+      if (options.restartTarget) {
+        await options.restartTarget();
+        await page.reload({ waitUntil: "domcontentloaded", timeout: options.timeoutMs });
+        await waitForEnvironmentRender(page, Math.min(options.timeoutMs, 5_000), options.settleMs, true);
+        evidence.afterAppRestart = await captureState(scopeFor(page, action), canary, startedAt);
+      }
+      const resolvedPersistenceScope = resolvePersistenceScope(evidence);
+      if (resolvedPersistenceScope) evidence.persistenceScope = resolvedPersistenceScope;
     }
   } catch (error) {
     if (error instanceof SemanticTargetNotFoundError) {

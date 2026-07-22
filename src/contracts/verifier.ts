@@ -156,23 +156,61 @@ async function verifyExpectation(
       return { expectation, passed, detail: `Visible text: ${expectation.value}`, evidenceLevel: 1 };
     }
     case "persistence": {
-      await page.reload({ waitUntil: "domcontentloaded" });
-      const reloadPassed = await page.getByText(expectation.value, { exact: false }).last().isVisible().catch(() => false);
-      if (!deep || !reloadPassed) {
-        return { expectation, passed: reloadPassed, detail: `Text persisted after reload: ${expectation.value}`, evidenceLevel: 5 };
+      const strategies = expectation.strategies ?? (deep ? ["reload", "clean-context"] as const : ["reload"] as const);
+      const url = page.url();
+      const outcomes: Array<{ strategy: string; passed: boolean }> = [];
+      const visible = async (target: Page): Promise<boolean> => {
+        if (settleMs > 0) await target.waitForTimeout(settleMs);
+        return target.getByText(expectation.value, { exact: false }).last().isVisible().catch(() => false);
+      };
+      for (const strategy of strategies) {
+        if (strategy === "reload") {
+          await page.reload({ waitUntil: "domcontentloaded" });
+          outcomes.push({ strategy, passed: await visible(page) });
+          continue;
+        }
+        if (strategy === "hard-reload") {
+          await page.context().setExtraHTTPHeaders({ "cache-control": "no-cache", pragma: "no-cache" });
+          try {
+            await page.reload({ waitUntil: "domcontentloaded" });
+            outcomes.push({ strategy, passed: await visible(page) });
+          } finally {
+            await page.context().setExtraHTTPHeaders({});
+          }
+          continue;
+        }
+        if (strategy === "new-tab") {
+          const tab = await page.context().newPage();
+          try {
+            await tab.goto(url, { waitUntil: "domcontentloaded" });
+            outcomes.push({ strategy, passed: await visible(tab) });
+          } finally {
+            await tab.close();
+          }
+          continue;
+        }
+        if (!freshRolePage) {
+          outcomes.push({ strategy, passed: false });
+          continue;
+        }
+        const fresh = await freshRolePage(stepRole);
+        await fresh.goto(url, { waitUntil: "domcontentloaded" });
+        outcomes.push({ strategy, passed: await visible(fresh) });
       }
-      if (!freshRolePage) {
-        return { expectation, passed: false, detail: "Deep persistence verifier is unavailable.", evidenceLevel: 5 };
-      }
-      const fresh = await freshRolePage(stepRole);
-      await fresh.goto(page.url(), { waitUntil: "domcontentloaded" });
-      if (settleMs > 0) await fresh.waitForTimeout(settleMs);
-      const freshPassed = await fresh.getByText(expectation.value, { exact: false }).last().isVisible().catch(() => false);
+      const passed = outcomes.every((outcome) => outcome.passed);
+      const persistenceScope = strategies.some((strategy) => strategy === "clean-context" || strategy === "logout-login")
+        ? "BACKEND_PERSISTENT" as const
+        : strategies.includes("new-tab")
+          ? "BROWSER_LOCAL" as const
+          : strategies.includes("hard-reload")
+            ? "SESSION_PERSISTENT" as const
+            : "TAB_PERSISTENT" as const;
       return {
         expectation,
-        passed: freshPassed,
-        detail: `Text persisted after reload and in a fresh browser context: ${expectation.value}`,
+        passed,
+        detail: `Persistence ${outcomes.map((outcome) => `${outcome.strategy}=${outcome.passed ? "present" : "missing"}`).join(", ")}: ${expectation.value}`,
         evidenceLevel: 5,
+        ...(passed ? { persistenceScope } : {}),
       };
     }
     case "source": {
@@ -194,6 +232,7 @@ async function verifyExpectation(
           detail: `PostgreSQL ${expectation.resource}: ${sourceEvidence.matchedRows} row(s), expected ${expectation.state}${maximum}`,
           evidenceLevel: 6,
           sourceEvidence,
+          ...(sourceEvidence.passed ? { persistenceScope: "SOURCE_OF_TRUTH_CONFIRMED" as const } : {}),
         };
       } catch (error) {
         return {
@@ -222,6 +261,7 @@ async function verifyExpectation(
           detail: `${expectation.kind} provider ${expectation.provider}: ${providerEvidence.detail}`,
           evidenceLevel: 6,
           providerEvidence,
+          ...(providerEvidence.passed ? { persistenceScope: "SOURCE_OF_TRUTH_CONFIRMED" as const } : {}),
         };
       } catch (error) {
         return {
@@ -247,6 +287,7 @@ async function verifyExpectation(
             passed,
             detail: `Role ${expectation.role} URL ${current} matches ${expectation.assertion.pattern}`,
             evidenceLevel: 7,
+            ...(passed ? { persistenceScope: "CROSS_USER_CONFIRMED" as const } : {}),
           };
         }
         const visible = await target.getByText(expectation.assertion.value, { exact: false }).last().isVisible().catch(() => false);
@@ -256,6 +297,7 @@ async function verifyExpectation(
           passed,
           detail: `Role ${expectation.role}: text ${expectation.assertion.state} (${expectation.assertion.value})`,
           evidenceLevel: 7,
+          ...(passed ? { persistenceScope: "CROSS_USER_CONFIRMED" as const } : {}),
         };
       } catch (error) {
         return {

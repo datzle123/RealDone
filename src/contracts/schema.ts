@@ -4,7 +4,7 @@ import type { SourceCleanupTarget, SourceEvidence, SourceExpectation } from "../
 import type { BrowserName } from "../browser/runtime.js";
 import type { ProviderEvidence, ProviderExpectation } from "../providers/types.js";
 import type { PerformanceEvaluation } from "../performance/budget.js";
-import type { LocatorResolution, SemanticFingerprint } from "../types.js";
+import type { EvidenceLevel, LocatorResolution, PersistenceScope, SemanticFingerprint } from "../types.js";
 
 export type ContractStepType = "navigate" | "click" | "fill" | "check" | "select";
 
@@ -17,11 +17,18 @@ export interface CrossRoleExpectation {
     | { type: "url"; pattern: string };
 }
 
+export type PersistenceStrategy =
+  | "reload"
+  | "hard-reload"
+  | "new-tab"
+  | "clean-context"
+  | "logout-login";
+
 export type ContractExpectation =
   | { type: "request"; method: string; urlPattern: string; status?: number }
   | { type: "url"; pattern: string }
   | { type: "text"; value: string }
-  | { type: "persistence"; value: string }
+  | { type: "persistence"; value: string; strategies?: PersistenceStrategy[] }
   | SourceExpectation
   | CrossRoleExpectation
   | ProviderExpectation;
@@ -77,7 +84,8 @@ export interface StepVerification {
     expectation: ContractExpectation;
     passed: boolean;
     detail: string;
-    evidenceLevel: number;
+    evidenceLevel: EvidenceLevel;
+    persistenceScope?: PersistenceScope;
     sourceEvidence?: SourceEvidence;
     providerEvidence?: ProviderEvidence;
   }>;
@@ -172,7 +180,11 @@ const expectationSchema = z.discriminatedUnion("type", [
   z.object({ type: z.literal("request"), method: z.string(), urlPattern: z.string(), status: z.number().int().optional() }),
   z.object({ type: z.literal("url"), pattern: z.string() }),
   z.object({ type: z.literal("text"), value: z.string() }),
-  z.object({ type: z.literal("persistence"), value: z.string() }),
+  z.object({
+    type: z.literal("persistence"),
+    value: z.string(),
+    strategies: z.array(z.enum(["reload", "hard-reload", "new-tab", "clean-context", "logout-login"])).min(1).optional(),
+  }),
   sourceExpectationSchema,
   crossRoleExpectationSchema,
   providerExpectationSchema,

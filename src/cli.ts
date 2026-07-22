@@ -209,6 +209,11 @@ program
       });
       progressLine({ stage: "runtime", message: `Starting managed ${mode} runtime` });
       await manager.start();
+      if (options.deep) {
+        options.restartTarget = async () => {
+          await manager?.restart();
+        };
+      }
     }
     const result = await runScan(options, progressLine).finally(async () => {
       await manager?.stop();

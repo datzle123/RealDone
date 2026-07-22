@@ -45,7 +45,11 @@ function findingTimeline(finding: Finding): string {
   }
   for (const claim of evidence.uiClaims) items.push({ at: claim.at, text: `UI ${claim.kind}: ${claim.text}` });
   if (evidence.afterRefresh) items.push({ at: evidence.afterRefresh.at, text: `Reloaded; canary present: ${evidence.afterRefresh.canaryPresent}` });
+  if (evidence.afterHardRefresh) items.push({ at: evidence.afterHardRefresh.at, text: `Hard reloaded without cache; canary present: ${evidence.afterHardRefresh.canaryPresent}` });
+  if (evidence.afterNewTab) items.push({ at: evidence.afterNewTab.at, text: `Opened a new tab; canary present: ${evidence.afterNewTab.canaryPresent}` });
   if (evidence.afterNewContext) items.push({ at: evidence.afterNewContext.at, text: `Fresh browser context; canary present: ${evidence.afterNewContext.canaryPresent}` });
+  if (evidence.afterAppRestart) items.push({ at: evidence.afterAppRestart.at, text: `Restarted the managed application; canary present: ${evidence.afterAppRestart.canaryPresent}` });
+  if (evidence.apiReadBack) items.push({ at: evidence.after?.at ?? evidence.durationMs, text: `API read-back ${evidence.apiReadBack.url} â†’ ${evidence.apiReadBack.status ?? "error"}; canary present: ${evidence.apiReadBack.canaryPresent}` });
   if (evidence.executionError) items.push({ at: evidence.durationMs, text: `Execution error: ${evidence.executionError}` });
   return items
     .sort((a, b) => a.at - b.at)
