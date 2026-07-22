@@ -42,12 +42,24 @@ inputs:
     description: Optional PostgreSQL adapter config path for Level 6 assertions
     required: false
     default: ""
+  sqlite:
+    description: Optional SQLite database file for zero-config Level 6 assertions
+    required: false
+    default: ""
+  database-configs:
+    description: Newline-separated Supabase, Firebase, or MongoDB adapter config paths
+    required: false
+    default: ""
+  provider-configs:
+    description: Newline-separated maintained provider adapter config paths
+    required: false
+    default: ""
   role-states:
     description: Newline-separated role=storage-state-file overrides
     required: false
     default: ""
   plugins:
-    description: Newline-separated provider plugin manifest paths
+    description: Newline-separated provider or Prisma/custom source plugin manifest paths
     required: false
     default: ""
   plugin-timeout:
@@ -105,6 +117,9 @@ runs:
         RD_WORKING_DIRECTORY: ${{ inputs.working-directory }}
         RD_ALLOW_HOST: ${{ inputs.allow-host }}
         RD_POSTGRES_CONFIG: ${{ inputs.postgres-config }}
+        RD_SQLITE: ${{ inputs.sqlite }}
+        RD_DATABASE_CONFIGS: ${{ inputs.database-configs }}
+        RD_PROVIDER_CONFIGS: ${{ inputs.provider-configs }}
         RD_BROWSER: ${{ inputs.browser }}
         RD_ROLE_STATES: ${{ inputs.role-states }}
         RD_PLUGINS: ${{ inputs.plugins }}
@@ -119,6 +134,7 @@ runs:
         args=(ci --baseline "$RD_BASELINE" --contracts "$RD_CONTRACTS" --output "$RD_OUTPUT" --browser "$RD_BROWSER")
         if [[ -n "$RD_ALLOW_HOST" ]]; then args+=(--allow-host "$RD_ALLOW_HOST"); fi
         if [[ -n "$RD_POSTGRES_CONFIG" ]]; then args+=(--postgres-config "$RD_POSTGRES_CONFIG"); fi
+        if [[ -n "$RD_SQLITE" ]]; then args+=(--sqlite "$RD_SQLITE"); fi
         if [[ -n "$RD_PERFORMANCE_BUDGET" ]]; then args+=(--performance-budget "$RD_PERFORMANCE_BUDGET"); fi
         if [[ "$RD_DEEP" == "true" ]]; then args+=(--deep); fi
         if [[ "$RD_TRACE" == "true" ]]; then args+=(--trace); fi
@@ -131,6 +147,12 @@ runs:
         while IFS= read -r plugin; do
           if [[ -n "$plugin" ]]; then args+=(--plugin "$plugin"); fi
         done <<< "$RD_PLUGINS"
+        while IFS= read -r database_config; do
+          if [[ -n "$database_config" ]]; then args+=(--database-config "$database_config"); fi
+        done <<< "$RD_DATABASE_CONFIGS"
+        while IFS= read -r provider_config; do
+          if [[ -n "$provider_config" ]]; then args+=(--provider-config "$provider_config"); fi
+        done <<< "$RD_PROVIDER_CONFIGS"
         while IFS= read -r changed; do
           if [[ -n "$changed" ]]; then args+=(--changed-file "$changed"); fi
         done <<< "$RD_CHANGED_FILES"

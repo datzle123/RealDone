@@ -14,6 +14,7 @@ jobs:
     timeout-minutes: 25
     env:
       REALDONE_POSTGRES_TEST_URL: postgres://realdone:realdone@127.0.0.1:5432/realdone
+      REALDONE_MONGODB_TEST_URL: mongodb://127.0.0.1:27017
       REALDONE_BROWSER_MATRIX: "1"
     services:
       postgres:
@@ -26,6 +27,15 @@ jobs:
           - 5432:5432
         options: >-
           --health-cmd "pg_isready -U realdone -d realdone"
+          --health-interval 2s
+          --health-timeout 3s
+          --health-retries 15
+      mongodb:
+        image: mongo:8
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongosh --quiet --eval 'db.adminCommand({ ping: 1 })'"
           --health-interval 2s
           --health-timeout 3s
           --health-retries 15

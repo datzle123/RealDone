@@ -31,6 +31,24 @@ async function body(request) {
 export function createFixtureServer() {
   const server = createServer(async (request, response) => {
     const url = new URL(request.url ?? "/", "http://fixture.local");
+    if (url.pathname === "/rest/v1/customer_rows") {
+      if (request.method === "DELETE") return json(response, 200, [{ customer_id: 1, customer_name: "RECORDED_CUSTOMER", deleted_at: null }]);
+      response.setHeader("content-range", "0-0/1");
+      return json(response, 200, [{ customer_id: 1, customer_name: "RECORDED_CUSTOMER", deleted_at: null }]);
+    }
+    if (request.method === "GET" && url.pathname === "/v1/payment_intents/pi_fixture") return json(response, 200, { status: "succeeded" });
+    if (request.method === "HEAD" && url.pathname === "/realdone-test/customer.txt") {
+      response.writeHead(200, { "content-type": "text/plain", "content-length": "18" });
+      return response.end();
+    }
+    if (request.method === "POST" && url.pathname === "/v1/projects/demo/databases/(default)/documents:runQuery") {
+      await body(request);
+      return json(response, 200, [{ document: { name: "projects/demo/databases/(default)/documents/customers/customer-1", fields: { name: { stringValue: "RECORDED_CUSTOMER" }, deletedAt: { nullValue: null } } } }]);
+    }
+    if (url.pathname === "/v1/projects/demo/databases/(default)/documents/customers") {
+      return json(response, 200, { documents: [{ name: "projects/demo/databases/(default)/documents/customers/customer-1", fields: { name: { stringValue: "RECORDED_CUSTOMER" }, deletedAt: { nullValue: null } } }] });
+    }
+    if (request.method === "DELETE" && url.pathname === "/v1/projects/demo/databases/(default)/documents/customers/customer-1") return json(response, 200, {});
     if (request.method === "POST" && url.pathname === "/api/customers") {
       const value = await body(request);
       if (state.breakCreate) return json(response, 500, { error: "intentional regression" });

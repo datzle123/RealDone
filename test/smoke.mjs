@@ -417,6 +417,19 @@ try {
       name: 'fixture-storage',
       verifyProvider(expectation) {
         return { found: expectation.reference.value === 'RECORDED_CUSTOMER', detail: 'fixture object exists' };
+      },
+      verifySource(expectation) {
+        return { matchedRows: expectation.resource === 'customer' ? 1 : 0, matchedFields: expectation.filters.map(filter => filter.field), detail: 'fixture Prisma bridge queried' };
+      },
+      discoverSource(input) {
+        return [{ adapter: 'prisma', resource: input.resource ?? 'customer', fields: [{ name: 'id', type: 'string', nullable: false }, { name: 'name', type: 'string', nullable: false }], primaryKey: ['id'], softDeleteFields: [], schemaHash: 'fixture' }];
+      },
+      snapshotSource() {
+        return { rows: [{ id: 'customer-1', name: 'RECORDED_CUSTOMER' }], truncated: false };
+      },
+      cleanupSource(target) {
+        if (target.filters.length !== 1 || target.filters[0].field !== 'id') throw new Error('fixture Prisma cleanup requires id');
+        return { deletedRows: 1, detail: 'fixture Prisma bridge cleaned one row' };
       }
     };
   `);
@@ -426,9 +439,66 @@ try {
     version: "1.0.0",
     entry: "./index.mjs",
     providers: [{ name: "fixture-storage-provider", kind: "storage" }],
+    sources: [{ name: "fixture-prisma-source", kind: "prisma" }],
   }));
+  process.env.RD_FIXTURE_SUPABASE_KEY = "fixture-supabase-key";
+  const supabaseConfig = path.join(outputRoot, "supabase.json");
+  const firebaseConfig = path.join(outputRoot, "firebase.json");
+  const providerConfig = path.join(outputRoot, "providers.json");
+  await writeFile(supabaseConfig, JSON.stringify({
+    schemaVersion: "1.0",
+    adapter: "supabase",
+    url: fixture.url,
+    keyEnv: "RD_FIXTURE_SUPABASE_KEY",
+    resources: {
+      customers: {
+        target: "customer_rows",
+        fields: { id: { target: "customer_id", type: "integer", nullable: false }, name: { target: "customer_name", type: "text" }, deletedAt: { target: "deleted_at", type: "timestamp" } },
+        primaryKey: ["id"],
+        softDeleteFields: ["deletedAt"],
+      },
+    },
+  }));
+  await writeFile(firebaseConfig, JSON.stringify({
+    schemaVersion: "1.0",
+    adapter: "firebase",
+    projectId: "demo",
+    baseUrl: fixture.url,
+    resources: {
+      customers: {
+        target: "customers",
+        fields: { id: { target: "__name__", type: "string", nullable: false }, name: { target: "name", type: "string" }, deletedAt: { target: "deletedAt", type: "timestamp" } },
+        primaryKey: ["id"],
+        softDeleteFields: ["deletedAt"],
+      },
+    },
+  }));
+  process.env.RD_FIXTURE_STRIPE_KEY = "sk_test_fixture";
+  process.env.RD_FIXTURE_AWS_ACCESS_KEY = "AKIATEST";
+  process.env.RD_FIXTURE_AWS_SECRET_KEY = "fixture-aws-secret";
+  await writeFile(providerConfig, JSON.stringify({ schemaVersion: "1.0", providers: {
+    "stripe-fixture": { adapter: "stripe", secretEnv: "RD_FIXTURE_STRIPE_KEY", baseUrl: fixture.url },
+    "s3-fixture": { adapter: "s3", accessKeyEnv: "RD_FIXTURE_AWS_ACCESS_KEY", secretKeyEnv: "RD_FIXTURE_AWS_SECRET_KEY", region: "us-test-1", bucket: "realdone-test", endpoint: fixture.url },
+  } }));
+  const sqliteFile = path.join(outputRoot, "phase-f.sqlite");
+  const { default: SqliteDatabase } = await import("better-sqlite3");
+  const sqliteSetup = new SqliteDatabase(sqliteFile);
+  sqliteSetup.exec("CREATE TABLE customers (id INTEGER PRIMARY KEY, name TEXT NOT NULL, deleted_at TEXT)");
+  sqliteSetup.prepare("INSERT INTO customers (id, name) VALUES (?, ?)").run(1, "RECORDED_CUSTOMER");
+  sqliteSetup.close();
   const recordedClick = recording.contract.steps.find((step) => step.type === "click");
   assert.ok(recordedClick);
+  recordedClick.expected.push({
+    type: "source",
+    adapter: "sqlite",
+    resource: "customers",
+    filters: [{ field: "name", value: "RECORDED_CUSTOMER" }],
+    state: "present",
+    maxMatches: 1,
+  });
+  recordedClick.expected.push({ type: "source", adapter: "supabase", resource: "customers", filters: [{ field: "name", value: "RECORDED_CUSTOMER" }], state: "present", maxMatches: 1 });
+  recordedClick.expected.push({ type: "source", adapter: "firebase", resource: "customers", filters: [{ field: "name", value: "RECORDED_CUSTOMER" }], state: "present", maxMatches: 1 });
+  recordedClick.expected.push({ type: "source", adapter: "prisma", connector: "fixture-prisma-source", resource: "customer", filters: [{ field: "name", value: "RECORDED_CUSTOMER" }], state: "present", maxMatches: 1 });
   recordedClick.expected.push({
     type: "cross-role",
     role: "observer",
@@ -444,11 +514,15 @@ try {
     reference: { value: "RECORDED_CUSTOMER" },
     state: "confirmed",
   });
+  recordedClick.expected.push({ type: "provider", provider: "stripe-fixture", kind: "payment", operation: "succeeded", resource: "payment-intent", reference: { value: "pi_fixture" }, state: "confirmed" });
+  recordedClick.expected.push({ type: "provider", provider: "s3-fixture", kind: "storage", operation: "exists", resource: "object", reference: { value: "customer.txt" }, state: "confirmed" });
   recordedClick.expected.push({
     type: "persistence",
     value: "RECORDED_CUSTOMER",
     strategies: ["reload", "hard-reload", "new-tab", "clean-context", "logout-login"],
   });
+  recording.contract.cleanup.push({ adapter: "sqlite", resource: "customers", filters: [{ field: "id", value: 1 }] });
+  recording.contract.cleanup.push({ adapter: "prisma", connector: "fixture-prisma-source", resource: "customer", filters: [{ field: "id", value: "customer-1" }] });
   await writeBehaviorContract(recording.contractFile, recording.contract);
   const verification = await verifyContract(recording.contractFile, {
     outputRoot: path.join(outputRoot, "verifications"),
@@ -461,6 +535,9 @@ try {
     allowExternal: false,
     allowHosts: [],
     pluginManifests: [pluginManifest],
+    sqlitePath: sqliteFile,
+    databaseConfigPaths: [supabaseConfig, firebaseConfig],
+    providerConfigPaths: [providerConfig],
     performanceBudgetFile: path.resolve("examples/realdone.performance.json"),
     deep: true,
     trace: true,
@@ -470,7 +547,14 @@ try {
   assert.equal(verification.verification.passed, true);
   assert.ok(verification.verification.steps.some((step) => step.assertions.some((assertion) => assertion.evidenceLevel === 7 && assertion.passed)));
   assert.ok(verification.verification.steps.some((step) => step.assertions.some((assertion) => assertion.persistenceScope === "CROSS_USER_CONFIRMED" && assertion.passed)));
-  assert.ok(verification.verification.steps.some((step) => step.assertions.some((assertion) => assertion.providerEvidence?.passed)));
+  assert.deepEqual(
+    [...new Set(verification.verification.steps.flatMap((step) => step.assertions.flatMap((assertion) => assertion.providerEvidence?.passed ? [assertion.providerEvidence.provider] : [])))].sort(),
+    ["fixture-storage-provider", "s3-fixture", "stripe-fixture"],
+  );
+  assert.deepEqual(
+    [...new Set(verification.verification.steps.flatMap((step) => step.assertions.flatMap((assertion) => assertion.sourceEvidence?.passed ? [assertion.sourceEvidence.adapter] : [])))].sort(),
+    ["firebase", "prisma", "sqlite", "supabase"],
+  );
   assert.ok(verification.verification.steps.some((step) => step.assertions.some((assertion) => assertion.persistenceScope === "SOURCE_OF_TRUTH_CONFIRMED" && assertion.passed)));
   assert.equal(verification.verification.performance?.passed, true);
   assert.equal(verification.verification.deep, true);
@@ -544,6 +628,9 @@ try {
     allowExternal: false,
     allowHosts: [],
     pluginManifests: [pluginManifest],
+    sqlitePath: sqliteFile,
+    databaseConfigPaths: [supabaseConfig, firebaseConfig],
+    providerConfigPaths: [providerConfig],
     performanceBudgetFile: path.resolve("examples/realdone.performance.json"),
     deep: true,
     ...(process.env.REALDONE_BROWSER_PATH ? { executablePath: process.env.REALDONE_BROWSER_PATH } : {}),
@@ -621,6 +708,23 @@ try {
   assert.equal(redGate.report.regressions, 1);
   assert.equal(redGate.report.changes[0]?.outcome, "REGRESSION");
   assert.ok(redGate.report.changes[0]?.detectorCodes.includes("RD904"));
+  const sqliteCleanup = await runCleanup(verification.outputDirectory, {
+    confirm: true,
+    confirmDatabase: true,
+    sqlitePath: sqliteFile,
+    pluginManifests: [pluginManifest],
+    allowHosts: [],
+    retries: 1,
+  });
+  assert.equal(sqliteCleanup.failed, 0);
+  assert.equal(sqliteCleanup.cleaned, 2);
+  const sqliteCheck = new SqliteDatabase(sqliteFile, { readonly: true });
+  assert.equal(sqliteCheck.prepare("SELECT COUNT(*) AS count FROM customers WHERE id = ?").get(1).count, 0);
+  sqliteCheck.close();
+  delete process.env.RD_FIXTURE_SUPABASE_KEY;
+  delete process.env.RD_FIXTURE_STRIPE_KEY;
+  delete process.env.RD_FIXTURE_AWS_ACCESS_KEY;
+  delete process.env.RD_FIXTURE_AWS_SECRET_KEY;
   process.stdout.write(`Smoke scan passed: ${path.join(result.reportDirectory, "report.html")}\n`);
 } finally {
   await fixture.stop();
