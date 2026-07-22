@@ -31,7 +31,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc --noEmit",
-    "test": "node --import tsx --test test/*.test.ts",
+    "test": "node scripts/run-tests.mjs",
     "smoke": "pnpm build && node test/smoke.mjs",
     "check": "pnpm typecheck && pnpm test && pnpm build",
     "fixture": "node benchmarks/fixture-app/server.mjs",
