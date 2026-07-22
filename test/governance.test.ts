@@ -26,7 +26,7 @@ test("normative product truth is linked, consistent, and shipped", async () => {
   assert.match(specification, /Trạng thái: NORMATIVE/);
   assert.match(specification, /# 29\. Release Gates/);
   assert.match(specification, /# 32\. Định nghĩa hoàn thành full project/);
-  assert.match(status, /Full product:\*\* \*\*CHƯA HOÀN THÀNH/);
+  assert.match(status, /Full product:\*\* \*\*HOÀN THÀNH/);
   assert.match(roadmap, /PRODUCT_SPECIFICATION\.md/);
   assert.match(roadmap, /only area-completeness ledger/i);
   assert.doesNotMatch(roadmap, /Mapped specification:/);
@@ -40,14 +40,14 @@ test("normative product truth is linked, consistent, and shipped", async () => {
     PARTIAL: rows.filter((row) => row.state === "PARTIAL").length,
     PLANNED: rows.filter((row) => row.state === "PLANNED").length,
   };
-  assert.deepEqual(counts, { IMPLEMENTED: 20, PARTIAL: 1, PLANNED: 1 });
+  assert.deepEqual(counts, { IMPLEMENTED: 22, PARTIAL: 0, PLANNED: 0 });
   assert.ok(status.includes(`Area coverage:** **${counts.IMPLEMENTED}/${rows.length} \`IMPLEMENTED\``));
   assert.match(status, /Detector catalog: \*\*58\/58 production-classified and gated\*\*/);
   for (const area of ["§4 Record and verify", "§12–13 Evidence and snapshots", "§19–20 Contracts and replay", "§21 Report", "§22 Database adapters", "§23 Provider adapters", "§25 Safety", "§26 Benchmark"]) {
     assert.equal(rows.find((row) => row.area === area)?.state, "IMPLEMENTED", `${area} must agree with its completed phase gate`);
   }
   assert.equal(rows.find((row) => row.area === "§4 Coding-agent verification")?.state, "IMPLEMENTED");
-  assert.equal(rows.find((row) => row.area === "§32 Full-product definition")?.state, "PLANNED");
+  assert.equal(rows.find((row) => row.area === "§32 Full-product definition")?.state, "IMPLEMENTED");
 
   for (const surface of [readme, docsIndex, contributing, agents, pullRequest]) {
     assert.match(surface, /PRODUCT_SPECIFICATION\.md/);

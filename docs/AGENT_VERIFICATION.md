@@ -79,9 +79,9 @@ Known environment secret values, provider-key shapes, bearer tokens, and databas
 
 ## Current qualification evidence
 
-The repository-bound candidate is documented in [`release/evidence/ai-agent-cycle.json`](https://github.com/datzle123/RealDone/blob/main/release/evidence/ai-agent-cycle.json). Authenticated Codex Desktop `0.143.0` session `019f8b5d-c0da-7f72-8a98-01cf58fd1d18` established green baseline verification `20260722T194657Z-ac97`, selected one unchanged contract with one RD901 regression in run `20260722T195413Z-217b`, repaired the application, and selected the same contract with zero regressions in run `20260722T195754Z-a9bd`. The release validator parses SHA-256-bound session, baseline, failed-verification, regression and repair artifacts; it does not trust the agent's final message.
+The repository-bound qualification is documented in [`release/evidence/ai-agent-cycle.json`](https://github.com/datzle123/RealDone/blob/main/release/evidence/ai-agent-cycle.json). Authenticated Codex Desktop `0.143.0` session `019f8b5d-c0da-7f72-8a98-01cf58fd1d18` established green baseline verification `20260722T194657Z-ac97`, selected one unchanged contract with one RD901 regression in run `20260722T195413Z-217b`, repaired the application, and selected the same contract with zero regressions in run `20260722T195754Z-a9bd`. The release validator parses SHA-256-bound session, baseline, failed-verification, regression and repair artifacts; it does not trust the agent's final message.
 
-This evidence supports the `IMPLEMENTED` coding-agent row in [`PRODUCT_STATUS.md`](PRODUCT_STATUS.md). It does not close Phase G or §32: the current fingerprint still requires hosted Windows/macOS/Linux aggregation and signed GitHub provenance.
+This evidence supports the `IMPLEMENTED` coding-agent row in [`PRODUCT_STATUS.md`](PRODUCT_STATUS.md). Hosted run [`29958126604`](https://github.com/datzle123/RealDone/actions/runs/29958126604) aggregated it across Windows/macOS/Linux, passed all 15 gates, and produced verified signed GitHub provenance, closing Phase G and §32.
 
 ## Authenticated and Level 6 flows
 

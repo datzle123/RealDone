@@ -1,6 +1,6 @@
 # Compatibility matrix
 
-The `v1.3.0` candidate must pass the matrix below before it is released.
+`v1.3.0` passed the matrix below in hosted run [`29958126604`](https://github.com/datzle123/RealDone/actions/runs/29958126604).
 
 | Surface | Release gate |
 | --- | --- |

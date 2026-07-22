@@ -12,7 +12,7 @@ These releases established browser scanning, evidence reports, replay and cleanu
 
 ## Released real-world correctness (`v1.2.0`)
 
-The active `v1.3.0` full-product qualification is Phase G below.
+The completed `v1.3.0` full-product qualification is Phase G below.
 
 Contributes evidence to: §8.2, §16, §25–29.
 
@@ -106,7 +106,7 @@ Gate:
 
 Phase F gate is complete. SQLite, Supabase, Firebase, MongoDB, PostgreSQL and Prisma/custom source contracts cover verification, schema/primary-key/soft-delete discovery, value-free snapshots/diff and confirmed cleanup; all seven maintained provider adapters and production guards pass integration tests. The full browser workflow passed in Chromium and the Chromium/Firefox/WebKit matrix with source/provider Level 6, plugin and built-in adapters, multi-role Level 7, trace/video, baseline/CI, replay and agent verification. A pinned Conduit run performed a real login, confirmed the user in its live SQLite `Users` table at Level 6, wrote a trace, found no password in artifacts, and removed the disposable user by primary key. Hosted run `29920539004` passed PostgreSQL 17, MongoDB 8, package/audit gates, Node 20/22, all three engines, and Ubuntu/Windows/macOS for Phase F head `aee3330`.
 
-## Phase G — coding-agent and full-product qualification
+## Phase G — coding-agent and full-product qualification (complete)
 
 Contributes evidence to: §4.6, §27–32. This is the only phase gate allowed to close §32, and only after every `PRODUCT_STATUS.md` row is `IMPLEMENTED`.
 
@@ -118,4 +118,4 @@ Gate:
 - All 15 release gates in §29 are executable and green on Windows, macOS and Linux.
 - Every row in `PRODUCT_STATUS.md` is `IMPLEMENTED`; only then may RealDone be called a completed full product.
 
-Current progress: the authenticated Codex baseline → selected RD901 regression → unchanged-contract repair cycle is complete and accepted by the local release-evidence validator. Fingerprint `1f88dd858…` has current raw evidence across TodoMVC, Actual Budget, Conduit/SQLite, Conduit/PostgreSQL 17 + Supabase Data API, and Codex-generated Pocket Ledger; the union covers all nine required external capability classes, real PostgreSQL create/update/delete cleanup, upload/export, Level 7 roles and multi-step flow evidence. Phase G remains open until this candidate passes the hosted Windows/macOS/Linux 15-gate aggregate and GitHub signs the merged release evidence; `PRODUCT_STATUS.md` remains authoritative until then.
+Phase G is complete. The authenticated Codex baseline → selected RD901 regression → unchanged-contract repair cycle is validator-parsed, and fingerprint `1f88dd858…` binds current raw evidence across TodoMVC, Actual Budget, Conduit/SQLite, Conduit/PostgreSQL 17 + Supabase Data API, and Codex-generated Pocket Ledger. Hosted run [`29958126604`](https://github.com/datzle123/RealDone/actions/runs/29958126604) passed the Windows/macOS/Linux, Node 20/22, PostgreSQL 17, MongoDB 8, browser, package and all 15 normative gates; `gh attestation verify` confirmed GitHub-signed provenance for the aggregate.

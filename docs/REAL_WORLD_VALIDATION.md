@@ -54,7 +54,7 @@ The Phase G rerun binds each compact evidence document to both the raw `scan.jso
 | Conduit + PostgreSQL 17 + Supabase Data API | `VALID`, untruncated | 18 `VERIFIED`; signup was `SOURCE_OF_TRUTH_CONFIRMED` Level 6 through both adapters with the same added-row hash | 0 |
 | Pocket Ledger | `VALID`, untruncated | all 6 visible actions `VERIFIED`, including focus-revealed skip link, multipart upload and non-empty CSV export | 0 |
 
-The current local candidate uses engine fingerprint `1f88dd858b13faf079fffb32969319bb0efdef569829de6465ee3d1f2ba9a82e`. Its repository-confined raw scans are stored under `release/evidence/raw/`; every primary case was `VALID` and untruncated. Compact documents are SHA-256-bound to the current engine, primary scans, supporting PostgreSQL CRUD scans, cleanup ledger, role verification and Codex cycle artifacts. The release gate now requires all nine §27 capability classes, not merely a minimum case count.
+The qualified engine fingerprint is `1f88dd858b13faf079fffb32969319bb0efdef569829de6465ee3d1f2ba9a82e`. Its repository-confined raw scans are stored under `release/evidence/raw/`; every primary case was `VALID` and untruncated. Compact documents are SHA-256-bound to the current engine, primary scans, supporting PostgreSQL CRUD scans, cleanup ledger, role verification and Codex cycle artifacts. The release gate requires semantic observable evidence for all nine §27 capability classes, not merely a minimum case count.
 
 PostgreSQL qualification used the pinned upstream Conduit app with only a harness port mapping, native PostgreSQL 17.10, real create/update/delete row diffs and key-bounded cleanup. The Supabase source adapter read the same action through a local Supabase Data API-compatible PostgREST 14.15 endpoint; the official Supabase CLI was also checked, but its full Auth/Storage local stack could not start on this machine because Docker Desktop/WSL is absent. This evidence therefore claims the maintained Supabase Data API adapter boundary, not a hosted Supabase service.
 
@@ -66,7 +66,7 @@ The first current-engine Conduit rerun exposed an RD501 false positive: the publ
 
 The 2026-07-23 Actual Budget rerun then exposed a safety regression: its server target is a text input with an `https://example.com` placeholder rather than `type="url"`. RealDone initially filled a canary and clicked Connect, producing a DNS failure. URL-bearing placeholders now retain external-target classification; the rerun returned to 6 `VERIFIED`, 1 safe `UNCERTAIN`, 3 policy `SKIPPED`, and zero defects.
 
-Machine-readable release inputs are in `release/external-cases.json` and `release/evidence/`. The candidate is not called hosted-qualified until the new `main` run passes Windows/macOS/Linux, all 15 gates, and produces GitHub's signed attestation for the merged release JSON.
+Machine-readable release inputs are in `release/external-cases.json` and `release/evidence/`. Hosted run [`29958126604`](https://github.com/datzle123/RealDone/actions/runs/29958126604) passed Windows/macOS/Linux and all 15 gates; GitHub signed the merged release JSON, and `gh attestation verify` confirmed its source commit `7c44cddd8ef583f1cd6a751935e4c2a2359ff6c8`.
 
 ### Actual Budget original application
 

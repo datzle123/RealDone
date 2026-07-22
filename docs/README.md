@@ -19,4 +19,4 @@ RealDone is a local-first runtime behavioral verifier. Start with the [project R
 - [Threat model](THREAT_MODEL.md) — trust boundaries, mitigations, and residual risk.
 - [Functional verification matrix](VERIFICATION_MATRIX.md) — public capabilities mapped to executable release gates.
 - [Real-world validation](REAL_WORLD_VALIDATION.md) — reproducible scans against external open-source applications.
-- [Roadmap](ROADMAP.md) — shipped foundation, active work, remaining full-product phases, and their executable gates.
+- [Roadmap](ROADMAP.md) — shipped phases, full-product qualification, and their executable gates.

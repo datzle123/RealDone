@@ -97,11 +97,11 @@ Review policies before testing any environment with real users or money.
 
 ## Current status
 
-RealDone is a tested open-source preview, not yet the completed full product.
+RealDone `v1.3.0` meets the full normative product specification with executable evidence.
 
-- The preceding source fingerprint passed all 15 normative gates on Windows, macOS, and Linux in [run 29950496830](https://github.com/datzle123/RealDone/actions/runs/29950496830). The new full-matrix candidate still needs its own hosted run.
-- 20 of 22 normative product areas are `IMPLEMENTED`.
-- The authenticated Codex regression/repair cycle and all nine external capability classes have repository-bound local evidence. Hosted cross-platform 15-gate qualification and signed provenance are still required for the full-product claim.
+- Current fingerprint `1f88dd858…` passed all 15 normative gates on Windows, macOS, and Linux in [run 29958126604](https://github.com/datzle123/RealDone/actions/runs/29958126604).
+- All 22 normative product areas and all 58 detector classes are `IMPLEMENTED` and executable-gated.
+- GitHub signed the hosted release evidence; the authenticated Codex regression/repair cycle and all nine external capability classes are SHA-256-bound and validator-parsed.
 
 [`PRODUCT_STATUS.md`](docs/PRODUCT_STATUS.md) is the only area-completeness ledger. [`PRODUCT_SPECIFICATION.md`](docs/PRODUCT_SPECIFICATION.md) is the full source of truth. A completed roadmap phase is not the same as a completed full product.
 
