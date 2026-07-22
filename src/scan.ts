@@ -292,6 +292,23 @@ export async function runScan(
         ? await captureSourceSnapshots(sourcePlans, "before", options.sourceSnapshotLimit ?? 100)
         : undefined;
       const evidence = await executeAction(browser, action, options, screenshots);
+      let providerMatchedChecks = 0;
+      let providerConfirmationComplete = false;
+      if (options.providerVerifier) {
+        const providerResult = await options.providerVerifier.verifyAutomatic(action, evidence, { deadline });
+        providerMatchedChecks = providerResult.matchedChecks;
+        if (providerResult.matchedChecks > 0) {
+          evidence.providerEvidence = providerResult.evidence;
+          evidence.providerErrors = providerResult.errors;
+          providerConfirmationComplete =
+            providerResult.errors.length === 0 &&
+            providerResult.evidence.length === providerResult.matchedChecks &&
+            providerResult.evidence.every((entry) => entry.passed && entry.automaticLinkage?.causallyLinked === true);
+          if (providerConfirmationComplete) {
+            evidence.persistenceScope = "SOURCE_OF_TRUTH_CONFIRMED";
+          }
+        }
+      }
       const sourceAfter = sourceEnabled
         ? await captureSourceSnapshots(sourcePlans, "after", options.sourceSnapshotLimit ?? 100)
         : undefined;
@@ -309,6 +326,13 @@ export async function runScan(
       if (sourceEnabled && (evidence.sourceSnapshotErrors?.length ?? 0) > 0 && finding.verdict === "VERIFIED") {
         finding.verdict = "UNCERTAIN";
         finding.reason = "The browser effect was observed, but configured source snapshots were unavailable.";
+      }
+      if (providerMatchedChecks > 0 && !providerConfirmationComplete && finding.verdict === "VERIFIED") {
+        finding.verdict = "UNCERTAIN";
+        finding.evidenceLevel = Math.min(finding.evidenceLevel, 3) as Finding["evidenceLevel"];
+        finding.reason = (evidence.providerErrors?.length ?? 0) > 0
+          ? "The browser effect was observed, but configured provider confirmation was unavailable."
+          : "The browser effect was observed, but every configured provider check was not causally confirmed.";
       }
       if (options.traceOnFailure && !options.trace && ["VERIFIED", "BROWSER_LOCAL", "SKIPPED"].includes(finding.verdict) && evidence.trace) {
         await rm(evidence.trace, { force: true });

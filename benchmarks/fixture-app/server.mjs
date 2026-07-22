@@ -36,7 +36,7 @@ export function createFixtureServer() {
       response.setHeader("content-range", "0-0/1");
       return json(response, 200, [{ customer_id: 1, customer_name: "RECORDED_CUSTOMER", deleted_at: null }]);
     }
-    if (request.method === "GET" && url.pathname === "/v1/payment_intents/pi_fixture") return json(response, 200, { status: "succeeded" });
+    if (request.method === "GET" && (/^\/v1\/payment_intents\/payment-\d+$/.test(url.pathname) || url.pathname === "/v1/payment_intents/pi_fixture")) return json(response, 200, { status: "succeeded" });
     if (request.method === "HEAD" && url.pathname === "/realdone-test/customer.txt") {
       response.writeHead(200, { "content-type": "text/plain", "content-length": "18" });
       return response.end();

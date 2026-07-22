@@ -34,4 +34,24 @@ export interface ProviderEvidence {
   durationMs: number;
   detail: string;
   metadata?: Record<string, ProviderScalar>;
+  automaticLinkage?: {
+    referenceSource: "response-resource-id" | "upload-file-name" | "download-file-name" | "environment";
+    causallyLinked: boolean;
+    requestId?: string;
+  };
+}
+
+export interface ProviderCheckError {
+  provider: string;
+  detail: string;
+}
+
+export interface AutomaticProviderResult {
+  matchedChecks: number;
+  evidence: ProviderEvidence[];
+  errors: ProviderCheckError[];
+}
+
+export interface AutomaticProviderOptions {
+  deadline: number;
 }

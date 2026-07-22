@@ -20,6 +20,7 @@ import { runScan } from "../dist/scan.js";
 import { runReplay } from "../dist/replay.js";
 import { scanArtifactSecrets } from "../dist/release/artifacts.js";
 import { checkArtifactSchemaCompatibility } from "../dist/release/schema.js";
+import { BuiltinProviderHost } from "../dist/providers/builtin.js";
 
 async function startFixture() {
   const child = spawn(process.execPath, [path.resolve("benchmarks/fixture-app/server.mjs")], {
@@ -148,7 +149,7 @@ try {
   assert.ok((await readdir(path.join(result.reportDirectory, "screenshots"))).length > 0);
   assert.ok((await readdir(path.join(result.reportDirectory, "network"))).length > 0);
   assert.ok((await readdir(path.join(result.reportDirectory, "reproductions"))).length > 0);
-  for (const directory of ["snapshots", "console", "websockets", "uploads", "downloads", "contracts"]) {
+  for (const directory of ["snapshots", "console", "websockets", "uploads", "downloads", "providers", "contracts"]) {
     assert.ok((await readdir(path.join(result.reportDirectory, directory))).length > 0, `${directory} artifacts were not written`);
   }
   await access(path.join(result.reportDirectory, "environment.json"));
@@ -585,10 +586,42 @@ try {
   process.env.RD_FIXTURE_STRIPE_KEY = "sk_test_fixture";
   process.env.RD_FIXTURE_AWS_ACCESS_KEY = "AKIATEST";
   process.env.RD_FIXTURE_AWS_SECRET_KEY = "fixture-aws-secret";
-  await writeFile(providerConfig, JSON.stringify({ schemaVersion: "1.0", providers: {
-    "stripe-fixture": { adapter: "stripe", secretEnv: "RD_FIXTURE_STRIPE_KEY", baseUrl: fixture.url },
-    "s3-fixture": { adapter: "s3", accessKeyEnv: "RD_FIXTURE_AWS_ACCESS_KEY", secretKeyEnv: "RD_FIXTURE_AWS_SECRET_KEY", region: "us-test-1", bucket: "realdone-test", endpoint: fixture.url },
-  } }));
+  await writeFile(providerConfig, JSON.stringify({
+    schemaVersion: "1.0",
+    providers: {
+      "stripe-fixture": { adapter: "stripe", secretEnv: "RD_FIXTURE_STRIPE_KEY", baseUrl: fixture.url },
+      "s3-fixture": { adapter: "s3", accessKeyEnv: "RD_FIXTURE_AWS_ACCESS_KEY", secretKeyEnv: "RD_FIXTURE_AWS_SECRET_KEY", region: "us-test-1", bucket: "realdone-test", endpoint: fixture.url },
+    },
+    automaticChecks: [{
+      provider: "stripe-fixture",
+      kind: "payment",
+      operation: "succeeded",
+      resource: "payment-intent",
+      state: "confirmed",
+      match: { actionLabelIncludes: "Pay order once", actionKind: "external", requestUrlIncludes: "/api/payments" },
+      reference: { from: "response-resource-id" },
+    }],
+  }));
+  const missingProviderFinding = result.report.findings.find((finding) => finding.action.label === "Pay order once" && finding.detectorMatches.some((match) => match.code === "RD804"));
+  assert.ok(missingProviderFinding, "intentional missing-provider case was not observed");
+  const providerLinkedScan = await runScan({
+    ...scan,
+    targetUrl: missingProviderFinding.action.pageUrl,
+    outputRoot: path.join(outputRoot, "provider-linked-scan"),
+    maxPages: 1,
+    maxActions: 1,
+    deep: false,
+    replayAction: missingProviderFinding.action,
+    providerVerifier: await BuiltinProviderHost.load([providerConfig]),
+  });
+  const providerLinkedFinding = providerLinkedScan.report.findings[0];
+  assert.equal(providerLinkedFinding?.verdict, "VERIFIED");
+  assert.equal(providerLinkedFinding?.evidenceLevel, 6);
+  assert.equal(providerLinkedFinding?.evidence.persistenceScope, "SOURCE_OF_TRUTH_CONFIRMED");
+  assert.ok(providerLinkedFinding?.evidence.providerEvidence?.some((entry) => entry.provider === "stripe-fixture" && entry.passed));
+  assert.ok(providerLinkedFinding?.evidence.providerEvidence?.every((entry) => entry.automaticLinkage?.causallyLinked));
+  assert.equal(providerLinkedFinding?.detectorMatches.some((match) => match.code === "RD804"), false);
+  await access(path.join(providerLinkedScan.reportDirectory, "providers", `${providerLinkedFinding.id}.json`));
   const sqliteFile = path.join(outputRoot, "phase-f.sqlite");
   const { default: SqliteDatabase } = await import("better-sqlite3");
   const sqliteSetup = new SqliteDatabase(sqliteFile);
@@ -795,7 +828,7 @@ try {
       ...verifyOptions,
       outputRoot: path.join(outputRoot, "matrix"),
     });
-    assert.equal(matrix.exitCode, 0);
+    assert.equal(matrix.exitCode, 0, JSON.stringify(matrix.report.entries, null, 2));
     assert.deepEqual(matrix.report.entries.map((entry) => entry.browser), ["chromium", "firefox", "webkit"]);
   }
   await fetch(`${fixture.url}/__control__/break-create`, { method: "POST" });

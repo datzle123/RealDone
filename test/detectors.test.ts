@@ -309,6 +309,39 @@ test("detects payment and webhook integrity failures", () => {
   const request = { id: "payment", method: "POST", url: "http://localhost/api/payments", resourceType: "fetch", startedAt: 50, status: 201, ok: true };
   assert.ok(detect(payment, evidence({ network: [request, { ...request, id: "payment-2" }], after: success })).detectorMatches.some((item) => item.code === "RD803"));
   assert.ok(detect(payment, evidence({ network: [request], after: success })).detectorMatches.some((item) => item.code === "RD804"));
+  const confirmed = detect(payment, evidence({
+    network: [request],
+    after: success,
+    providerEvidence: [{ provider: "stripe-test", kind: "payment", resource: "payment-intent", operation: "succeeded", state: "confirmed", found: true, passed: true, evidenceLevel: 6, durationMs: 2, detail: "confirmed", automaticLinkage: { referenceSource: "response-resource-id", causallyLinked: true, requestId: "payment" } }],
+  }));
+  assert.equal(confirmed.verdict, "VERIFIED");
+  assert.equal(confirmed.evidenceLevel, 6);
+  assert.equal(confirmed.detectorMatches.some((item) => item.code === "RD804"), false);
+  const unavailable = detect(payment, evidence({ network: [request], after: success, providerErrors: [{ provider: "stripe-test", detail: "sandbox unavailable" }] }));
+  assert.equal(unavailable.verdict, "UNCERTAIN");
+  assert.equal(unavailable.detectorMatches.some((item) => item.code === "RD804"), false);
+  const mixed = detect(payment, evidence({
+    network: [request],
+    after: success,
+    providerEvidence: [
+      { provider: "stripe-test", kind: "payment", resource: "payment-intent", operation: "succeeded", state: "confirmed", found: true, passed: true, evidenceLevel: 6, durationMs: 2, detail: "confirmed", automaticLinkage: { referenceSource: "response-resource-id", causallyLinked: true, requestId: "payment" } },
+      { provider: "storage-test", kind: "storage", resource: "object", operation: "exists", state: "confirmed", found: false, passed: false, evidenceLevel: 6, durationMs: 2, detail: "missing", automaticLinkage: { referenceSource: "upload-file-name", causallyLinked: true, requestId: "payment" } },
+    ],
+  }));
+  assert.equal(mixed.verdict, "UNCERTAIN");
+  assert.notEqual(mixed.evidenceLevel, 6);
+  const wrongKind = detect(payment, evidence({
+    network: [request],
+    after: success,
+    providerEvidence: [{ provider: "email-test", kind: "email", resource: "message", operation: "delivered", state: "confirmed", found: true, passed: true, evidenceLevel: 6, durationMs: 2, detail: "confirmed", automaticLinkage: { referenceSource: "response-resource-id", causallyLinked: true, requestId: "payment" } }],
+  }));
+  assert.equal(wrongKind.verdict, "UNCERTAIN");
+  assert.ok(wrongKind.detectorMatches.some((item) => item.code === "RD804"));
+  const preExisting = detect(
+    { ...action, kind: "local", intent: "interact", label: "Check receipt" },
+    evidence({ network: [], before: signaledState(), after: signaledState(), providerEvidence: [{ provider: "storage-test", kind: "storage", resource: "object", operation: "exists", state: "confirmed", found: true, passed: true, evidenceLevel: 6, durationMs: 2, detail: "pre-existing", automaticLinkage: { referenceSource: "environment", causallyLinked: false } }] }),
+  );
+  assert.equal(preExisting.verdict, "UNCERTAIN");
   assert.ok(detect(
     { ...action, kind: "external", intent: "external", label: "Process webhook" },
     evidence({ network: [{ ...request, id: "webhook", url: "http://localhost/api/webhook" }], after: signaledState() }),

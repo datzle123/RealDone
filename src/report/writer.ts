@@ -23,6 +23,7 @@ export async function writeReport(
     mkdir(path.join(reportDirectory, "websockets"), { recursive: true }),
     mkdir(path.join(reportDirectory, "uploads"), { recursive: true }),
     mkdir(path.join(reportDirectory, "downloads"), { recursive: true }),
+    mkdir(path.join(reportDirectory, "providers"), { recursive: true }),
     mkdir(path.join(reportDirectory, "contracts"), { recursive: true }),
     mkdir(path.join(reportDirectory, "reproductions"), { recursive: true }),
     mkdir(path.join(reportDirectory, "traces"), { recursive: true }),
@@ -77,6 +78,8 @@ export async function writeReport(
       persistenceScope: finding.evidence.persistenceScope,
       sourceDiffs: finding.evidence.sourceDiffs,
       sourceSnapshotErrors: finding.evidence.sourceSnapshotErrors,
+      providerEvidence: finding.evidence.providerEvidence,
+      providerErrors: finding.evidence.providerErrors,
     };
     await writeDeduplicatedSnapshots(reportDirectory, finding.id, snapshots);
     finding.evidence.snapshotIndex = `snapshots/${finding.id}.index.json`;
@@ -92,6 +95,7 @@ export async function writeReport(
       writeFile(path.join(reportDirectory, "websockets", `${finding.id}.json`), `${JSON.stringify(finding.evidence.webSockets ?? [], null, 2)}\n`),
       writeFile(path.join(reportDirectory, "uploads", `${finding.id}.json`), `${JSON.stringify(finding.evidence.uploads ?? [], null, 2)}\n`),
       writeFile(path.join(reportDirectory, "downloads", `${finding.id}.json`), `${JSON.stringify(finding.evidence.downloadEvidence ?? [], null, 2)}\n`),
+      writeFile(path.join(reportDirectory, "providers", `${finding.id}.json`), `${JSON.stringify({ evidence: finding.evidence.providerEvidence ?? [], errors: finding.evidence.providerErrors ?? [] }, null, 2)}\n`),
     ]);
   }
   await Promise.all([

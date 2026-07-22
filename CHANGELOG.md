@@ -37,6 +37,7 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 - Maintained read-only provider adapters for Stripe test mode, Resend, SendGrid, Mailgun, S3, Supabase Storage, and OAuth introspection, plus repeated `--database-config` and `--provider-config` CLI inputs.
 - GitHub Action inputs for SQLite, repeated database configs, repeated provider configs, and provider/source plugins.
 - Plugin manifest environment/network permissions with fresh worker execution, restricted worker environment, allowlisted global `fetch`, and tested source/provider redaction boundaries.
+- Explicit automatic provider rules for CLI/MCP scans, with action/request matching and response-ID, upload, download, or environment references; passing checks attach redacted Level 6 evidence and provider artifacts.
 
 ### Changed
 
@@ -50,6 +51,9 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 - MCP `scan` now owns the discovered project runtime when no URL is supplied, while an explicit URL remains caller-managed.
 - Missing Playwright browsers are downloaded automatically on first use with a bounded, stdout-safe installer; `REALDONE_SKIP_BROWSER_INSTALL=1` keeps manual control.
 - Automatic CLI/MCP scans can attach bounded, value-free SQLite or configured database snapshots before and after mutations, persist row-hash diffs in snapshot artifacts, and fail to `UNCERTAIN` when requested source evidence is unavailable.
+- Provider-aware scans suppress RD804 only after every matched check passes with causal payment-provider linkage; no-op, wrong-kind, mixed, missing-reference and unavailable-provider controls remain fail-closed while duplicate-payment defects keep their higher-priority verdict.
+- Automatic provider checks are capped across repeated configs, execute with bounded concurrency under the global scan deadline, reject oversized JSON, and redact bounded metadata against references and configured secrets.
+- Browser-matrix failures now include the failing step/assertion in JSON, Markdown, HTML, and smoke logs instead of reporting only a nonzero exit code.
 - Benchmark release gates now run and require successful cleanup; recorder interaction and navigation waits inherit the configured finite timeout.
 - Published packages include the complete linked documentation set and report preview instead of leaving installed README links unresolved.
 - Published packages now include every database/provider example and both provider/source plugin examples; optional SQLite and MongoDB dependencies are license-noticed alongside PostgreSQL.

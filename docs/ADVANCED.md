@@ -76,6 +76,15 @@ realdone scan http://localhost:3000 --deep --database-config ./realdone.supabase
 
 Each configured adapter discovers only its allowlisted resources, hashes at most 100 rows per resource by default, records before/after snapshots and writes added/removed/changed/soft-delete key hashes into the finding snapshot artifact. Use `--source-snapshot-limit` to lower or raise the bounded row limit. Adapter failures make an otherwise passing mutation `UNCERTAIN`; they never silently upgrade browser evidence to source-of-truth confirmation.
 
+Attach an explicit read-only provider rule when an external action returns a provider resource ID:
+
+```bash
+realdone scan http://localhost:3000 --allow-external \
+  --provider-config .realdone/providers.json
+```
+
+Automatic provider rules match a declared action/request and take the reference from an observed response resource ID, prepared upload filename, completed download filename, or named environment variable. Every matched check must pass, and Level 6 `SOURCE_OF_TRUTH_CONFIRMED` additionally requires causal action linkage: a successful write returning the resource ID, or a successful write carrying a unique canary upload. Other references remain supporting evidence and cannot turn a no-op into `VERIFIED`. Missing references, mixed results and unavailable adapters remain `UNCERTAIN`; no automatic rule sends a provider mutation or stores the reference in evidence. At most 20 checks are loaded across repeated config files, up to four run concurrently, and each lookup inherits the remaining global scan deadline.
+
 ## Multi-role contracts and Level 7
 
 Declare named roles with separate Playwright storage-state files. The primary role continues to use the top-level `authState`.

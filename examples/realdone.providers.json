@@ -24,5 +24,20 @@
       "clientIdEnv": "REALDONE_OAUTH_CLIENT_ID",
       "clientSecretEnv": "REALDONE_OAUTH_CLIENT_SECRET"
     }
-  }
+  },
+  "automaticChecks": [
+    {
+      "provider": "stripe-test",
+      "kind": "payment",
+      "operation": "succeeded",
+      "resource": "payment-intent",
+      "state": "confirmed",
+      "match": {
+        "actionLabelIncludes": "Pay order",
+        "actionKind": "external",
+        "requestUrlIncludes": "/api/payments"
+      },
+      "reference": { "from": "response-resource-id" }
+    }
+  ]
 }

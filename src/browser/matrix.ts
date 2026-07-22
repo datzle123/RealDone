@@ -52,6 +52,14 @@ function html(report: BrowserMatrixReport): string {
   return `<!doctype html><html><head><meta charset="utf-8"><title>RealDone browser matrix</title><style>body{margin:40px auto;max-width:960px;background:#0a0e12;color:#eef3f6;font:15px/1.5 system-ui}h1{font-size:38px}table{width:100%;border-collapse:collapse;background:#11171e}th,td{padding:12px;border:1px solid #27313c;text-align:left}.pass{color:#39d98a}.fail{color:#ff647c}</style></head><body><h1>Browser matrix</h1><p>${report.matrixId}</p><table><thead><tr><th>Browser</th><th>Result</th><th>Duration</th><th>Evidence</th></tr></thead><tbody>${rows}</tbody></table></body></html>`;
 }
 
+function verificationFailureDetail(result: Awaited<ReturnType<typeof verifyContract>>): string | undefined {
+  if (result.verification.passed) return undefined;
+  const failedStep = result.verification.steps.find((step) => step.status === "failed");
+  if (!failedStep) return "Contract verification did not pass.";
+  const failedAssertions = failedStep.assertions.filter((assertion) => !assertion.passed).map((assertion) => assertion.detail);
+  return [`Step ${failedStep.stepId} failed`, failedStep.reason, ...failedAssertions].filter(Boolean).join(": ").slice(0, 2_000);
+}
+
 export async function runBrowserMatrix(
   contractFile: string,
   browsers: BrowserName[],
@@ -72,12 +80,14 @@ export async function runBrowserMatrix(
         browserName: browser,
         ...(browser === "chromium" && executablePath ? { executablePath } : {}),
       });
+      const failureDetail = verificationFailureDetail(result);
       return {
         browser,
         passed: result.verification.passed,
         durationMs: Date.now() - started,
         verificationId: result.verification.verificationId,
         reportDirectory: path.relative(outputDirectory, result.outputDirectory).split(path.sep).join("/"),
+        ...(failureDetail ? { error: failureDetail } : {}),
       };
     } catch (error) {
       return {

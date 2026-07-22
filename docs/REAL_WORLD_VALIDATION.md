@@ -53,7 +53,7 @@ The Phase G rerun binds each compact evidence document to both the raw `scan.jso
 
 The first current-engine Conduit rerun exposed an RD501 false positive: the public login page contained “Need an account?”, so an unchanged public state looked private after a real 404 login rejection. RD501 now requires an actual transition into private state or an explicit success claim. A broken fake-login control still triggers RD501, the public rejection control does not, and the real Conduit rerun returned to zero `CONTRADICTORY` findings.
 
-Machine-readable release inputs are in `release/external-cases.json` and `release/evidence/`. Hosted run `29934227309` validated their SHA-256/engine fingerprint, merged six Windows/macOS/Linux attestations, and passed all 15 normative gates.
+Machine-readable release inputs are in `release/external-cases.json` and `release/evidence/`. Hosted run `29936393146` validated the previous committed SHA-256/engine fingerprint across Windows/macOS/Linux and passed all 15 normative gates. The refreshed automatic-provider engine fingerprint passes the same local evaluator and awaits its hosted qualification.
 
 ### Actual Budget original application
 

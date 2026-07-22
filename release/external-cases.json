@@ -4,8 +4,8 @@
     "repository": "tastejs/todomvc",
     "pinnedCommit": "ff43b02e59dfa604386bb382034b2cd07c2bcd8a",
     "evidenceFile": "release/evidence/todomvc.json",
-    "evidenceSha256": "b019dc158e179108e3fc6c245c4d0f94adcf57feb716c4803a861940deb5eeab",
-    "engineFingerprint": "58faf1f41ba4aa289975a950019356a591c640ec753b747df79ba3dd131c00a1",
+    "evidenceSha256": "0d36ab9439d5caccdd5dc2ce3360bc0db65e81a54a8576a5ecbf8abf1df539e7",
+    "engineFingerprint": "7d55fd1d2926b75f8cfb841749ba87092efc3369ede7cc605a039875846230e5",
     "status": "passed",
     "environmentValid": true,
     "severeRegressions": 0
@@ -15,8 +15,8 @@
     "repository": "actualbudget/actual",
     "pinnedCommit": "7325498af773d591a7bc70d5af16d3912f566654",
     "evidenceFile": "release/evidence/actual-budget.json",
-    "evidenceSha256": "0a137847cc8ae1ca3f7ac5755ebe118714bf9acfcdcd24b00f99169508ebd4d6",
-    "engineFingerprint": "58faf1f41ba4aa289975a950019356a591c640ec753b747df79ba3dd131c00a1",
+    "evidenceSha256": "baa3282fc1c7e457b9ab4c238c847990f21d743e2a3631088ef13b3ca0a76500",
+    "engineFingerprint": "7d55fd1d2926b75f8cfb841749ba87092efc3369ede7cc605a039875846230e5",
     "status": "passed",
     "environmentValid": true,
     "severeRegressions": 0
@@ -26,8 +26,8 @@
     "repository": "TonyMckes/conduit-realworld-example-app",
     "pinnedCommit": "5e127d8569b300e0a21dc2c20ea680da4967b1aa",
     "evidenceFile": "release/evidence/conduit.json",
-    "evidenceSha256": "5ebfc1907415aebe54a1e14078adc30539320e632ee7a557faf0295cc4172296",
-    "engineFingerprint": "58faf1f41ba4aa289975a950019356a591c640ec753b747df79ba3dd131c00a1",
+    "evidenceSha256": "75bcce93aa108999918ae653bea51d86e2ef5fe95423cd3a375372f3a8c5e10e",
+    "engineFingerprint": "7d55fd1d2926b75f8cfb841749ba87092efc3369ede7cc605a039875846230e5",
     "status": "passed",
     "environmentValid": true,
     "severeRegressions": 0

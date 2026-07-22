@@ -23,6 +23,7 @@ import { REALDONE_VERSION } from "./version.js";
 import { createSourceAdapterFromFile } from "./adapters/registry.js";
 import { SqliteSourceAdapter } from "./adapters/sqlite/index.js";
 import type { DiscoverableSourceAdapter } from "./adapters/types.js";
+import { BuiltinProviderHost } from "./providers/builtin.js";
 
 function positiveInteger(value: string): number {
   const parsed = Number.parseInt(value, 10);
@@ -169,6 +170,7 @@ program
   .option("--policy <file>", "JSON action policy and budget file")
   .option("--sqlite <file>", "attach value-free SQLite snapshots to mutation evidence")
   .option("--database-config <file>", "attach a configured source adapter; repeat for multiple adapters", collect, [])
+  .option("--provider-config <file>", "attach automatic read-only provider confirmation; repeat for multiple files", collect, [])
   .option("--source-snapshot-limit <number>", "maximum hashed rows per source resource", boundedSourceSnapshotLimit, 100)
   .option("--deep", "confirm mutation persistence in a fresh browser context", false)
   .option("--trace", "capture a Playwright trace for every executed action", false)
@@ -183,6 +185,8 @@ program
     for (const file of values.databaseConfig as string[]) {
       sourceAdapters.push(await createSourceAdapterFromFile(path.resolve(file)));
     }
+    const providerConfigPaths = (values.providerConfig as string[]).map((file) => path.resolve(file));
+    const providerVerifier = providerConfigPaths.length > 0 ? await BuiltinProviderHost.load(providerConfigPaths) : undefined;
     const options: Omit<ScanOptions, "targetUrl" | "healthEndpoint" | "restartTarget"> = {
       outputRoot: path.resolve(String(values.output)),
       headed: Boolean(values.headed),
@@ -205,6 +209,7 @@ program
       allowIframes: Boolean(values.allowIframe),
       sourceAdapters,
       sourceSnapshotLimit: Number(values.sourceSnapshotLimit),
+      ...(providerVerifier ? { providerVerifier } : {}),
       ...(policy ? { policy } : {}),
       ...(values.storageState ? { storageStatePath: path.resolve(String(values.storageState)) } : {}),
       ...(values.browserPath ? { executablePath: path.resolve(String(values.browserPath)) } : {}),

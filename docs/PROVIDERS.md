@@ -6,6 +6,37 @@ Provider checks confirm Level 6 outcomes without replaying external mutations. C
 realdone verify flow.json --provider-config .realdone/providers.json
 ```
 
+The same config can link a safe automatic scan to an independently observed provider resource:
+
+```bash
+realdone scan http://localhost:3000 --allow-external \
+  --provider-config .realdone/providers.json
+```
+
+```json
+{
+  "automaticChecks": [
+    {
+      "provider": "stripe-test",
+      "kind": "payment",
+      "operation": "succeeded",
+      "resource": "payment-intent",
+      "state": "confirmed",
+      "match": {
+        "actionLabelIncludes": "Pay order",
+        "actionKind": "external",
+        "requestUrlIncludes": "/api/payments"
+      },
+      "reference": { "from": "response-resource-id" }
+    }
+  ]
+}
+```
+
+`reference.from` also accepts `upload-file-name`, `download-file-name`, or `environment` with an `env` name. At least one matcher is mandatory. All matched checks must pass; a provider result upgrades the scan to Level 6 only when it is causally linked to the action's successful write/unique upload. An email/storage result cannot satisfy a payment confirmation. Rules are never inferred, and mixed results, non-causal observations or adapter failures stay `UNCERTAIN` rather than becoming unsupported application-defect verdicts.
+
+Automatic checks are capped at 20 across all repeated config files and run with bounded concurrency under the scan's global deadline. JSON responses are limited to 1 MB. Evidence metadata is bounded and redacted against the resource reference, configured parameters and provider credentials before it reaches report artifacts.
+
 The maintained set is:
 
 - Stripe payment intents, charges, refunds, and checkout sessions—test/restricted test keys only; live keys are always rejected;

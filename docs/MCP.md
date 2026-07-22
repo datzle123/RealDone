@@ -23,7 +23,7 @@ MCP never enables destructive actions, external effects, production providers, o
 
 When `scan` is called without a URL, MCP discovers, starts, health-checks, scans, and stops the configured project. With an explicit URL, the caller remains responsible for that runtime.
 
-`scan` also accepts project-relative `sqlite`, `databaseConfigs`, and `sourceSnapshotLimit` inputs. These attach read-only, value-free source snapshots and diffs to mutation evidence without exposing database rows to the agent.
+`scan` also accepts project-relative `sqlite`, `databaseConfigs`, `providerConfigs`, and `sourceSnapshotLimit` inputs. Database inputs attach read-only, value-free source snapshots and diffs. Provider configs may link an explicitly matched action/request to bounded read-only Level 6 confirmation. Neither path exposes source rows, provider references, or credentials to the agent.
 
 ## Use the source build today
 

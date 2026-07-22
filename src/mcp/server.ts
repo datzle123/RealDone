@@ -14,6 +14,7 @@ import { McpServer, StdioServerTransport } from "./sdk-adapter.js";
 import { createSourceAdapterFromFile } from "../adapters/registry.js";
 import { SqliteSourceAdapter } from "../adapters/sqlite/index.js";
 import type { DiscoverableSourceAdapter } from "../adapters/types.js";
+import { BuiltinProviderHost } from "../providers/builtin.js";
 
 export interface RealDoneMcpDependencies {
   runManagedScan: typeof runManagedScan;
@@ -153,10 +154,11 @@ export function createRealDoneMcpServer(options: RealDoneMcpServerOptions = {}):
       trace: z.boolean().optional(),
       traceOnFailure: z.boolean().optional().describe("Retain Playwright traces only for non-passing findings."),
       maxPages: z.number().int().min(1).max(100).optional(),
-      maxActions: z.number().int().min(1).max(250).optional(),
-      maxDurationMs: z.number().int().min(10_000).max(600_000).optional(),
+      maxActions: z.number().int().min(1).max(1_000).optional(),
+      maxDurationMs: z.number().int().min(10_000).max(1_800_000).optional(),
       sqlite: relativePathSchema.optional().describe("Project-relative SQLite file for value-free source snapshots."),
       databaseConfigs: z.array(relativePathSchema).max(20).optional().describe("Project-relative built-in source adapter configs."),
+      providerConfigs: z.array(relativePathSchema).max(20).optional().describe("Project-relative automatic read-only provider adapter configs."),
       sourceSnapshotLimit: z.number().int().min(1).max(1_000).optional(),
     },
     annotations: { destructiveHint: false, openWorldHint: true },
@@ -167,6 +169,8 @@ export function createRealDoneMcpServer(options: RealDoneMcpServerOptions = {}):
       for (const file of input.databaseConfigs ?? []) {
         sourceAdapters.push(await createSourceAdapterFromFile(projectPath(projectRoot, file)));
       }
+      const providerConfigPaths = (input.providerConfigs ?? []).map((file) => projectPath(projectRoot, file));
+      const providerVerifier = providerConfigPaths.length > 0 ? await BuiltinProviderHost.load(providerConfigPaths) : undefined;
       try {
         const result = await dependencies.runManagedScan({
           ...(input.url ? { url: input.url } : {}),
@@ -196,6 +200,7 @@ export function createRealDoneMcpServer(options: RealDoneMcpServerOptions = {}):
             allowIframes: false,
             sourceAdapters,
             sourceSnapshotLimit: input.sourceSnapshotLimit ?? 100,
+            ...(providerVerifier ? { providerVerifier } : {}),
           },
         });
         return toolSuccess({

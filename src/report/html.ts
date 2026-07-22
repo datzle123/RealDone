@@ -46,6 +46,8 @@ function findingTimeline(finding: Finding): string {
   for (const claim of evidence.uiClaims) items.push({ at: claim.at, text: `UI ${claim.kind}: ${claim.text}` });
   for (const upload of evidence.uploads ?? []) items.push({ at: evidence.beforeAction?.at ?? evidence.before?.at ?? 0, text: `Prepared upload ${upload.fileName} (${upload.size} bytes, ${upload.contentType})` });
   for (const download of evidence.downloadEvidence ?? []) items.push({ at: evidence.after?.at ?? evidence.durationMs, text: `Downloaded ${download.fileName} (${download.size ?? 0} bytes)${download.failure ? `; ${download.failure}` : ""}` });
+  for (const provider of evidence.providerEvidence ?? []) items.push({ at: evidence.after?.at ?? evidence.durationMs, text: `${provider.kind} provider ${provider.provider}: ${provider.passed ? "confirmed" : "not confirmed"}, ${provider.automaticLinkage?.causallyLinked ? "causally linked" : "not causally linked"} (${provider.resource}/${provider.operation})` });
+  for (const provider of evidence.providerErrors ?? []) items.push({ at: evidence.after?.at ?? evidence.durationMs, text: `Provider ${provider.provider} unavailable: ${provider.detail}` });
   for (const popup of evidence.popupUrls ?? []) items.push({ at: evidence.after?.at ?? evidence.durationMs, text: `Opened popup ${popup}` });
   for (const socket of evidence.webSockets ?? []) items.push({ at: socket.openedAt, text: `WebSocket ${socket.url}: ${socket.sentFrames} sent, ${socket.receivedFrames} received` });
   if (evidence.afterRefresh) items.push({ at: evidence.afterRefresh.at, text: `Reloaded; canary present: ${evidence.afterRefresh.canaryPresent}` });
@@ -80,6 +82,7 @@ function findingCard(finding: Finding): string {
     `<a href="websockets/${escapeHtml(finding.id)}.json">WebSocket JSON</a>`,
     `<a href="uploads/${escapeHtml(finding.id)}.json">Upload JSON</a>`,
     `<a href="downloads/${escapeHtml(finding.id)}.json">Download JSON</a>`,
+    `<a href="providers/${escapeHtml(finding.id)}.json">Provider JSON</a>`,
     `<a href="contracts/${escapeHtml(finding.id)}.json">Replay contract</a>`,
   ].filter(Boolean).join(" · ");
   return `<details class="finding ${verdictClass(finding.verdict)}" ${finding.verdict === "VERIFIED" || finding.verdict === "SKIPPED" ? "" : "open"}>

@@ -48,7 +48,7 @@ test("CLI help exposes deep and advanced verification controls", async () => {
   const scan = await cli("scan", "--help");
   assert.equal(commandPassed(scan), true, scan.stderr);
   assert.match(scan.stdout, /omit it to discover and\s+run the current project/i);
-  for (const option of ["--full", "--deep", "--trace", "--trace-on-failure", "--video", "--policy", "--storage-state", "--browser-path", "--manage-runtime", "--environment-timeout", "--allow-iframe"]) {
+  for (const option of ["--full", "--deep", "--trace", "--trace-on-failure", "--video", "--policy", "--storage-state", "--browser-path", "--manage-runtime", "--environment-timeout", "--allow-iframe", "--sqlite", "--database-config", "--provider-config"]) {
     assert.ok(scan.stdout.includes(option), `scan help is missing ${option}`);
   }
 

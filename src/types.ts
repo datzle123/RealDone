@@ -385,6 +385,8 @@ export interface ExecutionEvidence {
   apiReadBack?: ApiReadBackEvidence;
   sourceDiffs?: SourceRowDiff[];
   sourceSnapshotErrors?: SourceSnapshotError[];
+  providerEvidence?: ProviderEvidence[];
+  providerErrors?: ProviderCheckError[];
   persistenceScope?: PersistenceScope;
   targetText?: string;
   targetVisibleAfter?: boolean;
@@ -479,6 +481,9 @@ export interface ScanOptions extends PublicScanOptions {
   restartTarget?: () => Promise<void>;
   sourceAdapters?: DiscoverableSourceAdapter[];
   sourceSnapshotLimit?: number;
+  providerVerifier?: {
+    verifyAutomatic(action: ActionSpec, execution: ExecutionEvidence, options: AutomaticProviderOptions): Promise<AutomaticProviderResult>;
+  };
 }
 
 export interface ActionPolicyRule {
@@ -552,3 +557,4 @@ export interface ReplayEvidence {
   detail: string;
 }
 import type { DiscoverableSourceAdapter, SourceRowDiff, SourceSnapshot } from "./adapters/types.js";
+import type { AutomaticProviderOptions, AutomaticProviderResult, ProviderCheckError, ProviderEvidence } from "./providers/types.js";

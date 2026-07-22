@@ -96,6 +96,13 @@ export function detect(action: ActionSpec, evidence: ExecutionEvidence): Detecti
   const uploadAttempt = action.fields.some((field) => field.type === "file") || /\bupload\b/i.test(action.label);
   const downloadAttempt = Boolean(action.fingerprint.download) || /\b(download|export)\b/i.test(action.label);
   const paymentAttempt = /\b(pay|payment|purchase|checkout|subscribe)\b/i.test(action.label);
+  const providerChecks = evidence.providerEvidence ?? [];
+  const providerUnavailable = (evidence.providerErrors?.length ?? 0) > 0;
+  const providerConfirmed =
+    providerChecks.length > 0 &&
+    !providerUnavailable &&
+    providerChecks.every((entry) => entry.passed && entry.automaticLinkage?.causallyLinked === true);
+  const paymentProviderConfirmed = providerConfirmed && providerChecks.some((entry) => entry.kind === "payment");
 
   if ((evidence.executionError && !evidence.targetNotFound) || evidence.pageErrors.length > 0 || (hardFailures.length > 0 && !generatedCredentialRejection)) {
     matches.push(
@@ -275,7 +282,7 @@ export function detect(action: ActionSpec, evidence: ExecutionEvidence): Detecti
   if (paymentAttempt && duplicate) {
     matches.push(match("RD803", "Duplicate payment", "One payment action submitted the same payment endpoint multiple times."));
   }
-  if (paymentAttempt && successfulWrites.length > 0 && (successClaim || /\b(success(?:ful)?|paid|complete)\b/i.test(afterText))) {
+  if (paymentAttempt && successfulWrites.length > 0 && (successClaim || /\b(success(?:ful)?|paid|complete)\b/i.test(afterText)) && !paymentProviderConfirmed && !providerUnavailable) {
     matches.push(match("RD804", "Missing provider confirmation", "The application reported payment success, but this scan had no independent provider confirmation."));
   }
   if (/\bwebhook\b/i.test(action.label) && successfulWrites.length > 0 && !evidence.after?.bodyCanaryPresent && !successClaim) {
@@ -306,6 +313,15 @@ export function detect(action: ActionSpec, evidence: ExecutionEvidence): Detecti
   }
   if (evidence.targetNotFound) {
     return { verdict: "UNCERTAIN", evidenceLevel: 0, reason: "The discovered semantic target was not present in a fresh execution context, so no substitute element was executed.", detectorMatches: matches };
+  }
+  if (providerUnavailable) {
+    return { verdict: "UNCERTAIN", evidenceLevel: 3, reason: "The browser effect was observed, but configured provider confirmation was unavailable.", detectorMatches: matches };
+  }
+  if (providerChecks.length > 0 && !providerConfirmed) {
+    return { verdict: "UNCERTAIN", evidenceLevel: 3, reason: "Every configured provider check did not pass with causal action linkage.", detectorMatches: matches };
+  }
+  if (providerConfirmed && effect) {
+    return { verdict: "VERIFIED", evidenceLevel: 6, reason: "The configured provider independently confirmed the expected external state.", detectorMatches: matches };
   }
   if (authenticationAttempt && successfulWrites.length > 0 && (evidence.afterRefresh?.auth?.artifacts ?? 0) > 0 && evidence.afterRefresh?.auth?.privateContent) {
     return { verdict: "VERIFIED", evidenceLevel: 5, reason: "Authentication produced a session artifact and private state that survived reload.", detectorMatches: matches };

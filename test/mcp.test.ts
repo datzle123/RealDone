@@ -22,6 +22,18 @@ test("MCP exposes the shared RealDone core and keeps AI scans fail-closed", asyn
     detectorMatches: [],
     evidence: { canary: "must-not-be-returned" },
   }]));
+  await writeFile(path.join(projectRoot, "providers.json"), JSON.stringify({
+    schemaVersion: "1.0",
+    providers: { "stripe-test": { adapter: "stripe", secretEnv: "RD_MCP_STRIPE_KEY" } },
+    automaticChecks: [{
+      provider: "stripe-test",
+      kind: "payment",
+      operation: "succeeded",
+      resource: "payment-intent",
+      match: { actionKind: "external" },
+      reference: { from: "response-resource-id" },
+    }],
+  }));
   let observedRequest: ManagedScanRequest | undefined;
   const server = createRealDoneMcpServer({
     projectRoot,
@@ -80,10 +92,11 @@ test("MCP exposes the shared RealDone core and keeps AI scans fail-closed", asyn
   assert.equal(observedRequest.scanOptions.maxActions, 3);
   assert.deepEqual(observedRequest.scanOptions.sourceAdapters, []);
 
-  await client.callTool({ name: "scan", arguments: { url: "http://127.0.0.1:3000", maxPages: 1, maxActions: 1, sqlite: "app.db", sourceSnapshotLimit: 5 } });
+  await client.callTool({ name: "scan", arguments: { url: "http://127.0.0.1:3000", maxPages: 1, maxActions: 1, sqlite: "app.db", providerConfigs: ["providers.json"], sourceSnapshotLimit: 5 } });
   assert.equal(observedRequest.manageRuntime, false);
   assert.equal((observedRequest.scanOptions.sourceAdapters as Array<{ kind: string }>)[0]?.kind, "sqlite");
   assert.equal(observedRequest.scanOptions.sourceSnapshotLimit, 5);
+  assert.ok(observedRequest.scanOptions.providerVerifier);
 
   const report = await client.callTool({ name: "get_report", arguments: {} });
   assert.equal(report.isError, undefined);
