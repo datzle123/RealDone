@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 import path from "node:path";
 import { Command, Option } from "commander";
+import { loadTask, runAgentVerification } from "./agent/pipeline.js";
+import { parseAgentPreset } from "./agent/presets.js";
 import { runBenchmark } from "./benchmark/evaluate.js";
 import { captureBaseline, loadBehaviorManifest } from "./baseline/manifest.js";
 import { selectAffectedContracts } from "./baseline/affected.js";
@@ -67,7 +69,7 @@ const program = new Command();
 program
   .name("realdone")
   .description("Behavioral verification for AI-built web applications")
-  .version("0.5.0")
+  .version("0.6.0")
   .showHelpAfterError();
 
 program
@@ -377,6 +379,78 @@ program
   .action(async (contract: string, values: Record<string, unknown>) => {
     const output = await exportPlaywrightTest(path.resolve(contract), path.resolve(String(values.out)));
     process.stdout.write(`Playwright test: ${output}\n`);
+  });
+
+program
+  .command("run")
+  .description("Run a coding agent, rebuild, and independently verify affected behavior")
+  .argument("[preset]", "codex, claude, or generic", "codex")
+  .requiredOption("--contracts <path>", "behavior contract file or directory", collect, [])
+  .option("--task <text>", "implementation task for the coding agent")
+  .option("--task-file <file>", "read the implementation task from a file")
+  .option("--working-directory <directory>", "Git worktree operated on by the agent", ".")
+  .option("--output <directory>", "agent verification report root", ".realdone/agent-runs")
+  .option("--agent-command <file>", "override preset executable; required for generic")
+  .option("--agent-arg <value>", "extra agent CLI argument before the task", collect, [])
+  .option("--agent-timeout <milliseconds>", "coding-agent timeout", positiveInteger, 1_800_000)
+  .option("--agent-max-turns <number>", "Claude Code non-interactive turn limit", positiveInteger, 50)
+  .option("--build-command <file>", "rebuild executable", "pnpm")
+  .option("--build-arg <value>", "rebuild argument", collect, [])
+  .option("--build-timeout <milliseconds>", "rebuild timeout", positiveInteger, 300_000)
+  .option("--allow-dirty", "allow a pre-existing dirty worktree (change attribution is weaker)", false)
+  .option("--allow-contract-changes", "permit the agent to change behavior contracts", false)
+  .option("--headed", "show Chromium during baseline and affected verification", false)
+  .option("--timeout <milliseconds>", "behavior step timeout", positiveInteger, 10_000)
+  .option("--settle <milliseconds>", "behavior settle delay", positiveInteger, 500)
+  .option("--retries <number>", "semantic locator retries", nonNegativeInteger, 2)
+  .option("--allow-destructive", "allow recorded destructive actions", false)
+  .option("--allow-external", "allow recorded external effects", false)
+  .option("--allow-host <hostname>", "allow recorded mutations on staging", collect, [])
+  .option("--storage-state <file>", "override contract auth state")
+  .option("--browser-path <file>", "existing Chromium/Chrome executable")
+  .option("--postgres-config <file>", "PostgreSQL source adapter config")
+  .action(async (presetValue: string, values: Record<string, unknown>) => {
+    const workingDirectory = path.resolve(String(values.workingDirectory));
+    const task = await loadTask(
+      values.task ? String(values.task) : undefined,
+      values.taskFile ? path.resolve(workingDirectory, String(values.taskFile)) : undefined,
+    );
+    const buildArgs = values.buildArg as string[];
+    const result = await runAgentVerification({
+      task,
+      preset: parseAgentPreset(presetValue),
+      workingDirectory,
+      contractInputs: values.contracts as string[],
+      outputRoot: path.resolve(workingDirectory, String(values.output)),
+      agentTimeoutMs: Number(values.agentTimeout),
+      ...(values.agentCommand ? { agentExecutable: String(values.agentCommand) } : {}),
+      agentArgs: values.agentArg as string[],
+      agentMaxTurns: Number(values.agentMaxTurns),
+      build: {
+        executable: String(values.buildCommand),
+        args: buildArgs.length > 0 ? buildArgs : ["build"],
+        timeoutMs: Number(values.buildTimeout),
+      },
+      allowDirty: Boolean(values.allowDirty),
+      allowContractChanges: Boolean(values.allowContractChanges),
+      verifyOptions: {
+        outputRoot: path.resolve(workingDirectory, String(values.output)),
+        headed: Boolean(values.headed),
+        timeoutMs: Number(values.timeout),
+        settleMs: Number(values.settle),
+        maxRetries: Number(values.retries),
+        continueOnFailure: false,
+        allowDestructive: Boolean(values.allowDestructive),
+        allowExternal: Boolean(values.allowExternal),
+        allowHosts: values.allowHost as string[],
+        ...(values.storageState ? { storageStatePath: path.resolve(workingDirectory, String(values.storageState)) } : {}),
+        ...(values.browserPath ? { executablePath: path.resolve(String(values.browserPath)) } : {}),
+        ...(values.postgresConfig ? { postgresConfigPath: path.resolve(workingDirectory, String(values.postgresConfig)) } : {}),
+      },
+    });
+    process.stdout.write(`\nREALDONE AGENT VERIFICATION\n\nbaseline: ${result.report.baselinePassed ? "passed" : "failed"}\nchanged files: ${result.report.changedFiles.length}\nbehavior: ${result.report.behaviorPassed ? "passed" : "failed"}\nresult: ${result.report.passed ? "VERIFIED" : "NOT COMPLETE"}\nReport: ${path.join(result.outputDirectory, "agent-verification.json")}\n`);
+    if (result.report.followUpPrompt) process.stdout.write(`Follow-up: ${path.join(result.outputDirectory, result.report.followUpPrompt)}\n`);
+    process.exitCode = result.exitCode;
   });
 
 program

@@ -125,6 +125,7 @@ realdone verify .realdone/flows/create-customer.json --postgres-config .realdone
 realdone baseline .realdone/flows --out .realdone/baseline.json
 realdone ci --baseline .realdone/baseline.json --contracts .realdone/flows
 realdone export-playwright <contract.json> --out tests/flow.spec.ts
+realdone run codex --task-file task.md --contracts .realdone/flows
 ```
 
 ## Safe by default
@@ -182,7 +183,7 @@ See [Behavior contracts](docs/CONTRACTS.md) for editing assertions, secret handl
 
 ```yaml
 - uses: actions/checkout@v6
-- uses: datzle123/RealDone@v0.5.0
+- uses: datzle123/RealDone@v0.6.0
   with:
     baseline: .realdone/baseline.json
     contracts: .realdone/flows
@@ -195,6 +196,19 @@ RealDone writes a concise contract table to GitHub Step Summary. See [Baseline a
 Recorded contracts can add an optional `source` assertion that confirms a canary directly in PostgreSQL. Verification uses a read-only transaction, parameterized values, allowlisted identifiers, bounded timeouts, environment-only credentials, and explicit TLS policy. A passing source assertion is reported as Level 6 evidence.
 
 Database cleanup is recorded in the same local ledger but requires separate CLI and config confirmation plus an allowlisted key. See [PostgreSQL source verification](docs/POSTGRESQL.md).
+
+## Verify coding-agent claims
+
+`realdone run` captures a green baseline before a coding agent changes the repository, rebuilds afterward, and verifies only affected or critical flows in a real browser. Built-in presets support current non-interactive Codex and Claude Code CLIs; a generic argument-array adapter supports other agents.
+
+```bash
+realdone run codex \
+  --task "Add persistent customer deletion" \
+  --contracts .realdone/flows \
+  --build-command pnpm --build-arg build
+```
+
+The agent's completion message is kept only as an operational log. Pass/fail comes from the independent build and RealDone evidence. Failures produce a reusable `follow-up.md`. See [Coding-agent verification](docs/AGENT_VERIFICATION.md).
 
 ## Public benchmark fixtures
 
@@ -215,7 +229,7 @@ Run the full browser smoke test with `pnpm smoke`. It also verifies selector sur
 - ✅ **v0.3 Flow recorder** — recorded flows, behavior contracts, auth state, deterministic replay.
 - ✅ **v0.4 Baseline + CI** — behavior diff, regression gate, GitHub Action, Playwright export.
 - ✅ **v0.5 PostgreSQL adapter** — source-of-truth verification and transaction-aware cleanup.
-- **v0.6 Agent verification** — Codex/Claude adapters, affected-flow selection, fix prompts.
+- ✅ **v0.6 Agent verification** — Codex/Claude/generic runners, affected-flow verification, evidence-based fix prompts.
 - **v1.0 Advanced verification** — multi-role, providers, multi-browser, plugin SDK, hardening.
 
 Every phase has a test gate and its own release tag. Detailed acceptance criteria live in [the roadmap](docs/ROADMAP.md).

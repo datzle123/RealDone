@@ -61,3 +61,9 @@ The baseline stores canonical contract hashes and compact pass/fail assertion ou
 The first `SourceOfTruthAdapter` implementation targets PostgreSQL and is loaded only when a contract contains a `source` expectation and verification receives `--postgres-config`. Credentials and CA material come from named environment variables and never enter contracts, manifests, ledgers, or reports. Read-back runs in a `READ ONLY` transaction. Dynamic values use PostgreSQL parameters; identifiers can only come from validated resource mappings.
 
 Database cleanup is a separate read-write transaction and is intentionally harder to enable than verification. It requires `--confirm`, `--confirm-database`, `allowCleanup: true`, and the exact configured cleanup-key fields. A zero-row delete is successful so rerunning cleanup remains idempotent.
+
+### Coding-agent boundary
+
+`AgentAdapter` launches Codex, Claude Code, or a structured generic command without a shell. The orchestration pipeline first captures a green behavior baseline, records the Git HEAD/worktree state, runs the agent, rebuilds through a separate command, derives committed and uncommitted changed files, and then invokes the ordinary affected-flow regression gate.
+
+Agent stdout, stderr, exit messages, and completion claims are operational logs only. They never become browser, network, persistence, database, or cross-user evidence. The pre-agent baseline is hash-sealed and restored after tampering; behavior contracts are hashed independently and cannot change in a passing run without explicit policy. A failed pipeline generates its follow-up prompt exclusively from integrity failures, rebuild diagnostics, and independently observed RealDone assertions.

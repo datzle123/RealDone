@@ -42,6 +42,18 @@ export {
   type RegressionReport,
 } from "./baseline/regression.js";
 export { exportPlaywrightTest, renderPlaywrightTest } from "./export/playwright.js";
+export { runCommand, commandPassed, type CommandResult, type CommandSpec } from "./agent/command.js";
+export { createAgentCommand, parseAgentPreset, type AgentPreset, type AgentCommandOptions } from "./agent/presets.js";
+export { renderFollowUpPrompt, type FollowUpInput } from "./agent/followup.js";
+export {
+  loadTask,
+  parseGitStatus,
+  runAgentVerification,
+  type AgentVerificationOptions,
+  type AgentVerificationReport,
+  type AgentVerificationResult,
+  type CommandSummary,
+} from "./agent/pipeline.js";
 export {
   PostgresSourceAdapter,
   compilePostgresTarget,

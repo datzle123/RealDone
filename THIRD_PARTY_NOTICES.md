@@ -5,6 +5,7 @@ RealDone is distributed under the MIT License. It uses third-party packages thro
 | Component | Purpose | License | Source |
 | --- | --- | --- | --- |
 | Commander.js | CLI parsing and help | MIT | https://github.com/tj/commander.js |
+| cross-spawn | Cross-platform shell-free agent/build process spawning | MIT | https://github.com/moxystudio/node-cross-spawn |
 | jsondiffpatch | Structured behavior-manifest delta | MIT | https://github.com/benjamine/jsondiffpatch |
 | node-postgres (`pg`) | Optional PostgreSQL source-of-truth adapter | MIT | https://github.com/brianc/node-postgres |
 | Playwright | Chromium automation and browser evidence | Apache-2.0 | https://github.com/microsoft/playwright |

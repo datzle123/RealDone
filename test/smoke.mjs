@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdtemp } from "node:fs/promises";
+import { mkdir, mkdtemp, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { spawn } from "node:child_process";
@@ -10,6 +10,8 @@ import { recordFlow } from "../dist/record/recorder.js";
 import { verifyContract } from "../dist/contracts/verifier.js";
 import { captureBaseline } from "../dist/baseline/manifest.js";
 import { runRegressionGate } from "../dist/baseline/regression.js";
+import { commandPassed, runCommand } from "../dist/agent/command.js";
+import { runAgentVerification } from "../dist/agent/pipeline.js";
 
 async function startFixture() {
   const child = spawn(process.execPath, [path.resolve("benchmarks/fixture-app/server.mjs")], {
@@ -134,6 +136,38 @@ try {
     verifyOptions,
   });
   assert.equal(greenGate.exitCode, 0);
+  const agentWorktree = path.join(outputRoot, "agent-worktree");
+  await mkdir(agentWorktree, { recursive: true });
+  await writeFile(path.join(agentWorktree, "README.md"), "# Agent fixture\n");
+  for (const args of [
+    ["init"],
+    ["config", "user.email", "realdone@example.test"],
+    ["config", "user.name", "RealDone Smoke"],
+    ["add", "README.md"],
+    ["commit", "-m", "fixture baseline"],
+  ]) {
+    const git = await runCommand({ executable: "git", args, cwd: agentWorktree, timeoutMs: 10_000 });
+    assert.equal(commandPassed(git), true, git.stderr);
+  }
+  const agentGate = await runAgentVerification({
+    task: "Keep the passing behavior unchanged.",
+    preset: "generic",
+    workingDirectory: agentWorktree,
+    contractInputs: [recording.contractFile],
+    outputRoot: path.join(outputRoot, "agent-runs"),
+    agentTimeoutMs: 10_000,
+    agentExecutable: process.execPath,
+    agentArgs: ["-e", "process.exit(0)"],
+    agentMaxTurns: 1,
+    build: { executable: process.execPath, args: ["-e", "process.exit(0)"], timeoutMs: 10_000 },
+    allowDirty: false,
+    allowContractChanges: false,
+    verifyOptions,
+  });
+  assert.equal(agentGate.exitCode, 0);
+  assert.equal(agentGate.report.behaviorPassed, true);
+  assert.equal(agentGate.report.changedFiles.length, 0);
+  assert.equal(agentGate.report.evidencePolicy, "agent-output-is-not-verification-evidence");
   await fetch(`${fixture.url}/__control__/break-create`, { method: "POST" });
   const redGate = await runRegressionGate({
     baselineFile,

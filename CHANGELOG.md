@@ -4,6 +4,17 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-07-22
+
+### Added
+
+- `run` pipeline that captures a green baseline, invokes a coding agent, rebuilds, selects affected flows, and independently verifies behavior.
+- Shell-free generic command runner with cross-platform executable resolution, timeouts, bounded output, secret redaction, and local logs.
+- Current non-interactive presets for Codex CLI and Claude Code plus a structured generic adapter.
+- Git HEAD/worktree change attribution with a clean-worktree gate and committed/uncommitted file detection.
+- Evidence-based follow-up prompts generated only from build and RealDone regression results; agent output is explicitly excluded as verification evidence.
+- End-to-end browser smoke coverage for baseline → no-op agent → rebuild → affected-flow verification.
+
 ## [0.5.0] - 2026-07-22
 
 ### Added
