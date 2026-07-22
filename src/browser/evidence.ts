@@ -18,10 +18,12 @@ export interface EvidenceSink {
 
 export interface AttachedEvidence {
   detach: () => void;
+  flush: () => Promise<void>;
 }
 
 export function attachEvidence(page: Page, startedAt: number, sink: EvidenceSink): AttachedEvidence {
   const requests = new WeakMap<Request, NetworkEvidence>();
+  const pending: Promise<void>[] = [];
   let sequence = 0;
   const now = (): number => Date.now() - startedAt;
 
@@ -41,9 +43,33 @@ export function attachEvidence(page: Page, startedAt: number, sink: EvidenceSink
     if (!entry) return;
     entry.status = response.status();
     entry.ok = response.ok();
-    void response.headerValue("content-type").then((value) => {
-      if (value) entry.contentType = value.split(";")[0] ?? value;
-    });
+    const enrichment = (async () => {
+      const [contentType, location] = await Promise.all([
+        response.headerValue("content-type"),
+        response.headerValue("location"),
+      ]);
+      if (contentType) entry.contentType = contentType.split(";")[0] ?? contentType;
+      if (location) entry.location = safeUrl(new URL(location, response.url()).toString());
+      if (["POST", "PUT", "PATCH"].includes(entry.method) && contentType?.includes("json")) {
+        const value = (await response.json().catch(() => undefined)) as Record<string, unknown> | undefined;
+        const resourceId = value?.id ?? value?._id ?? value?.uuid ?? value?.data;
+        if (typeof resourceId === "string" || typeof resourceId === "number") {
+          entry.responseResourceId = String(resourceId);
+        } else if (resourceId && typeof resourceId === "object") {
+          const nested = resourceId as Record<string, unknown>;
+          const nestedId = nested.id ?? nested._id ?? nested.uuid;
+          if (typeof nestedId === "string" || typeof nestedId === "number") entry.responseResourceId = String(nestedId);
+        }
+      }
+      try {
+        const parts = new URL(entry.url).pathname.split("/").filter(Boolean);
+        const tail = parts.at(-1) ?? "resource";
+        entry.resourceTypeHint = /^\d+$|^[0-9a-f-]{8,}$/i.test(tail) ? parts.at(-2) ?? "resource" : tail;
+      } catch {
+        // URL has already been redacted; resource hint is optional.
+      }
+    })();
+    pending.push(enrichment);
   };
   const onFinished = (request: Request): void => {
     const entry = requests.get(request);
@@ -82,6 +108,9 @@ export function attachEvidence(page: Page, startedAt: number, sink: EvidenceSink
   page.on("download", onDownload);
 
   return {
+    flush: async () => {
+      await Promise.allSettled(pending);
+    },
     detach: () => {
       page.off("request", onRequest);
       page.off("response", onResponse);

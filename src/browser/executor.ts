@@ -3,31 +3,10 @@ import path from "node:path";
 import type { Browser, Locator, Page } from "playwright";
 import { createCanary, valueForField } from "../core/canary.js";
 import { isSensitiveKey } from "../core/redact.js";
+import { isTransientBrowserError, withRetry } from "../core/retry.js";
 import type { ActionSpec, ExecutionEvidence, FilledField, ScanOptions } from "../types.js";
 import { attachEvidence, captureState, collectUiClaims } from "./evidence.js";
-
-async function resolveAction(page: Page, action: ActionSpec): Promise<Locator> {
-  const direct = page.locator(action.fingerprint.selector).first();
-  if ((await direct.count()) > 0) return direct;
-  if (action.fingerprint.testId) {
-    const byTestId = page.getByTestId(action.fingerprint.testId).first();
-    if ((await byTestId.count()) > 0) return byTestId;
-  }
-  if (action.fingerprint.role && action.fingerprint.accessibleName) {
-    const byRole = page
-      .getByRole(action.fingerprint.role as never, {
-        name: action.fingerprint.accessibleName,
-        exact: true,
-      })
-      .first();
-    if ((await byRole.count()) > 0) return byRole;
-  }
-  if (action.fingerprint.text) {
-    const byText = page.getByText(action.fingerprint.text, { exact: true }).first();
-    if ((await byText.count()) > 0) return byText;
-  }
-  return direct;
-}
+import { resolveSemanticLocator } from "./locator.js";
 
 async function fillForm(page: Page, action: ActionSpec, canary: string): Promise<FilledField[]> {
   const filled: FilledField[] = [];
@@ -110,10 +89,14 @@ export async function executeAction(
   let attached: ReturnType<typeof attachEvidence> | undefined;
 
   try {
-    await page.goto(action.pageUrl, { waitUntil: "domcontentloaded", timeout: options.timeoutMs });
+    await withRetry(
+      () => page.goto(action.pageUrl, { waitUntil: "domcontentloaded", timeout: options.timeoutMs }),
+      { retries: options.maxRetries, shouldRetry: isTransientBrowserError },
+    );
     await page.waitForTimeout(Math.min(options.settleMs, 1_000));
-    const locator = await resolveAction(page, action);
-    if ((await locator.count()) === 0) throw new Error("The discovered action could not be located during execution.");
+    const resolved = await resolveSemanticLocator(page, action.fingerprint, options.maxRetries);
+    const locator = resolved.locator;
+    evidence.locatorResolution = resolved.diagnostics;
     evidence.before = await captureState(page, canary, startedAt);
     if (action.intent === "delete") {
       const targetText = await nearestTargetText(locator);
@@ -162,6 +145,7 @@ export async function executeAction(
     await page.screenshot({ path: screenshotPath, fullPage: true }).catch(() => undefined);
     evidence.screenshot = screenshotPath;
   } finally {
+    await attached?.flush();
     attached?.detach();
     evidence.durationMs = Date.now() - startedAt;
     await context.close();

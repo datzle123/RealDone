@@ -112,8 +112,13 @@ realdone scan <url>
   --allow-destructive      opt in to destructive actions
   --allow-external         opt in to external effects
   --browser-path <file>    existing Chrome/Chromium executable
+  --policy <file>          rules, overrides, hosts, and budgets
+  --max-duration <ms>      global time budget
+  --retries <n>            transient navigation/locator retries
 
 realdone replay <finding-id> [--report-dir <scan-directory>]
+realdone cleanup --report-dir <scan-directory> [--confirm]
+realdone benchmark <url> --expected <expectations.json> [--verify-replays]
 ```
 
 ## Safe by default
@@ -138,6 +143,18 @@ flowchart LR
 
 The core is deterministic and has no AI, database, cloud, framework, or coding-agent dependency. See [Architecture](docs/ARCHITECTURE.md) for contracts and extension points.
 
+## Reliability controls
+
+Actions are replayed through weighted semantic fingerprints: test ID, accessible role/name, stable ID, href, visible text, CSS path, and ordinal fallback. Every attempt records match count, visible count, weight, timing, selected strategy, and bounded retries.
+
+Use a checked-in policy when a project needs explicit classification or budget controls:
+
+```bash
+node dist/cli.js scan http://localhost:3000 --policy examples/realdone.policy.json
+```
+
+Mutations that expose a resource ID or `Location` header are added to `cleanup-ledger.json`. Cleanup is a dry run unless `--confirm` is supplied, accepts `404` as already-cleaned, and reuses optional Playwright auth state without copying secrets into the ledger.
+
 ## Public benchmark fixtures
 
 The repository includes intentionally broken and correct controls for fake create, real persistence, false success, duplicate submission, fake deletion, no-effect actions, and broken navigation.
@@ -148,12 +165,12 @@ pnpm fixture
 node dist/cli.js scan http://127.0.0.1:<printed-port> --allow-destructive
 ```
 
-Run the full browser smoke test with `pnpm smoke`.
+Run the full browser smoke test with `pnpm smoke`. It also verifies selector survival, a bounded replay sample, and cleanup. The standalone `benchmark` command writes precision/recall/FPR and operational metrics to `benchmark.json`.
 
 ## Roadmap
 
-- **v0.1 Core proof** — scanner, evidence, persistence, report, replay, public fixtures.
-- **v0.2 Reliability** — semantic fingerprints, cleanup ledger, retry/policy/budget, precision/recall harness.
+- ✅ **v0.1 Core proof** — scanner, evidence, persistence, report, replay, public fixtures.
+- ✅ **v0.2 Reliability** — semantic fingerprints, cleanup ledger, retry/policy/budget, precision/recall harness.
 - **v0.3 Flow recorder** — recorded flows, behavior contracts, auth state, deterministic replay.
 - **v0.4 Baseline + CI** — behavior diff, regression gate, GitHub Action, Playwright export.
 - **v0.5 PostgreSQL adapter** — source-of-truth verification and cleanup.

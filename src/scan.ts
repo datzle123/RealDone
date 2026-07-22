@@ -4,6 +4,7 @@ import { discoverSite } from "./browser/discover.js";
 import { executeAction } from "./browser/executor.js";
 import { launchChromium } from "./browser/runtime.js";
 import { actionSkipReason, isMutationHostAllowed, validateTarget } from "./core/safety.js";
+import { applyActionPolicy } from "./core/policy.js";
 import { summarize } from "./core/summary.js";
 import { findingFromEvidence } from "./detectors/index.js";
 import { writeReport } from "./report/writer.js";
@@ -64,8 +65,10 @@ export async function runScan(
   const reportDirectory = path.resolve(inputOptions.outputRoot, id);
   const screenshots = path.join(reportDirectory, "screenshots");
   const startedAt = new Date().toISOString();
-  const mutationAllowed = isMutationHostAllowed(target, inputOptions.allowHosts);
-  const options: ScanOptions = { ...inputOptions, mutationAllowed };
+  const allowHosts = [...new Set([...inputOptions.allowHosts, ...(inputOptions.policy?.allowHosts ?? [])])];
+  const mutationAllowed = isMutationHostAllowed(target, allowHosts);
+  const options: ScanOptions = { ...inputOptions, allowHosts, mutationAllowed };
+  const deadline = Date.now() + options.maxDurationMs;
 
   onProgress({ stage: "runtime", message: "Starting Chromium" });
   const browser = await launchChromium({
@@ -80,8 +83,18 @@ export async function runScan(
           maxPages: options.maxPages,
           timeoutMs: options.timeoutMs,
           settleMs: options.settleMs,
+          maxRetries: options.maxRetries,
+          deadline,
           ...(options.storageStatePath ? { storageStatePath: options.storageStatePath } : {}),
         });
+    const policyDenials = new Map<string, string>();
+    for (const page of pages) {
+      page.actions = page.actions.map((action) => {
+        const applied = applyActionPolicy(action, options.policy);
+        if (applied.deniedReason) policyDenials.set(applied.action.id, applied.deniedReason);
+        return applied.action;
+      });
+    }
     const allActions = pages.flatMap((page) => page.actions);
     const selected = allActions
       .filter((action) => !options.onlyActionId || action.id === options.onlyActionId)
@@ -95,7 +108,8 @@ export async function runScan(
         current: index + 1,
         total: selected.length,
       });
-      const reason = actionSkipReason(action, {
+      const budgetReason = Date.now() >= deadline ? "Global scan time budget was exhausted." : undefined;
+      const reason = budgetReason ?? policyDenials.get(action.id) ?? actionSkipReason(action, {
         target,
         allowHosts: options.allowHosts,
         allowDestructive: options.allowDestructive,
@@ -119,6 +133,8 @@ export async function runScan(
         maxActions: options.maxActions,
         timeoutMs: options.timeoutMs,
         settleMs: options.settleMs,
+        maxDurationMs: options.maxDurationMs,
+        maxRetries: options.maxRetries,
         allowDestructive: options.allowDestructive,
         allowExternal: options.allowExternal,
         mutationAllowed,

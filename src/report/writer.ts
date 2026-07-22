@@ -1,5 +1,6 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { createCleanupLedger, writeCleanupLedger } from "../cleanup/ledger.js";
 import type { Reproduction, ScanReport } from "../types.js";
 import { renderHtml } from "./html.js";
 
@@ -36,6 +37,8 @@ export async function writeReport(
       options: {
         timeoutMs: report.options.timeoutMs,
         settleMs: report.options.settleMs,
+        maxDurationMs: report.options.maxDurationMs,
+        maxRetries: report.options.maxRetries,
         allowDestructive: report.options.allowDestructive,
         allowExternal: report.options.allowExternal,
       },
@@ -56,6 +59,7 @@ export async function writeReport(
     writeFile(path.join(reportDirectory, "summary.json"), `${JSON.stringify(report.summary, null, 2)}\n`),
     writeFile(path.join(reportDirectory, "findings.json"), `${JSON.stringify(report.findings, null, 2)}\n`),
     writeFile(path.join(reportDirectory, "scan.json"), `${JSON.stringify(report, null, 2)}\n`),
+    writeCleanupLedger(reportDirectory, createCleanupLedger(report)),
   ]);
   return report;
 }

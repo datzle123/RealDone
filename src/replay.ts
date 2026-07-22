@@ -48,6 +48,8 @@ export async function runReplay(
     mutationAllowed: true,
     replayAction: reproduction.action,
     ...reproduction.options,
+    maxDurationMs: reproduction.options.maxDurationMs ?? 60_000,
+    maxRetries: reproduction.options.maxRetries ?? 2,
     ...(replayOptions.executablePath ? { executablePath: replayOptions.executablePath } : {}),
     ...(replayOptions.storageStatePath ? { storageStatePath: replayOptions.storageStatePath } : {}),
   };

@@ -14,6 +14,8 @@ RealDone is a deterministic runtime verifier. Its core does not need an LLM, dat
 8. **Detector engine** converts factual evidence into stable detector matches and a verdict.
 9. **Report/replay layer** writes HTML, JSON, network logs, screenshots, and one deterministic reproduction contract per finding.
 
+The reliability layer wraps the pipeline with a global deadline, per-operation retry bounds, weighted locator diagnostics, checked-in action policy, cleanup ledger, and benchmark evaluator. Retries never repeat an action after the click/submit boundary because that could create duplicate mutations.
+
 ## Design constraints
 
 - Evidence objects are serializable, versioned, and secret-redacted.

@@ -4,6 +4,18 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-07-22
+
+### Added
+
+- Weighted semantic locator candidates with visible-match diagnostics and selector-survival coverage.
+- Bounded retry policy limited to idempotent navigation, locator resolution, and cleanup.
+- Zod-validated action policy files with classification overrides, deny rules, host allowlists, and budgets.
+- Global scan time budget and retry budget.
+- Cleanup ledger with derived resource IDs/URLs, reverse-order idempotent DELETE, dry run, auth state, and host safety.
+- Benchmark expectation schema and precision, recall, false-positive, discovery, verdict, detector, time, memory, and replay metrics.
+- Fake-update and selector-shift controls plus real cleanup endpoints in the public fixture.
+
 ## [0.1.0] - 2026-07-22
 
 ### Added

@@ -6,5 +6,6 @@ RealDone is distributed under the MIT License. It uses third-party packages thro
 | --- | --- | --- | --- |
 | Commander.js | CLI parsing and help | MIT | https://github.com/tj/commander.js |
 | Playwright | Chromium automation and browser evidence | Apache-2.0 | https://github.com/microsoft/playwright |
+| Zod | Runtime validation for policies, ledgers, and benchmark contracts | MIT | https://github.com/colinhacks/zod |
 
 Planned integrations are added here only when they become production dependencies. Candidate permissive components include rrweb (MIT), jsondiffpatch (MIT), and node-postgres (MIT).

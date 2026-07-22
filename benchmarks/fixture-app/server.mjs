@@ -4,6 +4,7 @@ import { pathToFileURL } from "node:url";
 const state = {
   customers: [],
   invoices: [],
+  selectorShiftLoads: 0,
 };
 
 function html(title, body, script = "") {
@@ -38,10 +39,22 @@ export function createFixtureServer() {
       return json(response, 500, { error: "intentional fixture failure" });
     }
     if (request.method === "GET" && url.pathname === "/api/customers") return json(response, 200, state.customers);
+    if (request.method === "DELETE" && /^\/api\/customers\/\d+$/.test(url.pathname)) {
+      const index = Number(url.pathname.split("/").at(-1)) - 1;
+      if (index >= 0 && index < state.customers.length) state.customers.splice(index, 1);
+      response.writeHead(204);
+      return response.end();
+    }
+    if (request.method === "DELETE" && /^\/api\/invoices\/\d+$/.test(url.pathname)) {
+      const index = Number(url.pathname.split("/").at(-1)) - 1;
+      if (index >= 0 && index < state.invoices.length) state.invoices.splice(index, 1);
+      response.writeHead(204);
+      return response.end();
+    }
 
     if (url.pathname === "/") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
-      return response.end(html("RealDone benchmark fixtures", `<p>Each page contains one known behavior.</p><nav><a href="/fake-create">Fake create</a><a href="/real-create">Real create control</a><a href="/success-despite-failure">False success</a><a href="/duplicate-submit">Duplicate submit</a><a href="/fake-delete">Fake delete</a><a href="/no-effect">No effect</a><a href="/missing">Broken navigation</a></nav>`));
+      return response.end(html("RealDone benchmark fixtures", `<p>Each page contains one known behavior.</p><nav><a href="/fake-create">Fake create</a><a href="/fake-update">Fake update</a><a href="/real-create">Real create control</a><a href="/success-despite-failure">False success</a><a href="/duplicate-submit">Duplicate submit</a><a href="/fake-delete">Fake delete</a><a href="/no-effect">No effect</a><a href="/selector-shift">Selector survival control</a><a href="/missing">Broken navigation</a></nav>`));
     }
     if (url.pathname === "/fake-create") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
@@ -50,6 +63,10 @@ export function createFixtureServer() {
     if (url.pathname === "/real-create") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
       return response.end(html("Real create control", `<form id="create"><label>Customer name <input name="name" required></label><button type="submit">Create customer</button></form><ul id="list"></ul>`, `async function load(){const values=await fetch('/api/customers').then(r=>r.json());list.innerHTML=values.map(v=>'<li>'+v+'</li>').join('')}load();create.addEventListener('submit',async e=>{e.preventDefault();const name=create.name.value;await fetch('/api/customers',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({name})});await load();notice.className='toast';notice.textContent='Customer created successfully'})`));
+    }
+    if (url.pathname === "/fake-update") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Fake update", `<form id="profile"><label>Display name <input name="displayName" value="Alice" required></label><button type="submit">Save profile</button></form><p id="current">Alice</p>`, `profile.addEventListener('submit',e=>{e.preventDefault();current.textContent=profile.displayName.value;notice.className='toast';notice.textContent='Profile saved successfully'})`));
     }
     if (url.pathname === "/success-despite-failure") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
@@ -66,6 +83,14 @@ export function createFixtureServer() {
     if (url.pathname === "/no-effect") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
       return response.end(html("No effect", `<button id="nothing">Do nothing</button>`));
+    }
+    if (url.pathname === "/selector-shift") {
+      state.selectorShiftLoads += 1;
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      const control = state.selectorShiftLoads === 1
+        ? `<main><button>Toggle resilient</button></main>`
+        : `<main><section><div class="new-wrapper"><button>Toggle resilient</button></div></section></main>`;
+      return response.end(html("Selector survival control", control, `document.querySelector('button').onclick=()=>{notice.textContent='Panel opened';notice.className='toast'}`));
     }
     response.writeHead(404, { "content-type": "text/html; charset=utf-8" });
     return response.end(html("404", "<p>This route is intentionally missing.</p>"));

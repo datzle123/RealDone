@@ -28,6 +28,12 @@ function findingTimeline(finding: Finding): string {
   const items: Array<{ at: number; text: string }> = [];
   const evidence = finding.evidence;
   if (evidence.before) items.push({ at: evidence.before.at, text: `Opened ${evidence.before.url}` });
+  if (evidence.locatorResolution?.chosenStrategy) {
+    items.push({
+      at: evidence.before?.at ?? 0,
+      text: `Resolved action via ${evidence.locatorResolution.chosenStrategy} fingerprint (weight ${evidence.locatorResolution.chosenWeight ?? 0}, retries ${evidence.locatorResolution.retryCount})`,
+    });
+  }
   for (const field of evidence.filledFields) {
     items.push({ at: evidence.before?.at ?? 0, text: `Filled ${field.name}: ${field.value}` });
   }

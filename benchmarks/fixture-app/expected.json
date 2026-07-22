@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "1.0",
+  "expectations": [
+    {
+      "id": "fake-create",
+      "match": { "pagePath": "/fake-create", "label": "Create customer" },
+      "shouldFlag": true,
+      "expectedVerdict": "CONTRADICTORY",
+      "expectedCodes": ["RD201", "RD301"]
+    },
+    {
+      "id": "fake-update",
+      "match": { "pagePath": "/fake-update", "label": "Save profile" },
+      "shouldFlag": true,
+      "expectedVerdict": "CONTRADICTORY",
+      "expectedCodes": ["RD202", "RD301"]
+    },
+    {
+      "id": "real-create-control",
+      "match": { "pagePath": "/real-create", "label": "Create customer" },
+      "shouldFlag": false,
+      "expectedVerdict": "VERIFIED",
+      "expectedCodes": []
+    },
+    {
+      "id": "false-success",
+      "match": { "pagePath": "/success-despite-failure", "label": "Save settings" },
+      "shouldFlag": true,
+      "expectedVerdict": "CONTRADICTORY",
+      "expectedCodes": ["RD302"]
+    },
+    {
+      "id": "duplicate-submit",
+      "match": { "pagePath": "/duplicate-submit", "label": "Create invoice" },
+      "shouldFlag": true,
+      "expectedVerdict": "BROKEN",
+      "expectedCodes": ["RD003"]
+    },
+    {
+      "id": "fake-delete",
+      "match": { "pagePath": "/fake-delete", "label": "Delete customer" },
+      "shouldFlag": true,
+      "expectedVerdict": "EPHEMERAL",
+      "expectedCodes": ["RD203"]
+    },
+    {
+      "id": "no-effect",
+      "match": { "pagePath": "/no-effect", "label": "Do nothing" },
+      "shouldFlag": true,
+      "expectedVerdict": "NO_EFFECT",
+      "expectedCodes": ["RD002"]
+    },
+    {
+      "id": "selector-survival-control",
+      "match": { "pagePath": "/selector-shift", "label": "Toggle resilient" },
+      "shouldFlag": false,
+      "expectedVerdict": "VERIFIED",
+      "expectedCodes": []
+    },
+    {
+      "id": "broken-navigation",
+      "match": { "pagePath": "/", "label": "Broken navigation" },
+      "shouldFlag": true,
+      "expectedVerdict": "BROKEN",
+      "expectedCodes": ["RD001"]
+    }
+  ]
+}

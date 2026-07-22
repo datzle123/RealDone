@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import type { Browser, Page } from "playwright";
 import { classifyAction } from "../core/classify.js";
+import { isTransientBrowserError, withRetry } from "../core/retry.js";
 import type {
   ActionSpec,
   DiscoveredPage,
@@ -60,6 +61,20 @@ function toAction(pageUrl: string, raw: RawAction): ActionSpec {
     ...(raw.id ? { id: raw.id } : {}),
     ...(raw.href ? { href: raw.href } : {}),
     ...(raw.type ? { type: raw.type } : {}),
+    candidates: [
+      ...(raw.testId ? [{ strategy: "testid" as const, weight: 100, value: raw.testId, exact: true }] : []),
+      ...(raw.role && raw.accessibleName
+        ? [
+            { strategy: "role" as const, weight: 92, role: raw.role, name: raw.accessibleName, exact: true },
+            { strategy: "role" as const, weight: 82, role: raw.role, name: raw.accessibleName, exact: false },
+          ]
+        : []),
+      ...(raw.id ? [{ strategy: "id" as const, weight: 80, selector: raw.selector }] : []),
+      ...(raw.href ? [{ strategy: "href" as const, weight: 72, value: raw.href }] : []),
+      ...(raw.text ? [{ strategy: "text" as const, weight: 60, value: raw.text, exact: true }] : []),
+      { strategy: "css" as const, weight: 35, selector: raw.selector },
+      { strategy: "ordinal" as const, weight: 10, value: raw.tag },
+    ],
   };
   return {
     id: stableActionId(pageUrl, raw),
@@ -211,6 +226,8 @@ export interface DiscoveryOptions {
   maxPages: number;
   timeoutMs: number;
   settleMs: number;
+  maxRetries: number;
+  deadline: number;
   storageStatePath?: string;
 }
 
@@ -229,12 +246,15 @@ export async function discoverSite(
   const pages: DiscoveredPage[] = [];
 
   try {
-    while (queue.length > 0 && pages.length < options.maxPages) {
+    while (queue.length > 0 && pages.length < options.maxPages && Date.now() < options.deadline) {
       const url = queue.shift();
       if (!url || seen.has(url)) continue;
       seen.add(url);
       try {
-        await page.goto(url, { waitUntil: "domcontentloaded", timeout: options.timeoutMs });
+        await withRetry(
+          () => page.goto(url, { waitUntil: "domcontentloaded", timeout: options.timeoutMs }),
+          { retries: options.maxRetries, shouldRetry: isTransientBrowserError },
+        );
         await page.waitForTimeout(Math.min(options.settleMs, 1_000));
         const actions = await discoverActions(page);
         pages.push({ url: page.url(), title: await page.title(), actions });

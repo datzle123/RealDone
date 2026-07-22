@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "1.0",
+  "allowHosts": ["staging.example.test"],
+  "budgets": {
+    "maxPages": 12,
+    "maxActions": 40,
+    "maxDurationMs": 180000,
+    "maxRetries": 2
+  },
+  "rules": [
+    {
+      "match": { "label": "(send|invite|payment|refund)" },
+      "effect": "deny",
+      "reason": "External effects are outside this project's quick-scan contract."
+    },
+    {
+      "match": { "url": "/sandbox/", "label": "Delete fixture" },
+      "set": { "kind": "mutation", "intent": "delete", "risk": "destructive" }
+    }
+  ]
+}

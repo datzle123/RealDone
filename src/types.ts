@@ -44,6 +44,35 @@ export interface SemanticFingerprint {
   href?: string;
   type?: string;
   ordinal: number;
+  candidates?: LocatorCandidate[];
+}
+
+export type LocatorStrategy = "testid" | "role" | "id" | "href" | "text" | "css" | "ordinal";
+
+export interface LocatorCandidate {
+  strategy: LocatorStrategy;
+  weight: number;
+  selector?: string;
+  role?: string;
+  name?: string;
+  value?: string;
+  exact?: boolean;
+}
+
+export interface LocatorAttempt {
+  strategy: LocatorStrategy;
+  weight: number;
+  matchCount: number;
+  visibleCount: number;
+  elapsedMs: number;
+  error?: string;
+}
+
+export interface LocatorResolution {
+  attempts: LocatorAttempt[];
+  chosenStrategy?: LocatorStrategy;
+  chosenWeight?: number;
+  retryCount: number;
 }
 
 export interface FormFieldSpec {
@@ -86,6 +115,9 @@ export interface NetworkEvidence {
   ok?: boolean;
   failure?: string;
   contentType?: string;
+  location?: string;
+  responseResourceId?: string;
+  resourceTypeHint?: string;
 }
 
 export interface ConsoleEvidence {
@@ -147,6 +179,7 @@ export interface ExecutionEvidence {
   screenshot?: string;
   refreshScreenshot?: string;
   executionError?: string;
+  locatorResolution?: LocatorResolution;
 }
 
 export interface DetectorMatch {
@@ -191,6 +224,8 @@ export interface PublicScanOptions {
   maxActions: number;
   timeoutMs: number;
   settleMs: number;
+  maxDurationMs: number;
+  maxRetries: number;
   allowDestructive: boolean;
   allowExternal: boolean;
   mutationAllowed: boolean;
@@ -205,6 +240,35 @@ export interface ScanOptions extends PublicScanOptions {
   executablePath?: string;
   onlyActionId?: string;
   replayAction?: ActionSpec;
+  policy?: ActionPolicy;
+}
+
+export interface ActionPolicyRule {
+  match: {
+    url?: string;
+    label?: string;
+    kind?: ActionKind;
+    intent?: ActionIntent;
+  };
+  effect?: "allow" | "deny";
+  set?: {
+    kind?: ActionKind;
+    intent?: ActionIntent;
+    risk?: RiskLevel;
+  };
+  reason?: string;
+}
+
+export interface ActionPolicy {
+  schemaVersion: "1.0";
+  allowHosts: string[];
+  budgets?: {
+    maxPages?: number;
+    maxActions?: number;
+    maxDurationMs?: number;
+    maxRetries?: number;
+  };
+  rules: ActionPolicyRule[];
 }
 
 export interface Reproduction {
@@ -215,6 +279,11 @@ export interface Reproduction {
   action: ActionSpec;
   options: Pick<
     ScanOptions,
-    "timeoutMs" | "settleMs" | "allowDestructive" | "allowExternal"
+    | "timeoutMs"
+    | "settleMs"
+    | "maxDurationMs"
+    | "maxRetries"
+    | "allowDestructive"
+    | "allowExternal"
   >;
 }
