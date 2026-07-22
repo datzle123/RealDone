@@ -30,6 +30,7 @@ export interface BehaviorContract {
   baseUrl: string;
   createdAt: string;
   tags: string[];
+  scope?: { files: string[] };
   steps: BehaviorStep[];
   authState?: { path: string };
   artifacts?: { rrweb: string; rrwebEventCount: number };
@@ -109,6 +110,7 @@ export const behaviorContractSchema = z.object({
   baseUrl: z.string().url(),
   createdAt: z.string(),
   tags: z.array(z.string()).default([]),
+  scope: z.object({ files: z.array(z.string()) }).optional(),
   steps: z.array(stepSchema).min(1),
   authState: z.object({ path: z.string() }).optional(),
   artifacts: z.object({ rrweb: z.string(), rrwebEventCount: z.number().int().nonnegative() }).optional(),

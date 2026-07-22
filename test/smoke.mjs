@@ -8,6 +8,8 @@ import { runBenchmark } from "../dist/benchmark/evaluate.js";
 import { runCleanup } from "../dist/cleanup/ledger.js";
 import { recordFlow } from "../dist/record/recorder.js";
 import { verifyContract } from "../dist/contracts/verifier.js";
+import { captureBaseline } from "../dist/baseline/manifest.js";
+import { runRegressionGate } from "../dist/baseline/regression.js";
 
 async function startFixture() {
   const child = spawn(process.execPath, [path.resolve("benchmarks/fixture-app/server.mjs")], {
@@ -109,6 +111,39 @@ try {
     ...(process.env.REALDONE_BROWSER_PATH ? { executablePath: process.env.REALDONE_BROWSER_PATH } : {}),
   });
   assert.equal(verification.verification.passed, true);
+  const verifyOptions = {
+    outputRoot: path.join(outputRoot, "baseline-runs"),
+    headed: false,
+    timeoutMs: 8_000,
+    settleMs: 300,
+    maxRetries: 2,
+    continueOnFailure: false,
+    allowDestructive: false,
+    allowExternal: false,
+    allowHosts: [],
+    ...(process.env.REALDONE_BROWSER_PATH ? { executablePath: process.env.REALDONE_BROWSER_PATH } : {}),
+  };
+  const baselineFile = path.join(outputRoot, "baseline.json");
+  const baseline = await captureBaseline([recording.contractFile], baselineFile, verifyOptions, true);
+  assert.equal(baseline.contracts[0]?.baseline?.passed, true);
+  const greenGate = await runRegressionGate({
+    baselineFile,
+    contractInputs: [],
+    changedFiles: [],
+    outputRoot: path.join(outputRoot, "ci"),
+    verifyOptions,
+  });
+  assert.equal(greenGate.exitCode, 0);
+  await fetch(`${fixture.url}/__control__/break-create`, { method: "POST" });
+  const redGate = await runRegressionGate({
+    baselineFile,
+    contractInputs: [],
+    changedFiles: [],
+    outputRoot: path.join(outputRoot, "ci"),
+    verifyOptions,
+  });
+  assert.equal(redGate.exitCode, 1);
+  assert.equal(redGate.report.regressions, 1);
   process.stdout.write(`Smoke scan passed: ${path.join(result.reportDirectory, "report.html")}\n`);
 } finally {
   await fixture.stop();

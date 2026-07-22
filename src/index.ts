@@ -25,6 +25,23 @@ export {
   type BenchmarkResult,
   type RunBenchmarkOptions,
 } from "./benchmark/evaluate.js";
+export {
+  buildBehaviorManifest,
+  captureBaseline,
+  collectContractFiles,
+  loadBehaviorManifest,
+  type BehaviorManifest,
+  type ManifestContract,
+} from "./baseline/manifest.js";
+export { selectAffectedContracts } from "./baseline/affected.js";
+export {
+  runRegressionGate,
+  type ContractChange,
+  type RegressionGateOptions,
+  type RegressionGateResult,
+  type RegressionReport,
+} from "./baseline/regression.js";
+export { exportPlaywrightTest, renderPlaywrightTest } from "./export/playwright.js";
 export { detect, findingFromEvidence } from "./detectors/index.js";
 export { classifyAction } from "./core/classify.js";
 export { loadActionPolicy, applyActionPolicy } from "./core/policy.js";

@@ -51,3 +51,7 @@ Each extension must remain optional and must fail closed when it cannot establis
 ### Recorder boundary
 
 rrweb supplies masked raw session evidence only. RealDone separately records a compact, versioned behavior contract. Verification resolves each semantic fingerprint, performs one step, observes network/UI outcomes, checks explicit expectations, and stops after the first failure by default. This separation prevents an implementation detail of the session recorder from becoming the regression contract.
+
+### Baseline boundary
+
+The baseline stores canonical contract hashes and compact pass/fail assertion outcomes, not browser traces or credentials. The regression gate verifies current behavior first, then uses a structured manifest delta to explain contract changes. A changed contract is not automatically a regression; pass-to-fail and missing passing contracts are.

@@ -121,6 +121,9 @@ realdone cleanup --report-dir <scan-directory> [--confirm]
 realdone benchmark <url> --expected <expectations.json> [--verify-replays]
 realdone record <url> --name "Create customer"
 realdone verify .realdone/flows/create-customer.json
+realdone baseline .realdone/flows --out .realdone/baseline.json
+realdone ci --baseline .realdone/baseline.json --contracts .realdone/flows
+realdone export-playwright <contract.json> --out tests/flow.spec.ts
 ```
 
 ## Safe by default
@@ -172,6 +175,20 @@ The recorder captures compact interaction steps with semantic locators and infer
 
 See [Behavior contracts](docs/CONTRACTS.md) for editing assertions, secret handling, and safety flags.
 
+## Baseline and CI
+
+`baseline` records a green compact outcome for each contract. `ci` re-verifies all or only affected flows and fails when a behavior that previously passed now fails or disappears. Contract changes that still pass are reported separately from regressions.
+
+```yaml
+- uses: actions/checkout@v6
+- uses: datzle123/RealDone@v0.4.0
+  with:
+    baseline: .realdone/baseline.json
+    contracts: .realdone/flows
+```
+
+RealDone writes a concise contract table to GitHub Step Summary. See [Baseline and CI](docs/CI.md) for changed-file selection, source scopes, and Playwright export.
+
 ## Public benchmark fixtures
 
 The repository includes intentionally broken and correct controls for fake create, real persistence, false success, duplicate submission, fake deletion, no-effect actions, and broken navigation.
@@ -189,7 +206,7 @@ Run the full browser smoke test with `pnpm smoke`. It also verifies selector sur
 - ✅ **v0.1 Core proof** — scanner, evidence, persistence, report, replay, public fixtures.
 - ✅ **v0.2 Reliability** — semantic fingerprints, cleanup ledger, retry/policy/budget, precision/recall harness.
 - ✅ **v0.3 Flow recorder** — recorded flows, behavior contracts, auth state, deterministic replay.
-- **v0.4 Baseline + CI** — behavior diff, regression gate, GitHub Action, Playwright export.
+- ✅ **v0.4 Baseline + CI** — behavior diff, regression gate, GitHub Action, Playwright export.
 - **v0.5 PostgreSQL adapter** — source-of-truth verification and cleanup.
 - **v0.6 Agent verification** — Codex/Claude adapters, affected-flow selection, fix prompts.
 - **v1.0 Advanced verification** — multi-role, providers, multi-browser, plugin SDK, hardening.

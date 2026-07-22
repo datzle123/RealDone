@@ -4,6 +4,18 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-07-22
+
+### Added
+
+- Versioned behavior manifests with canonical contract hashes, routes, endpoints, tags, and compact baseline outcomes.
+- `baseline` and `ci` commands with jsondiffpatch-backed structured deltas.
+- Regression classification for pass-to-fail, missing flows, expected contract changes, improvements, and baseline failures.
+- Affected-flow selection from explicit source globs, route/endpoint tokens, changed files, and critical tags.
+- GitHub Step Summary output and reusable composite `action.yml`.
+- `export-playwright` command preserving semantic locators, secrets, network/status, URL, text, and persistence assertions.
+- Browser smoke coverage proving a green baseline and an intentional POST-500 regression.
+
 ## [0.3.0] - 2026-07-22
 
 ### Added

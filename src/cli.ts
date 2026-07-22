@@ -2,12 +2,16 @@
 import path from "node:path";
 import { Command, Option } from "commander";
 import { runBenchmark } from "./benchmark/evaluate.js";
+import { captureBaseline, loadBehaviorManifest } from "./baseline/manifest.js";
+import { selectAffectedContracts } from "./baseline/affected.js";
+import { runRegressionGate } from "./baseline/regression.js";
 import { runCleanup } from "./cleanup/ledger.js";
 import { loadActionPolicy } from "./core/policy.js";
 import { runReplay } from "./replay.js";
 import { recordFlow } from "./record/recorder.js";
 import { runScan, type ScanProgress } from "./scan.js";
 import { verifyContract } from "./contracts/verifier.js";
+import { exportPlaywrightTest } from "./export/playwright.js";
 import type { ScanOptions } from "./types.js";
 
 function positiveInteger(value: string): number {
@@ -63,7 +67,7 @@ const program = new Command();
 program
   .name("realdone")
   .description("Behavioral verification for AI-built web applications")
-  .version("0.3.0")
+  .version("0.4.0")
   .showHelpAfterError();
 
 program
@@ -257,6 +261,109 @@ program
       result.metrics.detectorAccuracy === 1 &&
       (result.metrics.reproductionSuccessRate === null || result.metrics.reproductionSuccessRate === 1);
     process.exitCode = passed ? 0 : 1;
+  });
+
+program
+  .command("baseline")
+  .description("Capture a versioned behavior manifest and optional passing baseline")
+  .argument("<contracts...>", "contract files or directories")
+  .option("--out <file>", "behavior manifest path", ".realdone/baseline.json")
+  .option("--no-verify", "capture contract metadata without running flows")
+  .option("--headed", "show Chromium during baseline verification", false)
+  .option("--timeout <milliseconds>", "step timeout", positiveInteger, 10_000)
+  .option("--settle <milliseconds>", "settle delay", positiveInteger, 500)
+  .option("--retries <number>", "semantic locator retries", nonNegativeInteger, 2)
+  .option("--allow-destructive", "allow recorded destructive actions", false)
+  .option("--allow-external", "allow recorded external effects", false)
+  .option("--allow-host <hostname>", "allow recorded mutations on staging", collect, [])
+  .option("--storage-state <file>", "override contract auth state")
+  .option("--browser-path <file>", "existing Chromium/Chrome executable")
+  .action(async (contracts: string[], values: Record<string, unknown>) => {
+    const output = path.resolve(String(values.out));
+    const manifest = await captureBaseline(
+      contracts.map((contract) => path.resolve(contract)),
+      output,
+      {
+        outputRoot: path.join(path.dirname(output), "baseline-runs"),
+        headed: Boolean(values.headed),
+        timeoutMs: Number(values.timeout),
+        settleMs: Number(values.settle),
+        maxRetries: Number(values.retries),
+        continueOnFailure: false,
+        allowDestructive: Boolean(values.allowDestructive),
+        allowExternal: Boolean(values.allowExternal),
+        allowHosts: values.allowHost as string[],
+        ...(values.storageState ? { storageStatePath: path.resolve(String(values.storageState)) } : {}),
+        ...(values.browserPath ? { executablePath: path.resolve(String(values.browserPath)) } : {}),
+      },
+      Boolean(values.verify),
+    );
+    const failed = manifest.contracts.filter((contract) => contract.baseline && !contract.baseline.passed).length;
+    process.stdout.write(`\nBehavior baseline: ${manifest.contracts.length} contracts, ${failed} failing\nManifest: ${output}\n`);
+    if (failed > 0) process.exitCode = 1;
+  });
+
+program
+  .command("ci")
+  .description("Verify affected behavior contracts against a captured baseline")
+  .requiredOption("--baseline <file>", "baseline manifest")
+  .option("--contracts <path>", "current contract file or directory; defaults to baseline paths")
+  .option("--changed-file <path>", "changed source file used for affected-flow selection", collect, [])
+  .option("--output <directory>", "CI report root", ".realdone/ci")
+  .option("--headed", "show Chromium", false)
+  .option("--timeout <milliseconds>", "step timeout", positiveInteger, 10_000)
+  .option("--settle <milliseconds>", "settle delay", positiveInteger, 500)
+  .option("--retries <number>", "semantic locator retries", nonNegativeInteger, 2)
+  .option("--allow-destructive", "allow recorded destructive actions", false)
+  .option("--allow-external", "allow recorded external effects", false)
+  .option("--allow-host <hostname>", "allow recorded mutations on staging", collect, [])
+  .option("--storage-state <file>", "override contract auth state")
+  .option("--browser-path <file>", "existing Chromium/Chrome executable")
+  .action(async (values: Record<string, unknown>) => {
+    const result = await runRegressionGate({
+      baselineFile: path.resolve(String(values.baseline)),
+      contractInputs: values.contracts ? [path.resolve(String(values.contracts))] : [],
+      changedFiles: values.changedFile as string[],
+      outputRoot: path.resolve(String(values.output)),
+      verifyOptions: {
+        outputRoot: path.resolve(String(values.output)),
+        headed: Boolean(values.headed),
+        timeoutMs: Number(values.timeout),
+        settleMs: Number(values.settle),
+        maxRetries: Number(values.retries),
+        continueOnFailure: false,
+        allowDestructive: Boolean(values.allowDestructive),
+        allowExternal: Boolean(values.allowExternal),
+        allowHosts: values.allowHost as string[],
+        ...(values.storageState ? { storageStatePath: path.resolve(String(values.storageState)) } : {}),
+        ...(values.browserPath ? { executablePath: path.resolve(String(values.browserPath)) } : {}),
+      },
+    });
+    process.stdout.write(`\nREALDONE CI\n\nselected: ${result.report.selectedContracts}\nregressions: ${result.report.regressions}\nexpected changes: ${result.report.expectedChanges}\nReport: ${path.join(result.outputDirectory, "summary.md")}\n`);
+    process.exitCode = result.exitCode;
+  });
+
+program
+  .command("affected")
+  .description("Select behavior contracts affected by changed source files")
+  .requiredOption("--manifest <file>", "behavior manifest")
+  .requiredOption("--changed-file <path>", "changed source file", collect, [])
+  .option("--json", "print JSON", false)
+  .action(async (values: Record<string, unknown>) => {
+    const manifest = await loadBehaviorManifest(path.resolve(String(values.manifest)));
+    const selected = selectAffectedContracts(manifest, values.changedFile as string[]);
+    if (values.json) process.stdout.write(`${JSON.stringify(selected, null, 2)}\n`);
+    else process.stdout.write(`${selected.map((contract) => contract.file).join("\n")}\n`);
+  });
+
+program
+  .command("export-playwright")
+  .description("Export one RealDone behavior contract as a Playwright test")
+  .argument("<contract>", "behavior contract JSON")
+  .requiredOption("--out <file>", "output .spec.ts file")
+  .action(async (contract: string, values: Record<string, unknown>) => {
+    const output = await exportPlaywrightTest(path.resolve(contract), path.resolve(String(values.out)));
+    process.stdout.write(`Playwright test: ${output}\n`);
   });
 
 program

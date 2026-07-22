@@ -1,0 +1,67 @@
+name: RealDone Behavioral Verification
+description: Verify recorded web behavior against a versioned baseline
+author: RealDone contributors
+branding:
+  icon: check-circle
+  color: green
+
+inputs:
+  baseline:
+    description: Path to baseline manifest
+    required: false
+    default: .realdone/baseline.json
+  contracts:
+    description: Contract file or directory
+    required: false
+    default: .realdone/flows
+  changed-files:
+    description: Newline-separated changed source files; empty runs every contract
+    required: false
+    default: ""
+  output:
+    description: CI report directory
+    required: false
+    default: .realdone/ci
+  working-directory:
+    description: Working directory relative to github.workspace
+    required: false
+    default: .
+  install-browser:
+    description: Install Chromium and OS dependencies
+    required: false
+    default: "true"
+  allow-host:
+    description: Explicit staging hostname for mutations
+    required: false
+    default: ""
+
+runs:
+  using: composite
+  steps:
+    - name: Build RealDone action runtime
+      shell: bash
+      run: |
+        corepack enable
+        corepack pnpm --dir "$GITHUB_ACTION_PATH" install --frozen-lockfile
+        corepack pnpm --dir "$GITHUB_ACTION_PATH" build
+    - name: Install Chromium
+      if: inputs.install-browser == 'true'
+      shell: bash
+      run: corepack pnpm --dir "$GITHUB_ACTION_PATH" exec playwright install --with-deps chromium
+    - name: Verify behavior baseline
+      shell: bash
+      env:
+        RD_BASELINE: ${{ inputs.baseline }}
+        RD_CONTRACTS: ${{ inputs.contracts }}
+        RD_CHANGED_FILES: ${{ inputs.changed-files }}
+        RD_OUTPUT: ${{ inputs.output }}
+        RD_WORKING_DIRECTORY: ${{ inputs.working-directory }}
+        RD_ALLOW_HOST: ${{ inputs.allow-host }}
+      run: |
+        cd "$GITHUB_WORKSPACE/$RD_WORKING_DIRECTORY"
+        args=(ci --baseline "$RD_BASELINE" --contracts "$RD_CONTRACTS" --output "$RD_OUTPUT")
+        if [[ -n "$RD_ALLOW_HOST" ]]; then args+=(--allow-host "$RD_ALLOW_HOST"); fi
+        while IFS= read -r changed; do
+          if [[ -n "$changed" ]]; then args+=(--changed-file "$changed"); fi
+        done <<< "$RD_CHANGED_FILES"
+        node "$GITHUB_ACTION_PATH/dist/cli.js" "${args[@]}"

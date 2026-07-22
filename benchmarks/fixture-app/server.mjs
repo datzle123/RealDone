@@ -5,6 +5,7 @@ const state = {
   customers: [],
   invoices: [],
   selectorShiftLoads: 0,
+  breakCreate: false,
 };
 
 function html(title, body, script = "") {
@@ -27,6 +28,7 @@ export function createFixtureServer() {
     const url = new URL(request.url ?? "/", "http://fixture.local");
     if (request.method === "POST" && url.pathname === "/api/customers") {
       const value = await body(request);
+      if (state.breakCreate) return json(response, 500, { error: "intentional regression" });
       state.customers.push(String(value.name ?? ""));
       return json(response, 201, { id: state.customers.length, ...value });
     }
@@ -39,6 +41,10 @@ export function createFixtureServer() {
       return json(response, 500, { error: "intentional fixture failure" });
     }
     if (request.method === "GET" && url.pathname === "/api/customers") return json(response, 200, state.customers);
+    if (request.method === "POST" && url.pathname === "/__control__/break-create") {
+      state.breakCreate = true;
+      return json(response, 200, { breakCreate: true });
+    }
     if (request.method === "DELETE" && /^\/api\/customers\/\d+$/.test(url.pathname)) {
       const index = Number(url.pathname.split("/").at(-1)) - 1;
       if (index >= 0 && index < state.customers.length) state.customers.splice(index, 1);
