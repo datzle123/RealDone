@@ -153,7 +153,7 @@ export class PostgresSourceAdapter implements SourceOfTruthAdapter {
       return result;
     } catch (error) {
       await client.query("ROLLBACK").catch(() => undefined);
-      throw redactDatabaseError(error, this.connectionString);
+      throw redactDatabaseError(error, this.connectionString, sensitiveValues);
     } finally {
       client.release();
     }
