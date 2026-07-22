@@ -63,6 +63,8 @@ Gate:
 - Verdict priority and Levels 0–7 are uniform across scan, contract, replay, baseline and report engines.
 - Remaining persistence/CRUD/success-integrity detectors in groups B–D are gated.
 
+Implementation and local acceptance are complete. Browser evidence covers semantic DOM/cookie/IndexedDB/WebSocket capture, every runtime persistence scope, API and managed-restart read-back, contract hard-reload/new-tab/clean-context/logout-login strategies, and RD103–RD105/RD204–RD205/RD304–RD305. Actual Budget and the intentional TodoMVC defect copy show no Phase C regression. Phase completion remains contingent on the hosted Ubuntu/Windows/macOS matrix for the pushed current head.
+
 ## Phase D — auth, authorization, file, provider and regression detectors
 
 Mapped specification: §18 groups E–J, §24.

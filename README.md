@@ -111,13 +111,20 @@ Environment validity is reported separately as `VALID`, `ENVIRONMENT_INVALID`, o
 - `RD007` keyboard action missed
 - `RD008` action discovery/recording boundary
 - `RD101` refresh disappearance
-- `RD102` new-session disappearance
+- `RD102` browser-local persistence
+- `RD103` new-session disappearance
+- `RD104` memory-only state
+- `RD105` app-restart disappearance
 - `RD201` fake create
 - `RD202` fake update
 - `RD203` fake delete
+- `RD204` partial update
+- `RD205` wrong-resource update
 - `RD301` success before proof
 - `RD302` success despite failure
 - `RD303` silent failure
+- `RD304` false success redirect
+- `RD305` hard-coded success endpoint
 - `RD1001` invalid static root
 - `RD1002` critical asset missing
 - `RD1003` bootstrap failure

@@ -13,6 +13,10 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 - Dynamic action preparation for hover-revealed and lazy scroll content, native checkbox/select actions, context menus, popups, downloads, and opt-in same-origin iframe execution.
 - RD004 stuck loading, RD005 broken navigation, RD006 disabled-after-click failure, RD007 keyboard-action missed, and RD008 recorded-flow discovery boundary with broken fixtures and correct controls.
 - Constraint-aware test values for min/max/step, min/max length and common deterministic pattern forms.
+- Redacted cookie digests, bounded IndexedDB metadata, semantic DOM digests, WebSocket frame evidence, hard reload, new-tab, API read-back and managed app-restart persistence observations.
+- Explicit `MEMORY_ONLY`, `TAB_PERSISTENT`, `SESSION_PERSISTENT`, `BROWSER_LOCAL`, `BACKEND_PERSISTENT`, `SOURCE_OF_TRUTH_CONFIRMED` and `CROSS_USER_CONFIRMED` scope evidence across scans and contracts.
+- RD103–RD105, RD204–RD205 and RD304–RD305 with intentionally broken fixtures, correct controls and browser benchmark expectations.
+- Versioned contract persistence strategies for reload, hard reload, new tab, clean context and logout/login rehydration.
 
 ### Changed
 
@@ -20,6 +24,7 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 - Benchmark output now gates explicit expectation coverage, truncation and environment validity in addition to precision, recall, verdict, detector and replay accuracy.
 - Executor evidence separates field preparation from the user action, scopes network observations before persistence reloads, waits for bounded network idle, and avoids stale post-navigation locator waits.
 - Complex upload, canvas, rich-text and drag/drop actions are surfaced as recorded-flow requirements instead of guessed automatic interactions.
+- Multi-field mutations use independent canary values, and successful POST/PUT/PATCH requests are read back through a bounded same-context API request before verdict resolution.
 
 ## [1.2.0] - 2026-07-22
 

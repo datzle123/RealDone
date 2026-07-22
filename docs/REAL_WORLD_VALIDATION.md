@@ -79,6 +79,8 @@ The intentional TodoMVC defect copy exposed a harness error: its `Demo` link ope
 
 After Phase B expanded discovery/execution, both external controls were rerun: Actual Budget remained `VALID` with 6 `VERIFIED`, 1 history-dependent `UNCERTAIN`, 3 policy `SKIPPED`, and zero defect verdicts; the TodoMVC defect copy retained exactly its planted `EPHEMERAL`, `CONTRADICTORY`, and `NO_EFFECT` outcomes while the invalid Demo target stayed environment-scoped. The broader control surface introduced no external regression.
 
+After Phase C added hard reload, new-tab, API read-back, semantic snapshot and persistence-scope evidence, both applications were run again from their pinned builds. Actual Budget again produced 6 `VERIFIED`, 1 history-dependent `UNCERTAIN`, 3 policy `SKIPPED`, a `VALID` environment and zero application-defect verdicts. The TodoMVC defect copy produced the planted memory-only create, fake update/delete and no-effect findings, zero `BROKEN` findings, and kept all four static-root content-type failures in `ENVIRONMENT_INVALID` evidence.
+
 ## Product changes driven by this run
 
 The first scan exposed that RealDone only treated forms, links, and buttons as actions. TodoMVC creates an item through a standalone input's Enter key, so RealDone initially missed the primary behavior. The runtime now:
