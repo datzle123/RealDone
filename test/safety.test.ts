@@ -63,3 +63,19 @@ test("blocks cross-origin navigation unless external actions are explicitly allo
   assert.match(actionSkipReason(action, policy) ?? "", /Cross-origin navigation blocked/);
   assert.equal(actionSkipReason(action, { ...policy, allowExternal: true }), undefined);
 });
+
+test("skips an idempotent link to the current route", () => {
+  const action = {
+    id: "current-login",
+    pageUrl: "http://localhost:3000/#/login",
+    activation: "click" as const,
+    kind: "navigation" as const,
+    intent: "navigate" as const,
+    risk: "safe" as const,
+    label: "Login",
+    fingerprint: { selector: "a", tag: "a", href: "http://localhost:3000/#/login", ordinal: 0 },
+    fields: [],
+  };
+  const policy = { target: new URL(action.pageUrl), allowHosts: [], allowDestructive: false, allowExternal: false };
+  assert.match(actionSkipReason(action, policy) ?? "", /already the current page/);
+});

@@ -70,4 +70,6 @@ realdone export-playwright .realdone/flows/create-customer.json \
   --out tests/create-customer.spec.ts
 ```
 
+Exported specs import `@playwright/test`; install it in the project that executes the generated test. RealDone's own release gate runs an exported external-project flow with the matching Playwright test runner.
+
 Exported tests use user-facing locators where possible and preserve request/status, URL, text, persistence, and secret-environment expectations. Level 6 source assertions remain in the RealDone contract and are emitted as comments because a plain Playwright test has no source-adapter policy.

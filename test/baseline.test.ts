@@ -39,3 +39,23 @@ test("Playwright export preserves semantic locators and secret references", () =
   assert.match(source, /REALDONE_PASSWORD/);
   assert.doesNotMatch(source, /super-secret/);
 });
+
+test("Playwright export preserves hash-router navigation and pathname URL assertions", () => {
+  const contract: BehaviorContract = {
+    schemaVersion: "1.0",
+    id: "hash-login",
+    name: "Hash login",
+    baseUrl: "http://localhost:3000",
+    createdAt: "2026-07-22T00:00:00.000Z",
+    tags: [],
+    cleanup: [],
+    source: { browser: "Chromium", recordedBy: "realdone" },
+    steps: [
+      { id: "S001", type: "navigate", pageUrl: "http://localhost:3000/#/login", url: "http://localhost:3000/#/login", atMs: 0, expected: [] },
+      { id: "S002", type: "click", pageUrl: "http://localhost:3000/#/login", atMs: 100, fingerprint: { selector: "button", tag: "button", role: "button", accessibleName: "Login", ordinal: 0 }, expected: [{ type: "url", pattern: "^/$" }] },
+    ],
+  };
+  const source = renderPlaywrightTest(contract);
+  assert.match(source, /\/#\/login/);
+  assert.match(source, /expect\.poll\(\(\) => new URL\(page\.url\(\)\)\.pathname\)/);
+});

@@ -22,5 +22,15 @@ test("classifies mutation intent and risk from user-facing labels", () => {
 
 test("treats links as navigation and unknown buttons as local interaction", () => {
   assert.equal(classifyAction("Customers", "a", "http://localhost/customers").kind, "navigation");
+  assert.deepEqual(classifyAction("Sign up", "a", "http://localhost/#/register"), {
+    kind: "navigation",
+    intent: "navigate",
+    risk: "safe",
+  });
+  assert.deepEqual(classifyAction("Delete account", "a", "http://localhost/settings/delete"), {
+    kind: "navigation",
+    intent: "navigate",
+    risk: "destructive",
+  });
   assert.equal(classifyAction("Toggle details", "button").kind, "local");
 });

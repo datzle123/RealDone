@@ -143,11 +143,32 @@ export async function captureState(
   const state = await page.evaluate((needle) => {
     const normalize = (value: string): string => value.replace(/\s+/g, " ").trim();
     const bodyText = normalize(document.body?.innerText ?? "").slice(0, 100_000);
+    const controls = [...document.querySelectorAll("input, textarea, select, button")]
+      .slice(0, 2_000)
+      .map((element) => {
+        const input = element as HTMLInputElement;
+        const type = input.type?.toLowerCase() ?? element.tagName.toLowerCase();
+        const sensitive = type === "password" || /password|token|secret|api.?key/i.test(input.name || input.id || "");
+        return {
+          tag: element.tagName.toLowerCase(),
+          type,
+          name: input.name || undefined,
+          value: sensitive ? "[REDACTED]" : input.value,
+          checked: input.checked,
+          disabled: input.disabled,
+          expanded: element.getAttribute("aria-expanded"),
+          pressed: element.getAttribute("aria-pressed"),
+          selected: element.getAttribute("aria-selected"),
+          busy: element.getAttribute("aria-busy"),
+        };
+      });
+    const controlText = JSON.stringify(controls);
     return {
       url: location.href,
       title: document.title,
       bodyText,
-      canaryPresent: bodyText.toLowerCase().includes(needle.toLowerCase()),
+      controlText,
+      canaryPresent: `${bodyText}\n${controlText}`.toLowerCase().includes(needle.toLowerCase()),
       local: Object.entries(localStorage),
       session: Object.entries(sessionStorage),
     };
@@ -157,7 +178,7 @@ export async function captureState(
     at: Date.now() - startedAt,
     url: safeUrl(state.url),
     title: state.title.slice(0, 300),
-    domHash: hashText(state.bodyText),
+    domHash: hashText(`${state.bodyText}\n${state.controlText}`),
     canaryPresent: state.canaryPresent,
     storage: {
       local: digestStorage(state.local, canary),

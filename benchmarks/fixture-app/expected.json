@@ -72,6 +72,20 @@
       "expectedCodes": []
     },
     {
+      "id": "stateful-target-control",
+      "match": { "pagePath": "/stateful-action", "label": "Back" },
+      "shouldFlag": false,
+      "expectedVerdict": "UNCERTAIN",
+      "expectedCodes": []
+    },
+    {
+      "id": "live-control-state-control",
+      "match": { "pagePath": "/live-control-state", "label": "Use current domain" },
+      "shouldFlag": false,
+      "expectedVerdict": "VERIFIED",
+      "expectedCodes": []
+    },
+    {
       "id": "broken-navigation",
       "match": { "pagePath": "/", "label": "Broken navigation" },
       "shouldFlag": true,

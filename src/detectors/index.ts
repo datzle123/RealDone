@@ -62,10 +62,16 @@ export function detect(action: ActionSpec, evidence: ExecutionEvidence): Detecti
   );
   const successClaim = evidence.uiClaims.find((claim) => claim.kind === "success");
   const errorClaim = evidence.uiClaims.find((claim) => claim.kind === "error");
+  const authenticationAttempt = /\b(log[ -]?in|sign[ -]?in)\b/i.test(action.label) &&
+    action.fields.some((field) => field.type === "password" || /password|email/i.test(`${field.name ?? ""} ${field.label ?? ""}`));
+  const generatedCredentialRejection = authenticationAttempt &&
+    failedWrites.length > 0 &&
+    failedWrites.every((request) => (request.status ?? 0) >= 400 && (request.status ?? 0) < 500) &&
+    !successClaim;
   const duplicate = duplicateWrites(evidence);
   const effect = hasObservableEffect(evidence);
 
-  if (evidence.executionError || evidence.pageErrors.length > 0 || hardFailures.length > 0) {
+  if ((evidence.executionError && !evidence.targetNotFound) || evidence.pageErrors.length > 0 || (hardFailures.length > 0 && !generatedCredentialRejection)) {
     matches.push(
       match(
         "RD001",
@@ -84,7 +90,7 @@ export function detect(action: ActionSpec, evidence: ExecutionEvidence): Detecti
         `UI reported success but ${failedWrites[0]?.method} ${failedWrites[0]?.url} returned ${failedWrites[0]?.status ?? "a transport error"}.`,
       ),
     );
-  } else if (failedWrites.length > 0 && !errorClaim) {
+  } else if (failedWrites.length > 0 && !errorClaim && !generatedCredentialRejection) {
     matches.push(match("RD303", "Silent failure", "A write request failed without a visible error state."));
   }
   if (duplicate) {
@@ -106,7 +112,7 @@ export function detect(action: ActionSpec, evidence: ExecutionEvidence): Detecti
     evidence.targetVisibleAfter === false &&
     evidence.targetVisibleAfterRefresh === false &&
     evidence.targetVisibleAfterNewContext === true;
-  if (action.kind === "mutation" && canaryAppeared && evidence.afterRefresh && !canarySurvived) {
+  if (action.kind === "mutation" && failedWrites.length === 0 && canaryAppeared && evidence.afterRefresh && !canarySurvived) {
     matches.push(match("RD101", "Refresh disappearance", "The generated canary appeared after the action and disappeared after reload."));
     if (action.intent === "create") matches.push(match("RD201", "Fake create", "The created resource was not persistent."));
     if (action.intent === "update") matches.push(match("RD202", "Fake update", "The updated value was not persistent."));
@@ -137,6 +143,12 @@ export function detect(action: ActionSpec, evidence: ExecutionEvidence): Detecti
   }
   if (matches.some((item) => item.code === "RD102")) {
     return { verdict: "BROWSER_LOCAL", evidenceLevel: 5, reason: matches.find((item) => item.code === "RD102")?.detail ?? "Browser-local persistence", detectorMatches: matches };
+  }
+  if (generatedCredentialRejection) {
+    return { verdict: "UNCERTAIN", evidenceLevel: 2, reason: "The server rejected generated login credentials; a disposable authenticated test account is required to verify this action.", detectorMatches: matches };
+  }
+  if (evidence.targetNotFound) {
+    return { verdict: "UNCERTAIN", evidenceLevel: 0, reason: "The discovered semantic target was not present in a fresh execution context, so no substitute element was executed.", detectorMatches: matches };
   }
   if (matches.some((item) => item.code === "RD002")) {
     return { verdict: "NO_EFFECT", evidenceLevel: 1, reason: first?.detail ?? "No observable effect", detectorMatches: matches };

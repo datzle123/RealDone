@@ -31,6 +31,17 @@ export function validateTarget(input: string): URL {
 }
 
 export function actionSkipReason(action: ActionSpec, policy: SafetyPolicy): string | undefined {
+  if (action.kind === "navigation" && action.fingerprint.href) {
+    try {
+      const current = new URL(action.pageUrl);
+      const destination = new URL(action.fingerprint.href, current);
+      if (destination.href === current.href) {
+        return "Navigation target is already the current page.";
+      }
+    } catch {
+      return "Invalid navigation target blocked by the default safety policy.";
+    }
+  }
   if (action.kind === "navigation" && action.fingerprint.href && !policy.allowExternal) {
     try {
       const destination = new URL(action.fingerprint.href, action.pageUrl);

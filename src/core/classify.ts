@@ -12,6 +12,11 @@ export function classifyAction(
   href?: string,
   isForm = false,
 ): { kind: ActionKind; intent: ActionIntent; risk: RiskLevel } {
+  if (tag === "a" || href) {
+    if (destructive.test(label)) return { kind: "navigation", intent: "navigate", risk: "destructive" };
+    if (external.test(label)) return { kind: "external", intent: "external", risk: "external" };
+    return { kind: "navigation", intent: "navigate", risk: "safe" };
+  }
   if (destructive.test(label)) {
     return { kind: "mutation", intent: "delete", risk: "destructive" };
   }
@@ -27,7 +32,7 @@ export function classifyAction(
   if (isForm) {
     return { kind: "mutation", intent: "submit", risk: "safe" };
   }
-  if (tag === "a" || href || navigation.test(label)) {
+  if (navigation.test(label)) {
     return { kind: "navigation", intent: "navigate", risk: "safe" };
   }
   return { kind: "local", intent: "interact", risk: "safe" };

@@ -50,7 +50,13 @@ function toAction(pageUrl: string, raw: RawAction): ActionSpec {
     raw.href ??
     `${raw.tag} action`
   ).trim();
-  const classification = classifyAction(label, raw.tag, raw.href, raw.isForm);
+  const initialClassification = classifyAction(label, raw.tag, raw.href, raw.isForm);
+  const hasExternalTargetField = raw.fields.some((field) =>
+    field.type === "url" || /^https?:\/\//i.test(field.placeholder ?? ""),
+  );
+  const classification = hasExternalTargetField && /\b(connect|sync|server|endpoint|webhook)\b/i.test(label)
+    ? { kind: "external" as const, intent: "external" as const, risk: "external" as const }
+    : initialClassification;
   const fingerprint: SemanticFingerprint = {
     selector: raw.selector,
     tag: raw.tag,
@@ -74,7 +80,6 @@ function toAction(pageUrl: string, raw: RawAction): ActionSpec {
       ...(raw.href ? [{ strategy: "href" as const, weight: 72, value: raw.href }] : []),
       ...(raw.text ? [{ strategy: "text" as const, weight: 60, value: raw.text, exact: true }] : []),
       { strategy: "css" as const, weight: 35, selector: raw.selector },
-      { strategy: "ordinal" as const, weight: 10, value: raw.tag },
     ],
   };
   return {
@@ -196,13 +201,20 @@ export async function discoverActions(page: Page): Promise<ActionSpec[]> {
           : "";
         const isForm = tag === "form" || (enterInput && /\b(new|add|create|save|todo|task|comment|message)\b/i.test(inputMetadata));
         const form = tag === "form" ? (element as HTMLFormElement) : undefined;
+        const nearbyContainer = !form && !enterInput ? element.parentElement : undefined;
+        const nearbyElements = nearbyContainer
+          ? [...nearbyContainer.querySelectorAll("input, textarea, select")].filter(visible)
+          : [];
+        const nearbyFields = nearbyElements.length <= 4
+          ? nearbyElements.map(fieldFor).filter((field): field is RawField => Boolean(field))
+          : [];
         const fields = form
           ? [...form.querySelectorAll("input, textarea, select")]
               .map(fieldFor)
               .filter((field): field is RawField => Boolean(field))
           : enterInput
             ? [fieldFor(element)].filter((field): field is RawField => Boolean(field))
-            : [];
+            : nearbyFields;
         const name = accessibleName(element) || element.getAttribute("placeholder") || (form ? `Submit ${form.getAttribute("name") ?? "form"}` : "");
         const role = element.getAttribute("role") || (tag === "a" ? "link" : tag === "button" ? "button" : enterInput ? (element.type === "search" ? "searchbox" : "textbox") : undefined);
         const href = element instanceof HTMLAnchorElement ? element.href : undefined;
@@ -231,11 +243,12 @@ export async function discoverActions(page: Page): Promise<ActionSpec[]> {
   return raw.map((action) => toAction(page.url(), action));
 }
 
-function normalizeCrawlUrl(input: string): string | undefined {
+export function normalizeCrawlUrl(input: string): string | undefined {
   try {
     const url = new URL(input);
     if (!['http:', 'https:'].includes(url.protocol)) return undefined;
-    url.hash = "";
+    if (url.hash === "#/" || url.hash === "#!/") url.hash = "";
+    else if (!url.hash.startsWith("#/") && !url.hash.startsWith("#!/")) url.hash = "";
     return url.toString();
   } catch {
     return undefined;

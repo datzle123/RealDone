@@ -100,3 +100,31 @@ test("detects fake deletion when a removed target returns", () => {
   assert.equal(result.verdict, "EPHEMERAL");
   assert.ok(result.detectorMatches.some((item) => item.code === "RD203"));
 });
+
+test("does not call a missing semantic target a broken application action", () => {
+  const result = detect(action, evidence({
+    executionError: "No visible element matched the semantic fingerprint. The action was not executed.",
+    targetNotFound: true,
+  }));
+  assert.equal(result.verdict, "UNCERTAIN");
+  assert.equal(result.detectorMatches.some((item) => item.code === "RD001"), false);
+});
+
+test("keeps generated login credential rejection uncertain", () => {
+  const login = {
+    ...action,
+    label: "Login",
+    intent: "submit" as const,
+    fields: [
+      { selector: "#email", tag: "input" as const, type: "email", name: "email", required: true, disabled: false },
+      { selector: "#password", tag: "input" as const, type: "password", name: "password", required: true, disabled: false },
+    ],
+  };
+  const result = detect(login, evidence({
+    after: state(100, "filled", true),
+    afterRefresh: state(400, "empty", false),
+    network: [{ id: "net-1", method: "POST", url: "http://localhost/api/users/login", resourceType: "fetch", startedAt: 50, finishedAt: 80, status: 404, ok: false }],
+  }));
+  assert.equal(result.verdict, "UNCERTAIN");
+  assert.equal(result.detectorMatches.some((item) => ["RD001", "RD101", "RD303"].includes(item.code)), false);
+});

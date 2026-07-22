@@ -18,7 +18,6 @@ function inferredCandidates(fingerprint: SemanticFingerprint): LocatorCandidate[
   if (fingerprint.href) candidates.push({ strategy: "href", weight: 72, value: fingerprint.href });
   if (fingerprint.text) candidates.push({ strategy: "text", weight: 60, value: fingerprint.text, exact: true });
   candidates.push({ strategy: "css", weight: 35, selector: fingerprint.selector });
-  candidates.push({ strategy: "ordinal", weight: 10, value: fingerprint.tag });
   return candidates;
 }
 
@@ -73,13 +72,21 @@ export interface ResolvedLocator {
   diagnostics: LocatorResolution;
 }
 
+export class SemanticTargetNotFoundError extends Error {
+  constructor(public readonly diagnostics: LocatorResolution) {
+    super("No visible element matched the semantic fingerprint. The action was not executed.");
+    this.name = "SemanticTargetNotFoundError";
+  }
+}
+
 export async function resolveSemanticLocator(
   page: Page,
   fingerprint: SemanticFingerprint,
   retries: number,
 ): Promise<ResolvedLocator> {
   const attempts: LocatorAttempt[] = [];
-  const candidates = [...(fingerprint.candidates ?? inferredCandidates(fingerprint))].sort(
+  const provided = fingerprint.candidates?.filter((candidate) => candidate.strategy !== "ordinal") ?? [];
+  const candidates = [...(provided.length > 0 ? provided : inferredCandidates(fingerprint))].sort(
     (a, b) => b.weight - a.weight,
   );
   let fallback: { locator: Locator; candidate: LocatorCandidate } | undefined;
@@ -137,7 +144,7 @@ export async function resolveSemanticLocator(
           },
         };
       }
-      throw new Error("No visible element matched the semantic fingerprint.");
+      throw new SemanticTargetNotFoundError({ attempts, retryCount });
     },
     { retries, baseDelayMs: 160 },
   );

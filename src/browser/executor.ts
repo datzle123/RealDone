@@ -6,7 +6,7 @@ import { isSensitiveKey } from "../core/redact.js";
 import { isTransientBrowserError, withRetry } from "../core/retry.js";
 import type { ActionSpec, ExecutionEvidence, FilledField, ScanOptions } from "../types.js";
 import { attachEvidence, captureState, collectUiClaims } from "./evidence.js";
-import { resolveSemanticLocator } from "./locator.js";
+import { resolveSemanticLocator, SemanticTargetNotFoundError } from "./locator.js";
 
 async function fillForm(page: Page, action: ActionSpec, canary: string): Promise<FilledField[]> {
   const filled: FilledField[] = [];
@@ -176,6 +176,10 @@ export async function executeAction(
       }
     }
   } catch (error) {
+    if (error instanceof SemanticTargetNotFoundError) {
+      evidence.targetNotFound = true;
+      evidence.locatorResolution = error.diagnostics;
+    }
     evidence.executionError = error instanceof Error ? error.message : String(error);
     const screenshotPath = path.join(screenshotDirectory, screenshotName(action, "error"));
     await page.screenshot({ path: screenshotPath, fullPage: true }).catch(() => undefined);

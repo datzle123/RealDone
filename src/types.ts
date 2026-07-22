@@ -184,6 +184,7 @@ export interface ExecutionEvidence {
   trace?: string;
   video?: string;
   executionError?: string;
+  targetNotFound?: boolean;
   locatorResolution?: LocatorResolution;
 }
 

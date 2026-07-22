@@ -36,7 +36,7 @@ function assertionLines(step: BehaviorStep): string[] {
       return [`  await expect(page.getByText(${literal(expectation.value)}, { exact: true }).last()).toBeVisible();`];
     }
     if (expectation.type === "url") {
-      return [`  await expect(page).toHaveURL(new RegExp(${literal(expectation.pattern)}));`];
+      return [`  await expect.poll(() => new URL(page.url()).pathname).toMatch(new RegExp(${literal(expectation.pattern)}));`];
     }
     if (expectation.type === "persistence") {
       return [
@@ -62,7 +62,8 @@ function stepLines(step: BehaviorStep, baseUrl: string): string[] {
   if (step.type === "navigate") {
     let pathname = step.url ?? step.pageUrl;
     try {
-      pathname = `${new URL(pathname).pathname}${new URL(pathname).search}`;
+      const parsed = new URL(pathname);
+      pathname = `${parsed.pathname}${parsed.search}${parsed.hash}`;
     } catch {
       // Keep recorded value.
     }

@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { access, mkdir, mkdtemp, readdir, writeFile } from "node:fs/promises";
+import { access, mkdir, mkdtemp, readFile, readdir, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { spawn } from "node:child_process";
@@ -50,8 +50,8 @@ try {
     allowDestructive: true,
     allowExternal: false,
     mutationAllowed: true,
-    maxPages: 12,
-    maxActions: 40,
+    maxPages: 14,
+    maxActions: 50,
     timeoutMs: 8_000,
     settleMs: 250,
     maxDurationMs: 90_000,
@@ -73,6 +73,8 @@ try {
   assert.ok(result.report.findings.some((finding) => finding.verdict === "VERIFIED"));
   assert.ok(result.report.findings.some((finding) => finding.verdict === "BROWSER_LOCAL" && finding.detectorMatches.some((item) => item.code === "RD102")));
   assert.ok(result.report.findings.some((finding) => finding.action.activation === "enter" && finding.detectorMatches.some((item) => item.code === "RD201")));
+  assert.ok(result.report.findings.some((finding) => finding.action.label === "Back" && finding.verdict === "UNCERTAIN" && finding.evidence.targetNotFound && !finding.evidence.locatorResolution?.chosenStrategy));
+  assert.ok(result.report.findings.some((finding) => finding.action.label === "Use current domain" && finding.verdict === "VERIFIED"));
   assert.equal(result.metrics.precision, 1);
   assert.equal(result.metrics.recall, 1);
   assert.equal(result.metrics.falsePositiveRate, 0);
@@ -149,6 +151,30 @@ try {
   assert.ok(recording.contract.steps.some((step) => step.type === "fill"));
   assert.ok(recording.contract.steps.some((step) => step.type === "click"));
   assert.ok((recording.contract.artifacts?.rrwebEventCount ?? 0) > 0);
+  const recorderSecret = "RD-RECORDER-SECRET-42";
+  const secretRecording = await recordFlow(
+    {
+      targetUrl: `${fixture.url}/recorder-secret`,
+      name: "Recorder secret safety",
+      outputFile: path.join(flowDirectory, "recorder-secret.json"),
+      headed: false,
+      timeoutMs: 8_000,
+      settleMs: 300,
+      ...(process.env.REALDONE_BROWSER_PATH ? { executablePath: process.env.REALDONE_BROWSER_PATH } : {}),
+    },
+    async (page) => {
+      await page.getByPlaceholder("Email").fill("rd-recorder@example.test");
+      await page.getByPlaceholder("Password").fill(recorderSecret);
+      await page.getByRole("button", { name: "Login" }).click();
+    },
+  );
+  const secretContractText = JSON.stringify(secretRecording.contract);
+  const secretRrwebText = await readFile(secretRecording.rrwebFile, "utf8");
+  assert.equal(secretContractText.includes(recorderSecret), false);
+  assert.equal(secretRrwebText.includes(recorderSecret), false);
+  const passwordStep = secretRecording.contract.steps.find((step) => step.type === "fill" && step.secretEnv);
+  assert.equal(passwordStep?.secretEnv, "REALDONE_PASSWORD");
+  assert.equal(passwordStep?.fingerprint?.accessibleName, "Password");
   recording.contract.roles = {
     observer: { description: "Independent observer", authState: { path: "auth.json" } },
   };

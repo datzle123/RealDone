@@ -60,7 +60,7 @@ export function createFixtureServer() {
 
     if (url.pathname === "/") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
-      return response.end(html("RealDone benchmark fixtures", `<p>Each page contains one known behavior.</p><nav><a href="/fake-create">Fake create</a><a href="/fake-update">Fake update</a><a href="/real-create">Real create control</a><a href="/enter-submit">Enter-submit create</a><a href="/browser-local">Browser-local control</a><a href="/success-despite-failure">False success</a><a href="/duplicate-submit">Duplicate submit</a><a href="/fake-delete">Fake delete</a><a href="/no-effect">No effect</a><a href="/selector-shift">Selector survival control</a><a href="/missing">Broken navigation</a></nav>`));
+      return response.end(html("RealDone benchmark fixtures", `<p>Each page contains one known behavior.</p><nav><a href="/fake-create">Fake create</a><a href="/fake-update">Fake update</a><a href="/real-create">Real create control</a><a href="/enter-submit">Enter-submit create</a><a href="/browser-local">Browser-local control</a><a href="/success-despite-failure">False success</a><a href="/duplicate-submit">Duplicate submit</a><a href="/fake-delete">Fake delete</a><a href="/no-effect">No effect</a><a href="/selector-shift">Selector survival control</a><a href="/stateful-action">Stateful action control</a><a href="/live-control-state">Live control-state control</a><a href="/missing">Broken navigation</a></nav>`));
     }
     if (url.pathname === "/fake-create") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
@@ -77,6 +77,14 @@ export function createFixtureServer() {
     if (url.pathname === "/enter-submit") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
       return response.end(html("Enter-submit create", `<input class="new-todo" type="text" aria-label="New Todo Input" placeholder="What needs to be done?"><ul id="list"></ul>`, `document.querySelector('.new-todo').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.value.trim()){list.insertAdjacentHTML('beforeend','<li>'+e.target.value.trim()+'</li>');e.target.value=''}})`));
+    }
+    if (url.pathname === "/stateful-action") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Stateful action", `<div id="action"></div>`, `action.innerHTML=history.length>2?'<button id="stateful-back">Back</button>':'<button id="replacement">Continue</button>';document.querySelector('button').addEventListener('click',()=>{notice.textContent='clicked '+document.querySelector('button').textContent})`));
+    }
+    if (url.pathname === "/live-control-state") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Live control state", `<div><label>Server URL <input id="server-url" placeholder="https://example.com"></label></div><button id="current-domain">Use current domain</button>`, `document.getElementById('current-domain').onclick=()=>{document.getElementById('server-url').value=location.origin}`));
     }
     if (url.pathname === "/fake-update") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
@@ -105,6 +113,10 @@ export function createFixtureServer() {
         ? `<main><button>Toggle resilient</button></main>`
         : `<main><section><div class="new-wrapper"><button>Toggle resilient</button></div></section></main>`;
       return response.end(html("Selector survival control", control, `document.querySelector('button').onclick=()=>{notice.textContent='Panel opened';notice.className='toast'}`));
+    }
+    if (url.pathname === "/recorder-secret") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Recorder secret control", `<form id="login"><label>Email <input name="email" type="email" placeholder="Email"></label><label>Password <input name="password" type="password" placeholder="Password"></label><button>Login</button></form>`, `login.addEventListener('submit',event=>{event.preventDefault();notice.className='toast';notice.textContent='Login complete'})`));
     }
     response.writeHead(404, { "content-type": "text/html; charset=utf-8" });
     return response.end(html("404", "<p>This route is intentionally missing.</p>"));
