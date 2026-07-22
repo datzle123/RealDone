@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import type { Browser, Page } from "playwright";
+import type { Browser, Frame, Page } from "playwright";
 import { classifyAction } from "../core/classify.js";
 import { isTransientBrowserError, withRetry } from "../core/retry.js";
 import { waitForEnvironmentRender } from "../environment/health.js";
@@ -19,6 +19,13 @@ interface RawField {
   placeholder?: string;
   required: boolean;
   disabled: boolean;
+  min?: string;
+  max?: string;
+  minLength?: number;
+  maxLength?: number;
+  pattern?: string;
+  step?: string;
+  multiple?: boolean;
 }
 
 interface RawAction {
@@ -30,11 +37,14 @@ interface RawAction {
   testId?: string;
   id?: string;
   href?: string;
+  target?: string;
+  download?: string;
   type?: string;
   ordinal: number;
   isForm: boolean;
-  activation: "click" | "submit" | "enter";
+  activation: NonNullable<ActionSpec["activation"]>;
   fields: RawField[];
+  recordingRequired?: string;
 }
 
 function stableActionId(url: string, raw: RawAction): string {
@@ -57,6 +67,8 @@ function toAction(pageUrl: string, raw: RawAction): ActionSpec {
   );
   const classification = hasExternalTargetField && /\b(connect|sync|server|endpoint|webhook)\b/i.test(label)
     ? { kind: "external" as const, intent: "external" as const, risk: "external" as const }
+    : raw.type === "file"
+      ? { kind: "external" as const, intent: "external" as const, risk: "external" as const }
     : initialClassification;
   const fingerprint: SemanticFingerprint = {
     selector: raw.selector,
@@ -69,6 +81,8 @@ function toAction(pageUrl: string, raw: RawAction): ActionSpec {
     ...(raw.id ? { id: raw.id } : {}),
     ...(raw.href ? { href: raw.href } : {}),
     ...(raw.type ? { type: raw.type } : {}),
+    ...(raw.target ? { target: raw.target } : {}),
+    ...(raw.download ? { download: raw.download } : {}),
     candidates: [
       ...(raw.testId ? [{ strategy: "testid" as const, weight: 100, value: raw.testId, exact: true }] : []),
       ...(raw.role && raw.accessibleName
@@ -91,12 +105,29 @@ function toAction(pageUrl: string, raw: RawAction): ActionSpec {
     ...classification,
     fingerprint,
     fields: raw.fields.map((field): FormFieldSpec => ({ ...field })),
+    ...(raw.recordingRequired ? { recordingRequired: raw.recordingRequired } : {}),
   };
 }
 
-export async function discoverActions(page: Page): Promise<ActionSpec[]> {
+type ActionScope = Page | Frame;
+
+export async function prepareDynamicActions(page: ActionScope): Promise<void> {
+  await page.evaluate(() => {
+    const revealers = [...document.querySelectorAll("[onmouseenter], [onmouseover], [oncontextmenu]")].slice(0, 50);
+    for (const element of revealers) {
+      element.dispatchEvent(new MouseEvent("pointerover", { bubbles: true }));
+      element.dispatchEvent(new MouseEvent("mouseover", { bubbles: true }));
+      element.dispatchEvent(new MouseEvent("mouseenter", { bubbles: false }));
+    }
+    window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "auto" });
+  });
+  await page.waitForTimeout(100);
+}
+
+export async function discoverActions(page: ActionScope): Promise<ActionSpec[]> {
+  await prepareDynamicActions(page);
   const raw = await page
-    .locator("form, a[href], button, input[type=submit], input[type=button], input:not([type]), input[type=text], input[type=search], input[type=email], input[type=url], [role=button]")
+    .locator("form, a[href], button, select, input[type=submit], input[type=button], input[type=checkbox], input[type=radio], input[type=file], input:not([type]), input[type=text], input[type=search], input[type=email], input[type=url], [role=button], [role=tab], [role=menuitem], [role=checkbox], [role=radio], canvas, [contenteditable=true], [draggable=true], [oncontextmenu]")
     .evaluateAll((elements): RawAction[] => {
       const visible = (element: Element): boolean => {
         const node = element as HTMLElement;
@@ -148,8 +179,15 @@ export async function discoverActions(page: Page): Promise<ActionSpec[]> {
         if (labelledText?.trim()) return labelledText.trim();
         const aria = element.getAttribute("aria-label");
         if (aria?.trim()) return aria.trim();
-        if (element instanceof HTMLInputElement && element.labels?.length) {
-          return [...element.labels].map((label) => label.innerText).join(" ").trim();
+        if (
+          (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement || element instanceof HTMLSelectElement) &&
+          element.labels?.length
+        ) {
+          return [...element.labels].map((label) => {
+            const clone = label.cloneNode(true) as HTMLElement;
+            for (const control of clone.querySelectorAll("input, textarea, select, button")) control.remove();
+            return clone.textContent ?? "";
+          }).join(" ").replace(/\s+/g, " ").trim();
         }
         if (element instanceof HTMLInputElement && element.value) return element.value.trim();
         return ((element as HTMLElement).innerText || element.getAttribute("title") || "")
@@ -171,6 +209,13 @@ export async function discoverActions(page: Page): Promise<ActionSpec[]> {
           type,
           required: field.required,
           disabled: field.disabled,
+          ...(field.getAttribute("min") ? { min: field.getAttribute("min") as string } : {}),
+          ...(field.getAttribute("max") ? { max: field.getAttribute("max") as string } : {}),
+          ...(field.getAttribute("minlength") ? { minLength: Number(field.getAttribute("minlength")) } : {}),
+          ...(field.getAttribute("maxlength") ? { maxLength: Number(field.getAttribute("maxlength")) } : {}),
+          ...(field.getAttribute("pattern") ? { pattern: field.getAttribute("pattern") as string } : {}),
+          ...(field.getAttribute("step") ? { step: field.getAttribute("step") as string } : {}),
+          ...(field.hasAttribute("multiple") ? { multiple: true } : {}),
           ...(field.name ? { name: field.name } : {}),
           ...(label ? { label } : {}),
           ...(placeholder ? { placeholder } : {}),
@@ -180,7 +225,7 @@ export async function discoverActions(page: Page): Promise<ActionSpec[]> {
       const candidates = elements.filter((element) => {
         if (!visible(element)) return false;
         if (element.tagName.toLowerCase() !== "form" && element.closest("form")) return false;
-        if (element instanceof HTMLInputElement && !["submit", "button"].includes(element.type)) {
+        if (element instanceof HTMLInputElement && !["submit", "button", "checkbox", "radio", "file"].includes(element.type)) {
           const metadata = [
             element.id,
             element.name,
@@ -196,7 +241,7 @@ export async function discoverActions(page: Page): Promise<ActionSpec[]> {
 
       return candidates.map((element, ordinal): RawAction => {
         const tag = element.tagName.toLowerCase();
-        const enterInput = element instanceof HTMLInputElement && !["submit", "button"].includes(element.type);
+        const enterInput = element instanceof HTMLInputElement && !["submit", "button", "checkbox", "radio", "file"].includes(element.type);
         const inputMetadata = enterInput
           ? [element.id, element.name, element.className, element.getAttribute("data-testid") ?? "", element.getAttribute("aria-label") ?? "", element.placeholder].join(" ")
           : "";
@@ -223,13 +268,42 @@ export async function discoverActions(page: Page): Promise<ActionSpec[]> {
         const role = element.getAttribute("role") || (tag === "a" ? "link" : tag === "button" ? "button" : enterInput ? (element.type === "search" ? "searchbox" : "textbox") : undefined);
         const href = element instanceof HTMLAnchorElement ? element.href : undefined;
         const type = element instanceof HTMLInputElement || element instanceof HTMLButtonElement ? element.type : undefined;
+        const target = element instanceof HTMLAnchorElement ? element.target : undefined;
+        const download = element instanceof HTMLAnchorElement && element.hasAttribute("download")
+          ? element.download || "download"
+          : undefined;
+        const complexReason =
+          element instanceof HTMLInputElement && element.type === "file"
+            ? "File upload needs an explicit recorded file and sandbox policy."
+            : element instanceof HTMLCanvasElement
+              ? "Canvas interaction needs a recorded semantic flow."
+              : element.getAttribute("contenteditable") === "true"
+                ? "Rich-text interaction needs a recorded semantic flow."
+                : element.getAttribute("draggable") === "true"
+                  ? "Drag-and-drop needs a recorded semantic flow."
+                  : undefined;
+        const activation: RawAction["activation"] = complexReason
+          ? "record"
+          : form
+            ? "submit"
+            : enterInput
+              ? "enter"
+              : element instanceof HTMLInputElement && ["checkbox", "radio"].includes(element.type)
+                ? "check"
+                : element instanceof HTMLSelectElement
+                  ? "select"
+                  : element.hasAttribute("oncontextmenu")
+                    ? "contextmenu"
+                    : element.hasAttribute("onmouseenter") || element.hasAttribute("onmouseover")
+                      ? "hover"
+                      : "click";
         const testId = element.getAttribute("data-testid");
         return {
           selector: cssPath(element),
           tag,
           ordinal,
           isForm,
-          activation: form ? "submit" : enterInput ? "enter" : "click",
+          activation,
           fields,
           ...(role ? { role } : {}),
           ...(name ? { accessibleName: name.slice(0, 240) } : {}),
@@ -239,7 +313,10 @@ export async function discoverActions(page: Page): Promise<ActionSpec[]> {
           ...(testId ? { testId } : {}),
           ...(element.id ? { id: element.id } : {}),
           ...(href ? { href } : {}),
+          ...(target ? { target } : {}),
+          ...(download ? { download } : {}),
           ...(type ? { type } : {}),
+          ...(complexReason ? { recordingRequired: complexReason } : {}),
         };
       });
     });
@@ -266,6 +343,7 @@ export interface DiscoveryOptions {
   maxRetries: number;
   deadline: number;
   storageStatePath?: string;
+  allowIframes?: boolean;
 }
 
 export interface DiscoveryResult {
@@ -300,10 +378,25 @@ export async function discoverSiteDetailed(
         );
         await waitForEnvironmentRender(page, Math.min(options.timeoutMs, 5_000), options.settleMs, true);
         const actions = await discoverActions(page);
+        if (options.allowIframes) {
+          for (const frame of page.frames().filter((candidate) => candidate !== page.mainFrame())) {
+            try {
+              if (new URL(frame.url()).origin !== origin) continue;
+              const frameActions = await discoverActions(frame);
+              actions.push(...frameActions.map((action): ActionSpec => ({
+                ...action,
+                pageUrl: page.url(),
+                fingerprint: { ...action.fingerprint, frameUrl: frame.url() },
+              })));
+            } catch {
+              // Cross-origin, detached, and sandboxed frames stay discovery-only unless a recorded flow handles them.
+            }
+          }
+        }
         pages.push({ url: page.url(), title: await page.title(), actions });
         for (const action of actions) {
           const href = action.fingerprint.href;
-          if (!href) continue;
+          if (!href || action.fingerprint.download) continue;
           const normalized = normalizeCrawlUrl(href);
           if (normalized && new URL(normalized).origin === origin && !seen.has(normalized)) queue.push(normalized);
         }

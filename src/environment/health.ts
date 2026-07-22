@@ -1,4 +1,4 @@
-import type { Browser, BrowserContext, Page, Request, Response } from "playwright";
+import type { Browser, BrowserContext, Frame, Page, Request, Response } from "playwright";
 import { redactText, safeUrl } from "../core/redact.js";
 import type { EnvironmentFinding, EnvironmentHealth, EnvironmentStatus } from "../types.js";
 
@@ -53,7 +53,7 @@ function isExpectedAssetType(asset: AssetObservation): boolean {
   return type === "text/css";
 }
 
-async function observeRender(page: Page): Promise<EnvironmentRenderObservation> {
+async function observeRender(page: Page | Frame): Promise<EnvironmentRenderObservation> {
   return page.evaluate(() => {
     const bodyTextLength = (document.body?.innerText ?? "").replace(/\s+/g, " ").trim().length;
     const elements = [...(document.body?.querySelectorAll("*") ?? [])].slice(0, 5_000);
@@ -72,7 +72,7 @@ async function observeRender(page: Page): Promise<EnvironmentRenderObservation> 
 }
 
 export async function waitForEnvironmentRender(
-  page: Page,
+  page: Page | Frame,
   timeoutMs: number,
   settleMs: number,
   requireInteractive = false,

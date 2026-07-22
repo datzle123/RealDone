@@ -31,6 +31,9 @@ export function validateTarget(input: string): URL {
 }
 
 export function actionSkipReason(action: ActionSpec, policy: SafetyPolicy): string | undefined {
+  if (action.recordingRequired) {
+    return `Recorded flow required: ${action.recordingRequired}`;
+  }
   if (action.kind === "navigation" && action.fingerprint.href) {
     try {
       const current = new URL(action.pageUrl);

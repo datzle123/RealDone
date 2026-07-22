@@ -24,6 +24,11 @@ export type DetectorCode =
   | "RD001"
   | "RD002"
   | "RD003"
+  | "RD004"
+  | "RD005"
+  | "RD006"
+  | "RD007"
+  | "RD008"
   | "RD101"
   | "RD102"
   | "RD201"
@@ -84,6 +89,9 @@ export interface SemanticFingerprint {
   id?: string;
   href?: string;
   type?: string;
+  target?: string;
+  download?: string;
+  frameUrl?: string;
   ordinal: number;
   candidates?: LocatorCandidate[];
 }
@@ -125,18 +133,26 @@ export interface FormFieldSpec {
   placeholder?: string;
   required: boolean;
   disabled: boolean;
+  min?: string;
+  max?: string;
+  minLength?: number;
+  maxLength?: number;
+  pattern?: string;
+  step?: string;
+  multiple?: boolean;
 }
 
 export interface ActionSpec {
   id: string;
   pageUrl: string;
-  activation?: "click" | "submit" | "enter";
+  activation?: "click" | "submit" | "enter" | "check" | "select" | "hover" | "contextmenu" | "record";
   kind: ActionKind;
   intent: ActionIntent;
   risk: RiskLevel;
   label: string;
   fingerprint: SemanticFingerprint;
   fields: FormFieldSpec[];
+  recordingRequired?: string;
 }
 
 export interface DiscoveredPage {
@@ -186,6 +202,8 @@ export interface StateSnapshot {
   domHash: string;
   title: string;
   canaryPresent: boolean;
+  busyControls?: number;
+  disabledControls?: number;
   storage: {
     local: StorageEntryDigest[];
     session: StorageEntryDigest[];
@@ -206,6 +224,7 @@ export interface ExecutionEvidence {
   durationMs: number;
   canary: string;
   before?: StateSnapshot;
+  beforeAction?: StateSnapshot;
   after?: StateSnapshot;
   afterRefresh?: StateSnapshot;
   afterNewContext?: StateSnapshot;
@@ -216,6 +235,7 @@ export interface ExecutionEvidence {
   filledFields: FilledField[];
   dialogs: string[];
   downloads: string[];
+  popupUrls?: string[];
   targetText?: string;
   targetVisibleAfter?: boolean;
   targetVisibleAfterRefresh?: boolean;
@@ -227,6 +247,9 @@ export interface ExecutionEvidence {
   executionError?: string;
   targetNotFound?: boolean;
   locatorResolution?: LocatorResolution;
+  targetDisabledAfter?: boolean;
+  targetBusyAfter?: boolean;
+  networkSettled?: boolean;
 }
 
 export interface DetectorMatch {
@@ -287,6 +310,7 @@ export interface PublicScanOptions {
   video?: boolean;
   environmentTimeoutMs?: number;
   acceptEnvironmentRisk?: boolean;
+  allowIframes?: boolean;
 }
 
 export interface ScanOptions extends PublicScanOptions {

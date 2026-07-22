@@ -19,6 +19,7 @@ export {
   type RuntimeSnapshot,
 } from "./runtime/manager.js";
 export { launchBrowser, launchChromium, type BrowserName, type BrowserRuntimeOptions } from "./browser/runtime.js";
+export { prepareDynamicActions } from "./browser/discover.js";
 export {
   runBrowserMatrix,
   type BrowserMatrixEntry,

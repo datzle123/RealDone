@@ -25,4 +25,7 @@ test("generates safe values by field semantics", () => {
   assert.equal(valueForField(field({ type: "email" }), "RD_TEST_ABC123").value, "rd-rd_test_abc123@example.test");
   assert.equal(valueForField(field({ type: "password" }), "RD_TEST_ABC123").redacted, true);
   assert.equal(valueForField(field({ tag: "select", type: "select-one" }), "RD_TEST_ABC123").selectFirstUsable, true);
+  assert.equal(valueForField(field({ type: "number", min: "10", max: "20", step: "2" }), "RD_TEST_123454").value, "18");
+  assert.equal(valueForField(field({ pattern: "^[A-Z]{4}$" }), "RD_TEST_ABC123").value, "RDXT");
+  assert.equal(valueForField(field({ minLength: 16, maxLength: 16 }), "RD_TEST_ABC123").value?.length, 16);
 });

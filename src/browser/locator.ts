@@ -1,4 +1,4 @@
-import type { Locator, Page } from "playwright";
+import type { Frame, Locator, Page } from "playwright";
 import type {
   LocatorAttempt,
   LocatorCandidate,
@@ -21,7 +21,9 @@ function inferredCandidates(fingerprint: SemanticFingerprint): LocatorCandidate[
   return candidates;
 }
 
-function locatorFor(page: Page, candidate: LocatorCandidate, fingerprint: SemanticFingerprint): Locator {
+type LocatorScope = Page | Frame;
+
+function locatorFor(page: LocatorScope, candidate: LocatorCandidate, fingerprint: SemanticFingerprint): Locator {
   switch (candidate.strategy) {
     case "testid":
       return page.getByTestId(candidate.value ?? fingerprint.testId ?? "");
@@ -80,7 +82,7 @@ export class SemanticTargetNotFoundError extends Error {
 }
 
 export async function resolveSemanticLocator(
-  page: Page,
+  page: LocatorScope,
   fingerprint: SemanticFingerprint,
   retries: number,
 ): Promise<ResolvedLocator> {

@@ -12,6 +12,27 @@ export interface FieldValue {
   redacted: boolean;
 }
 
+function boundedText(value: string, field: FormFieldSpec): string {
+  const minimum = field.minLength ?? 0;
+  const maximum = field.maxLength && field.maxLength > 0 ? field.maxLength : Number.POSITIVE_INFINITY;
+  let result = value;
+  if (result.length < minimum) result = `${result}${"X".repeat(minimum - result.length)}`;
+  return result.slice(0, maximum);
+}
+
+function patternValue(pattern: string, canary: string): string | undefined {
+  const digits = pattern.match(/^\^?\\d\{(\d+)\}\$?$/);
+  if (digits?.[1]) return canary.replace(/\D/g, "").padEnd(Number(digits[1]), "7").slice(0, Number(digits[1]));
+  const upper = pattern.match(/^\^?\[A-Z\]\{(\d+)\}\$?$/);
+  if (upper?.[1]) return canary.replace(/[^A-Z]/g, "X").padEnd(Number(upper[1]), "X").slice(0, Number(upper[1]));
+  const alphaNumeric = pattern.match(/^\^?\[A-Za-z0-9_-\]\{(\d+)(?:,(\d+))?\}\$?$/);
+  if (alphaNumeric?.[1]) {
+    const length = Math.min(Number(alphaNumeric[2] ?? alphaNumeric[1]), Math.max(Number(alphaNumeric[1]), canary.length));
+    return canary.replace(/[^A-Za-z0-9_-]/g, "_").padEnd(length, "X").slice(0, length);
+  }
+  return undefined;
+}
+
 export function valueForField(field: FormFieldSpec, canary: string): FieldValue {
   const hint = `${field.name ?? ""} ${field.label ?? ""} ${field.placeholder ?? ""}`.toLowerCase();
   const type = field.type.toLowerCase();
@@ -26,7 +47,7 @@ export function valueForField(field: FormFieldSpec, canary: string): FieldValue 
     return { redacted: false };
   }
   if (type === "email" || hint.includes("email")) {
-    return { value: `rd-${canary.toLowerCase()}@example.test`, redacted: false };
+    return { value: boundedText(`rd-${canary.toLowerCase()}@example.test`, field), redacted: false };
   }
   if (type === "password" || hint.includes("password") || hint.includes("mật khẩu")) {
     return { value: `RD-${canary}-Safe!`, redacted: true };
@@ -38,7 +59,13 @@ export function valueForField(field: FormFieldSpec, canary: string): FieldValue 
     return { value: "+15550102026", redacted: false };
   }
   if (type === "number" || type === "range") {
-    return { value: "2026", redacted: false };
+    const minimum = Number.isFinite(Number(field.min)) ? Number(field.min) : 0;
+    const maximum = Number.isFinite(Number(field.max)) ? Number(field.max) : minimum + 1_000_000;
+    const step = Number.isFinite(Number(field.step)) && Number(field.step) > 0 ? Number(field.step) : 1;
+    const seed = Number.parseInt(canary.replace(/\D/g, "").slice(-6) || "2026", 10);
+    const steps = Math.max(0, Math.floor((maximum - minimum) / step));
+    const value = minimum + (steps > 0 ? seed % (steps + 1) : 0) * step;
+    return { value: String(value), redacted: false };
   }
   if (type === "date") {
     return { value: "2026-07-22", redacted: false };
@@ -49,5 +76,6 @@ export function valueForField(field: FormFieldSpec, canary: string): FieldValue 
   if (type === "time") {
     return { value: "10:00", redacted: false };
   }
-  return { value: canary, redacted: false };
+  const constrained = field.pattern ? patternValue(field.pattern, canary) : undefined;
+  return { value: boundedText(constrained ?? canary, field), redacted: false };
 }

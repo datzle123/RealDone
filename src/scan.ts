@@ -41,10 +41,14 @@ function emptyEvidence(): ExecutionEvidence {
     filledFields: [],
     dialogs: [],
     downloads: [],
+    popupUrls: [],
   };
 }
 
 function skippedFinding(id: string, action: ActionSpec, reason: string): Finding {
+  const discoveryDetector = action.recordingRequired
+    ? [{ code: "RD008" as const, title: "Action discovery boundary", detail: action.recordingRequired }]
+    : [];
   return {
     id,
     action,
@@ -52,7 +56,7 @@ function skippedFinding(id: string, action: ActionSpec, reason: string): Finding
     evidenceLevel: 0,
     reason,
     skippedReason: reason,
-    detectorMatches: [],
+    detectorMatches: discoveryDetector,
     evidence: emptyEvidence(),
   };
 }
@@ -125,6 +129,7 @@ export async function runScan(
           video: Boolean(options.video),
           environmentTimeoutMs: options.environmentTimeoutMs ?? Math.max(options.timeoutMs, 5_000),
           acceptEnvironmentRisk: false,
+          allowIframes: Boolean(options.allowIframes),
         },
         summary: { ...summarize([], 0, 0), environmentStatus: environment.status },
         pages: [],
@@ -145,6 +150,7 @@ export async function runScan(
           maxRetries: options.maxRetries,
           deadline,
           ...(options.storageStatePath ? { storageStatePath: options.storageStatePath } : {}),
+          allowIframes: Boolean(options.allowIframes),
         });
     const pages = discovery.pages;
     const environmentDenials = new Map<string, string>();
@@ -245,6 +251,7 @@ export async function runScan(
         video: Boolean(options.video),
         environmentTimeoutMs: options.environmentTimeoutMs ?? Math.max(options.timeoutMs, 5_000),
         acceptEnvironmentRisk: Boolean(options.acceptEnvironmentRisk),
+        allowIframes: Boolean(options.allowIframes),
       },
       summary: summarize(findings, pages.length, allActions.length),
       pages,

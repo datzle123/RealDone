@@ -147,6 +147,7 @@ program
   .option("--health-endpoint <path>", "application health endpoint")
   .option("--environment-timeout <milliseconds>", "environment bootstrap and render timeout", positiveInteger, 10_000)
   .option("--accept-environment-risk", "continue after recording an invalid environment", false)
+  .option("--allow-iframe", "discover and execute same-origin iframe actions", false)
   .option("--policy <file>", "JSON action policy and budget file")
   .option("--deep", "confirm mutation persistence in a fresh browser context", false)
   .option("--trace", "capture a Playwright trace for every executed action", false)
@@ -177,6 +178,7 @@ program
       video: Boolean(values.video),
       environmentTimeoutMs: Number(values.environmentTimeout),
       acceptEnvironmentRisk: Boolean(values.acceptEnvironmentRisk),
+      allowIframes: Boolean(values.allowIframe),
       ...(values.healthEndpoint || profile?.healthEndpoint
         ? { healthEndpoint: String(values.healthEndpoint ?? profile?.healthEndpoint) }
         : {}),
