@@ -17,6 +17,10 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 - Explicit `MEMORY_ONLY`, `TAB_PERSISTENT`, `SESSION_PERSISTENT`, `BROWSER_LOCAL`, `BACKEND_PERSISTENT`, `SOURCE_OF_TRUTH_CONFIRMED` and `CROSS_USER_CONFIRMED` scope evidence across scans and contracts.
 - RD103–RD105, RD204–RD205 and RD304–RD305 with intentionally broken fixtures, correct controls and browser benchmark expectations.
 - Versioned contract persistence strategies for reload, hard reload, new tab, clean context and logout/login rehydration.
+- Browser-observable RD401–RD405 mock/demo detectors, RD501–RD505 authentication detectors, RD701–RD705 upload/export detectors and RD801–RD805 payment/provider-integrity detectors with broken/control fixtures.
+- Level 7 authorization contract probes for UI-only permissions, cross-tenant read/write, revoked roles and exposed admin routes (RD601–RD605).
+- First-class behavioral-diff outcomes and evidence-specific RD901–RD905 regression codes for removed actions, persistence/API regressions and performance-budget failures.
+- Bounded upload canary evidence and downloaded-content filename/type/size/hash/completeness evidence without storing raw file bodies.
 
 ### Changed
 
@@ -25,6 +29,7 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 - Executor evidence separates field preparation from the user action, scopes network observations before persistence reloads, waits for bounded network idle, and avoids stale post-navigation locator waits.
 - Complex upload, canvas, rich-text and drag/drop actions are surfaced as recorded-flow requirements instead of guessed automatic interactions.
 - Multi-field mutations use independent canary values, and successful POST/PUT/PATCH requests are read back through a bounded same-context API request before verdict resolution.
+- Password-bearing forms are classified as authentication before generic email/external heuristics, and successful sessions are verified from persisted auth artifacts rather than requiring credentials to reappear in the UI.
 
 ## [1.2.0] - 2026-07-22
 

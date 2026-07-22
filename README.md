@@ -97,6 +97,8 @@ realdone replay RD-014 --report-dir .realdone/reports/<scan-id>
 | `NO_EFFECT` | No DOM, URL, network, storage, dialog, or download effect was observed. |
 | `UNCERTAIN` | Something happened, but the available evidence cannot prove the intended behavior. |
 | `SKIPPED` | Safety policy, credentials, scan budget, or unsupported input prevented execution. |
+| `EXPECTED_CHANGE` | A versioned behavior contract changed and the new behavior passes. |
+| `REGRESSION` | Previously passing behavior unexpectedly fails or disappears. |
 
 Environment validity is reported separately as `VALID`, `ENVIRONMENT_INVALID`, or `BLOCKED`. RD1001–RD1005 findings never enter application-defect precision/recall.
 
@@ -132,6 +134,8 @@ Environment validity is reported separately as `VALID`, `ENVIRONMENT_INVALID`, o
 - `RD1005` misconfigured auth state
 
 RealDone deliberately prefers a small number of reproducible findings over a large number of guesses.
+
+The complete catalog also includes RD401–RD405 mock/demo behavior, RD501–RD505 authentication, RD601–RD605 authorization, RD701–RD705 file/export, RD801–RD805 payment/provider integrity, RD901–RD905 regression, and RD1001–RD1005 environment validity. [`PRODUCT_SPECIFICATION.md`](docs/PRODUCT_SPECIFICATION.md) defines each detector; every implemented detector is release-gated by observable broken/control evidence.
 
 ## CLI
 

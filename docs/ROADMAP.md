@@ -76,6 +76,8 @@ Gate:
 - File/export/payment/provider findings require content or provider proof rather than UI claims.
 - Expected changes and regressions are first-class verdict/report outcomes.
 
+Implementation and local acceptance are complete. The browser detector lab gates RD401–RD505 and RD701–RD805 with correct controls, upload/download content evidence and zero false positives; contract verification gates the RD601–RD605 Level 7 authorization matrix; behavioral diff emits RD901–RD905 and first-class expected/regression outcomes. Actual Budget and the intentional TodoMVC defect copy show no Phase D regression. Phase completion remains contingent on the hosted Ubuntu/Windows/macOS matrix for the pushed current head.
+
 ## Phase E — behavior contracts, replay and report completeness
 
 Mapped specification: §19–21, §26.

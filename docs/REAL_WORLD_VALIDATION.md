@@ -81,6 +81,8 @@ After Phase B expanded discovery/execution, both external controls were rerun: A
 
 After Phase C added hard reload, new-tab, API read-back, semantic snapshot and persistence-scope evidence, both applications were run again from their pinned builds. Actual Budget again produced 6 `VERIFIED`, 1 history-dependent `UNCERTAIN`, 3 policy `SKIPPED`, a `VALID` environment and zero application-defect verdicts. The TodoMVC defect copy produced the planted memory-only create, fake update/delete and no-effect findings, zero `BROKEN` findings, and kept all four static-root content-type failures in `ENVIRONMENT_INVALID` evidence.
 
+After Phase D introduced mock/auth/file/payment and authorization detectors, both external controls were run again. Actual Budget remained unchanged at 6 `VERIFIED`, 1 `UNCERTAIN`, 3 `SKIPPED`, `VALID`, with no application defect. TodoMVC retained only the planted two contradictory mutations, one memory-only create and one no-effect action; its four invalid static-root findings remained environment-only and no new `BROKEN` verdict appeared.
+
 ## Product changes driven by this run
 
 The first scan exposed that RealDone only treated forms, links, and buttons as actions. TodoMVC creates an item through a standalone input's Enter key, so RealDone initially missed the primary behavior. The runtime now:

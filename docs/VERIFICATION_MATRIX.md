@@ -14,6 +14,8 @@ This is the matrix for the currently shipped subset. The normative complete scop
 | Dynamic and complex actions | Hover/lazy scroll, native controls, context menu, popup, download and opt-in same-origin iframe execute; upload/canvas/rich-text/drag require recording | browser benchmark fixtures and deterministic RD008 boundaries |
 | Browser-local scope | Canary survives reload but disappears in a fresh context, producing `BROWSER_LOCAL` + `RD102` | deep localStorage fixture and CLI smoke |
 | Snapshot and persistence scopes | Redacted semantic controls/cookies, IndexedDB stores, WebSocket frames, hard reload, new tab, session, API read-back and managed restart are recorded without raw values | browser smoke plus deterministic seven-scope tests |
+| Mock/auth/file/payment detectors | RD401–RD505 and RD701–RD805 use browser-visible state, auth metadata, upload canaries, bounded download digests and write/provider evidence | Phase D broken/control browser lab with 100% benchmark gates |
+| Authorization matrix | RD601–RD605 probe UI visibility, direct API/routes, cross-tenant read/write and revoked roles in isolated role contexts | broken and denied-control Level 7 contracts |
 | Evidence reports | HTML, scan/summary/finding/environment JSON, screenshots, network logs, cleanup ledger, reproductions | artifact existence checks in browser smoke |
 | Trace and video | Portable Playwright trace ZIP and browser video linked from reports | opt-in CLI and contract smoke |
 | Replay and cleanup | Finding reproduces with the same verdict; cleanup supports dry-run and confirmed idempotent execution | benchmark replay sample and cleanup smoke |
@@ -21,6 +23,7 @@ This is the matrix for the currently shipped subset. The normative complete scop
 | Recorded verification | Semantic steps and request/status/text/persistence assertions run deterministically | contract browser smoke |
 | Deep contract persistence | Versioned reload, hard-reload, new-tab, clean-context and logout/login rehydration strategies pass; provider/source and cross-role checks emit Level 6/7 scopes | deep contract smoke |
 | Baseline and regression CI | Green baseline passes; intentional server regression fails | green/red regression smoke |
+| Regression outcomes | Expected contract changes remain distinct from RD901–RD905 unexpected, removed, persistence, API and performance regressions | regression classifier unit tests plus browser baseline/red gate |
 | PostgreSQL Level 6 | Parameterized, allowlisted, read-only verification and guarded cleanup | PostgreSQL 17 hosted integration fixture |
 | Provider Level 6 | Trusted plugin observation is worker-bounded, validated, redacted, then judged by core | plugin unit and browser smoke |
 | Multi-role Level 7 | A distinct authenticated context independently observes the result | cross-role browser smoke |
