@@ -99,6 +99,15 @@ try {
 
   const cli = await run(process.execPath, [path.join(packageRoot, "dist", "cli.js"), "--version"]);
   assert.equal(cli.stdout.trim(), packageJson.version);
+  const npmCli = await run(npmCommand, [
+    ...npmArguments,
+    "exec",
+    "--offline",
+    "--",
+    "realdone",
+    "--version",
+  ]);
+  assert.equal(npmCli.stdout.trim(), packageJson.version, "the installed npm bin must execute through npm exec/npx");
   const mcpClient = new Client({ name: "realdone-package-smoke", version: "1.0.0" });
   const mcpTransport = new StdioClientTransport({
     command: process.execPath,

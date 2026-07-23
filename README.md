@@ -1,16 +1,26 @@
 # RealDone
 
+![RealDone — Your app looks done. Prove it works.](.github/assets/realdone-hero.svg)
+
 **Prove that a web app works — in a real browser, with real evidence.**
 
 [![CI](https://github.com/datzle123/RealDone/actions/workflows/ci.yml/badge.svg)](https://github.com/datzle123/RealDone/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/realdone.svg)](https://www.npmjs.com/package/realdone)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Node 20 & 22](https://img.shields.io/badge/node-20%20%7C%2022-43853d.svg)](docs/COMPATIBILITY.md)
 
-RealDone opens your app in Chromium, Firefox, or WebKit, finds what a user can do, performs safe actions, reloads the app, and checks the actual result.
+**RealDone answers one question: does the feature a user can see actually work?**
 
-It does **not** score visual design. It does **not** call a feature complete because the source contains a button, TODO, mock response, or success toast.
+It opens your app in a real browser, discovers visible actions, performs the safe ones, reloads or reads back the result, and saves evidence that can be replayed.
 
-Typical findings: a dead button, a false success message, data that disappears after reload, unauthorized access, or a broken upload.
+It does **not** score visual design or trust a button, TODO, mock response, HTTP `200`, success toast, or coding-agent claim by itself.
+
+| The app appears to… | RealDone checks… |
+| --- | --- |
+| save a record | whether it survives reload or exists in the source of truth |
+| enforce a role | whether another role, direct route, and API are actually denied |
+| upload or export | whether real non-empty bytes were transferred |
+| complete an AI coding task | whether existing behavior regressed after the change |
 
 ```text
 Open app → find actions → perform action → observe network/UI/storage
@@ -19,24 +29,20 @@ Open app → find actions → perform action → observe network/UI/storage
 
 ## Try it
 
-RealDone is currently installed from source; the npm package is not published yet.
+Run this inside any web project—no test files, account, AI, or cloud service required:
 
 ```bash
-git clone https://github.com/datzle123/RealDone.git
-cd RealDone
-corepack enable
-pnpm install
-pnpm build
+npx realdone scan
 ```
 
 Chromium is downloaded automatically on the first scan if it is missing.
 
 Before operating a project, the interactive CLI asks once whether it is disposable local/staging data; non-interactive automation must pass `--yes` explicitly. External and destructive actions still require their separate flags.
 
-Start the web app you want to check, then run:
+If the app is already running, pass its URL:
 
 ```bash
-pnpm realdone scan http://localhost:3000
+npx realdone scan http://localhost:3000
 ```
 
 RealDone prints the path to a local HTML report:
@@ -48,7 +54,7 @@ RealDone prints the path to a local HTML report:
 ### 1. Scan an app
 
 ```bash
-pnpm realdone scan http://localhost:3000
+npx realdone scan
 ```
 
 Best for a quick first check. Default mode uses one Chromium worker, safe actions only, no AI, no account, and no database credential.
@@ -56,8 +62,8 @@ Best for a quick first check. Default mode uses one Chromium worker, safe action
 ### 2. Record and verify an important flow
 
 ```bash
-pnpm realdone record http://localhost:3000 --name "Create customer"
-pnpm realdone verify .realdone/flows/create-customer.json
+npx realdone record http://localhost:3000 --name "Create customer"
+npx realdone verify .realdone/flows/create-customer.json
 ```
 
 Use this for login, checkout, CRUD, upload, export, or multi-step flows. The recorder stores semantic locators and masked rrweb evidence; deterministic verification uses the versioned RealDone contract.
@@ -65,7 +71,7 @@ Use this for login, checkout, CRUD, upload, export, or multi-step flows. The rec
 ### 3. Let a coding agent call RealDone
 
 ```bash
-pnpm realdone mcp --project ../my-app --allow-project-actions
+npx realdone mcp --project ../my-app --allow-project-actions
 ```
 
 The local MCP server lets Codex, Claude, or another AI call scan, baseline, verify-change, replay, and report tools directly. `--allow-project-actions` is the user's one-time consent for that MCP project session; it does not enable external or destructive actions. RealDone still decides pass/fail from independent browser evidence. See [MCP integration](docs/MCP.md).
@@ -97,11 +103,12 @@ Review policies before testing any environment with real users or money.
 
 ## Current status
 
-RealDone `v1.3.0` meets the full normative product specification with executable evidence.
+RealDone `v1.3.1` meets the full normative product specification with executable evidence.
 
-- Current fingerprint `1f88dd858…` passed all 15 normative gates on Windows, macOS, and Linux in [run 29958126604](https://github.com/datzle123/RealDone/actions/runs/29958126604).
+- Current fingerprint `1f88dd858…` passed all 15 normative gates on Windows, macOS, and Linux in [the final v1.3.0 run](https://github.com/datzle123/RealDone/actions/runs/29958920559).
 - All 22 normative product areas and all 58 detector classes are `IMPLEMENTED` and executable-gated.
 - GitHub signed the hosted release evidence; the authenticated Codex regression/repair cycle and all nine external capability classes are SHA-256-bound and validator-parsed.
+- [`realdone`](https://www.npmjs.com/package/realdone) is published on npm and the registry-installed `npx realdone scan` path is smoke-verified.
 
 [`PRODUCT_STATUS.md`](docs/PRODUCT_STATUS.md) is the only area-completeness ledger. [`PRODUCT_SPECIFICATION.md`](docs/PRODUCT_SPECIFICATION.md) is the full source of truth. A completed roadmap phase is not the same as a completed full product.
 

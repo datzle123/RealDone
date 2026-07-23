@@ -4,6 +4,13 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 
 ## [Unreleased]
 
+## [1.3.1] - 2026-07-23
+
+### Changed
+
+- Published the one-command npm experience, promoted `npx realdone scan` to the primary quick start, and added a clean external-consumer registry smoke check.
+- Reworked the GitHub opening so the problem, verification model, safety boundary, and first command are understandable within 30 seconds.
+
 ## [1.3.0] - 2026-07-23
 
 ### Added

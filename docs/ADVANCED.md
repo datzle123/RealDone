@@ -2,6 +2,8 @@
 
 Advanced features are opt-in. Default `scan` remains one Chromium worker with no database, provider, plugin, extra role, video, or AI requirement.
 
+The examples use the installed `realdone` binary. Without a global install, prefix them with `npx`, for example `npx realdone scan`.
+
 From a discoverable project root, the shortest form starts the app, finds its local URL, scans it, and stops the managed runtime:
 
 ```bash

@@ -47,7 +47,7 @@ claude mcp get realdone
 
 The local server uses stdio and writes protocol messages only to stdout. Operational logs go to stderr.
 
-## After the npm release
+## npm package
 
 The intended one-command MCP configuration is:
 
@@ -56,7 +56,7 @@ codex mcp add realdone -- npx -y realdone mcp --allow-project-actions
 claude mcp add --transport stdio --scope project realdone -- npx -y realdone mcp --allow-project-actions
 ```
 
-Do not use these npm commands until the package is published. Run the server in the web project's root, or pass `--project`. Claude Code's `CLAUDE_PROJECT_DIR` is also honored automatically.
+The package is published at [`realdone`](https://www.npmjs.com/package/realdone). Run the server in the web project's root, or pass `--project`. Claude Code's `CLAUDE_PROJECT_DIR` is also honored automatically.
 
 ## Agent workflow
 

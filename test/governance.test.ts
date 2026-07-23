@@ -54,10 +54,11 @@ test("normative product truth is linked, consistent, and shipped", async () => {
   }
   assert.ok(readme.split(/\r?\n/).length <= 180, "GitHub README must stay scannable in under 180 lines");
   const readmeOpening = readme.split(/\r?\n/).slice(0, 45).join("\n");
-  for (const message of ["Prove that a web app works", "## Try it", "pnpm realdone scan", "does **not** score visual design"]) {
+  for (const message of ["Prove that a web app works", "## Try it", "npx realdone scan", "does **not** score visual design"]) {
     assert.ok(readmeOpening.includes(message), `README opening is missing: ${message}`);
   }
-  assert.doesNotMatch(readme, /npx realdone/, "README must not advertise npm installation before the package is published");
+  assert.doesNotMatch(readmeOpening, /git clone|installed from source|not published/i, "README opening must keep the npm quick start truthful and one-command");
+  assert.match(readme, /npmjs\.com\/package\/realdone/);
 
   const packageJson = JSON.parse(packageText) as { files?: string[]; scripts?: Record<string, string> };
   assert.equal(packageJson.scripts?.realdone, "node dist/cli.js");
