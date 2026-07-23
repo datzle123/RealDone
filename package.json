@@ -1,7 +1,7 @@
 {
   "name": "realdone",
-  "version": "1.3.1",
-  "description": "Behavioral verification for AI-built web applications",
+  "version": "1.3.2",
+  "description": "Behavioral verification for web applications in real browsers",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -44,7 +44,9 @@
     "behavioral-testing",
     "verification",
     "cli",
-    "ai-generated-code"
+    "ai-generated-code",
+    "mcp",
+    "quality-assurance"
   ],
   "license": "MIT",
   "repository": {

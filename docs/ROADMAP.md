@@ -119,3 +119,17 @@ Gate:
 - Every row in `PRODUCT_STATUS.md` is `IMPLEMENTED`; only then may RealDone be called a completed full product.
 
 Phase G is complete. The authenticated Codex baseline → selected RD901 regression → unchanged-contract repair cycle is validator-parsed, and fingerprint `1f88dd858…` binds current raw evidence across TodoMVC, Actual Budget, Conduit/SQLite, Conduit/PostgreSQL 17 + Supabase Data API, and Codex-generated Pocket Ledger. Hosted run [`29958126604`](https://github.com/datzle123/RealDone/actions/runs/29958126604) passed the Windows/macOS/Linux, Node 20/22, PostgreSQL 17, MongoDB 8, browser, package and all 15 normative gates; `gh attestation verify` confirmed GitHub-signed provenance for the aggregate.
+
+## Phase H — universal first-run runtime discovery (release candidate)
+
+Contributes evidence to: §4.1, §6, §31–32.
+
+Gate:
+
+- Node `dev`/`start` projects work without a lockfile or explicit package-manager metadata.
+- Metadata-free static HTML is served by a confined packaged runtime and scanned with one command.
+- Conventional Python, PHP, Ruby, .NET, Spring Boot, Deno, Go and Rust projects receive deterministic managed-runtime commands and ports without evaluating guessed source fragments.
+- The packed npm artifact starts, scans and cleans up a project through its installed CLI, not through repository source.
+- Custom runtimes fail with an actionable URL/Docker path; the public claim remains that every HTTP web app can use the verifier, not that every private build command can be guessed.
+
+Phase H implementation and local broken/control coverage are complete. The final local batch passed 129/129 executed tests, audit, browser smoke, packing, and installed-tarball scans of both a metadata-free static project and an npm project without lockfile/package-manager metadata; both managed runtimes were confirmed stopped. Phase completion still requires hosted Windows/macOS/Linux and all 15 normative release gates.

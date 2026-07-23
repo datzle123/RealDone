@@ -96,3 +96,28 @@ test("managed runtime health failures include bounded redacted startup diagnosti
     await rm(root, { recursive: true, force: true });
   }
 });
+
+test("managed runtime refuses to scan an unrelated process already using the detected port", { timeout: 10_000 }, async () => {
+  const root = await mkdtemp(path.join(tmpdir(), "realdone-runtime-occupied-"));
+  const server = createServer((_request, response) => {
+    response.writeHead(200, { "content-type": "text/plain" });
+    response.end("unrelated app");
+  });
+  await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
+  const address = server.address();
+  if (!address || typeof address === "string") throw new Error("Could not bind occupied-port control.");
+  const manager = new RuntimeManager({
+    cwd: root,
+    command: { executable: process.execPath, args: ["-e", "process.exit(0)"], source: "must not start" },
+    healthUrl: `http://127.0.0.1:${address.port}/health`,
+    healthTimeoutMs: 2_000,
+    restartLimit: 0,
+  });
+  try {
+    await assert.rejects(() => manager.start(), /already in use.*pass its URL/i);
+    assert.equal(manager.snapshot().state, "idle");
+  } finally {
+    await new Promise<void>((resolve, reject) => server.close((error) => error ? reject(error) : resolve()));
+    await rm(root, { recursive: true, force: true });
+  }
+});

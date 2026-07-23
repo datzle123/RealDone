@@ -1,4 +1,5 @@
 import { appendFile, mkdir } from "node:fs/promises";
+import { createConnection } from "node:net";
 import path from "node:path";
 import crossSpawn from "cross-spawn";
 import type { ChildProcess } from "node:child_process";
@@ -30,6 +31,27 @@ export interface RuntimeSnapshot {
 
 function delay(milliseconds: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
+}
+
+async function localPortIsOccupied(value: string): Promise<boolean> {
+  const url = new URL(value);
+  if (!["127.0.0.1", "localhost", "::1", "[::1]"].includes(url.hostname)) return false;
+  const port = Number(url.port || (url.protocol === "https:" ? 443 : 80));
+  if (!Number.isInteger(port) || port < 1 || port > 65_535) return false;
+  const host = url.hostname === "[::1]" ? "::1" : url.hostname;
+  return new Promise((resolve) => {
+    const socket = createConnection({ host, port });
+    let settled = false;
+    const finish = (occupied: boolean) => {
+      if (settled) return;
+      settled = true;
+      socket.destroy();
+      resolve(occupied);
+    };
+    socket.setTimeout(500, () => finish(false));
+    socket.once("connect", () => finish(true));
+    socket.once("error", () => finish(false));
+  });
 }
 
 function commandText(command: RuntimeCommand): string {
@@ -149,6 +171,13 @@ export class RuntimeManager {
   async start(): Promise<RuntimeSnapshot> {
     if (!["idle", "stopped"].includes(this.#snapshot.state)) {
       throw new Error(`Managed runtime cannot start from state ${this.#snapshot.state}.`);
+    }
+    if (await localPortIsOccupied(this.options.healthUrl)) {
+      const endpoint = new URL(this.options.healthUrl);
+      throw new Error(
+        `Managed runtime refused to start because ${endpoint.hostname}:${endpoint.port || (endpoint.protocol === "https:" ? "443" : "80")} is already in use. `
+        + "To scan the existing app, pass its URL without --manage-runtime; otherwise stop it or configure a different project port.",
+      );
     }
     this.#stopping = false;
     this.#snapshot.state = "starting";

@@ -203,8 +203,14 @@ test("rejects source scan paths outside the repository before trusting their dig
 test("engine fingerprints ignore release plumbing but change with product behavior", async () => {
   const root = await mkdtemp(path.join(os.tmpdir(), "realdone-engine-fingerprint-"));
   await mkdir(path.join(root, "src", "browser"), { recursive: true });
+  await mkdir(path.join(root, "src", "project"), { recursive: true });
+  await mkdir(path.join(root, "src", "runtime"), { recursive: true });
+  await mkdir(path.join(root, "src", "application"), { recursive: true });
   await mkdir(path.join(root, "src", "release"), { recursive: true });
   await writeFile(path.join(root, "src", "browser", "engine.ts"), "export const behavior = 1;\n");
+  await writeFile(path.join(root, "src", "project", "discovery.ts"), "export const discovery = 1;\n");
+  await writeFile(path.join(root, "src", "runtime", "manager.ts"), "export const runtime = 1;\n");
+  await writeFile(path.join(root, "src", "application", "managed-scan.ts"), "export const managed = 1;\n");
   await writeFile(path.join(root, "src", "release", "gates.ts"), "export const gate = 1;\n");
   await writeFile(path.join(root, "src", "version.ts"), 'export const VERSION = "1.2.0";\n');
   await writeFile(path.join(root, "pnpm-lock.yaml"), "lockfileVersion: '9.0'\n");
@@ -212,6 +218,10 @@ test("engine fingerprints ignore release plumbing but change with product behavi
   await writeFile(path.join(root, "src", "release", "gates.ts"), "export const gate = 2;\n");
   assert.equal(await calculateReleaseEngineFingerprint(root), first);
   await writeFile(path.join(root, "src", "version.ts"), 'export const VERSION = "1.3.0";\n');
+  assert.equal(await calculateReleaseEngineFingerprint(root), first);
+  await writeFile(path.join(root, "src", "project", "discovery.ts"), "export const discovery = 2;\n");
+  await writeFile(path.join(root, "src", "runtime", "manager.ts"), "export const runtime = 2;\n");
+  await writeFile(path.join(root, "src", "application", "managed-scan.ts"), "export const managed = 2;\n");
   assert.equal(await calculateReleaseEngineFingerprint(root), first);
   await writeFile(path.join(root, "src", "browser", "engine.ts"), "export const behavior = 2;\n");
   assert.notEqual(await calculateReleaseEngineFingerprint(root), first);

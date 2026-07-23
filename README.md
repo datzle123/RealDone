@@ -35,6 +35,8 @@ Run this inside any web project—no test files, account, AI, or cloud service r
 npx realdone scan
 ```
 
+RealDone automatically manages Node projects (including projects without a lockfile), static HTML, Django, FastAPI, Flask, Laravel, Rails, ASP.NET Core, Spring Boot, Deno, Go, Rust, and Composer-based PHP conventions. For a custom runtime or an app that is already running, pass its HTTP URL—the browser verifier itself is language- and framework-independent.
+
 Chromium is downloaded automatically on the first scan if it is missing.
 
 Before operating a project, the interactive CLI asks once whether it is disposable local/staging data; non-interactive automation must pass `--yes` explicitly. External and destructive actions still require their separate flags.
@@ -103,7 +105,7 @@ Review policies before testing any environment with real users or money.
 
 ## Current status
 
-RealDone `v1.3.1` meets the full normative product specification with executable evidence.
+RealDone `v1.3.1` is the current published release and meets the full normative product specification with executable evidence. The `v1.3.2` universal first-run candidate on `main` is not a release until its hosted cross-platform gates pass.
 
 - Current fingerprint `1f88dd858…` passed all 15 normative gates on Windows, macOS, and Linux in [the final v1.3.0 run](https://github.com/datzle123/RealDone/actions/runs/29958920559).
 - All 22 normative product areas and all 58 detector classes are `IMPLEMENTED` and executable-gated.

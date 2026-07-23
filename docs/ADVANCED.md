@@ -10,7 +10,7 @@ From a discoverable project root, the shortest form starts the app, finds its lo
 realdone scan
 ```
 
-Pass a URL when the application is already running or automatic project discovery is unavailable.
+Zero-config managed discovery covers Node `dev`/`start` scripts even without package-manager metadata, static HTML, Django, FastAPI, Flask, Laravel, Rails, ASP.NET Core, Spring Boot through Maven/Gradle wrappers, Deno tasks, Go, Rust and Composer-based PHP scripts. The detector uses explicit files/scripts and conventional local ports; it does not execute guessed source fragments. Pass a URL when the application is already running or uses a custom runtime. Once a web app is reachable over HTTP, browser verification is language- and framework-independent.
 
 Before any interactive CLI command that autonomously operates browser actions begins, RealDone asks once for project-level action consent and warns that an ordinary app handler may hide an email, payment, webhook, or other provider effect. This covers `scan`, `verify`, `benchmark`, verified `baseline`, `ci`, `matrix`, coding-agent `run`, and `replay`; human-driven `record` and dry metadata-only operations do not need it. Answering yes authorizes the permitted actions only for that command. Non-interactive CLI use must pass `--yes`; without it RealDone exits before starting the runtime or browser. `--allow-external`, `--allow-destructive`, and production-like `--allow-host` checks remain separate.
 

@@ -44,7 +44,7 @@ Replaying the React finding reproduced the same `EPHEMERAL` verdict and the same
 
 ## Current-engine release-gate rerun
 
-The Phase G rerun binds each compact evidence document to both the raw `scan.json` SHA-256 and a fingerprint of the current RealDone execution engine. Any behavior-code change makes the checked-in case evidence stale and fails aggregation.
+The Phase G rerun binds each compact evidence document to both the raw `scan.json` SHA-256 and a fingerprint of the current RealDone browser-verification engine. Changes to discovery, managed runtime startup, packaging, release plumbing, or version metadata are instead qualified by the installed-package and hosted cross-platform gates; changes to browser discovery, execution, observation, safety, detectors, contracts, persistence verification, or reports make the checked-in case evidence stale and fail aggregation.
 
 | Pinned application | Environment | Observable result | Severe RealDone regressions |
 | --- | --- | --- | --- |

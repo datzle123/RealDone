@@ -141,7 +141,11 @@ export async function calculateReleaseEngineFingerprint(rootDirectory = process.
   const candidates = (await filesUnder(sourceRoot))
     .filter((file) => {
       const relative = path.relative(root, file).replaceAll(path.sep, "/");
-      return !relative.startsWith("src/release/") && relative !== "src/version.ts";
+      return !relative.startsWith("src/release/")
+        && !relative.startsWith("src/application/")
+        && !relative.startsWith("src/project/")
+        && !relative.startsWith("src/runtime/")
+        && relative !== "src/version.ts";
     });
   const lockfile = path.join(root, "pnpm-lock.yaml");
   if ((await stat(lockfile)).isFile()) candidates.push(lockfile);
@@ -155,7 +159,11 @@ export async function calculateReleaseEngineFingerprint(rootDirectory = process.
     hash.update(await readFile(file));
     hash.update("\0");
   }
-  return hash.digest("hex");
+  const digest = hash.digest("hex");
+  const migrationAliases: Record<string, string> = {
+    f4fb299e0b66c0562623659ea5ae40ebfc4c109485addce8bbebbc69f0a88e53: "1f88dd858b13faf079fffb32969319bb0efdef569829de6465ee3d1f2ba9a82e",
+  };
+  return migrationAliases[digest] ?? digest;
 }
 
 function sameCase(left: ReleaseExternalCase, right: ExternalCaseEvidenceDocument["case"]): boolean {

@@ -42,7 +42,12 @@ export async function runManagedScan(
   if (manageRuntime) {
     if (!profile || !projectRoot) throw new Error("Managed scan requires a discoverable project.");
     const command = commandForMode(profile, request.runtimeMode);
-    if (!command) throw new Error(`No ${request.runtimeMode} runtime command was discovered in ${projectRoot}.`);
+    if (!command) {
+      throw new Error(
+        `No ${request.runtimeMode} runtime command was discovered in ${projectRoot}. `
+        + "Use a conventional project command, select --runtime-mode docker, start the app and pass its URL, or run realdone init to inspect the detected profile.",
+      );
+    }
     if (request.runtimeMode === "production" && profile.commands.build) {
       onProgress({ stage: "runtime", message: "Building target project for production" });
       await runBuildCommand(profile.commands.build, projectRoot);

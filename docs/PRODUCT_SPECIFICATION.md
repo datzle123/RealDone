@@ -335,6 +335,8 @@ RealDone phải có khả năng phát hiện:
 * test framework;
 * environment.
 
+Managed discovery mặc định phải hỗ trợ project Node kể cả khi chưa có lockfile hoặc trường `packageManager`, static HTML, và convention phổ biến của Python, PHP, Ruby, .NET, Java, Deno, Go và Rust. Detection phải dựa trên file/script rõ ràng; không được chạy source fragment do heuristic tự đoán. Với runtime tùy biến, URL của app đã chạy là universal boundary: mọi web app truy cập được qua HTTP phải dùng được toàn bộ browser verifier mà không phụ thuộc ngôn ngữ hoặc framework.
+
 Ví dụ:
 
 ```bash

@@ -1,5 +1,7 @@
-import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
+import { access, mkdir, readFile, readdir, writeFile } from "node:fs/promises";
+import { createServer } from "node:net";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 export interface RuntimeCommand {
   executable: string;
@@ -38,12 +40,16 @@ interface PackageJson {
   devDependencies?: Record<string, string>;
 }
 
-const SKIP_DIRECTORIES = new Set([".git", ".next", ".nuxt", ".svelte-kit", "build", "coverage", "dist", "node_modules", "out"]);
+const SKIP_DIRECTORIES = new Set([
+  ".git", ".gradle", ".next", ".nuxt", ".svelte-kit", ".venv",
+  "build", "coverage", "dist", "node_modules", "out", "target", "venv",
+]);
 
 async function readPackage(root: string): Promise<PackageJson> {
   try {
     return JSON.parse(await readFile(path.join(root, "package.json"), "utf8")) as PackageJson;
   } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") return {};
     throw new Error(`No readable package.json was found in ${root}: ${error instanceof Error ? error.message : String(error)}`);
   }
 }
@@ -55,6 +61,7 @@ function packageManagerFrom(packageJson: PackageJson, files: Set<string>): Proje
   if (files.has("yarn.lock")) return "yarn";
   if (files.has("bun.lock") || files.has("bun.lockb")) return "bun";
   if (files.has("package-lock.json") || files.has("npm-shrinkwrap.json")) return "npm";
+  if (files.has("package.json")) return "npm";
   return "unknown";
 }
 
@@ -88,6 +95,232 @@ function detectFramework(dependencies: Record<string, string>): string {
     ["Express", ["express"]],
   ];
   return candidates.find(([, packages]) => packages.every((name) => dependencies[name]))?.[0] ?? "Unknown web framework";
+}
+
+interface RuntimeHint {
+  framework: string;
+  command: RuntimeCommand;
+  port: number;
+}
+
+function staticServerCommand(projectRoot: string, port: number): RuntimeCommand {
+  return {
+    executable: process.execPath,
+    args: [fileURLToPath(new URL("../runtime/static-server.js", import.meta.url)), "--root", projectRoot, "--port", String(port)],
+    source: "static index.html",
+  };
+}
+
+async function availableStaticPort(preferred = 4173): Promise<number> {
+  const bind = (port: number) => new Promise<number | undefined>((resolve) => {
+    const server = createServer();
+    let settled = false;
+    const finish = (value: number | undefined) => {
+      if (settled) return;
+      settled = true;
+      resolve(value);
+    };
+    server.unref();
+    server.once("error", () => finish(undefined));
+    server.listen({ host: "127.0.0.1", port, exclusive: true }, () => {
+      const address = server.address();
+      const selected = address && typeof address !== "string" ? address.port : undefined;
+      server.close(() => finish(selected));
+    });
+  });
+  return await bind(preferred) ?? await bind(0) ?? Promise.reject(new Error("No local port is available for the static project runtime."));
+}
+
+async function pythonExecutable(projectRoot: string): Promise<string> {
+  const relative = process.platform === "win32" ? "Scripts/python.exe" : "bin/python";
+  const environments = [process.env.VIRTUAL_ENV, path.join(projectRoot, ".venv"), path.join(projectRoot, "venv")]
+    .filter((value): value is string => Boolean(value));
+  for (const environment of environments) {
+    const candidate = path.join(environment, relative);
+    try {
+      await access(candidate);
+      return candidate;
+    } catch {
+      // Continue to the next conventional interpreter location.
+    }
+  }
+  return process.platform === "win32" ? "py" : "python3";
+}
+
+async function readSourceHint(projectRoot: string, file: string): Promise<string> {
+  try {
+    return (await readFile(path.join(projectRoot, file), "utf8")).slice(0, 1_000_000);
+  } catch {
+    return "";
+  }
+}
+
+function portFromText(text: string, fallback: number): number {
+  const match = text.match(/(?:--port(?:=|\s+)|\bPORT\s*=\s*|:\s*)(\d{2,5})/i);
+  return match?.[1] ? Number(match[1]) : fallback;
+}
+
+async function detectConventionalRuntime(projectRoot: string, files: Set<string>): Promise<RuntimeHint | undefined> {
+  if (files.has("manage.py")) {
+    const python = await pythonExecutable(projectRoot);
+    return {
+      framework: "Django",
+      command: {
+        executable: python,
+        args: ["manage.py", "runserver", "127.0.0.1:8000", "--noreload"],
+        source: "manage.py",
+      },
+      port: 8000,
+    };
+  }
+
+  const pythonFile = files.has("main.py") ? "main.py" : files.has("app.py") ? "app.py" : undefined;
+  if (pythonFile) {
+    const source = await readSourceHint(projectRoot, pythonFile);
+    const moduleName = pythonFile.replace(/\.py$/, "");
+    if (/\bFastAPI\s*\(/.test(source) || /\bfrom\s+fastapi\b|\bimport\s+fastapi\b/.test(source)) {
+      const python = await pythonExecutable(projectRoot);
+      return {
+        framework: "FastAPI",
+        command: {
+          executable: python,
+          args: ["-m", "uvicorn", `${moduleName}:app`, "--host", "127.0.0.1", "--port", "8000"],
+          source: pythonFile,
+        },
+        port: 8000,
+      };
+    }
+    if (/\bFlask\s*\(/.test(source) || /\bfrom\s+flask\b|\bimport\s+flask\b/.test(source)) {
+      const python = await pythonExecutable(projectRoot);
+      return {
+        framework: "Flask",
+        command: {
+          executable: python,
+          args: ["-m", "flask", "--app", moduleName, "run", "--host", "127.0.0.1", "--port", "5000"],
+          source: pythonFile,
+        },
+        port: 5000,
+      };
+    }
+  }
+
+  if (files.has("artisan")) {
+    return {
+      framework: "Laravel",
+      command: {
+        executable: "php",
+        args: ["artisan", "serve", "--host=127.0.0.1", "--port=8000"],
+        source: "artisan",
+      },
+      port: 8000,
+    };
+  }
+
+  if (files.has("deno.json")) {
+    try {
+      const deno = JSON.parse(await readSourceHint(projectRoot, "deno.json")) as { tasks?: Record<string, string> };
+      const task = findScript(deno.tasks ?? {}, ["dev", "start", "serve"]);
+      if (task) {
+        return {
+          framework: "Deno web application",
+          command: { executable: "deno", args: ["task", task], source: `deno.json#tasks.${task}` },
+          port: portFromText(deno.tasks?.[task] ?? "", 8000),
+        };
+      }
+    } catch {
+      // A malformed deno.json is not used as a runtime hint; other conventions remain available.
+    }
+  }
+
+  if (files.has("bin/rails")) {
+    return {
+      framework: "Ruby on Rails",
+      command: {
+        executable: "ruby",
+        args: ["bin/rails", "server", "-b", "127.0.0.1", "-p", "3000"],
+        source: "bin/rails",
+      },
+      port: 3000,
+    };
+  }
+
+  const dotnetProject = [...files].filter((file) => !file.includes("/") && file.endsWith(".csproj")).sort()[0];
+  if (dotnetProject) {
+    return {
+      framework: "ASP.NET Core",
+      command: {
+        executable: "dotnet",
+        args: ["run", "--project", dotnetProject, "--urls", "http://127.0.0.1:5000"],
+        source: dotnetProject,
+      },
+      port: 5000,
+    };
+  }
+
+  if ((files.has("mvnw") || files.has("mvnw.cmd")) && files.has("pom.xml")) {
+    return {
+      framework: "Spring Boot",
+      command: {
+        executable: path.join(projectRoot, process.platform === "win32" && files.has("mvnw.cmd") ? "mvnw.cmd" : "mvnw"),
+        args: ["spring-boot:run"],
+        source: "Maven wrapper",
+      },
+      port: 8080,
+    };
+  }
+
+  if ((files.has("gradlew") || files.has("gradlew.bat")) && (files.has("build.gradle") || files.has("build.gradle.kts"))) {
+    return {
+      framework: "Spring Boot",
+      command: {
+        executable: path.join(projectRoot, process.platform === "win32" && files.has("gradlew.bat") ? "gradlew.bat" : "gradlew"),
+        args: ["bootRun"],
+        source: "Gradle wrapper",
+      },
+      port: 8080,
+    };
+  }
+
+  if (files.has("go.mod")) {
+    return {
+      framework: "Go web application",
+      command: { executable: "go", args: ["run", "."], source: "go.mod" },
+      port: 8080,
+    };
+  }
+
+  if (files.has("Cargo.toml")) {
+    const cargo = await readSourceHint(projectRoot, "Cargo.toml");
+    const port = /\brocket\b/i.test(cargo) ? 8000 : /\bactix-web\b/i.test(cargo) ? 8080 : 3000;
+    return {
+      framework: /\brocket\b/i.test(cargo) ? "Rocket" : /\bactix-web\b/i.test(cargo) ? "Actix Web" : /\baxum\b/i.test(cargo) ? "Axum" : "Rust web application",
+      command: { executable: "cargo", args: ["run"], source: "Cargo.toml" },
+      port,
+    };
+  }
+
+  if (files.has("composer.json")) {
+    try {
+      const composer = JSON.parse(await readSourceHint(projectRoot, "composer.json")) as { scripts?: Record<string, string | string[]> };
+      const scripts = Object.fromEntries(Object.entries(composer.scripts ?? {}).map(([name, value]) => [name, Array.isArray(value) ? value.join(" ") : value]));
+      const script = findScript(scripts, ["dev", "start", "serve"]);
+      if (script) {
+        return {
+          framework: "PHP web application",
+          command: { executable: "composer", args: ["run-script", script], source: `composer.json#scripts.${script}` },
+          port: portFromText(scripts[script] ?? "", 8000),
+        };
+      }
+    } catch {
+      // A malformed composer.json is ignored as a hint and reported by the selected runtime if used directly.
+    }
+  }
+
+  if (files.has("index.html")) {
+    const port = await availableStaticPort();
+    return { framework: "Static HTML", command: staticServerCommand(projectRoot, port), port };
+  }
+  return undefined;
 }
 
 function detectPort(scriptGroups: Array<Record<string, string>>, framework: string): number {
@@ -135,6 +368,10 @@ async function collectFiles(root: string, limit = 2_000): Promise<string[]> {
 }
 
 function routeFromFile(file: string): string | undefined {
+  if (file.endsWith(".html")) {
+    const route = `/${file.replace(/\.html$/, "")}`.replace(/\/index$/, "").replace(/\/+$/, "");
+    return route || "/";
+  }
   const normalized = file.replace(/\.(?:[cm]?[jt]sx?|vue|svelte)$/, "");
   const app = normalized.match(/(?:^|\/)app\/(.+)\/(?:page|route)$/);
   const page = normalized.match(/(?:^|\/)pages\/(.+)$/);
@@ -180,13 +417,18 @@ export async function discoverProject(directory = process.cwd()): Promise<Projec
     ...workspacePackages.flatMap((value) => [value.dependencies ?? {}, value.devDependencies ?? {}]),
   ) as Record<string, string>;
   const framework = detectFramework(dependencies);
-  const port = detectPort([scripts, ...workspacePackages.map((value) => value.scripts ?? {})], framework);
+  const fileSet = new Set(files);
+  const conventionalRuntime = await detectConventionalRuntime(projectRoot, fileSet);
+  const detectedFramework = framework === "Unknown web framework" ? conventionalRuntime?.framework ?? framework : framework;
   const developmentScript = findScript(scripts, ["dev", "start:dev", "start"]);
   const productionScript = findScript(scripts, ["start", "preview", "serve"]);
   const buildScript = findScript(scripts, ["build", "build:production"]);
-  const developmentCommand = developmentScript ? scriptCommand(packageManager, developmentScript) : undefined;
+  const developmentCommand = developmentScript ? scriptCommand(packageManager, developmentScript) : conventionalRuntime?.command;
   const productionCommand = productionScript ? scriptCommand(packageManager, productionScript) : undefined;
   const buildCommand = buildScript ? scriptCommand(packageManager, buildScript) : undefined;
+  const port = developmentScript
+    ? detectPort([scripts, ...workspacePackages.map((value) => value.scripts ?? {})], detectedFramework)
+    : conventionalRuntime?.port ?? detectPort([scripts, ...workspacePackages.map((value) => value.scripts ?? {})], detectedFramework);
   const routes = [...new Set(files.map(routeFromFile).filter((route): route is string => Boolean(route)))].sort().slice(0, 200);
   const environmentFiles = files.filter((file) => /^\.env(?:\.[\w-]+)?(?:\.example|\.sample)?$/.test(file)).sort();
   const databaseFiles = files.filter((file) => /(?:^|\/)[^/]+\.(?:db|sqlite|sqlite3)$/i.test(file)).sort().slice(0, 100);
@@ -197,7 +439,7 @@ export async function discoverProject(directory = process.cwd()): Promise<Projec
     schemaVersion: "1.0",
     projectRoot,
     discoveredAt: new Date().toISOString(),
-    framework,
+    framework: detectedFramework,
     packageManager,
     commands: {
       ...(developmentCommand ? { development: developmentCommand } : {}),
