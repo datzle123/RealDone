@@ -66,7 +66,7 @@ The first current-engine Conduit rerun exposed an RD501 false positive: the publ
 
 The 2026-07-23 Actual Budget rerun then exposed a safety regression: its server target is a text input with an `https://example.com` placeholder rather than `type="url"`. RealDone initially filled a canary and clicked Connect, producing a DNS failure. URL-bearing placeholders now retain external-target classification; the rerun returned to 6 `VERIFIED`, 1 safe `UNCERTAIN`, 3 policy `SKIPPED`, and zero defects.
 
-Machine-readable release inputs are in `release/external-cases.json` and `release/evidence/`. Hosted run [`29958126604`](https://github.com/datzle123/RealDone/actions/runs/29958126604) passed Windows/macOS/Linux and all 15 gates; GitHub signed the merged release JSON, and `gh attestation verify` confirmed its source commit `7c44cddd8ef583f1cd6a751935e4c2a2359ff6c8`.
+Machine-readable release inputs are in `release/external-cases.json` and `release/evidence/`. Hosted run [`29977292441`](https://github.com/datzle123/RealDone/actions/runs/29977292441) revalidated them with the v1.3.2 installed-package path across Windows/macOS/Linux and all 15 gates; GitHub signed the merged release JSON, and `gh attestation verify` confirmed its source commit `ab902acdfb95463c82a7c842f5b497a68d8c325a`.
 
 ### Actual Budget original application
 

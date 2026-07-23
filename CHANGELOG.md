@@ -11,6 +11,10 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 - Added zero-config managed runtime discovery for static HTML and conventional Django, FastAPI, Flask, Laravel, Rails, ASP.NET Core, Spring Boot, Deno, Go, Rust and Composer-based PHP projects.
 - Added a packaged static server and real installed-tarball first-scan gates for both metadata-free static HTML and npm projects without lockfile/package-manager metadata; each gate starts, scans and cleans up the target through the installed CLI.
 
+### Changed
+
+- External-case fingerprints now cover browser-verification behavior rather than project discovery, managed runtime startup, release plumbing, or version metadata. Those distribution paths are independently gated by installed-package smoke and hosted Windows/macOS/Linux runs, so startup improvements do not invalidate unchanged browser evidence.
+
 ### Fixed
 
 - Node projects with `dev` or `start` scripts now fall back to npm when neither a lockfile nor `packageManager` field exists.
@@ -35,7 +39,7 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 - Fail-closed affected-flow selection: a non-empty change set that maps to zero contracts now verifies the full manifest instead of reporting a zero-flow pass.
 - Managed-runtime health failures now surface bounded, secret-redacted startup logs, and the hosted smoke allowance covers cold Windows package startup without weakening the finite production timeout.
 - GitHub-hosted 15-gate evidence is now cryptographically attested on successful `main` runs and can be verified with `gh attestation verify`.
-- External-case fingerprints cover browser-verification behavior rather than project discovery, managed runtime startup, release plumbing, or version metadata. Those distribution paths are independently gated by installed-package smoke and hosted Windows/macOS/Linux runs, so startup improvements do not invalidate unchanged browser evidence.
+- Engine fingerprints ignore release-only modules and version metadata, so a package version bump cannot invalidate unchanged browser-behavior evidence.
 - External-case release qualification now requires semantic observable proof for all nine normative §27 capability classes, SHA-256-bound supporting artifacts, and an executable Codex baseline → observed RD901 regression → unchanged-contract repair proof instead of trusting assertion labels or a case-count claim.
 - The hosted release merge secret-scans committed external-case evidence and folds that result into RG14 before GitHub can attest the aggregate.
 - Release aggregation rejects duplicate external cases/evidence files and platform attestations from mixed source revisions.

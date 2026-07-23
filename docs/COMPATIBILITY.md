@@ -1,6 +1,6 @@
 # Compatibility matrix
 
-`v1.3.0` passed the matrix below in hosted run [`29958126604`](https://github.com/datzle123/RealDone/actions/runs/29958126604). `v1.3.1` qualified npm distribution and the installed-bin path. The `v1.3.2` candidate expands managed runtime discovery and adds installed-tarball scan/cleanup gates for metadata-free static and npm projects; the hosted matrix remains the release authority.
+`v1.3.2` passed the matrix below in hosted run [`29977292441`](https://github.com/datzle123/RealDone/actions/runs/29977292441), including installed-tarball scan/cleanup gates for metadata-free static and npm projects. GitHub signed the 15/15 aggregate for source commit `ab902acdfb95463c82a7c842f5b497a68d8c325a`.
 
 | Surface | Release gate |
 | --- | --- |

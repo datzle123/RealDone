@@ -105,9 +105,9 @@ Review policies before testing any environment with real users or money.
 
 ## Current status
 
-RealDone `v1.3.1` is the current published release and meets the full normative product specification with executable evidence. The `v1.3.2` universal first-run candidate on `main` is not a release until its hosted cross-platform gates pass.
+RealDone `v1.3.2` meets the full normative product specification with executable evidence, including universal HTTP-app support and zero-config first runs for common project conventions.
 
-- Current fingerprint `1f88dd858…` passed all 15 normative gates on Windows, macOS, and Linux in [the final v1.3.0 run](https://github.com/datzle123/RealDone/actions/runs/29958920559).
+- Current fingerprint `1f88dd858…` and the `v1.3.2` installed-package path passed all 15 normative gates on Windows, macOS, and Linux in [hosted run 29977292441](https://github.com/datzle123/RealDone/actions/runs/29977292441).
 - All 22 normative product areas and all 58 detector classes are `IMPLEMENTED` and executable-gated.
 - GitHub signed the hosted release evidence; the authenticated Codex regression/repair cycle and all nine external capability classes are SHA-256-bound and validator-parsed.
 - [`realdone`](https://www.npmjs.com/package/realdone) is published on npm and the registry-installed `npx realdone scan` path is smoke-verified.
