@@ -196,6 +196,66 @@ test("detects a discovered Enter action with no effect", () => {
   assert.ok(result.detectorMatches.some((item) => item.code === "RD007"));
 });
 
+test("does not attribute persistence-check WebSockets to the clicked action", () => {
+  const result = detect(
+    { ...action, label: "Create qualification record" },
+    evidence({
+      before: state(0, "same", false),
+      beforeAction: state(10, "same", false),
+      after: state(100, "same", false),
+      afterRefresh: state(400, "same", false),
+      network: [],
+      webSockets: [{
+        url: "ws://localhost/socket",
+        openedAt: 200,
+        sentFrames: 0,
+        receivedFrames: 0,
+        errors: [],
+      }],
+    }),
+  );
+
+  assert.equal(result.verdict, "NO_EFFECT");
+  assert.ok(result.detectorMatches.some((item) => item.code === "RD002"));
+});
+
+test("does not treat a background read as proof that a mutation control worked", () => {
+  const result = detect(
+    { ...action, label: "Create qualification record" },
+    evidence({
+      before: state(0, "same", false),
+      beforeAction: state(10, "same", false),
+      after: state(100, "same", false),
+      afterRefresh: state(400, "same", false),
+      network: [{
+        id: "background-status",
+        method: "GET",
+        url: "http://localhost/api/status",
+        resourceType: "fetch",
+        startedAt: 50,
+        status: 200,
+        ok: true,
+      }],
+    }),
+  );
+
+  assert.equal(result.verdict, "NO_EFFECT");
+  assert.ok(result.detectorMatches.some((item) => item.code === "RD002"));
+});
+
+test("keeps state-dependent no-op controls uncertain when their precondition is absent", () => {
+  for (const label of ["Centre view", "Save", "Collapse category list", "All 0"]) {
+    const observed = evidence({ network: [], before: state(0, "same", false), beforeAction: state(10, "same", false), after: state(100, "same", false) });
+    delete observed.afterRefresh;
+    const result = detect(
+      { ...action, kind: label === "Save" ? "mutation" : "local", intent: label === "Save" ? "update" : "interact", label, fields: [] },
+      observed,
+    );
+    assert.equal(result.verdict, "UNCERTAIN", label);
+    assert.equal(result.detectorMatches.some((item) => item.code === "RD002"), false, label);
+  }
+});
+
 test("distinguishes new-session, memory-only, and app-restart persistence failures", () => {
   const newSession = detect(action, evidence({ afterNewContext: state(700, "fresh", false), network: [] }));
   assert.ok(newSession.detectorMatches.some((item) => item.code === "RD103"));
@@ -300,13 +360,57 @@ test("detects observable mock, search, dashboard, and placeholder behavior", () 
   const cases: Array<[ActionSpec, ExecutionEvidence, string]> = [
     [{ ...action, kind: "local" as const, intent: "interact" as const, label: "Load demo data" }, evidence({ network: [] }), "RD401"],
     [{ ...action, kind: "local" as const, intent: "interact" as const, label: "Load frontend fixture data" }, evidence({ network: [] }), "RD402"],
-    [{ ...action, kind: "local" as const, intent: "interact" as const, label: "Search customers", fields: [{ selector: "#search", tag: "input" as const, type: "search", required: false, disabled: false }] }, evidence({ network: [], after: signaledState({ semanticDom: { textHash: "results", text: "Alice Bob", controls: [] } }) }), "RD403"],
+    [{ ...action, kind: "local" as const, intent: "interact" as const, label: "Search customers", fields: [{ selector: "#search", tag: "input" as const, type: "search", required: false, disabled: false }] }, evidence({ network: [], filledFields: [{ selector: "#search", name: "Search customers", type: "search", value: "RD_TEST_ABC123", redacted: false }], before: signaledState({ domHash: "before-search", semanticDom: { textHash: "before-search", text: "Search customers", controls: [] } }), after: signaledState({ semanticDom: { textHash: "results", text: "Search customers Alice Bob", controls: [] } }) }), "RD403"],
     [{ ...action, kind: "local" as const, intent: "interact" as const, label: "Refresh dashboard", pageUrl: "http://localhost/dashboard" }, evidence({ network: [] }), "RD404"],
     [{ ...action, kind: "navigation" as const, intent: "navigate" as const, label: "Customer details", fingerprint: { selector: "a", tag: "a", ordinal: 0, href: "http://localhost/customers/42" } }, evidence({ network: [], after: signaledState({ url: "http://localhost/customers/42", semanticDom: { textHash: "placeholder", text: "Customer details coming soon", controls: [] } }) }), "RD405"],
   ];
   for (const [candidate, observed, code] of cases) {
     assert.ok(detect(candidate, observed).detectorMatches.some((item) => item.code === code), `${code} was not detected`);
   }
+});
+
+test("does not flag search UI controls or a query delivered through a popup as static data", () => {
+  const preferences = detect(
+    { ...action, kind: "local", intent: "interact", label: "Search preferences" },
+    evidence({ network: [], filledFields: [], after: signaledState({ domHash: "preferences-open" }) }),
+  );
+  assert.equal(preferences.detectorMatches.some((item) => item.code === "RD403"), false);
+
+  const popupSearch = detect(
+    {
+      ...action,
+      kind: "local",
+      intent: "interact",
+      label: "Search",
+      fields: [{ selector: "#search", tag: "input", type: "search", required: false, disabled: false }],
+    },
+    evidence({
+      network: [],
+      filledFields: [{ selector: "#search", name: "Search", type: "search", value: "RD_TEST_ABC123", redacted: false }],
+      popupUrls: ["https://search.example.test/?q=RD_TEST_ABC123"],
+      after: signaledState({ domHash: "after-popup", bodyCanaryPresent: false }),
+    }),
+  );
+  assert.equal(popupSearch.detectorMatches.some((item) => item.code === "RD403"), false);
+  assert.equal(popupSearch.verdict, "VERIFIED");
+
+  const localFilter = detect(
+    {
+      ...action,
+      kind: "local",
+      intent: "interact",
+      label: "Search for notes",
+      fields: [{ selector: "#search", tag: "input", type: "search", required: false, disabled: false }],
+    },
+    evidence({
+      network: [],
+      filledFields: [{ selector: "#search", name: "Search for notes", type: "search", value: "RD_TEST_ABC123", redacted: false }],
+      before: signaledState({ domHash: "before-filter", semanticDom: { textHash: "before-filter", text: "Search for notes Welcome note", controls: [] } }),
+      after: signaledState({ domHash: "after-filter", bodyCanaryPresent: false, semanticDom: { textHash: "after-filter", text: "Search for notes", controls: [] } }),
+    }),
+  );
+  assert.equal(localFilter.detectorMatches.some((item) => item.code === "RD403"), false);
+  assert.equal(localFilter.verdict, "VERIFIED");
 });
 
 test("detects authentication and session integrity failures", () => {

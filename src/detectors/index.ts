@@ -16,22 +16,45 @@ function actionNetwork(evidence: ExecutionEvidence): ExecutionEvidence["network"
     : evidence.network.filter((request) => request.startedAt <= actionFinishedAt);
 }
 
+function actionWebSockets(evidence: ExecutionEvidence): NonNullable<ExecutionEvidence["webSockets"]> {
+  const actionFinishedAt = evidence.after?.at;
+  const sockets = evidence.webSockets ?? [];
+  return actionFinishedAt === undefined
+    ? sockets
+    : sockets.filter((socket) => socket.openedAt <= actionFinishedAt);
+}
+
 function storageHash(evidence: ExecutionEvidence["before"]): string {
   if (!evidence) return "";
   return JSON.stringify(evidence.storage);
 }
 
-function hasObservableEffect(evidence: ExecutionEvidence): boolean {
+function introducedSearchResultText(evidence: ExecutionEvidence): boolean {
+  const beforeText = evidence.before?.semanticDom?.text ?? "";
+  const afterText = evidence.after?.semanticDom?.text ?? "";
+  const words = (value: string): Set<string> => new Set(
+    value.toLowerCase().match(/[\p{L}\p{N}]{3,}/gu) ?? [],
+  );
+  const beforeWords = words(beforeText);
+  const canaryWords = words(evidence.canary);
+  return [...words(afterText)].some((word) => !beforeWords.has(word) && !canaryWords.has(word));
+}
+
+function hasObservableEffect(action: ActionSpec, evidence: ExecutionEvidence): boolean {
   const before = evidence.beforeAction ?? evidence.before;
   if (!before || !evidence.after) return false;
+  const observedNetwork = actionNetwork(evidence);
+  const networkEffect = action.kind === "mutation"
+    ? observedNetwork.some((request) => WRITE_METHODS.has(request.method))
+    : observedNetwork.length > 0;
   return (
     before.domHash !== evidence.after.domHash ||
     before.url !== evidence.after.url ||
     storageHash(before) !== storageHash(evidence.after) ||
-    actionNetwork(evidence).length > 0 ||
+    networkEffect ||
     evidence.dialogs.length > 0 ||
     evidence.downloads.length > 0 ||
-    (evidence.webSockets?.length ?? 0) > 0 ||
+    actionWebSockets(evidence).length > 0 ||
     (evidence.popupUrls?.length ?? 0) > 0
   );
 }
@@ -85,13 +108,20 @@ export function detect(action: ActionSpec, evidence: ExecutionEvidence): Detecti
     (evidence.afterRefresh?.auth?.artifacts ?? 0) > 0 &&
     evidence.afterRefresh?.auth?.privateContent === true;
   const duplicate = duplicateWrites(evidence);
-  const effect = hasObservableEffect(evidence);
+  const effect = hasObservableEffect(action, evidence);
   const afterText = evidence.after?.semanticDom?.text ?? "";
   const actionContext = `${action.label} ${action.pageUrl} ${evidence.after?.url ?? ""}`;
   const successfulWrites = writeRequests.filter((request) => request.ok);
   const successfulReads = observedActionNetwork.filter((request) => request.method === "GET" && request.ok && ["xhr", "fetch"].includes(request.resourceType));
   const storageChanged = storageHash(evidence.beforeAction ?? evidence.before) !== storageHash(evidence.after);
   const searchAttempt = /\b(search|find|query|filter)\b/i.test(action.label) || action.fields.some((field) => field.type === "search" || /search|query/i.test(`${field.name ?? ""} ${field.label ?? ""}`));
+  const stateDependentAttempt = action.fields.length === 0 && (
+    /\b(undo|redo|reset|cent(?:re|er)(?: view)?|save|collapse|expand|back|previous|next)\b/i.test(action.label) ||
+    /^(all|home|notes|library)(?:\s+\d+)?$/i.test(action.label.trim())
+  );
+  const generatedSearchInput = evidence.filledFields.some((filled) =>
+    filled.type === "search" || /search|query|filter/i.test(filled.name),
+  );
   const logoutAttempt = /\b(log[ -]?out|sign[ -]?out)\b/i.test(action.label);
   const uploadAttempt = action.fields.some((field) => field.type === "file") || /\bupload\b/i.test(action.label);
   const downloadAttempt = Boolean(action.fingerprint.download) || /\b(download|export)\b/i.test(action.label);
@@ -146,7 +176,7 @@ export function detect(action: ActionSpec, evidence: ExecutionEvidence): Detecti
   if (effect && !storageChanged && observedActionNetwork.length === 0 && /\b(frontend fixture|mock data|fixture data)\b/i.test(action.label)) {
     matches.push(match("RD402", "Frontend fixture data", "The action displayed fixture-like records entirely in the browser with no observable source read."));
   }
-  if (searchAttempt && effect && evidence.after?.bodyCanaryPresent === false && successfulReads.length === 0) {
+  if (searchAttempt && generatedSearchInput && effect && evidence.after?.bodyCanaryPresent === false && successfulReads.length === 0 && (evidence.popupUrls?.length ?? 0) === 0 && introducedSearchResultText(evidence)) {
     matches.push(match("RD403", "Static search", "Generated search input changed the interface, but neither the query nor a data request appeared in the result evidence."));
   }
   if (/\bdashboard\b/i.test(actionContext) && /\brefresh\b/i.test(action.label) && successfulReads.length === 0) {
@@ -165,7 +195,7 @@ export function detect(action: ActionSpec, evidence: ExecutionEvidence): Detecti
   ) {
     matches.push(match("RD004", "Stuck loading", "The action remained busy after the configured settle/network-idle window."));
   }
-  if (!effect && !evidence.executionError) {
+  if (!effect && !evidence.executionError && !stateDependentAttempt) {
     matches.push(match("RD002", "No observable effect", "No DOM, URL, network, storage, dialog, or download effect was observed."));
     if (action.activation === "enter") {
       matches.push(match("RD007", "Keyboard action missed", "The discovered Enter action produced no observable effect."));

@@ -140,7 +140,7 @@ export function createFixtureServer() {
 
     if (url.pathname === "/") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
-      return response.end(html("RealDone benchmark fixtures", `<p>Each page contains one known behavior.</p><nav><a href="/fake-create">Fake create</a><a href="/fake-update">Fake update</a><a href="/partial-update">Partial update</a><a href="/wrong-update">Wrong update</a><a href="/false-success-redirect">False success redirect</a><a href="/real-create">Real create control</a><a href="/enter-submit">Enter-submit create</a><a href="/keyboard-no-effect">Keyboard no-effect</a><a href="/browser-local">Browser-local control</a><a href="/session-control">Session control</a><a href="/snapshot-control">Snapshot control</a><a href="/success-despite-failure">False success</a><a href="/duplicate-submit">Duplicate submit</a><a href="/fake-delete">Fake delete</a><a href="/no-effect">No effect</a><a href="/stuck-loading">Stuck loading</a><a href="/loading-control">Loading control</a><a href="/native-controls">Native controls</a><a href="/popup-control">Popup control</a><a href="/download-control">Download control</a><a href="/websocket-control">WebSocket control</a><a href="/context-control">Context control</a><a href="/iframe-control">Iframe control</a><a href="/dynamic-actions">Dynamic actions</a><a href="/complex-recording">Complex recording boundary</a><a href="/unrelated-fields">Unrelated fields control</a><a href="/selector-shift">Selector survival control</a><a href="/runtime-reclassification">Runtime safety reclassification</a><a href="/runtime-reclassification-control">Runtime safety control</a><a href="/runtime-after-fill">After-fill submitter escalation</a><a href="/runtime-submitter-control">Submitter override control</a><a href="/stateful-action">Stateful action control</a><a href="/live-control-state">Live control-state control</a><a href="/missing">Broken navigation</a></nav>`));
+      return response.end(html("RealDone benchmark fixtures", `<p>Each page contains one known behavior.</p><nav><a href="/fake-create">Fake create</a><a href="/fake-update">Fake update</a><a href="/partial-update">Partial update</a><a href="/wrong-update">Wrong update</a><a href="/false-success-redirect">False success redirect</a><a href="/real-create">Real create control</a><a href="/enter-submit">Enter-submit create</a><a href="/keyboard-no-effect">Keyboard no-effect</a><a href="/browser-local">Browser-local control</a><a href="/session-control">Session control</a><a href="/snapshot-control">Snapshot control</a><a href="/success-despite-failure">False success</a><a href="/duplicate-submit">Duplicate submit</a><a href="/fake-delete">Fake delete</a><a href="/no-effect">No effect</a><a href="/late-bootstrap-noop">Late bootstrap no-effect</a><a href="/stuck-loading">Stuck loading</a><a href="/loading-control">Loading control</a><a href="/native-controls">Native controls</a><a href="/popup-control">Popup control</a><a href="/download-control">Download control</a><a href="/websocket-control">WebSocket control</a><a href="/context-control">Context control</a><a href="/iframe-control">Iframe control</a><a href="/dynamic-actions">Dynamic actions</a><a href="/complex-recording">Complex recording boundary</a><a href="/unrelated-fields">Unrelated fields control</a><a href="/selector-shift">Selector survival control</a><a href="/runtime-reclassification">Runtime safety reclassification</a><a href="/runtime-reclassification-control">Runtime safety control</a><a href="/runtime-after-fill">After-fill submitter escalation</a><a href="/runtime-submitter-control">Submitter override control</a><a href="/stateful-action">Stateful action control</a><a href="/live-control-state">Live control-state control</a><a href="/missing">Broken navigation</a></nav>`));
     }
     if (url.pathname === "/phase-d") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
@@ -150,7 +150,7 @@ export function createFixtureServer() {
         <form id="static-search"><label>Search query <input name="query" type="search" required></label><button type="submit">Search static customers</button></form><div id="static-results"></div>
         <form id="live-search"><label>Live search query <input name="query" type="search" required></label><button type="submit">Search live customers</button></form><div id="live-results"></div>
         <section><button id="dashboard">Refresh dashboard</button><button id="dashboard-control">Refresh dashboard from server</button><div id="dashboard-output">Dashboard total: 2</div></section>
-        <nav><a href="/customers/42">Placeholder customer details</a><a href="/customers/43">Real customer details</a><a href="/private">Direct private account</a><a href="/private/denied">Denied private account</a><a href="/payment/success">Payment success page</a><a href="/logout-lab">Logout controls</a></nav>
+        <nav><a href="/customers/42">Placeholder customer details</a><a href="/customers/43">Real customer details</a><a href="/private">Direct private account</a><a href="/private/denied">Denied private account</a><a href="/settings">Public settings login</a><a href="/payment/success">Payment success page</a><a href="/logout-lab">Logout controls</a></nav>
         <form id="fake-login"><label>Email <input name="email" type="email" required></label><label>Password <input name="password" type="password" required></label><button type="submit">Fake login</button></form>
         <form id="login-control"><label>Control email <input name="email" type="email" required></label><label>Control password <input name="password" type="password" required></label><button type="submit">Persistent login</button></form>
         <section><button id="expired">Open account with expired session</button><div id="expired-output"></div></section>
@@ -320,6 +320,10 @@ export function createFixtureServer() {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
       return response.end(html("No effect", `<button id="nothing">Do nothing</button>`));
     }
+    if (url.pathname === "/late-bootstrap-noop") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Late bootstrap no-effect", `<button id="late-noop">Create qualification record</button><p id="bootstrap-state">Starting</p>`, `setTimeout(async()=>{await fetch('/api/live-data');document.getElementById('bootstrap-state').textContent='Ready'},300)`));
+    }
     if (url.pathname === "/stuck-loading") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
       return response.end(html("Stuck loading", `<button id="stuck">Load forever</button>`, `document.getElementById('stuck').onclick=()=>{document.getElementById('stuck').setAttribute('aria-busy','true');document.getElementById('stuck').textContent='Loading forever'}`));
@@ -330,7 +334,43 @@ export function createFixtureServer() {
     }
     if (url.pathname === "/native-controls") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
-      return response.end(html("Native controls", `<label>Enable alerts <input id="alerts" type="checkbox"></label><label>Theme <select id="theme"><option value="">Choose</option><option value="dark">Dark</option></select></label><p id="control-state">Unchanged</p>`, `document.getElementById('alerts').onchange=()=>{document.getElementById('control-state').textContent='Alerts enabled'};document.getElementById('theme').onchange=()=>{document.getElementById('control-state').textContent='Theme '+document.getElementById('theme').value}`));
+      return response.end(html("Native controls", `<label>Enable alerts <input id="alerts" type="checkbox"></label><label>Theme <select id="theme"><option value="">Choose</option><option value="dark">Dark</option></select></label><p id="control-state">Unchanged</p><a href="/actionability-controls">Actionability controls</a>`, `document.getElementById('alerts').onchange=()=>{document.getElementById('control-state').textContent='Alerts enabled'};document.getElementById('theme').onchange=()=>{document.getElementById('control-state').textContent='Theme '+document.getElementById('theme').value}`));
+    }
+    if (url.pathname === "/actionability-controls") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Actionability controls", `
+        <a class="button-like">Restart game</a>
+        <a class="action-link">Broken script action</a>
+        <label>Enable checked setting <input id="checked-control" type="checkbox" checked></label>
+        <label>Broken checked setting <input id="checked-broken" type="checkbox" checked></label>
+        <label>Already selected radio <input id="selected-radio" type="radio" name="visible-mode" checked></label>
+        <div id="view-choices"><button><span class="active">Current view</span></button><button id="other-view">Other view</button></div>
+        <button id="copy-control">Copy generated value</button>
+        <button id="unlabelled-control"><svg viewBox="0 0 10 10"><path d="M0 0h10v10z"/></svg></button>
+        <a href="/actionability-controls"><button>Nested duplicate action</button></a>
+        <form><button type="submit" disabled>Disabled hidden submit</button></form>
+        <p id="actionability-state">Ready</p>
+        <div id="covered-panel"><label>Covered radio <input type="radio" name="covered-mode"></label></div>
+        <div id="cover" aria-modal="true">Visible modal cover</div>
+        <a href="/runtime-popup-search">Runtime popup search</a>
+        <a href="/modal-reveal">Modal reveal control</a>
+      `, `
+        const anchors=document.querySelectorAll('a:not([href])');
+        anchors[0].addEventListener('click',()=>{document.getElementById('actionability-state').textContent='Game restarted'});
+        document.getElementById('checked-control').addEventListener('change',event=>{document.getElementById('actionability-state').textContent=event.target.checked?'Setting enabled':'Setting disabled'});
+        document.getElementById('checked-broken').addEventListener('change',()=>{throw new Error('checked-control-broken')});
+        document.getElementById('other-view').addEventListener('click',()=>{document.getElementById('actionability-state').textContent='Other view selected'});
+        document.getElementById('copy-control').addEventListener('click',async()=>{await navigator.clipboard.writeText('realdone clipboard control');document.getElementById('actionability-state').textContent='Clipboard write complete'});
+        document.getElementById('unlabelled-control').addEventListener('click',()=>{document.getElementById('actionability-state').textContent='Unlabelled control clicked'});
+      `).replace('</head>', `<style>#covered-panel{position:fixed;left:20px;top:20px;z-index:1}#cover{position:fixed;left:0;top:0;width:240px;height:100px;background:#fff;z-index:2}</style></head>`));
+    }
+    if (url.pathname === "/runtime-popup-search") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Runtime popup search", `<form id="popup-search"><label>External query <input name="query" type="search" required></label><button type="submit">Search external docs</button></form>`, `document.getElementById('popup-search').onsubmit=event=>{event.preventDefault();const target=new URL('/popup-result',location.href);target.hostname=location.hostname==='127.0.0.1'?'localhost':'127.0.0.1';target.searchParams.set('q',event.target.query.value);window.open(target,'external-search')}`));
+    }
+    if (url.pathname === "/modal-reveal") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Modal reveal control", `<button id="noop-after-onboarding">Create qualification record</button><button id="revealed">Reveal settings panel</button><div id="modal" class="onboarding-pane"><p>Welcome tour</p><button id="get-started">Get started</button></div><p id="modal-state">Bootstrapping</p>`, `document.getElementById('get-started').onclick=()=>{document.getElementById('modal').remove();setTimeout(()=>document.getElementById('modal-state').textContent='Ready after onboarding',100)};document.getElementById('revealed').onclick=()=>document.getElementById('modal-state').textContent='Settings panel revealed'`).replace('</head>', `<style>#modal{position:fixed;inset:0;background:#fff;z-index:10}</style></head>`));
     }
     if (url.pathname === "/popup-control") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
@@ -418,6 +458,10 @@ export function createFixtureServer() {
     if (url.pathname === "/fragment-navigation") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
       return response.end(`<!doctype html><html><head><meta charset="utf-8"><title>Fragment navigation control</title><style>.skip{position:fixed;top:0;left:0;transform:translateY(-200%)}.skip:focus{transform:none}</style></head><body><a class="skip" href="#main">Skip to content</a><main id="main" tabindex="-1"><h1>Fragment navigation control</h1><p>Keyboard-first same-document navigation.</p></main></body></html>`);
+    }
+    if (url.pathname === "/settings") {
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      return response.end(html("Public settings login", `<h1>Settings</h1><p>Sign in to configure this application.</p>`));
     }
     if (url.pathname === "/environment-control") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });

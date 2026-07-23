@@ -9,6 +9,7 @@ import type {
   FormFieldSpec,
   SemanticFingerprint,
 } from "../types.js";
+import { dismissOneSafeBlockingModal } from "./modal.js";
 
 interface RawField {
   selector: string;
@@ -58,6 +59,7 @@ function stableActionId(url: string, raw: RawAction): string {
 }
 
 function toAction(pageUrl: string, raw: RawAction): ActionSpec {
+  const unnamedControl = !raw.accessibleName && !raw.text && !raw.href;
   const label = (
     raw.accessibleName ??
     raw.text ??
@@ -109,7 +111,9 @@ function toAction(pageUrl: string, raw: RawAction): ActionSpec {
     ...classification,
     fingerprint,
     fields: raw.fields.map((field): FormFieldSpec => ({ ...field })),
-    ...(raw.recordingRequired ? { recordingRequired: raw.recordingRequired } : {}),
+    ...(raw.recordingRequired || unnamedControl
+      ? { recordingRequired: raw.recordingRequired ?? "Unlabelled control needs a recorded semantic flow before RealDone can infer its intent safely." }
+      : {}),
   };
 }
 
@@ -128,10 +132,10 @@ export async function prepareDynamicActions(page: ActionScope): Promise<void> {
   await page.waitForTimeout(100);
 }
 
-export async function discoverActions(page: ActionScope): Promise<ActionSpec[]> {
+export async function discoverActions(page: ActionScope, exploreBlockingModals = true): Promise<ActionSpec[]> {
   await prepareDynamicActions(page);
   const raw = await page
-    .locator("form, a[href], button, select, input[type=submit], input[type=button], input[type=checkbox], input[type=radio], input[type=file], input:not([type]), input[type=text], input[type=search], input[type=email], input[type=url], [role=button], [role=tab], [role=menuitem], [role=checkbox], [role=radio], canvas, [contenteditable=true], [draggable=true], [oncontextmenu]")
+    .locator("form, a, button, select, input[type=submit], input[type=button], input[type=checkbox], input[type=radio], input[type=file], input:not([type]), input[type=text], input[type=search], input[type=email], input[type=url], [role=button], [role=tab], [role=menuitem], [role=checkbox], [role=radio], canvas, [contenteditable=true], [draggable=true], [oncontextmenu]")
     .evaluateAll((elements): RawAction[] => {
       const visible = (element: Element): boolean => {
         const node = element as HTMLElement;
@@ -145,6 +149,71 @@ export async function discoverActions(page: ActionScope): Promise<ActionSpec[]> 
           rect.height > 0 &&
           !node.hasAttribute("disabled") &&
           node.getAttribute("aria-disabled") !== "true"
+        );
+      };
+
+      const keyboardOnlyAnchor = (element: Element): boolean => {
+        if (!(element instanceof HTMLAnchorElement) || !element.hasAttribute("href") || element.tabIndex < 0) return false;
+        try {
+          const destination = new URL(element.href, location.href);
+          const current = new URL(location.href);
+          return Boolean(destination.hash) && destination.origin === current.origin && destination.pathname === current.pathname && destination.search === current.search;
+        } catch {
+          return false;
+        }
+      };
+
+      const receivesPointerAfterScroll = (element: Element): boolean => {
+        const windowPosition = { x: window.scrollX, y: window.scrollY };
+        const ancestors: Array<{ element: Element; left: number; top: number }> = [];
+        for (let current = element.parentElement; current; current = current.parentElement) {
+          ancestors.push({ element: current, left: current.scrollLeft, top: current.scrollTop });
+        }
+        try {
+          element.scrollIntoView({ block: "center", inline: "center", behavior: "auto" });
+          const rect = element.getBoundingClientRect();
+          if (rect.bottom <= 0 || rect.right <= 0 || rect.top >= innerHeight || rect.left >= innerWidth) return false;
+          const left = Math.max(0, rect.left);
+          const right = Math.min(innerWidth, rect.right);
+          const top = Math.max(0, rect.top);
+          const bottom = Math.min(innerHeight, rect.bottom);
+          const points = [
+            [(left + right) / 2, (top + bottom) / 2],
+            [left + Math.min(2, Math.max(0, right - left) / 2), top + Math.min(2, Math.max(0, bottom - top) / 2)],
+            [right - Math.min(2, Math.max(0, right - left) / 2), bottom - Math.min(2, Math.max(0, bottom - top) / 2)],
+          ];
+          return points.some(([x, y]) => {
+            const hit = document.elementFromPoint(x ?? 0, y ?? 0);
+            if (!hit) return false;
+            if (hit === element || element.contains(hit)) return true;
+            if (element instanceof HTMLInputElement && element.labels) {
+              return [...element.labels].some((label) => hit === label || label.contains(hit));
+            }
+            return false;
+          });
+        } finally {
+          for (const ancestor of ancestors) {
+            ancestor.element.scrollLeft = ancestor.left;
+            ancestor.element.scrollTop = ancestor.top;
+          }
+          window.scrollTo(windowPosition.x, windowPosition.y);
+        }
+      };
+
+      const interactable = (element: Element): boolean =>
+        visible(element) && (receivesPointerAfterScroll(element) || keyboardOnlyAnchor(element));
+
+      const actionableAnchor = (element: Element): boolean => {
+        if (!(element instanceof HTMLAnchorElement) || element.hasAttribute("href")) return true;
+        const role = element.getAttribute("role") ?? "";
+        const className = typeof element.className === "string" ? element.className : "";
+        const style = getComputedStyle(element);
+        return (
+          /^(button|link|menuitem|tab)$/i.test(role) ||
+          element.hasAttribute("onclick") ||
+          element.tabIndex >= 0 ||
+          style.cursor === "pointer" ||
+          /(?:^|[-_\s])(btn|button|action|clickable|control|toggle|trigger)(?:$|[-_\s])/i.test(className)
         );
       };
 
@@ -227,8 +296,25 @@ export async function discoverActions(page: ActionScope): Promise<ActionSpec[]> 
       };
 
       const candidates = elements.filter((element) => {
-        if (!visible(element)) return false;
+        if (!interactable(element) || !actionableAnchor(element)) return false;
         if (element.tagName.toLowerCase() !== "form" && element.closest("form")) return false;
+        if (element.parentElement?.closest("a, button, [role=button], [role=tab], [role=menuitem], [role=checkbox], [role=radio]")) return false;
+        const stateClasses = [element, ...element.querySelectorAll("[class]")]
+          .flatMap((candidate) => [...candidate.classList]);
+        const siblingChoices = element.parentElement?.querySelectorAll(":scope > button, :scope > a, :scope > [role=tab], :scope > [role=menuitem]").length ?? 0;
+        if (siblingChoices > 1 && stateClasses.some((name) => /^(active|selected|current)$/i.test(name))) return false;
+        if (element instanceof HTMLFormElement) {
+          const submitters = [...element.querySelectorAll('button[type="submit"], input[type="submit"], input[type="image"], button:not([type])')];
+          if (submitters.length > 0 && !submitters.some((submitter) => interactable(submitter))) return false;
+          if (submitters.length === 0) {
+            const implicitField = [...element.querySelectorAll("input, textarea, select")].some((field) =>
+              !field.hasAttribute("disabled") && interactable(field),
+            );
+            if (!implicitField) return false;
+          }
+        }
+        if (element instanceof HTMLInputElement && element.type === "radio" && element.checked) return false;
+        if (element.getAttribute("role") === "radio" && element.getAttribute("aria-checked") === "true") return false;
         if (element instanceof HTMLInputElement && !["submit", "button", "checkbox", "radio", "file"].includes(element.type)) {
           const metadata = [
             element.id,
@@ -252,7 +338,7 @@ export async function discoverActions(page: ActionScope): Promise<ActionSpec[]> 
         const form = tag === "form" ? (element as HTMLFormElement) : undefined;
         const formSubmitter = form
           ? [...form.querySelectorAll('button[type="submit"], input[type="submit"], input[type="image"], button:not([type])')]
-              .find((candidate) => visible(candidate)) as HTMLButtonElement | HTMLInputElement | undefined
+              .find((candidate) => interactable(candidate)) as HTMLButtonElement | HTMLInputElement | undefined
           : undefined;
         const effectiveElement = formSubmitter ?? element;
         const associatedForm = form ?? (
@@ -281,8 +367,8 @@ export async function discoverActions(page: ActionScope): Promise<ActionSpec[]> 
               ? [fieldFor(element)].filter((field): field is RawField => Boolean(field))
               : nearbyFields;
         const name = accessibleName(element) || element.getAttribute("placeholder") || (associatedForm ? `Submit ${associatedForm.getAttribute("name") ?? "form"}` : "");
-        const role = element.getAttribute("role") || (tag === "a" ? "link" : tag === "button" ? "button" : enterInput ? (element.type === "search" ? "searchbox" : "textbox") : undefined);
-        const href = element instanceof HTMLAnchorElement ? element.href : undefined;
+        const href = element instanceof HTMLAnchorElement && element.hasAttribute("href") ? element.href : undefined;
+        const role = element.getAttribute("role") || (tag === "a" && href ? "link" : tag === "button" ? "button" : enterInput ? (element.type === "search" ? "searchbox" : "textbox") : undefined);
         const type = element instanceof HTMLInputElement || element instanceof HTMLButtonElement ? element.type : undefined;
         const submitterAction = (
           effectiveElement instanceof HTMLButtonElement || effectiveElement instanceof HTMLInputElement
@@ -370,7 +456,18 @@ export async function discoverActions(page: ActionScope): Promise<ActionSpec[]> 
       });
     });
 
-  return raw.map((action) => toAction(page.url(), action));
+  const discovered = new Map(raw.map((action) => {
+    const mapped = toAction(page.url(), action);
+    return [mapped.id, mapped] as const;
+  }));
+  if (exploreBlockingModals) {
+    for (let index = 0; index < 5; index += 1) {
+      const dismissed = await dismissOneSafeBlockingModal(page);
+      if (!dismissed) break;
+      for (const action of await discoverActions(page, false)) discovered.set(action.id, action);
+    }
+  }
+  return [...discovered.values()];
 }
 
 export function normalizeCrawlUrl(input: string): string | undefined {

@@ -64,6 +64,12 @@ function skippedFinding(id: string, action: ActionSpec, reason: string): Finding
   };
 }
 
+export function actionExecutionPriority(action: ActionSpec): number {
+  if (/\b(log[ -]?out|sign[ -]?out|end session|revoke session)\b/i.test(action.label)) return 2;
+  if (action.intent === "delete" || action.risk === "destructive") return 1;
+  return 0;
+}
+
 function mergeEnvironmentHealth(
   target: EnvironmentHealth,
   route: EnvironmentHealth,
@@ -262,10 +268,13 @@ export async function runScan(
       });
     }
     const allActions = pages.flatMap((page) => page.actions);
-    const selected = allActions
-      .filter((action) => !options.onlyActionId || action.id === options.onlyActionId)
+    const eligibleActions = allActions.filter((action) => !options.onlyActionId || action.id === options.onlyActionId);
+    const selected = eligibleActions
+      .map((action, index) => ({ action, index }))
+      .sort((left, right) => actionExecutionPriority(left.action) - actionExecutionPriority(right.action) || left.index - right.index)
+      .map(({ action }) => action)
       .slice(0, options.maxActions);
-    const actionTruncated = allActions.filter((action) => !options.onlyActionId || action.id === options.onlyActionId).length > options.maxActions;
+    const actionTruncated = eligibleActions.length > options.maxActions;
     const sourcePlans = await prepareSourceSnapshotPlans(options.sourceAdapters ?? []);
     const findings: Finding[] = [];
     for (const [index, action] of selected.entries()) {

@@ -57,6 +57,7 @@ function findingTimeline(finding: Finding): string {
   if (evidence.afterAppRestart) items.push({ at: evidence.afterAppRestart.at, text: `Restarted the managed application; canary present: ${evidence.afterAppRestart.canaryPresent}` });
   if (evidence.apiReadBack) items.push({ at: evidence.after?.at ?? evidence.durationMs, text: `API read-back ${evidence.apiReadBack.url} â†’ ${evidence.apiReadBack.status ?? "error"}; canary present: ${evidence.apiReadBack.canaryPresent}` });
   if (evidence.executionError) items.push({ at: evidence.durationMs, text: `Execution error: ${evidence.executionError}` });
+  for (const interaction of evidence.preparedInteractions ?? []) items.push({ at: 0, text: `Prepared interaction: ${interaction}` });
   return items
     .sort((a, b) => a.at - b.at)
     .map((item) => `<li><time>${(item.at / 1000).toFixed(2)}s</time><span>${escapeHtml(item.text)}</span></li>`)

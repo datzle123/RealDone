@@ -1,0 +1,6 @@
+diff --git a/index.html b/index.html
+--- a/index.html
++++ b/index.html
+@@ -80,1 +80,2 @@
+ <body>
++	<button id="realdone-fault-injection" type="button" aria-label="Create qualification record" style="position:fixed;right:12px;bottom:12px;z-index:2147483647">Create qualification record</button>

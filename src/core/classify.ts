@@ -73,7 +73,10 @@ export function classifyAction(
   const hasPasswordField = fieldTypes.includes("password");
   const hasUrlField = fieldTypes.includes("url");
   const hasUrlPlaceholder = context.fieldHints?.some((value) => /^https?:\/\//i.test(value.trim())) ?? false;
-  const isLink = tag === "a" || Boolean(href);
+  // An anchor without an href is a script-driven control, not navigation.
+  // Treating every <a> as a link hides local/mutation semantics from safety and
+  // persistence checks (a common pattern in older single-page applications).
+  const isLink = Boolean(href);
   const method = context.method?.trim().toUpperCase();
   const methodCanMutate = !method || !["GET", "HEAD", "DIALOG"].includes(method);
   const endpointIsDestructive = destructiveEndpoint.test(destination.endpoint) || destructiveEndpoint.test(semanticText);

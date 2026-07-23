@@ -1,0 +1,8 @@
+diff --git a/client/public/index.html b/client/public/index.html
+--- a/client/public/index.html
++++ b/client/public/index.html
+@@ -57,3 +57,4 @@
+   </head>
+   <body>
++    <button id="realdone-fault-injection" type="button" aria-label="Create qualification record" style="position:fixed;right:12px;bottom:12px;z-index:2147483647">Create qualification record</button>
+     <noscript>You need to enable JavaScript to run this app.</noscript>

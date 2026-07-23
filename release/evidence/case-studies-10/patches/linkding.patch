@@ -1,0 +1,8 @@
+diff --git a/bookmarks/templates/shared/layout.html b/bookmarks/templates/shared/layout.html
+--- a/bookmarks/templates/shared/layout.html
++++ b/bookmarks/templates/shared/layout.html
+@@ -7,3 +7,4 @@
+   {% endblock %}
+   <body>
++    <button id="realdone-fault-injection" type="button" aria-label="Create qualification record" style="position:fixed;right:12px;bottom:12px;z-index:2147483647">Create qualification record</button>
+     <header class="container">

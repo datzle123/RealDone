@@ -4,6 +4,17 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 
 ## [Unreleased]
 
+### Added
+
+- Reproducible 10-project Chromium qualification across Flatnotes, Linkding, Flame, TakeNote, Grimoire, Dashy, JSPaint, 2048, Flowy, and Quiver, with pinned MIT licenses, minimal fault patches, clean controls, run IDs, and SHA-256-bound reports.
+- Deterministic browser controls for late bootstrap reads and onboarding work that completes after modal dismissal.
+
+### Fixed
+
+- Initial page reads and socket handshakes no longer become evidence for the first clicked action.
+- WebSockets opened only during persistence reloads and unrelated background GET polling no longer make a no-op mutation look effective.
+- Discovery/actionability false positives found by the real-project batch, including nested, covered, selected, script-anchor, visual-state, local-search, clipboard, session-order, and cross-origin cases.
+
 ## [1.3.2] - 2026-07-23
 
 ### Added

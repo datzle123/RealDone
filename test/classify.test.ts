@@ -35,6 +35,19 @@ test("treats links as navigation and unknown buttons as local interaction", () =
   assert.equal(classifyAction("Toggle details", "button").kind, "local");
 });
 
+test("classifies script-driven anchors without href as controls", () => {
+  assert.deepEqual(classifyAction("Toggle details", "a"), {
+    kind: "local",
+    intent: "interact",
+    risk: "safe",
+  });
+  assert.deepEqual(classifyAction("Delete customer", "a"), {
+    kind: "mutation",
+    intent: "delete",
+    risk: "destructive",
+  });
+});
+
 test("classifies external effects from observable form and provider signals before execution", () => {
   assert.deepEqual(classifyAction("Continue", "form", undefined, true, {
     pageUrl: "http://localhost:3000/billing",

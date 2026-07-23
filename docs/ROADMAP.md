@@ -6,6 +6,10 @@ The normative destination is [`PRODUCT_SPECIFICATION.md`](PRODUCT_SPECIFICATION.
 
 A phase gate is complete only when its production behavior, broken fixtures, correct controls, deterministic replay where applicable, documentation, changelog, package surface, and hosted gates all pass. Each completed phase gate is committed and pushed independently. A version tag and GitHub release are created only after hosted cross-platform CI is green. Product completion still requires every row in `PRODUCT_STATUS.md` to be `IMPLEMENTED`.
 
+## Current unreleased qualification
+
+The 2026-07-23 local regression batch ran ten pinned MIT web projects, retained clean controls, injected one reproducible no-op Create action per project, and observed 10/10 `NO_EFFECT / RD002` results in valid Chromium environments. Release status remains pending until the normal hosted gates pass for the changed engine fingerprint.
+
 ## Released foundation (`v0.1.0`–`v1.1.0`)
 
 These releases established browser scanning, evidence reports, replay and cleanup, semantic recording/contracts, baseline/CI, PostgreSQL read-back, coding-agent adapters, multi-role/provider contracts, multi-browser execution, plugin isolation, and performance budgets. They remain supported, but some are `PARTIAL` against the expanded full-product specification. Historical release completion is not the same as §32 full-product completion.

@@ -11,6 +11,7 @@ import { attachEvidence, captureState, collectUiClaims } from "./evidence.js";
 import { resolveSemanticLocator, SemanticTargetNotFoundError } from "./locator.js";
 import { waitForEnvironmentRender } from "../environment/health.js";
 import { prepareDynamicActions } from "./discover.js";
+import { dismissSafeBlockingModals } from "./modal.js";
 
 type InteractionScope = Page | Frame;
 
@@ -317,6 +318,30 @@ export async function executeAction(
       ...(options.video ? { recordVideo: { dir: videoDirectory } } : {}),
     },
   );
+  await context.grantPermissions(["clipboard-write"], { origin: new URL(options.targetUrl).origin }).catch(() => undefined);
+  let activationStarted = false;
+  let blockedNavigation: string | undefined;
+  if (!options.allowExternal) {
+    const targetOrigin = new URL(options.targetUrl).origin;
+    await context.route("**/*", async (route) => {
+      const request = route.request();
+      if (activationStarted && request.isNavigationRequest()) {
+        try {
+          const destination = new URL(request.url());
+          if (destination.origin !== targetOrigin) {
+            blockedNavigation ??= safeUrl(destination.toString());
+            await route.abort("blockedbyclient");
+            return;
+          }
+        } catch {
+          blockedNavigation ??= "invalid cross-origin navigation";
+          await route.abort("blockedbyclient");
+          return;
+        }
+      }
+      await route.continue();
+    });
+  }
   const page = await context.newPage();
   const video = page.video();
   if (options.trace || options.traceOnFailure) await context.tracing.start({ screenshots: true, snapshots: true, sources: false });
@@ -331,6 +356,16 @@ export async function executeAction(
     await prepareDynamicActions(page);
     const targetScope = scopeFor(page, action);
     if (targetScope !== page) await prepareDynamicActions(targetScope);
+    const preparedInteractions = await dismissSafeBlockingModals(targetScope, action.fingerprint.selector);
+    if (preparedInteractions.length > 0) {
+      evidence.preparedInteractions = preparedInteractions;
+      await waitForEnvironmentRender(targetScope, Math.min(options.timeoutMs, 5_000), options.settleMs, true);
+      await prepareDynamicActions(targetScope);
+    }
+    // Startup API reads and socket handshakes belong to page bootstrap, not to
+    // the control that happens to be executed first. Let the fresh page reach
+    // network quiet before attaching action-scoped evidence listeners.
+    await page.waitForLoadState("networkidle", { timeout: Math.min(options.timeoutMs, 3_000) }).catch(() => undefined);
     const resolved = await resolveSemanticLocator(targetScope, action.fingerprint, options.maxRetries);
     const locator = resolved.locator;
     evidence.locatorResolution = resolved.diagnostics;
@@ -353,10 +388,15 @@ export async function executeAction(
     }
     await assertLiveActionSafety(targetScope, liveLocator, action, options);
 
+    activationStarted = true;
     if (action.activation === "enter") {
       await liveLocator.press("Enter", { timeout: options.timeoutMs });
     } else if (action.activation === "check") {
-      await liveLocator.check({ timeout: options.timeoutMs });
+      if (action.fingerprint.type === "checkbox" && await liveLocator.isChecked().catch(() => false)) {
+        await liveLocator.uncheck({ timeout: options.timeoutMs });
+      } else {
+        await liveLocator.check({ timeout: options.timeoutMs });
+      }
     } else if (action.activation === "select") {
       const option = await liveLocator.evaluate((element) => {
         const select = element as HTMLSelectElement;
@@ -380,6 +420,20 @@ export async function executeAction(
       else await liveLocator.evaluate((form) => (form as HTMLFormElement).requestSubmit());
     } else {
       await liveLocator.click({ timeout: options.timeoutMs });
+    }
+
+    if (!options.allowExternal) await page.waitForTimeout(25);
+    if (blockedNavigation) {
+      throw new PreExecutionSafetyError(
+        `Live safety escalation: cross-origin navigation to ${blockedNavigation} was blocked. Use --allow-external explicitly or record the flow.`,
+        {
+          ...action,
+          kind: "external",
+          intent: "external",
+          risk: "external",
+          recordingRequired: "Unexpected cross-origin navigation needs an explicit recorded flow and external-navigation policy.",
+        },
+      );
     }
 
     if (action.kind === "mutation") {

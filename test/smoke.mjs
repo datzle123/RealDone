@@ -97,6 +97,23 @@ try {
   assert.ok(result.report.findings.some((finding) => finding.action.label === "Open popup" && finding.verdict === "VERIFIED" && (finding.evidence.popupUrls?.length ?? 0) === 1));
   assert.ok(result.report.findings.some((finding) => finding.action.label === "Enable alerts" && finding.verdict === "VERIFIED"));
   assert.ok(result.report.findings.some((finding) => finding.action.label === "Theme" && finding.verdict === "VERIFIED"));
+  assert.ok(result.report.findings.some((finding) => finding.action.pageUrl.endsWith("/actionability-controls") && finding.action.label === "Restart game" && finding.verdict === "VERIFIED" && finding.action.fingerprint.tag === "a" && !finding.action.fingerprint.href));
+  assert.ok(result.report.findings.some((finding) => finding.action.pageUrl.endsWith("/actionability-controls") && finding.action.label === "Broken script action" && finding.detectorMatches.some((match) => match.code === "RD002")));
+  assert.ok(result.report.findings.some((finding) => finding.action.pageUrl.endsWith("/actionability-controls") && finding.action.label === "Enable checked setting" && finding.verdict === "VERIFIED"));
+  assert.ok(result.report.findings.some((finding) => finding.action.pageUrl.endsWith("/actionability-controls") && finding.action.label === "Broken checked setting" && finding.detectorMatches.some((match) => match.code === "RD001")));
+  assert.ok(!result.report.findings.some((finding) => finding.action.pageUrl.endsWith("/actionability-controls") && ["Already selected radio", "Covered radio", "Current view", "Disabled hidden submit"].includes(finding.action.label)));
+  const nestedActions = result.report.findings.filter((finding) => finding.action.pageUrl.endsWith("/actionability-controls") && finding.action.label === "Nested duplicate action");
+  assert.equal(nestedActions.length, 1);
+  assert.equal(nestedActions[0]?.action.fingerprint.tag, "a");
+  assert.ok(result.report.findings.some((finding) => finding.action.pageUrl.endsWith("/actionability-controls") && finding.action.label === "Other view" && finding.verdict === "VERIFIED"));
+  assert.ok(result.report.findings.some((finding) => finding.action.pageUrl.endsWith("/actionability-controls") && finding.action.label === "Copy generated value" && finding.verdict === "VERIFIED" && finding.evidence.pageErrors.length === 0));
+  assert.ok(result.report.findings.some((finding) => finding.action.pageUrl.endsWith("/actionability-controls") && finding.action.label === "button action" && finding.verdict === "SKIPPED" && finding.detectorMatches.some((match) => match.code === "RD008")));
+  assert.ok(result.report.findings.some((finding) => finding.action.pageUrl.endsWith("/runtime-popup-search") && finding.action.label.includes("Search external docs") && finding.verdict === "VERIFIED" && finding.evidence.popupUrls?.some((url) => url.includes("localhost") && url.includes("q=RD_TEST_"))));
+  assert.ok(result.report.findings.some((finding) => finding.action.pageUrl.endsWith("/modal-reveal") && finding.action.label === "Get started" && finding.verdict === "VERIFIED"));
+  assert.ok(result.report.findings.some((finding) => finding.action.pageUrl.endsWith("/modal-reveal") && finding.action.label === "Reveal settings panel" && finding.verdict === "VERIFIED" && finding.evidence.preparedInteractions?.includes("Get started")));
+  assert.ok(result.report.findings.some((finding) => finding.action.pageUrl.endsWith("/modal-reveal") && finding.action.label === "Create qualification record" && finding.verdict === "NO_EFFECT" && finding.detectorMatches.some((match) => match.code === "RD002") && finding.evidence.preparedInteractions?.includes("Get started")));
+  assert.ok(result.report.findings.some((finding) => finding.action.pageUrl.endsWith("/late-bootstrap-noop") && finding.action.label === "Create qualification record" && finding.verdict === "NO_EFFECT" && finding.detectorMatches.some((match) => match.code === "RD002") && finding.evidence.network.some((request) => request.url.includes("/api/live-data"))));
+  assert.ok(result.report.findings.some((finding) => finding.action.label === "Public settings login" && finding.verdict === "VERIFIED" && !finding.detectorMatches.some((match) => match.code === "RD505")));
   assert.ok(result.report.findings.some((finding) => finding.action.label === "Download report" && finding.verdict === "VERIFIED" && finding.evidence.downloads.includes("realdone-export.csv")));
   assert.ok(result.report.findings.some((finding) => finding.action.label === "Open row menu" && finding.verdict === "VERIFIED" && finding.action.activation === "contextmenu"));
   assert.ok(result.report.findings.some((finding) => finding.action.label === "Enable embedded setting" && finding.verdict === "VERIFIED" && finding.action.fingerprint.frameUrl));
@@ -320,6 +337,19 @@ try {
   assert.equal(fragmentNavigation.report.summary.verdicts.VERIFIED, 1);
   assert.equal(fragmentNavigation.report.findings[0]?.action.label, "Skip to content");
   assert.equal(fragmentNavigation.report.findings[0]?.evidence.executionError, undefined);
+
+  const blockedRuntimePopup = await runScan({
+    ...scan,
+    targetUrl: `${fixture.url}/runtime-popup-search`,
+    outputRoot: path.join(outputRoot, "runtime-popup-blocked"),
+    maxPages: 1,
+    maxActions: 2,
+    allowExternal: false,
+  });
+  const blockedPopupFinding = blockedRuntimePopup.report.findings.find((finding) => finding.action.label.includes("Search external docs"));
+  assert.equal(blockedPopupFinding?.verdict, "SKIPPED");
+  assert.ok(blockedPopupFinding?.detectorMatches.some((match) => match.code === "RD008"));
+  assert.match(blockedPopupFinding?.skippedReason ?? "", /cross-origin navigation.*blocked/i);
 
   const managedScan = await runCommand({
     executable: process.execPath,

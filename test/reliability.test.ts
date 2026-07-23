@@ -3,6 +3,7 @@ import test from "node:test";
 import { applyActionPolicy, actionPolicySchema } from "../src/core/policy.js";
 import { withRetry } from "../src/core/retry.js";
 import { createCleanupLedger } from "../src/cleanup/ledger.js";
+import { actionExecutionPriority } from "../src/scan.js";
 import type { ActionPolicy, ActionSpec, Finding, ScanReport } from "../src/types.js";
 
 const action: ActionSpec = {
@@ -15,6 +16,13 @@ const action: ActionSpec = {
   fingerprint: { selector: "#save", tag: "button", ordinal: 0 },
   fields: [],
 };
+
+test("runs session-ending and destructive actions after ordinary controls", () => {
+  assert.equal(actionExecutionPriority(action), 0);
+  assert.equal(actionExecutionPriority({ ...action, label: "Delete customer", intent: "delete", risk: "destructive" }), 1);
+  assert.equal(actionExecutionPriority({ ...action, label: "Logout", intent: "submit" }), 2);
+  assert.equal(actionExecutionPriority({ ...action, label: "Sign out" }), 2);
+});
 
 test("validates and applies action policy overrides and denials", () => {
   const policy = actionPolicySchema.parse({

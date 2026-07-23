@@ -252,6 +252,7 @@ export interface IndexedDbDigest {
 export interface SemanticDomDigest {
   textHash: string;
   text: string;
+  visualHash?: string;
   controls: Array<{
     tag: string;
     type: string;
@@ -259,6 +260,7 @@ export interface SemanticDomDigest {
     valueHash: string;
     checked: boolean;
     disabled: boolean;
+    visible?: boolean;
     expanded?: string;
     pressed?: string;
     selected?: string;
@@ -403,6 +405,7 @@ export interface ExecutionEvidence {
   targetDisabledAfter?: boolean;
   targetBusyAfter?: boolean;
   networkSettled?: boolean;
+  preparedInteractions?: string[];
 }
 
 export interface DetectorMatch {

@@ -142,6 +142,90 @@
       "expectedCodes": []
     },
     {
+      "id": "script-anchor-control",
+      "match": { "pagePath": "/actionability-controls", "label": "Restart game" },
+      "shouldFlag": false,
+      "expectedVerdict": "VERIFIED",
+      "expectedCodes": []
+    },
+    {
+      "id": "script-anchor-broken",
+      "match": { "pagePath": "/actionability-controls", "label": "Broken script action" },
+      "shouldFlag": true,
+      "expectedVerdict": "NO_EFFECT",
+      "expectedCodes": ["RD002"]
+    },
+    {
+      "id": "checked-checkbox-control",
+      "match": { "pagePath": "/actionability-controls", "label": "Enable checked setting" },
+      "shouldFlag": false,
+      "expectedVerdict": "VERIFIED",
+      "expectedCodes": []
+    },
+    {
+      "id": "checked-checkbox-broken",
+      "match": { "pagePath": "/actionability-controls", "label": "Broken checked setting" },
+      "shouldFlag": true,
+      "expectedVerdict": "BROKEN",
+      "expectedCodes": ["RD001"]
+    },
+    {
+      "id": "inactive-choice-control",
+      "match": { "pagePath": "/actionability-controls", "label": "Other view" },
+      "shouldFlag": false,
+      "expectedVerdict": "VERIFIED",
+      "expectedCodes": []
+    },
+    {
+      "id": "clipboard-permission-control",
+      "match": { "pagePath": "/actionability-controls", "label": "Copy generated value" },
+      "shouldFlag": false,
+      "expectedVerdict": "VERIFIED",
+      "expectedCodes": []
+    },
+    {
+      "id": "unlabelled-recording-boundary",
+      "match": { "pagePath": "/actionability-controls", "label": "button action" },
+      "shouldFlag": false,
+      "expectedVerdict": "SKIPPED",
+      "expectedCodes": ["RD008"]
+    },
+    {
+      "id": "runtime-popup-search-control",
+      "match": { "pagePath": "/runtime-popup-search", "label": "Search external docs" },
+      "shouldFlag": false,
+      "expectedVerdict": "VERIFIED",
+      "expectedCodes": []
+    },
+    {
+      "id": "modal-dismiss-control",
+      "match": { "pagePath": "/modal-reveal", "label": "Get started" },
+      "shouldFlag": false,
+      "expectedVerdict": "VERIFIED",
+      "expectedCodes": []
+    },
+    {
+      "id": "modal-revealed-action-control",
+      "match": { "pagePath": "/modal-reveal", "label": "Reveal settings panel" },
+      "shouldFlag": false,
+      "expectedVerdict": "VERIFIED",
+      "expectedCodes": []
+    },
+    {
+      "id": "modal-bootstrap-noop-defect",
+      "match": { "pagePath": "/modal-reveal", "label": "Create qualification record" },
+      "shouldFlag": true,
+      "expectedVerdict": "NO_EFFECT",
+      "expectedCodes": ["RD002"]
+    },
+    {
+      "id": "late-bootstrap-noop-defect",
+      "match": { "pagePath": "/late-bootstrap-noop", "label": "Create qualification record" },
+      "shouldFlag": true,
+      "expectedVerdict": "NO_EFFECT",
+      "expectedCodes": ["RD002"]
+    },
+    {
       "id": "popup-control",
       "match": { "pagePath": "/popup-control", "label": "Open popup" },
       "shouldFlag": false,
@@ -312,6 +396,13 @@
     {
       "id": "real-detail-control",
       "match": { "pagePath": "/phase-d", "label": "Real customer details" },
+      "shouldFlag": false,
+      "expectedVerdict": "VERIFIED",
+      "expectedCodes": []
+    },
+    {
+      "id": "public-settings-route-control",
+      "match": { "pagePath": "/phase-d", "label": "Public settings login" },
       "shouldFlag": false,
       "expectedVerdict": "VERIFIED",
       "expectedCodes": []

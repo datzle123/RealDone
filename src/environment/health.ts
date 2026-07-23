@@ -82,7 +82,12 @@ export async function waitForEnvironmentRender(
   do {
     observation = await observeRender(page).catch(() => EMPTY_RENDER);
     if (observation.ready && (!requireInteractive || observation.interactiveElements > 0)) {
-      await page.waitForTimeout(Math.min(Math.max(settleMs, 100), 500));
+      // `settleMs` is the caller's explicit readiness budget. Honour it up to a
+      // bounded ceiling so module-driven applications can finish hydrating
+      // control values before discovery and before the action baseline is
+      // captured. Capping this at 500 ms caused unrelated late bootstrap work
+      // to be attributed to the first clicked control.
+      await page.waitForTimeout(Math.min(Math.max(settleMs, 100), 2_000));
       return observeRender(page).catch(() => observation);
     }
     await page.waitForTimeout(100);

@@ -1307,6 +1307,10 @@ Các project tiếp theo phải bao gồm:
 
 ---
 
+Published case-study evidence must pin the upstream commit and license, preserve the minimal injected fault as a patch, record exact clean/fault run IDs, and SHA-256-bind the raw reports. Large disposable checkouts and raw artifacts may remain local when the compact manifest is reproducible and no external project code is redistributed.
+
+---
+
 # 28. Engineering Quality
 
 Repository phải có:

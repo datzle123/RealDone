@@ -26,7 +26,7 @@ test("normative product truth is linked, consistent, and shipped", async () => {
   assert.match(specification, /Trạng thái: NORMATIVE/);
   assert.match(specification, /# 29\. Release Gates/);
   assert.match(specification, /# 32\. Định nghĩa hoàn thành full project/);
-  assert.match(status, /Full product:\*\* \*\*HOÀN THÀNH/);
+  assert.match(status, /Released full product:\*\* \*\*IMPLEMENTED in `v1\.3\.2`/);
   assert.match(roadmap, /PRODUCT_SPECIFICATION\.md/);
   assert.match(roadmap, /only area-completeness ledger/i);
   assert.doesNotMatch(roadmap, /Mapped specification:/);

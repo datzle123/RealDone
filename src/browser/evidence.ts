@@ -255,6 +255,8 @@ export async function captureState(
         const input = element as HTMLInputElement;
         const type = input.type?.toLowerCase() ?? element.tagName.toLowerCase();
         const sensitive = type === "password" || /password|token|secret|api.?key/i.test(input.name || input.id || "");
+        const style = getComputedStyle(element);
+        const rect = element.getBoundingClientRect();
         return {
           tag: element.tagName.toLowerCase(),
           type,
@@ -262,6 +264,7 @@ export async function captureState(
           value: sensitive ? "[REDACTED]" : input.value,
           checked: input.checked,
           disabled: input.disabled,
+          visible: style.display !== "none" && style.visibility !== "hidden" && Number(style.opacity || "1") > 0 && rect.width > 0 && rect.height > 0,
           expanded: element.getAttribute("aria-expanded"),
           pressed: element.getAttribute("aria-pressed"),
           selected: element.getAttribute("aria-selected"),
@@ -269,9 +272,23 @@ export async function captureState(
         };
       });
     const controlText = JSON.stringify(controls);
+    const visualState = [...document.querySelectorAll('dialog, [role="dialog"], [aria-modal], [class~="pane"], [class*="modal"], [class*="tour"], [class*="onboarding"], [hidden], [aria-hidden], button, a, input, textarea, select, [role="tab"], [role="menuitem"]')]
+      .slice(0, 2_000)
+      .map((element) => {
+        const style = getComputedStyle(element);
+        const rect = element.getBoundingClientRect();
+        return {
+          tag: element.tagName.toLowerCase(),
+          visible: style.display !== "none" && style.visibility !== "hidden" && Number(style.opacity || "1") > 0 && rect.width > 0 && rect.height > 0,
+          pointer: style.pointerEvents !== "none",
+          hidden: element.hasAttribute("hidden"),
+          ariaHidden: element.getAttribute("aria-hidden"),
+          open: element.hasAttribute("open"),
+        };
+      });
+    const visualText = JSON.stringify(visualState);
     const storageEntries = [...Object.entries(localStorage), ...Object.entries(sessionStorage)];
     const authStorage = storageEntries.filter(([key, value]) => /auth|session|token|jwt|credential/i.test(key) || value.split(".").length === 3);
-    const normalizedUrl = location.pathname.toLowerCase();
     const normalizedText = bodyText.toLowerCase();
     const authEvidenceText = [...document.querySelectorAll("body *")]
       .filter((element) => element.childElementCount === 0 && !element.closest("nav, a, form") && !element.hasAttribute("hidden") && element.getAttribute("aria-hidden") !== "true")
@@ -310,6 +327,7 @@ export async function captureState(
       title: document.title,
       bodyText,
       controlText,
+      visualText,
       controls,
       canaryPresent: `${bodyText}\n${controlText}`.toLowerCase().includes(needle.toLowerCase()),
       bodyCanaryPresent: bodyText.toLowerCase().includes(needle.toLowerCase()),
@@ -319,8 +337,8 @@ export async function captureState(
       auth: {
         storageArtifacts: authStorage.length,
         expiredStorageArtifacts: authStorage.filter(([, value]) => jwtExpired(value)).length,
-        privateContent: /\b(private account|account dashboard|account settings|profile settings|member dashboard|tenant dashboard|billing dashboard|signed in as|sign out|log out|logout)\b/.test(authEvidenceText) || /\/(account|profile|settings|private|member|tenant|billing|dashboard)(\/|$)/.test(normalizedUrl),
-        adminContent: /\b(admin dashboard|admin panel|administration|signed in as admin)\b/.test(authEvidenceText) || /\/admin(\/|$)/.test(normalizedUrl),
+        privateContent: /\b(private account|account dashboard|account settings|profile settings|member dashboard|tenant dashboard|billing dashboard|signed in as|sign out|log out|logout)\b/.test(authEvidenceText),
+        adminContent: /\b(admin dashboard|admin panel|administration|signed in as admin)\b/.test(authEvidenceText),
         accessDenied: /\b(unauthorized|forbidden|access denied|sign in required|login required)\b/.test(normalizedText),
       },
       busyControls: controls.filter((control) => control.busy === "true").length,
@@ -335,7 +353,7 @@ export async function captureState(
     at: Date.now() - startedAt,
     url: safeUrl(state.url),
     title: state.title.slice(0, 300),
-    domHash: hashText(`${state.bodyText}\n${state.controlText}`),
+    domHash: hashText(`${state.bodyText}\n${state.controlText}\n${state.visualText}`),
     canaryPresent: state.canaryPresent,
     bodyCanaryPresent: state.bodyCanaryPresent,
     temporaryBlobUrls: state.temporaryBlobUrls,
@@ -348,6 +366,7 @@ export async function captureState(
     },
     semanticDom: {
       textHash: hashText(state.bodyText),
+      visualHash: hashText(state.visualText),
       text: redactText(state.bodyText).slice(0, 20_000),
       controls: state.controls.map((control) => ({
         tag: control.tag,
@@ -356,6 +375,7 @@ export async function captureState(
         valueHash: hashText(control.value),
         checked: control.checked,
         disabled: control.disabled,
+        visible: control.visible,
         ...(control.expanded === null ? {} : { expanded: control.expanded }),
         ...(control.pressed === null ? {} : { pressed: control.pressed }),
         ...(control.selected === null ? {} : { selected: control.selected }),

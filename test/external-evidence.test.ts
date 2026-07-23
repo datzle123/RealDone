@@ -229,9 +229,10 @@ test("engine fingerprints ignore release plumbing but change with product behavi
 
 test("requires semantic capability evidence instead of a passing assertion label", async () => {
   const committedManifest = JSON.parse(await readFile(path.resolve("release/external-cases.json"), "utf8"));
-  assert.equal((await validateExternalCaseEvidenceFiles(committedManifest, process.cwd())).length, 5);
+  const releasedFingerprint = committedManifest[0]?.engineFingerprint as string;
+  assert.equal((await validateExternalCaseEvidenceFiles(committedManifest, process.cwd(), releasedFingerprint)).length, 5);
   await assert.rejects(
-    () => validateExternalCaseEvidenceFiles([...committedManifest, committedManifest[0]], process.cwd()),
+    () => validateExternalCaseEvidenceFiles([...committedManifest, committedManifest[0]], process.cwd(), releasedFingerprint),
     /duplicate case or evidence file/,
   );
 
