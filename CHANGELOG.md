@@ -17,6 +17,7 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 - Hosted main run `30195945498` passed and signed all 15 normative gates across Linux, Windows and macOS for the Phase I fingerprint and installed-package path.
 - Hosted main run `30200299159` passed and signed all 15 normative gates across Linux, Windows and macOS for the Phase J fingerprint; both aggregate artifacts verified against merge `6d736d5`.
 - Hosted main run `30203185815` passed and signed all 15 normative gates across Linux, Windows and macOS for the Phase K fingerprint; both aggregate artifacts verified against merge `ca9e9db`.
+- Hosted main run `30206231697` passed and signed all 15 normative gates on the first attempt across Linux, Windows and macOS for the Phase L fingerprint; both aggregate artifacts verified against merge `badd3a9`.
 
 ### Fixed
 

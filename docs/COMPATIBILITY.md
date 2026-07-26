@@ -10,7 +10,7 @@ Phase J fingerprint `0b39d542…` repeated the matrix in hosted main run [`30200
 
 Phase K fingerprint `4625a9cc…` repeated the matrix in hosted main run [`30203185815`](https://github.com/datzle123/RealDone/actions/runs/30203185815). All 15 gates passed after one Windows Node 22 managed-runtime startup retry, GitHub signed both aggregate artifacts for merge `ca9e9db`, and `gh attestation verify` accepted their provenance.
 
-The Phase L candidate adds optional `ManagedScanRequest.runtimeStartupTimeoutMs`, CLI `--runtime-startup-timeout`, and MCP `scan.runtimeStartupTimeoutMs` controls. Existing API callers remain source-compatible because the request field is optional; CLI/MCP defaults change only the managed-runtime health wait and do not alter report schema or already-running URL scans. Cross-platform hosted qualification is pending.
+Phase L fingerprint `3663ff0c…` adds optional `ManagedScanRequest.runtimeStartupTimeoutMs`, CLI `--runtime-startup-timeout`, and MCP `scan.runtimeStartupTimeoutMs` controls. Existing API callers remain source-compatible because the request field is optional; CLI/MCP defaults change only the managed-runtime health wait and do not alter report schema or already-running URL scans. Hosted main run [`30206231697`](https://github.com/datzle123/RealDone/actions/runs/30206231697) passed 15/15 on its first attempt across Linux, Windows and macOS; GitHub signed both artifacts for merge `badd3a9`.
 
 | Surface | Release gate |
 | --- | --- |
