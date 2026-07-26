@@ -2,6 +2,8 @@
 
 `v1.3.3` passed the matrix below in hosted run [`30189340006`](https://github.com/datzle123/RealDone/actions/runs/30189340006), including installed-tarball scan/cleanup gates for metadata-free static and npm projects. GitHub signed the 15/15 aggregate for source commit `b682da329fde789f2f8aa6fe339b0195887c778d`.
 
+Unreleased main fingerprint `f3f65840…` preserved the same matrix and package path in hosted run [`30195945498`](https://github.com/datzle123/RealDone/actions/runs/30195945498). All 15 gates passed on Linux, Windows and macOS with Node 20/22, and GitHub signed the aggregate evidence and gate report for merge commit `2572aba57edf418f87750352ed3b3d36868015ac`.
+
 | Surface | Release gate |
 | --- | --- |
 | Node.js | 20 and 22 |

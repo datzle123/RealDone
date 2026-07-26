@@ -138,7 +138,7 @@ Gate:
 
 Phase H is complete. The final local batch passed 129/129 executed tests, audit, browser smoke, packing, and installed-tarball scans of both a metadata-free static project and an npm project without lockfile/package-manager metadata; both managed runtimes were confirmed stopped. Hosted run [`29977292441`](https://github.com/datzle123/RealDone/actions/runs/29977292441) then passed Linux, Windows and macOS on Node 20/22, the package scan/cleanup gate, and all 15 normative release gates. `gh attestation verify` confirmed GitHub-signed provenance for source commit `ab902acdfb95463c82a7c842f5b497a68d8c325a`.
 
-## Phase I — coverage-balanced quick-scan scheduling (release candidate)
+## Phase I — coverage-balanced quick-scan scheduling (complete)
 
 Contributes evidence to: §4.1, §8–11, §29–31.
 
@@ -150,4 +150,4 @@ Gate:
 - JSON/HTML reports expose eligible, selected, omitted, represented-route, semantic coverage, denial counts and strategy version without breaking schema `1.0` consumers.
 - Broken/control unit coverage and a real-browser three-route budget fixture pass with typecheck, audit, browser smoke and package gates.
 
-Phase I implementation and local qualification are complete for candidate fingerprint `f3f65840…`: typecheck/unit/build passed 140 tests with 2 expected service-dependent skips, dependency audit reported no known vulnerabilities, full Chromium smoke passed the real three-route budget control, and pack plus installed-tarball package smoke passed. Fresh SHA-256-bound runs now cover TodoMVC, Actual Budget, Conduit/SQLite, Conduit/PostgreSQL 17 + Supabase Data API, PostgreSQL CRUD cleanup, Level 7 roles, and a Codex MCP baseline → RD901 regression → repair cycle. Reusing only the successful candidate-head Linux/macOS/Windows attestations from run `30193615824`, local aggregation passes 15/15. The phase remains a release candidate until hosted CI reruns against and signs the evidence commit.
+Phase I is complete for fingerprint `f3f65840…`: typecheck/unit/build passed 140 tests with 2 expected service-dependent skips, dependency audit reported no known vulnerabilities, full Chromium smoke passed the real three-route budget control, and pack plus installed-tarball package smoke passed. Fresh SHA-256-bound runs cover TodoMVC, Actual Budget, Conduit/SQLite, Conduit/PostgreSQL 17 + Supabase Data API, PostgreSQL CRUD cleanup, Level 7 roles, and a Codex MCP baseline → RD901 regression → repair cycle. Hosted main run [`30195945498`](https://github.com/datzle123/RealDone/actions/runs/30195945498) passed all 15 gates across Linux, macOS and Windows, Node 20/22, PostgreSQL 17, MongoDB 8 and installed-package smoke. GitHub signed the aggregate evidence and gate report, and `gh attestation verify` accepted both artifacts.
