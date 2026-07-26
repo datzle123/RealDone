@@ -85,6 +85,9 @@ export class RuntimeManager {
     if (!Number.isInteger(options.restartLimit) || options.restartLimit < 0) {
       throw new Error("Runtime restartLimit must be a non-negative integer.");
     }
+    if (!Number.isInteger(options.healthTimeoutMs) || options.healthTimeoutMs <= 0) {
+      throw new Error("Runtime healthTimeoutMs must be a positive integer.");
+    }
     this.options = { ...options, cwd: path.resolve(options.cwd) };
     this.#snapshot = {
       state: "idle",
@@ -120,7 +123,10 @@ export class RuntimeManager {
       stdio: ["ignore", "pipe", "pipe"],
     });
     this.#child = child;
-    if (child.pid) this.#snapshot.pid = child.pid;
+    if (child.pid) {
+      this.#snapshot.pid = child.pid;
+      void this.#writeLog("runtime", `Spawned ${commandText(command)} as PID ${child.pid}.`);
+    }
     child.stdout?.on("data", (chunk) => void this.#writeLog("stdout", String(chunk)));
     child.stderr?.on("data", (chunk) => void this.#writeLog("stderr", String(chunk)));
     child.once("error", (error) => {
@@ -165,7 +171,8 @@ export class RuntimeManager {
     }
     const recentLogs = this.#snapshot.logs.slice(-8);
     const diagnostic = recentLogs.length > 0 ? `\nRecent runtime logs:\n${recentLogs.join("\n")}` : "";
-    throw new Error(`Managed runtime did not become healthy at ${this.options.healthUrl}: ${lastError}${diagnostic}`);
+    const processState = `state=${this.#snapshot.state}; pid=${this.#snapshot.pid ?? "none"}; restarts=${this.#snapshot.restarts}/${this.options.restartLimit}`;
+    throw new Error(`Managed runtime did not become healthy at ${this.options.healthUrl} within ${this.options.healthTimeoutMs}ms: ${lastError}\nRuntime process: ${processState}${diagnostic}`);
   }
 
   async start(): Promise<RuntimeSnapshot> {

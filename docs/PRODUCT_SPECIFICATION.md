@@ -365,6 +365,8 @@ Runtime Manager chịu trách nhiệm:
 * hỗ trợ production build;
 * hỗ trợ Docker khi được cấu hình.
 
+Managed runtime startup phải có health-check timeout hữu hạn, tách biệt với page-render/action timeout và có thể cấu hình từ CLI/MCP. Giá trị mặc định phải đủ cho package-manager startup trên Windows, macOS và Linux nhưng không được thêm độ trễ khi health check đã pass; timeout phải dừng process tree và trả diagnostics đã redaction gồm state, PID/restart count và log gần nhất.
+
 ---
 
 # 7. Environment Health Gate

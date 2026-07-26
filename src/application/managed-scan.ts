@@ -12,6 +12,7 @@ export interface ManagedScanRequest {
   manageRuntime: boolean;
   runtimeMode: RuntimeMode;
   runtimeRestarts: number;
+  runtimeStartupTimeoutMs?: number;
   healthEndpoint?: string;
   scanOptions: Omit<ScanOptions, "targetUrl" | "healthEndpoint" | "restartTarget">;
 }
@@ -56,7 +57,7 @@ export async function runManagedScan(
       cwd: projectRoot,
       command,
       healthUrl: new URL(request.healthEndpoint ?? profile.healthEndpoint, targetUrl).toString(),
-      healthTimeoutMs: options.environmentTimeoutMs ?? 10_000,
+      healthTimeoutMs: request.runtimeStartupTimeoutMs ?? options.environmentTimeoutMs ?? 10_000,
       restartLimit: request.runtimeRestarts,
       logFile: path.join(projectRoot, ".realdone", "runtime.log"),
       ...(request.runtimeMode === "docker"
