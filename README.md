@@ -109,7 +109,7 @@ Ten pinned MIT projects—Flatnotes, Linkding, Flame, TakeNote, Grimoire, Dashy,
 
 ## Current status
 
-Released RealDone `v1.3.2` met the full normative product specification for its signed fingerprint. The current unreleased candidate adds the 10-project regression batch above and has fresh signed cross-platform evidence for the five normative external cases; it has not been published as a new version yet.
+Released RealDone `v1.3.2` met the full normative product specification for its signed fingerprint. The prepared `v1.3.3` candidate adds the 10-project regression batch above and has fresh signed cross-platform evidence for the five normative external cases; npm publication waits for the hosted gates on the versioned release commit.
 
 - Released fingerprint `1f88dd858…` and the `v1.3.2` installed-package path passed all 15 normative gates on Windows, macOS, and Linux in [hosted run 29977292441](https://github.com/datzle123/RealDone/actions/runs/29977292441).
 - Candidate fingerprint `68d4a8cb…` is bound to fresh TodoMVC, Actual Budget, Conduit SQLite/PostgreSQL/Supabase, Pocket Ledger, role, CRUD-cleanup, and Codex MCP evidence; all 15 gates passed on Windows, macOS, and Linux in signed [hosted run 30187784286](https://github.com/datzle123/RealDone/actions/runs/30187784286).

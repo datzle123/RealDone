@@ -8,7 +8,7 @@ A phase gate is complete only when its production behavior, broken fixtures, cor
 
 ## Current unreleased qualification
 
-The 2026-07-23 local regression batch ran ten pinned MIT web projects, retained clean controls, injected one reproducible no-op Create action per project, and observed 10/10 `NO_EFFECT / RD002` results in valid Chromium environments. The five normative external cases, PostgreSQL CRUD cleanup, Supabase Data API, Level 7 role contract, and Codex MCP RD901 regression/repair cycle were then rerun and validator-bound to candidate fingerprint `68d4a8cb…`. Signed hosted run [`30187784286`](https://github.com/datzle123/RealDone/actions/runs/30187784286) passed all 15 gates across Windows/macOS/Linux; the candidate has not been published as a new version yet.
+The 2026-07-23 local regression batch ran ten pinned MIT web projects, retained clean controls, injected one reproducible no-op Create action per project, and observed 10/10 `NO_EFFECT / RD002` results in valid Chromium environments. The five normative external cases, PostgreSQL CRUD cleanup, Supabase Data API, Level 7 role contract, and Codex MCP RD901 regression/repair cycle were then rerun and validator-bound to candidate fingerprint `68d4a8cb…`. Signed hosted run [`30187784286`](https://github.com/datzle123/RealDone/actions/runs/30187784286) passed all 15 gates across Windows/macOS/Linux; `v1.3.3` is prepared but remains unreleased until the versioned source commit passes hosted qualification.
 
 ## Released foundation (`v0.1.0`–`v1.1.0`)
 

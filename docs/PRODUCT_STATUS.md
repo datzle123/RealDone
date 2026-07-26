@@ -2,12 +2,12 @@
 
 **Snapshot:** 2026-07-23
 **Released full product:** **IMPLEMENTED in `v1.3.2`**
-**Current unreleased candidate:** hosted-qualified in run `30187784286`; not yet published as a new version.
+**Current `v1.3.3` release candidate:** engine-qualified in hosted run `30187784286`; npm publication waits for the hosted gates on the versioned release commit.
 **Area coverage:** **22/22 `IMPLEMENTED`**, **0/22 `PARTIAL`**, **0/22 `PLANNED`**. Detector catalog: **58/58 production-classified and gated**.
 
 This file reports current evidence against the normative [`PRODUCT_SPECIFICATION.md`](PRODUCT_SPECIFICATION.md). It does not reduce that specification. `IMPLEMENTED` requires executable evidence; `PARTIAL` means useful code exists but the full normative behavior or release gate does not.
 
-Current unreleased note: the regression batch additionally ran ten pinned MIT projects and detected 10/10 injected no-op Create buttons as `NO_EFFECT / RD002`; commit, license, clean-control, run, and report hashes are in [`release/evidence/case-studies-10`](../release/evidence/case-studies-10/README.md). The five normative external cases were also rerun and validator-bound to candidate fingerprint `68d4a8cb…`, including PostgreSQL CRUD cleanup, Supabase Data API, Level 7 roles, and a real Codex MCP RD901 regression/repair cycle. Hosted run [`30187784286`](https://github.com/datzle123/RealDone/actions/runs/30187784286) passed all 15 gates across Windows/macOS/Linux and GitHub signed the aggregate; a new package version has not been published yet.
+Current unreleased note: the regression batch additionally ran ten pinned MIT projects and detected 10/10 injected no-op Create buttons as `NO_EFFECT / RD002`; commit, license, clean-control, run, and report hashes are in [`release/evidence/case-studies-10`](../release/evidence/case-studies-10/README.md). The five normative external cases were also rerun and validator-bound to candidate fingerprint `68d4a8cb…`, including PostgreSQL CRUD cleanup, Supabase Data API, Level 7 roles, and a real Codex MCP RD901 regression/repair cycle. Hosted run [`30187784286`](https://github.com/datzle123/RealDone/actions/runs/30187784286) passed all 15 gates across Windows/macOS/Linux and GitHub signed the aggregate; `v1.3.3` is prepared but remains unreleased until its versioned source commit passes hosted qualification.
 
 | Specification area | Status | Evidence currently in the repository | Remaining normative gap |
 | --- | --- | --- | --- |

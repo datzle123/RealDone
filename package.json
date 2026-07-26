@@ -1,6 +1,6 @@
 {
   "name": "realdone",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "Behavioral verification for web applications in real browsers",
   "type": "module",
   "main": "./dist/index.js",
