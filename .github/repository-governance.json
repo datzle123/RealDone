@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "1.0",
+  "repository": "datzle123/RealDone",
+  "branch": "main",
+  "requiredPullRequest": true,
+  "requiredApprovingReviewCount": 0,
+  "requiredStatusChecks": [
+    {
+      "context": "normative release gates (15/15)",
+      "appId": 15368
+    }
+  ],
+  "strict": true,
+  "enforceAdmins": true,
+  "requiredConversationResolution": true,
+  "allowForcePushes": false,
+  "allowDeletions": false
+}

@@ -83,6 +83,20 @@ Exported tests use user-facing locators where possible and preserve request/stat
 
 Aggregation rejects platform attestations from mixed source revisions and duplicate external case/evidence identities.
 
+## Protected main branch
+
+The repository uses classic branch protection on `main`. The exact required GitHub Actions context is `normative release gates (15/15)`, pinned to the GitHub Actions app, with strict/up-to-date checks and administrator enforcement enabled. Pull requests are required but the approving-review count is `0`; this is aggregate-gate enforcement, not a claim that a second maintainer must approve. Unresolved conversations block merge, and force pushes plus branch deletion are disabled.
+
+`check` and `compatibility` are dependencies of the aggregate rather than weaker independent required contexts. The aggregate job uses an always-run prerequisite guard, so a failed, cancelled or skipped dependency produces a failed required context instead of a skipped success. A missing, pending, stale or failed aggregate blocks merge.
+
+The checked-in policy is `.github/repository-governance.json`. Validate its relationship to the workflow locally with `pnpm governance:check`, or compare it with the live repository setting using an administration-readable token:
+
+```bash
+GH_TOKEN=... pnpm governance:check -- --remote --repository datzle123/RealDone
+```
+
+The required pull-request aggregate is pre-merge evidence. Artifact signing remains restricted to the subsequent successful push to `main`; the PR check is not a signed main-branch attestation.
+
 After the Linux, Windows, and macOS jobs pass, the `normative release gates (15/15)` job merges their attestations with repository-bound external-case evidence and evaluates all 15 specification gates. Gate 15 requires passing evidence for all nine §27 classes: backend CRUD, PostgreSQL, Supabase, authentication, upload, export, multi-role, AI-generated apps, and multi-step flows. The validator parses the cited raw scans and SHA-256-bound artifacts for source-confirmed CRUD, database-adapter mutations, persistent authentication, real upload/download bytes, Level 7 roles, multi-step contracts, and the agent cycle; an assertion label alone never qualifies. The merge also scans every committed `release/evidence` artifact for secrets and folds the result into RG14.
 
 For coding-agent qualification, the evidence validator additionally parses a bound Codex session projection, green baseline, selected RD901 regression, failed browser verification, and repaired zero-regression run. Contract hashes must remain unchanged across the cycle.
