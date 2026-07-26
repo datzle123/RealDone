@@ -22,6 +22,7 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 
 ### Fixed
 
+- Plugin timeout/error/success paths now settle only after the isolated worker has terminated, preventing locked plugin files and `ENOTEMPTY` cleanup failures on Windows.
 - MCP and CLI managed scans now use a dedicated configurable startup-health timeout (30 seconds by default), emit bounded process-state/PID/restart diagnostics, and exercise delayed startup plus dynamic-port cleanup instead of relying on a fixed CI port and a 10-second shared render budget.
 - Playwright traces containing known sensitive field values, generic credential/token material, invalid ZIP data, or bounded-inspection limit failures are removed immediately instead of surviving until the aggregate release artifact gate.
 - Report timelines and environment summaries now render arrows and separators as UTF-8 instead of mojibake.

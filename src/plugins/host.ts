@@ -133,8 +133,16 @@ export class PluginHost {
         if (settled) return;
         settled = true;
         clearTimeout(timer);
-        void worker.terminate();
-        operation();
+        void (async () => {
+          try {
+            await worker.terminate();
+          } catch (error) {
+            const detail = error instanceof Error ? redactText(error.message) : "unknown termination error";
+            reject(new Error(`Plugin worker termination failed: ${detail}`));
+            return;
+          }
+          operation();
+        })();
       };
       const timer = setTimeout(() => finish(() => reject(new Error(`Plugin timed out after ${this.timeoutMs}ms: ${manifest.name}`))), this.timeoutMs);
       timer.unref();
