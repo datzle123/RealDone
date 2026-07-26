@@ -658,6 +658,8 @@ Replay
 Baseline
 ```
 
+Mỗi Playwright trace chỉ được liên kết vào evidence sau khi ZIP vừa tạo đã qua kiểm tra secret có giới hạn. Nếu phát hiện secret, ZIP không đọc được, hoặc vượt giới hạn kiểm tra, RealDone phải xóa trace theo hướng fail-closed, không công bố đường dẫn đã bị loại, và chỉ ghi metadata lý do không chứa giá trị hay fingerprint của secret. Quy tắc này áp dụng giống nhau cho scan tự động, contract verification, browser matrix, CI và MCP.
+
 ---
 
 # 13. State Snapshot Engine
@@ -1109,6 +1111,7 @@ Report phải phân biệt:
 * unverified action;
 * regression;
 * expected change.
+* trace đã bị loại bởi kiểm tra secret, tách biệt với việc không bật trace hoặc xóa passing trace theo `--trace-on-failure`.
 
 ---
 
@@ -1212,6 +1215,8 @@ RD_TEST_<timestamp>_<random>
 ```
 
 Cleanup ledger phải ghi mọi resource được tạo.
+
+Trace là artifact nhạy cảm: redaction trong JSON/DOM không đủ để chứng minh ZIP Playwright an toàn. Mọi trace được giữ lại phải qua kiểm tra bounded ngay sau khi đóng trace; trace không kiểm tra được hoặc có secret phải bị xóa trước khi report được ghi.
 
 ---
 
@@ -1354,7 +1359,7 @@ Một release chỉ được phát hành khi:
 11. Environment health gate pass.
 12. Cross-platform smoke pass.
 13. Report schema backward-compatible.
-14. Không có secret trong artifact.
+14. Không có secret trong artifact; trace bị phát hiện không an toàn hoặc không kiểm tra được phải bị xóa và không được liên kết trong report.
 15. Case study bên ngoài không regression nghiêm trọng.
 
 Không được release chỉ vì:

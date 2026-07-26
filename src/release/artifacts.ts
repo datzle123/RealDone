@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { readFile, readdir, stat } from "node:fs/promises";
+import { readFile, readdir, rm, stat, truncate } from "node:fs/promises";
 import path from "node:path";
 import { unzipSync } from "fflate";
 
@@ -42,6 +42,16 @@ export interface ArtifactSecretScanOptions {
   maxArchiveEntries?: number;
   maxArchiveExpandedBytes?: number;
 }
+
+export interface TraceSuppression {
+  artifact: "trace";
+  reason: "secret-detected" | "inspection-failed";
+  findingKinds: ArtifactSecretFindingKind[];
+}
+
+export type SecretSafeTraceRetention =
+  | { retained: true }
+  | { retained: false; suppression: TraceSuppression };
 
 const binaryExtensions = new Set([".gif", ".jpeg", ".jpg", ".mp4", ".pdf", ".png", ".webm"]);
 const genericPatterns: Array<{ kind: ArtifactSecretFindingKind; expression: RegExp; detail: string }> = [
@@ -112,13 +122,7 @@ async function filesUnder(root: string): Promise<string[]> {
   return output.sort();
 }
 
-export async function scanArtifactSecrets(
-  root: string,
-  options: ArtifactSecretScanOptions = {},
-): Promise<ArtifactSecretScan> {
-  const absoluteRoot = path.resolve(root);
-  const rootInfo = await stat(absoluteRoot).catch(() => undefined);
-  if (!rootInfo?.isDirectory()) throw new Error(`Artifact scan root is not a directory: ${absoluteRoot}`);
+function createArtifactScanner(options: ArtifactSecretScanOptions) {
   const secrets = (options.secrets ?? []).filter((secret) => secret.value.length >= 4);
   const maxFileBytes = options.maxFileBytes ?? 50 * 1024 * 1024;
   const maxArchiveEntries = options.maxArchiveEntries ?? 5_000;
@@ -137,18 +141,30 @@ export async function scanArtifactSecrets(
     if (archive || path.extname(file).toLowerCase() === ".zip") {
       scannedArchives += 1;
       let entries: Record<string, Uint8Array>;
+      let archiveEntries = 0;
+      let declaredExpandedBytes = 0;
+      let archiveLimitExceeded = false;
       try {
-        entries = unzipSync(bytes);
+        entries = unzipSync(bytes, {
+          filter: (entry) => {
+            archiveEntries += 1;
+            declaredExpandedBytes += entry.originalSize;
+            if (archiveEntries > maxArchiveEntries || declaredExpandedBytes > maxArchiveExpandedBytes) {
+              archiveLimitExceeded = true;
+              return false;
+            }
+            return true;
+          },
+        });
       } catch {
         findings.push({ file, kind: "scan-limit", fingerprint: fingerprint(file), detail: "ZIP artifact could not be inspected." });
         return;
       }
-      const names = Object.keys(entries);
-      const expandedBytes = Object.values(entries).reduce((total, value) => total + value.byteLength, 0);
-      if (names.length > maxArchiveEntries || expandedBytes > maxArchiveExpandedBytes) {
+      if (archiveLimitExceeded) {
         findings.push({ file, kind: "scan-limit", fingerprint: fingerprint(file), detail: "ZIP artifact exceeds bounded entry or expanded-size limits." });
         return;
       }
+      const names = Object.keys(entries);
       for (const name of names.sort()) {
         const value = entries[name];
         if (!value || !looksText(value)) continue;
@@ -160,22 +176,92 @@ export async function scanArtifactSecrets(
     inspectText(file, new TextDecoder().decode(bytes), secrets, findings);
   };
 
+  const inspectFile = async (file: string, label: string): Promise<void> => {
+    const info = await stat(file);
+    scannedFiles += 1;
+    if (info.size > maxFileBytes) {
+      findings.push({ file: label, kind: "scan-limit", fingerprint: fingerprint(label), detail: `Artifact exceeds the ${maxFileBytes}-byte scan limit.` });
+      return;
+    }
+    const bytes = await readFile(file);
+    inspectBytes(label, bytes);
+  };
+
+  const result = (root: string): ArtifactSecretScan => {
+    const unique = [...new Map(findings.map((finding) => [`${finding.file}\0${finding.kind}\0${finding.fingerprint}`, finding])).values()]
+      .sort((left, right) => `${left.file}:${left.kind}`.localeCompare(`${right.file}:${right.kind}`));
+    return {
+      schemaVersion: "1.0",
+      root,
+      scannedFiles,
+      scannedArchives,
+      scannedBytes,
+      passed: unique.length === 0,
+      findings: unique,
+    };
+  };
+
+  return { inspectFile, result };
+}
+
+export async function scanArtifactSecrets(
+  root: string,
+  options: ArtifactSecretScanOptions = {},
+): Promise<ArtifactSecretScan> {
+  const absoluteRoot = path.resolve(root);
+  const rootInfo = await stat(absoluteRoot).catch(() => undefined);
+  if (!rootInfo?.isDirectory()) throw new Error(`Artifact scan root is not a directory: ${absoluteRoot}`);
+  const scanner = createArtifactScanner(options);
   for (const file of await filesUnder(absoluteRoot)) {
     const relative = path.relative(absoluteRoot, file).split(path.sep).join("/");
-    const bytes = await readFile(file);
-    scannedFiles += 1;
-    inspectBytes(relative, bytes);
+    await scanner.inspectFile(file, relative);
   }
+  return scanner.result(absoluteRoot);
+}
 
-  const unique = [...new Map(findings.map((finding) => [`${finding.file}\0${finding.kind}\0${finding.fingerprint}`, finding])).values()]
-    .sort((left, right) => `${left.file}:${left.kind}`.localeCompare(`${right.file}:${right.kind}`));
+export async function scanArtifactFileSecrets(
+  file: string,
+  options: ArtifactSecretScanOptions = {},
+): Promise<ArtifactSecretScan> {
+  const absoluteFile = path.resolve(file);
+  const fileInfo = await stat(absoluteFile).catch(() => undefined);
+  if (!fileInfo?.isFile()) throw new Error(`Artifact scan target is not a file: ${absoluteFile}`);
+  const scanner = createArtifactScanner(options);
+  await scanner.inspectFile(absoluteFile, path.basename(absoluteFile));
+  return scanner.result(absoluteFile);
+}
+
+async function removeRejectedTrace(file: string): Promise<void> {
+  await rm(file, { force: true }).catch(async () => {
+    await truncate(file, 0);
+    await rm(file, { force: true });
+  });
+  if (await stat(file).catch(() => undefined)) throw new Error("Rejected trace artifact could not be removed.");
+}
+
+export async function retainSecretSafeTrace(
+  file: string,
+  options: ArtifactSecretScanOptions = {},
+): Promise<SecretSafeTraceRetention> {
+  let scan: ArtifactSecretScan;
+  try {
+    scan = await scanArtifactFileSecrets(file, options);
+  } catch {
+    await removeRejectedTrace(file);
+    return {
+      retained: false,
+      suppression: { artifact: "trace", reason: "inspection-failed", findingKinds: ["scan-limit"] },
+    };
+  }
+  if (scan.passed) return { retained: true };
+  await removeRejectedTrace(file);
+  const findingKinds = [...new Set(scan.findings.map((finding) => finding.kind))].sort();
   return {
-    schemaVersion: "1.0",
-    root: absoluteRoot,
-    scannedFiles,
-    scannedArchives,
-    scannedBytes,
-    passed: unique.length === 0,
-    findings: unique,
+    retained: false,
+    suppression: {
+      artifact: "trace",
+      reason: findingKinds.every((kind) => kind === "scan-limit") ? "inspection-failed" : "secret-detected",
+      findingKinds,
+    },
   };
 }

@@ -479,6 +479,23 @@ try {
   });
   assert.equal(passingTrace.report.findings[0]?.verdict, "VERIFIED");
   assert.equal(passingTrace.report.findings[0]?.evidence.trace, undefined);
+  const secretTrace = await runScan({
+    ...scan,
+    targetUrl: `${fixture.url}/recorder-secret`,
+    outputRoot: path.join(outputRoot, "secret-scan-trace"),
+    maxPages: 1,
+    maxActions: 1,
+    deep: false,
+    trace: true,
+    traceOnFailure: false,
+  });
+  const secretTraceFinding = secretTrace.report.findings.find((finding) => finding.action.label.includes("Login"));
+  assert.equal(secretTraceFinding?.verdict, "CONTRADICTORY");
+  assert.equal(secretTraceFinding?.evidence.trace, undefined);
+  assert.equal(secretTraceFinding?.evidence.traceSuppression?.reason, "secret-detected");
+  assert.ok(secretTraceFinding?.evidence.traceSuppression?.findingKinds.includes("exact-secret"));
+  assert.equal((await readdir(path.join(secretTrace.reportDirectory, "traces"))).length, 0);
+  assert.match(await readFile(path.join(secretTrace.reportDirectory, "report.html"), "utf8"), /Trace suppressed by secret-safety inspection/);
   const selectorFinding = result.report.findings.find((finding) => finding.action.label.includes("Toggle resilient"));
   assert.equal(selectorFinding?.evidence.locatorResolution?.chosenStrategy, "role");
   const cleanupDryRun = await runCleanup(result.reportDirectory, { confirm: false, allowHosts: [], retries: 1 });
@@ -532,6 +549,33 @@ try {
   const passwordStep = secretRecording.contract.steps.find((step) => step.type === "fill" && step.secretEnv);
   assert.equal(passwordStep?.secretEnv, "REALDONE_PASSWORD");
   assert.equal(passwordStep?.fingerprint?.accessibleName, "Password");
+  const previousRecordedPassword = process.env.REALDONE_PASSWORD;
+  process.env.REALDONE_PASSWORD = recorderSecret;
+  let secretTraceVerification;
+  try {
+    secretTraceVerification = await verifyContract(secretRecording.contractFile, {
+      outputRoot: path.join(outputRoot, "secret-trace-verifications"),
+      headed: false,
+      timeoutMs: 8_000,
+      settleMs: 300,
+      maxRetries: 2,
+      continueOnFailure: false,
+      allowDestructive: false,
+      allowExternal: false,
+      allowHosts: [],
+      trace: true,
+      ...(process.env.REALDONE_BROWSER_PATH ? { executablePath: process.env.REALDONE_BROWSER_PATH } : {}),
+    });
+  } finally {
+    if (previousRecordedPassword === undefined) delete process.env.REALDONE_PASSWORD;
+    else process.env.REALDONE_PASSWORD = previousRecordedPassword;
+  }
+  assert.equal(secretTraceVerification.verification.passed, true);
+  assert.equal(secretTraceVerification.verification.artifacts?.traces.length ?? 0, 0);
+  assert.ok((secretTraceVerification.verification.artifacts?.traceSuppressions?.length ?? 0) > 0);
+  assert.ok(secretTraceVerification.verification.artifacts.traceSuppressions.some((item) => item.reason === "secret-detected"));
+  assert.equal((await readdir(path.join(secretTraceVerification.outputDirectory, "traces"))).length, 0);
+  assert.match(await readFile(path.join(secretTraceVerification.outputDirectory, "report.html"), "utf8"), /Trace suppressed by secret-safety inspection/);
   const cspRecording = await recordFlow(
     {
       targetUrl: `${fixture.url}/recorder-csp`,

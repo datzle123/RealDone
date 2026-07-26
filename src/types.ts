@@ -1,3 +1,5 @@
+import type { TraceSuppression } from "./release/artifacts.js";
+
 export type ActionKind = "navigation" | "local" | "mutation" | "external";
 export type ActionIntent =
   | "create"
@@ -397,6 +399,7 @@ export interface ExecutionEvidence {
   screenshot?: string;
   refreshScreenshot?: string;
   trace?: string;
+  traceSuppression?: TraceSuppression;
   video?: string;
   snapshotIndex?: string;
   executionError?: string;
