@@ -1,9 +1,9 @@
 {
   "schemaVersion": "1.0",
-  "scanId": "20260726T134853Z-47e8",
-  "targetUrl": "http://127.0.0.1:37284/examples/react/dist/",
-  "startedAt": "2026-07-26T13:48:53.035Z",
-  "finishedAt": "2026-07-26T13:49:09.836Z",
+  "scanId": "20260726T160547Z-8703",
+  "targetUrl": "http://127.0.0.1:37285/examples/react/dist/",
+  "startedAt": "2026-07-26T16:05:47.655Z",
+  "finishedAt": "2026-07-26T16:06:04.103Z",
   "options": {
     "maxPages": 2,
     "maxActions": 20,
@@ -41,12 +41,12 @@
   },
   "pages": [
     {
-      "url": "http://127.0.0.1:37284/examples/react/dist/",
+      "url": "http://127.0.0.1:37285/examples/react/dist/",
       "title": "TodoMVC: React",
       "actions": [
         {
-          "id": "f85be54ac3eb",
-          "pageUrl": "http://127.0.0.1:37284/examples/react/dist/",
+          "id": "00eeee6f8df2",
+          "pageUrl": "http://127.0.0.1:37285/examples/react/dist/",
           "label": "Source",
           "activation": "click",
           "kind": "navigation",
@@ -96,8 +96,8 @@
           "fields": []
         },
         {
-          "id": "c4ca43576734",
-          "pageUrl": "http://127.0.0.1:37284/examples/react/dist/",
+          "id": "83c41a0cf207",
+          "pageUrl": "http://127.0.0.1:37285/examples/react/dist/",
           "label": "Demo",
           "activation": "click",
           "kind": "navigation",
@@ -110,7 +110,7 @@
             "role": "link",
             "accessibleName": "Demo",
             "text": "Demo",
-            "href": "http://127.0.0.1:37284/examples/typescript-react",
+            "href": "http://127.0.0.1:37285/examples/typescript-react",
             "candidates": [
               {
                 "strategy": "role",
@@ -129,7 +129,7 @@
               {
                 "strategy": "href",
                 "weight": 72,
-                "value": "http://127.0.0.1:37284/examples/typescript-react"
+                "value": "http://127.0.0.1:37285/examples/typescript-react"
               },
               {
                 "strategy": "text",
@@ -147,8 +147,8 @@
           "fields": []
         },
         {
-          "id": "8989e6c2cf9b",
-          "pageUrl": "http://127.0.0.1:37284/examples/react/dist/",
+          "id": "4faf3d49cfd0",
+          "pageUrl": "http://127.0.0.1:37285/examples/react/dist/",
           "label": "Source",
           "activation": "click",
           "kind": "navigation",
@@ -198,8 +198,8 @@
           "fields": []
         },
         {
-          "id": "cccb6b478db0",
-          "pageUrl": "http://127.0.0.1:37284/examples/react/dist/",
+          "id": "b9405221deb9",
+          "pageUrl": "http://127.0.0.1:37285/examples/react/dist/",
           "label": "React",
           "activation": "click",
           "kind": "navigation",
@@ -249,8 +249,8 @@
           "fields": []
         },
         {
-          "id": "0c04efa2901a",
-          "pageUrl": "http://127.0.0.1:37284/examples/react/dist/",
+          "id": "f17bd16efe4a",
+          "pageUrl": "http://127.0.0.1:37285/examples/react/dist/",
           "label": "Quick Start",
           "activation": "click",
           "kind": "navigation",
@@ -300,8 +300,8 @@
           "fields": []
         },
         {
-          "id": "0e3e18deca36",
-          "pageUrl": "http://127.0.0.1:37284/examples/react/dist/",
+          "id": "64a8c0e9e1e2",
+          "pageUrl": "http://127.0.0.1:37285/examples/react/dist/",
           "label": "API Reference",
           "activation": "click",
           "kind": "navigation",
@@ -351,8 +351,8 @@
           "fields": []
         },
         {
-          "id": "acb28d95632b",
-          "pageUrl": "http://127.0.0.1:37284/examples/react/dist/",
+          "id": "b255fa1f0e7e",
+          "pageUrl": "http://127.0.0.1:37285/examples/react/dist/",
           "label": "Philosophy",
           "activation": "click",
           "kind": "navigation",
@@ -402,8 +402,8 @@
           "fields": []
         },
         {
-          "id": "e375c9cf4c34",
-          "pageUrl": "http://127.0.0.1:37284/examples/react/dist/",
+          "id": "653153b59e1e",
+          "pageUrl": "http://127.0.0.1:37285/examples/react/dist/",
           "label": "React Community",
           "activation": "click",
           "kind": "navigation",
@@ -453,8 +453,8 @@
           "fields": []
         },
         {
-          "id": "a2fcb4b49175",
-          "pageUrl": "http://127.0.0.1:37284/examples/react/dist/",
+          "id": "ebff3a7ee6bf",
+          "pageUrl": "http://127.0.0.1:37285/examples/react/dist/",
           "label": "ReactJS on Stack Overflow",
           "activation": "click",
           "kind": "navigation",
@@ -504,8 +504,8 @@
           "fields": []
         },
         {
-          "id": "d3aab82b1296",
-          "pageUrl": "http://127.0.0.1:37284/examples/react/dist/",
+          "id": "505d98376a8f",
+          "pageUrl": "http://127.0.0.1:37285/examples/react/dist/",
           "label": "let us know",
           "activation": "click",
           "kind": "navigation",
@@ -555,8 +555,8 @@
           "fields": []
         },
         {
-          "id": "f5d0222fba68",
-          "pageUrl": "http://127.0.0.1:37284/examples/react/dist/",
+          "id": "ef5675819f90",
+          "pageUrl": "http://127.0.0.1:37285/examples/react/dist/",
           "label": "New Todo Input",
           "activation": "enter",
           "kind": "mutation",
@@ -611,8 +611,8 @@
           ]
         },
         {
-          "id": "1f2c42ff7bab",
-          "pageUrl": "http://127.0.0.1:37284/examples/react/dist/",
+          "id": "fd357c4fcd3e",
+          "pageUrl": "http://127.0.0.1:37285/examples/react/dist/",
           "label": "TodoMVC",
           "activation": "click",
           "kind": "navigation",
@@ -664,12 +664,12 @@
       ]
     },
     {
-      "url": "http://127.0.0.1:37284/examples/typescript-react/#/",
+      "url": "http://127.0.0.1:37285/examples/typescript-react/#/",
       "title": "React • TodoMVC",
       "actions": [
         {
-          "id": "2dc1f434d9d2",
-          "pageUrl": "http://127.0.0.1:37284/examples/typescript-react/#/",
+          "id": "94429926573d",
+          "pageUrl": "http://127.0.0.1:37285/examples/typescript-react/#/",
           "label": "What needs to be done?",
           "activation": "enter",
           "kind": "mutation",
@@ -716,8 +716,8 @@
           ]
         },
         {
-          "id": "cd570a42997e",
-          "pageUrl": "http://127.0.0.1:37284/examples/typescript-react/#/",
+          "id": "a10ce9196af9",
+          "pageUrl": "http://127.0.0.1:37285/examples/typescript-react/#/",
           "label": "Remo H. Jansen",
           "activation": "click",
           "kind": "navigation",
@@ -767,8 +767,8 @@
           "fields": []
         },
         {
-          "id": "6f223b3d3c3c",
-          "pageUrl": "http://127.0.0.1:37284/examples/typescript-react/#/",
+          "id": "d9e1cacd8966",
+          "pageUrl": "http://127.0.0.1:37285/examples/typescript-react/#/",
           "label": "TodoMVC",
           "activation": "click",
           "kind": "navigation",
@@ -824,8 +824,8 @@
     {
       "id": "RD-001",
       "action": {
-        "id": "c4ca43576734",
-        "pageUrl": "http://127.0.0.1:37284/examples/react/dist/",
+        "id": "83c41a0cf207",
+        "pageUrl": "http://127.0.0.1:37285/examples/react/dist/",
         "label": "Demo",
         "activation": "click",
         "kind": "navigation",
@@ -838,7 +838,7 @@
           "role": "link",
           "accessibleName": "Demo",
           "text": "Demo",
-          "href": "http://127.0.0.1:37284/examples/typescript-react",
+          "href": "http://127.0.0.1:37285/examples/typescript-react",
           "candidates": [
             {
               "strategy": "role",
@@ -857,7 +857,7 @@
             {
               "strategy": "href",
               "weight": 72,
-              "value": "http://127.0.0.1:37284/examples/typescript-react"
+              "value": "http://127.0.0.1:37285/examples/typescript-react"
             },
             {
               "strategy": "text",
@@ -875,79 +875,79 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T13:48:56.919Z",
-        "durationMs": 2036,
-        "canary": "RD_TEST_35316C",
+        "startedAt": "2026-07-26T16:05:51.358Z",
+        "durationMs": 2025,
+        "canary": "RD_TEST_C4CADB",
         "network": [
           {
             "id": "net-1",
             "method": "GET",
-            "url": "http://127.0.0.1:37284/examples/typescript-react",
+            "url": "http://127.0.0.1:37285/examples/typescript-react",
             "resourceType": "document",
-            "startedAt": 1069,
+            "startedAt": 1051,
             "status": 301,
             "ok": false,
-            "finishedAt": 1073,
-            "location": "http://127.0.0.1:37284/examples/typescript-react/",
+            "finishedAt": 1057,
+            "location": "http://127.0.0.1:37285/examples/typescript-react/",
             "resourceTypeHint": "typescript-react"
           },
           {
             "id": "net-2",
             "method": "GET",
-            "url": "http://127.0.0.1:37284/examples/typescript-react/",
+            "url": "http://127.0.0.1:37285/examples/typescript-react/",
             "resourceType": "document",
-            "startedAt": 1073,
+            "startedAt": 1057,
             "status": 200,
             "ok": true,
             "contentType": "text/html",
             "resourceTypeHint": "typescript-react",
-            "finishedAt": 1082
+            "finishedAt": 1065
           },
           {
             "id": "net-3",
             "method": "GET",
-            "url": "http://127.0.0.1:37284/examples/typescript-react/node_modules/todomvc-common/base.css",
+            "url": "http://127.0.0.1:37285/examples/typescript-react/node_modules/todomvc-common/base.css",
             "resourceType": "stylesheet",
-            "startedAt": 1080,
+            "startedAt": 1063,
             "status": 200,
             "ok": true,
-            "finishedAt": 1090,
             "contentType": "text/css",
-            "resourceTypeHint": "base.css"
+            "resourceTypeHint": "base.css",
+            "finishedAt": 1079
           },
           {
             "id": "net-4",
             "method": "GET",
-            "url": "http://127.0.0.1:37284/examples/typescript-react/node_modules/todomvc-app-css/index.css",
+            "url": "http://127.0.0.1:37285/examples/typescript-react/node_modules/todomvc-app-css/index.css",
             "resourceType": "stylesheet",
-            "startedAt": 1080,
+            "startedAt": 1063,
             "status": 200,
             "ok": true,
-            "finishedAt": 1091,
             "contentType": "text/css",
-            "resourceTypeHint": "index.css"
+            "resourceTypeHint": "index.css",
+            "finishedAt": 1080
           },
           {
             "id": "net-5",
             "method": "GET",
-            "url": "http://127.0.0.1:37284/examples/typescript-react/node_modules/director/build/director.js",
+            "url": "http://127.0.0.1:37285/examples/typescript-react/node_modules/director/build/director.js",
             "resourceType": "script",
-            "startedAt": 1080,
+            "startedAt": 1064,
             "status": 200,
             "ok": true,
-            "finishedAt": 1096,
+            "finishedAt": 1084,
             "contentType": "application/javascript",
             "resourceTypeHint": "director.js"
           },
           {
             "id": "net-6",
             "method": "GET",
-            "url": "http://127.0.0.1:37284/examples/typescript-react/js/bundle.js",
+            "url": "http://127.0.0.1:37285/examples/typescript-react/js/bundle.js",
             "resourceType": "script",
-            "startedAt": 1081,
+            "startedAt": 1064,
             "status": 200,
             "ok": true,
-            "finishedAt": 1103,
+            "finishedAt": 1097,
             "contentType": "application/javascript",
             "resourceTypeHint": "bundle.js"
           }
@@ -976,8 +976,8 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1025,
-          "url": "http://127.0.0.1:37284/examples/react/dist/",
+          "at": 1001,
+          "url": "http://127.0.0.1:37285/examples/react/dist/",
           "title": "TodoMVC: React",
           "domHash": "84ea4bd670111ab8",
           "canaryPresent": false,
@@ -1031,8 +1031,8 @@
           }
         },
         "beforeAction": {
-          "at": 1036,
-          "url": "http://127.0.0.1:37284/examples/react/dist/",
+          "at": 1013,
+          "url": "http://127.0.0.1:37285/examples/react/dist/",
           "title": "TodoMVC: React",
           "domHash": "84ea4bd670111ab8",
           "canaryPresent": false,
@@ -1087,8 +1087,8 @@
         },
         "networkSettled": true,
         "after": {
-          "at": 2027,
-          "url": "http://127.0.0.1:37284/examples/typescript-react/#/",
+          "at": 2015,
+          "url": "http://127.0.0.1:37285/examples/typescript-react/#/",
           "title": "React • TodoMVC",
           "domHash": "12538a75df36416c",
           "canaryPresent": false,
@@ -1126,7 +1126,7 @@
             "indexedDb": []
           }
         },
-        "trace": "traces/c4ca43576734.zip",
+        "trace": "traces/83c41a0cf207.zip",
         "snapshotIndex": "snapshots/RD-001.index.json"
       },
       "verdict": "VERIFIED",
@@ -1137,8 +1137,8 @@
     {
       "id": "RD-002",
       "action": {
-        "id": "f5d0222fba68",
-        "pageUrl": "http://127.0.0.1:37284/examples/react/dist/",
+        "id": "ef5675819f90",
+        "pageUrl": "http://127.0.0.1:37285/examples/react/dist/",
         "label": "New Todo Input",
         "activation": "enter",
         "kind": "mutation",
@@ -1193,127 +1193,127 @@
         ]
       },
       "evidence": {
-        "startedAt": "2026-07-26T13:48:59.006Z",
-        "durationMs": 5190,
-        "canary": "RD_TEST_8691BC",
+        "startedAt": "2026-07-26T16:05:53.435Z",
+        "durationMs": 5232,
+        "canary": "RD_TEST_902F4C",
         "network": [
           {
             "id": "net-1",
             "method": "GET",
-            "url": "http://127.0.0.1:37284/examples/react/dist/",
+            "url": "http://127.0.0.1:37285/examples/react/dist/",
             "resourceType": "document",
-            "startedAt": 1986,
+            "startedAt": 1995,
             "status": 200,
             "ok": true,
             "contentType": "text/html",
             "resourceTypeHint": "dist",
-            "finishedAt": 1995
+            "finishedAt": 2004
           },
           {
             "id": "net-2",
             "method": "GET",
-            "url": "http://127.0.0.1:37284/examples/react/dist/app.bundle.js",
+            "url": "http://127.0.0.1:37285/examples/react/dist/app.bundle.js",
             "resourceType": "script",
-            "startedAt": 1994,
+            "startedAt": 2003,
             "status": 200,
             "ok": true,
-            "finishedAt": 2016,
+            "finishedAt": 2024,
             "contentType": "application/javascript",
             "resourceTypeHint": "app.bundle.js"
           },
           {
             "id": "net-3",
             "method": "GET",
-            "url": "http://127.0.0.1:37284/examples/react/dist/app.css",
+            "url": "http://127.0.0.1:37285/examples/react/dist/app.css",
             "resourceType": "stylesheet",
-            "startedAt": 1994,
+            "startedAt": 2003,
             "status": 200,
             "ok": true,
-            "finishedAt": 2012,
+            "finishedAt": 2020,
             "contentType": "text/css",
             "resourceTypeHint": "app.css"
           },
           {
             "id": "net-4",
             "method": "GET",
-            "url": "http://127.0.0.1:37284/examples/react/dist/base.js",
+            "url": "http://127.0.0.1:37285/examples/react/dist/base.js",
             "resourceType": "script",
-            "startedAt": 1995,
+            "startedAt": 2003,
             "status": 200,
             "ok": true,
-            "finishedAt": 2012,
+            "finishedAt": 2020,
             "contentType": "application/javascript",
             "resourceTypeHint": "base.js"
           },
           {
             "id": "net-5",
             "method": "GET",
-            "url": "http://127.0.0.1:37284/learn.json",
+            "url": "http://127.0.0.1:37285/learn.json",
             "resourceType": "xhr",
-            "startedAt": 2013,
+            "startedAt": 2020,
             "status": 200,
             "ok": true,
-            "finishedAt": 2018,
+            "finishedAt": 2036,
             "contentType": "application/json",
             "resourceTypeHint": "learn.json"
           },
           {
             "id": "net-6",
             "method": "GET",
-            "url": "http://127.0.0.1:37284/examples/react/dist/",
+            "url": "http://127.0.0.1:37285/examples/react/dist/",
             "resourceType": "document",
-            "startedAt": 2805,
+            "startedAt": 2829,
             "status": 200,
             "ok": true,
             "contentType": "text/html",
             "resourceTypeHint": "dist",
-            "finishedAt": 2813
+            "finishedAt": 2838
           },
           {
             "id": "net-7",
             "method": "GET",
-            "url": "http://127.0.0.1:37284/examples/react/dist/app.bundle.js",
+            "url": "http://127.0.0.1:37285/examples/react/dist/app.bundle.js",
             "resourceType": "script",
-            "startedAt": 2812,
+            "startedAt": 2836,
             "status": 200,
             "ok": true,
-            "finishedAt": 2830,
+            "finishedAt": 2855,
             "contentType": "application/javascript",
             "resourceTypeHint": "app.bundle.js"
           },
           {
             "id": "net-8",
             "method": "GET",
-            "url": "http://127.0.0.1:37284/examples/react/dist/app.css",
+            "url": "http://127.0.0.1:37285/examples/react/dist/app.css",
             "resourceType": "stylesheet",
-            "startedAt": 2813,
+            "startedAt": 2837,
             "status": 200,
             "ok": true,
-            "finishedAt": 2825,
             "contentType": "text/css",
-            "resourceTypeHint": "app.css"
+            "resourceTypeHint": "app.css",
+            "finishedAt": 2849
           },
           {
             "id": "net-9",
             "method": "GET",
-            "url": "http://127.0.0.1:37284/examples/react/dist/base.js",
+            "url": "http://127.0.0.1:37285/examples/react/dist/base.js",
             "resourceType": "script",
-            "startedAt": 2813,
+            "startedAt": 2837,
             "status": 200,
             "ok": true,
-            "finishedAt": 2826,
+            "finishedAt": 2849,
             "contentType": "application/javascript",
             "resourceTypeHint": "base.js"
           },
           {
             "id": "net-10",
             "method": "GET",
-            "url": "http://127.0.0.1:37284/learn.json",
+            "url": "http://127.0.0.1:37285/learn.json",
             "resourceType": "xhr",
-            "startedAt": 2827,
+            "startedAt": 2849,
             "status": 200,
             "ok": true,
-            "finishedAt": 2841,
+            "finishedAt": 2854,
             "contentType": "application/json",
             "resourceTypeHint": "learn.json"
           }
@@ -1326,7 +1326,7 @@
             "selector": "[data-testid=\"text-input\"]",
             "name": "New Todo Input",
             "type": "text",
-            "value": "RD_TEST_8691BC_1",
+            "value": "RD_TEST_902F4C_1",
             "redacted": false
           }
         ],
@@ -1342,7 +1342,7 @@
               "weight": 100,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 5
+              "elapsedMs": 4
             }
           ],
           "chosenStrategy": "testid",
@@ -1350,8 +1350,8 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1006,
-          "url": "http://127.0.0.1:37284/examples/react/dist/",
+          "at": 995,
+          "url": "http://127.0.0.1:37285/examples/react/dist/",
           "title": "TodoMVC: React",
           "domHash": "84ea4bd670111ab8",
           "canaryPresent": false,
@@ -1405,10 +1405,10 @@
           }
         },
         "beforeAction": {
-          "at": 1028,
-          "url": "http://127.0.0.1:37284/examples/react/dist/",
+          "at": 1016,
+          "url": "http://127.0.0.1:37285/examples/react/dist/",
           "title": "TodoMVC: React",
-          "domHash": "8a8952ea45c6334b",
+          "domHash": "017251e5116101fa",
           "canaryPresent": true,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -1427,7 +1427,7 @@
               {
                 "tag": "input",
                 "type": "text",
-                "valueHash": "78904e153bf21263",
+                "valueHash": "08bc01daa50d5ab0",
                 "checked": false,
                 "disabled": false,
                 "visible": true
@@ -1463,10 +1463,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 1929,
-          "url": "http://127.0.0.1:37284/examples/react/dist/",
+          "at": 1927,
+          "url": "http://127.0.0.1:37285/examples/react/dist/",
           "title": "TodoMVC: React",
-          "domHash": "798e2fd4140da53d",
+          "domHash": "d80d0afde7efd2a8",
           "canaryPresent": true,
           "bodyCanaryPresent": true,
           "temporaryBlobUrls": 0,
@@ -1478,9 +1478,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "929a835322da9fd6",
+            "textHash": "a3bd3d41511a0429",
             "visualHash": "95e7119833ff437e",
-            "text": "React React Source TypeScript + React Demo, Source React is a JavaScript library for building user interfaces. You compose UI from function components and describe state with hooks; React handles the rendering and keeps the UI in sync as state changes. The modern ecosystem (createRoot, Suspense, Server Components) builds on the same component model. React Official Resources Quick Start API Reference Philosophy React Community Community ReactJS on Stack Overflow If you have other helpful links to share, or find any of the links above no longer work, please let us know. todos Toggle All Input RD_TEST_8691BC_1 1 item left! AllActiveCompleted Double-click to edit a todo Created by the TodoMVC Team Part of TodoMVC",
+            "text": "React React Source TypeScript + React Demo, Source React is a JavaScript library for building user interfaces. You compose UI from function components and describe state with hooks; React handles the rendering and keeps the UI in sync as state changes. The modern ecosystem (createRoot, Suspense, Server Components) builds on the same component model. React Official Resources Quick Start API Reference Philosophy React Community Community ReactJS on Stack Overflow If you have other helpful links to share, or find any of the links above no longer work, please let us know. todos Toggle All Input RD_TEST_902F4C_1 1 item left! AllActiveCompleted Double-click to edit a todo Created by the TodoMVC Team Part of TodoMVC",
             "controls": [
               {
                 "tag": "input",
@@ -1532,10 +1532,10 @@
             "indexedDb": []
           }
         },
-        "screenshot": "screenshots/f5d0222fba68-after.png",
+        "screenshot": "screenshots/ef5675819f90-after.png",
         "afterRefresh": {
-          "at": 2743,
-          "url": "http://127.0.0.1:37284/examples/react/dist/",
+          "at": 2765,
+          "url": "http://127.0.0.1:37285/examples/react/dist/",
           "title": "TodoMVC: React",
           "domHash": "84ea4bd670111ab8",
           "canaryPresent": false,
@@ -1588,10 +1588,10 @@
             "indexedDb": []
           }
         },
-        "refreshScreenshot": "screenshots/f5d0222fba68-refresh.png",
+        "refreshScreenshot": "screenshots/ef5675819f90-refresh.png",
         "afterHardRefresh": {
-          "at": 3556,
-          "url": "http://127.0.0.1:37284/examples/react/dist/",
+          "at": 3587,
+          "url": "http://127.0.0.1:37285/examples/react/dist/",
           "title": "TodoMVC: React",
           "domHash": "84ea4bd670111ab8",
           "canaryPresent": false,
@@ -1645,8 +1645,8 @@
           }
         },
         "afterNewTab": {
-          "at": 4398,
-          "url": "http://127.0.0.1:37284/examples/react/dist/",
+          "at": 4416,
+          "url": "http://127.0.0.1:37285/examples/react/dist/",
           "title": "TodoMVC: React",
           "domHash": "84ea4bd670111ab8",
           "canaryPresent": false,
@@ -1700,8 +1700,8 @@
           }
         },
         "afterNewContext": {
-          "at": 5188,
-          "url": "http://127.0.0.1:37284/examples/react/dist/",
+          "at": 5229,
+          "url": "http://127.0.0.1:37285/examples/react/dist/",
           "title": "TodoMVC: React",
           "domHash": "84ea4bd670111ab8",
           "canaryPresent": false,
@@ -1755,7 +1755,7 @@
           }
         },
         "persistenceScope": "MEMORY_ONLY",
-        "trace": "traces/f5d0222fba68.zip",
+        "trace": "traces/ef5675819f90.zip",
         "snapshotIndex": "snapshots/RD-002.index.json"
       },
       "verdict": "EPHEMERAL",
@@ -1782,8 +1782,8 @@
     {
       "id": "RD-003",
       "action": {
-        "id": "2dc1f434d9d2",
-        "pageUrl": "http://127.0.0.1:37284/examples/typescript-react/#/",
+        "id": "94429926573d",
+        "pageUrl": "http://127.0.0.1:37285/examples/typescript-react/#/",
         "label": "What needs to be done?",
         "activation": "enter",
         "kind": "mutation",
@@ -1830,127 +1830,127 @@
         ]
       },
       "evidence": {
-        "startedAt": "2026-07-26T13:49:04.262Z",
-        "durationMs": 5353,
-        "canary": "RD_TEST_06E59E",
+        "startedAt": "2026-07-26T16:05:58.745Z",
+        "durationMs": 5259,
+        "canary": "RD_TEST_8D8224",
         "network": [
           {
             "id": "net-1",
             "method": "GET",
-            "url": "http://127.0.0.1:37284/examples/typescript-react/",
+            "url": "http://127.0.0.1:37285/examples/typescript-react/",
             "resourceType": "document",
-            "startedAt": 2022,
+            "startedAt": 1977,
             "status": 200,
             "ok": true,
             "contentType": "text/html",
             "resourceTypeHint": "typescript-react",
-            "finishedAt": 2030
+            "finishedAt": 1986
           },
           {
             "id": "net-2",
             "method": "GET",
-            "url": "http://127.0.0.1:37284/examples/typescript-react/node_modules/todomvc-common/base.css",
+            "url": "http://127.0.0.1:37285/examples/typescript-react/node_modules/todomvc-common/base.css",
             "resourceType": "stylesheet",
-            "startedAt": 2028,
+            "startedAt": 1984,
             "status": 200,
             "ok": true,
-            "finishedAt": 2033,
             "contentType": "text/css",
-            "resourceTypeHint": "base.css"
+            "resourceTypeHint": "base.css",
+            "finishedAt": 1989
           },
           {
             "id": "net-3",
             "method": "GET",
-            "url": "http://127.0.0.1:37284/examples/typescript-react/node_modules/todomvc-app-css/index.css",
+            "url": "http://127.0.0.1:37285/examples/typescript-react/node_modules/todomvc-app-css/index.css",
             "resourceType": "stylesheet",
-            "startedAt": 2029,
+            "startedAt": 1984,
             "status": 200,
             "ok": true,
+            "finishedAt": 1991,
             "contentType": "text/css",
-            "resourceTypeHint": "index.css",
-            "finishedAt": 2035
+            "resourceTypeHint": "index.css"
           },
           {
             "id": "net-4",
             "method": "GET",
-            "url": "http://127.0.0.1:37284/examples/typescript-react/node_modules/director/build/director.js",
+            "url": "http://127.0.0.1:37285/examples/typescript-react/node_modules/director/build/director.js",
             "resourceType": "script",
-            "startedAt": 2030,
+            "startedAt": 1985,
             "status": 200,
             "ok": true,
-            "finishedAt": 2036,
             "contentType": "application/javascript",
-            "resourceTypeHint": "director.js"
+            "resourceTypeHint": "director.js",
+            "finishedAt": 1992
           },
           {
             "id": "net-5",
             "method": "GET",
-            "url": "http://127.0.0.1:37284/examples/typescript-react/js/bundle.js",
+            "url": "http://127.0.0.1:37285/examples/typescript-react/js/bundle.js",
             "resourceType": "script",
-            "startedAt": 2030,
+            "startedAt": 1985,
             "status": 200,
             "ok": true,
-            "finishedAt": 2046,
+            "finishedAt": 2002,
             "contentType": "application/javascript",
             "resourceTypeHint": "bundle.js"
           },
           {
             "id": "net-6",
             "method": "GET",
-            "url": "http://127.0.0.1:37284/examples/typescript-react/",
+            "url": "http://127.0.0.1:37285/examples/typescript-react/",
             "resourceType": "document",
-            "startedAt": 2839,
+            "startedAt": 2795,
             "status": 200,
             "ok": true,
             "contentType": "text/html",
             "resourceTypeHint": "typescript-react",
-            "finishedAt": 2847
+            "finishedAt": 2803
           },
           {
             "id": "net-7",
             "method": "GET",
-            "url": "http://127.0.0.1:37284/examples/typescript-react/node_modules/todomvc-common/base.css",
+            "url": "http://127.0.0.1:37285/examples/typescript-react/node_modules/todomvc-common/base.css",
             "resourceType": "stylesheet",
-            "startedAt": 2846,
+            "startedAt": 2801,
             "status": 200,
             "ok": true,
+            "finishedAt": 2807,
             "contentType": "text/css",
-            "resourceTypeHint": "base.css",
-            "finishedAt": 2851
+            "resourceTypeHint": "base.css"
           },
           {
             "id": "net-8",
             "method": "GET",
-            "url": "http://127.0.0.1:37284/examples/typescript-react/node_modules/todomvc-app-css/index.css",
+            "url": "http://127.0.0.1:37285/examples/typescript-react/node_modules/todomvc-app-css/index.css",
             "resourceType": "stylesheet",
-            "startedAt": 2846,
+            "startedAt": 2802,
             "status": 200,
             "ok": true,
+            "finishedAt": 2812,
             "contentType": "text/css",
-            "resourceTypeHint": "index.css",
-            "finishedAt": 2852
+            "resourceTypeHint": "index.css"
           },
           {
             "id": "net-9",
             "method": "GET",
-            "url": "http://127.0.0.1:37284/examples/typescript-react/node_modules/director/build/director.js",
+            "url": "http://127.0.0.1:37285/examples/typescript-react/node_modules/director/build/director.js",
             "resourceType": "script",
-            "startedAt": 2846,
+            "startedAt": 2802,
             "status": 200,
             "ok": true,
+            "finishedAt": 2816,
             "contentType": "application/javascript",
-            "resourceTypeHint": "director.js",
-            "finishedAt": 2853
+            "resourceTypeHint": "director.js"
           },
           {
             "id": "net-10",
             "method": "GET",
-            "url": "http://127.0.0.1:37284/examples/typescript-react/js/bundle.js",
+            "url": "http://127.0.0.1:37285/examples/typescript-react/js/bundle.js",
             "resourceType": "script",
-            "startedAt": 2847,
+            "startedAt": 2802,
             "status": 200,
             "ok": true,
-            "finishedAt": 2864,
+            "finishedAt": 2826,
             "contentType": "application/javascript",
             "resourceTypeHint": "bundle.js"
           }
@@ -1963,7 +1963,7 @@
             "selector": "body > section > div > header > input",
             "name": "What needs to be done?",
             "type": "text",
-            "value": "RD_TEST_06E59E_1",
+            "value": "RD_TEST_8D8224_1",
             "redacted": false
           }
         ],
@@ -1979,7 +1979,7 @@
               "weight": 92,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 4
+              "elapsedMs": 5
             }
           ],
           "chosenStrategy": "role",
@@ -1987,8 +1987,8 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1050,
-          "url": "http://127.0.0.1:37284/examples/typescript-react/#/",
+          "at": 1021,
+          "url": "http://127.0.0.1:37285/examples/typescript-react/#/",
           "title": "React • TodoMVC",
           "domHash": "12538a75df36416c",
           "canaryPresent": false,
@@ -2027,10 +2027,10 @@
           }
         },
         "beforeAction": {
-          "at": 1069,
-          "url": "http://127.0.0.1:37284/examples/typescript-react/#/",
+          "at": 1039,
+          "url": "http://127.0.0.1:37285/examples/typescript-react/#/",
           "title": "React • TodoMVC",
-          "domHash": "e24bcb2a3205d1fb",
+          "domHash": "efbe4145581a5f04",
           "canaryPresent": true,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -2049,7 +2049,7 @@
               {
                 "tag": "input",
                 "type": "text",
-                "valueHash": "c279e711dabb7353",
+                "valueHash": "c857a7e97c7f3658",
                 "checked": false,
                 "disabled": false,
                 "visible": true
@@ -2070,10 +2070,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 1978,
-          "url": "http://127.0.0.1:37284/examples/typescript-react/#/",
+          "at": 1939,
+          "url": "http://127.0.0.1:37285/examples/typescript-react/#/",
           "title": "React • TodoMVC",
-          "domHash": "fef344fe19d84004",
+          "domHash": "ccfd29c5ce4b3a01",
           "canaryPresent": true,
           "bodyCanaryPresent": true,
           "temporaryBlobUrls": 0,
@@ -2085,9 +2085,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "3d299371c615bd1c",
+            "textHash": "39f22a9797b8967a",
             "visualHash": "23536a708be967a8",
-            "text": "todos Mark all as complete RD_TEST_06E59E_1 1 item left All Active Completed Double-click to edit a todo Created by Remo H. Jansen Part of TodoMVC",
+            "text": "todos Mark all as complete RD_TEST_8D8224_1 1 item left All Active Completed Double-click to edit a todo Created by Remo H. Jansen Part of TodoMVC",
             "controls": [
               {
                 "tag": "input",
@@ -2123,7 +2123,7 @@
               {
                 "tag": "input",
                 "type": "text",
-                "valueHash": "c279e711dabb7353",
+                "valueHash": "c857a7e97c7f3658",
                 "checked": false,
                 "disabled": false,
                 "visible": false
@@ -2136,7 +2136,7 @@
             "local": [
               {
                 "key": "react-todos",
-                "valueHash": "f34836af102b9029",
+                "valueHash": "76aed5b268ca07ec",
                 "containsCanary": true
               }
             ],
@@ -2146,12 +2146,12 @@
             "indexedDb": []
           }
         },
-        "screenshot": "screenshots/2dc1f434d9d2-after.png",
+        "screenshot": "screenshots/94429926573d-after.png",
         "afterRefresh": {
-          "at": 2798,
-          "url": "http://127.0.0.1:37284/examples/typescript-react/#/",
+          "at": 2757,
+          "url": "http://127.0.0.1:37285/examples/typescript-react/#/",
           "title": "React • TodoMVC",
-          "domHash": "fef344fe19d84004",
+          "domHash": "ccfd29c5ce4b3a01",
           "canaryPresent": true,
           "bodyCanaryPresent": true,
           "temporaryBlobUrls": 0,
@@ -2163,9 +2163,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "3d299371c615bd1c",
+            "textHash": "39f22a9797b8967a",
             "visualHash": "23536a708be967a8",
-            "text": "todos Mark all as complete RD_TEST_06E59E_1 1 item left All Active Completed Double-click to edit a todo Created by Remo H. Jansen Part of TodoMVC",
+            "text": "todos Mark all as complete RD_TEST_8D8224_1 1 item left All Active Completed Double-click to edit a todo Created by Remo H. Jansen Part of TodoMVC",
             "controls": [
               {
                 "tag": "input",
@@ -2201,7 +2201,7 @@
               {
                 "tag": "input",
                 "type": "text",
-                "valueHash": "c279e711dabb7353",
+                "valueHash": "c857a7e97c7f3658",
                 "checked": false,
                 "disabled": false,
                 "visible": false
@@ -2214,7 +2214,7 @@
             "local": [
               {
                 "key": "react-todos",
-                "valueHash": "f34836af102b9029",
+                "valueHash": "76aed5b268ca07ec",
                 "containsCanary": true
               }
             ],
@@ -2224,12 +2224,12 @@
             "indexedDb": []
           }
         },
-        "refreshScreenshot": "screenshots/2dc1f434d9d2-refresh.png",
+        "refreshScreenshot": "screenshots/94429926573d-refresh.png",
         "afterHardRefresh": {
-          "at": 3627,
-          "url": "http://127.0.0.1:37284/examples/typescript-react/#/",
+          "at": 3577,
+          "url": "http://127.0.0.1:37285/examples/typescript-react/#/",
           "title": "React • TodoMVC",
-          "domHash": "fef344fe19d84004",
+          "domHash": "ccfd29c5ce4b3a01",
           "canaryPresent": true,
           "bodyCanaryPresent": true,
           "temporaryBlobUrls": 0,
@@ -2241,9 +2241,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "3d299371c615bd1c",
+            "textHash": "39f22a9797b8967a",
             "visualHash": "23536a708be967a8",
-            "text": "todos Mark all as complete RD_TEST_06E59E_1 1 item left All Active Completed Double-click to edit a todo Created by Remo H. Jansen Part of TodoMVC",
+            "text": "todos Mark all as complete RD_TEST_8D8224_1 1 item left All Active Completed Double-click to edit a todo Created by Remo H. Jansen Part of TodoMVC",
             "controls": [
               {
                 "tag": "input",
@@ -2279,7 +2279,7 @@
               {
                 "tag": "input",
                 "type": "text",
-                "valueHash": "c279e711dabb7353",
+                "valueHash": "c857a7e97c7f3658",
                 "checked": false,
                 "disabled": false,
                 "visible": false
@@ -2292,7 +2292,7 @@
             "local": [
               {
                 "key": "react-todos",
-                "valueHash": "f34836af102b9029",
+                "valueHash": "76aed5b268ca07ec",
                 "containsCanary": true
               }
             ],
@@ -2303,10 +2303,10 @@
           }
         },
         "afterNewTab": {
-          "at": 4539,
-          "url": "http://127.0.0.1:37284/examples/typescript-react/#/",
+          "at": 4443,
+          "url": "http://127.0.0.1:37285/examples/typescript-react/#/",
           "title": "React • TodoMVC",
-          "domHash": "fef344fe19d84004",
+          "domHash": "ccfd29c5ce4b3a01",
           "canaryPresent": true,
           "bodyCanaryPresent": true,
           "temporaryBlobUrls": 0,
@@ -2318,9 +2318,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "3d299371c615bd1c",
+            "textHash": "39f22a9797b8967a",
             "visualHash": "23536a708be967a8",
-            "text": "todos Mark all as complete RD_TEST_06E59E_1 1 item left All Active Completed Double-click to edit a todo Created by Remo H. Jansen Part of TodoMVC",
+            "text": "todos Mark all as complete RD_TEST_8D8224_1 1 item left All Active Completed Double-click to edit a todo Created by Remo H. Jansen Part of TodoMVC",
             "controls": [
               {
                 "tag": "input",
@@ -2356,7 +2356,7 @@
               {
                 "tag": "input",
                 "type": "text",
-                "valueHash": "c279e711dabb7353",
+                "valueHash": "c857a7e97c7f3658",
                 "checked": false,
                 "disabled": false,
                 "visible": false
@@ -2369,7 +2369,7 @@
             "local": [
               {
                 "key": "react-todos",
-                "valueHash": "f34836af102b9029",
+                "valueHash": "76aed5b268ca07ec",
                 "containsCanary": true
               }
             ],
@@ -2380,8 +2380,8 @@
           }
         },
         "afterNewContext": {
-          "at": 5351,
-          "url": "http://127.0.0.1:37284/examples/typescript-react/#/",
+          "at": 5257,
+          "url": "http://127.0.0.1:37285/examples/typescript-react/#/",
           "title": "React • TodoMVC",
           "domHash": "12538a75df36416c",
           "canaryPresent": false,
@@ -2420,7 +2420,7 @@
           }
         },
         "persistenceScope": "BROWSER_LOCAL",
-        "trace": "traces/2dc1f434d9d2.zip",
+        "trace": "traces/94429926573d.zip",
         "snapshotIndex": "snapshots/RD-003.index.json"
       },
       "verdict": "BROWSER_LOCAL",
@@ -2442,8 +2442,8 @@
     {
       "id": "RD-004",
       "action": {
-        "id": "f85be54ac3eb",
-        "pageUrl": "http://127.0.0.1:37284/examples/react/dist/",
+        "id": "00eeee6f8df2",
+        "pageUrl": "http://127.0.0.1:37285/examples/react/dist/",
         "label": "Source",
         "activation": "click",
         "kind": "navigation",
@@ -2515,8 +2515,8 @@
     {
       "id": "RD-005",
       "action": {
-        "id": "8989e6c2cf9b",
-        "pageUrl": "http://127.0.0.1:37284/examples/react/dist/",
+        "id": "4faf3d49cfd0",
+        "pageUrl": "http://127.0.0.1:37285/examples/react/dist/",
         "label": "Source",
         "activation": "click",
         "kind": "navigation",
@@ -2588,8 +2588,8 @@
     {
       "id": "RD-006",
       "action": {
-        "id": "cccb6b478db0",
-        "pageUrl": "http://127.0.0.1:37284/examples/react/dist/",
+        "id": "b9405221deb9",
+        "pageUrl": "http://127.0.0.1:37285/examples/react/dist/",
         "label": "React",
         "activation": "click",
         "kind": "navigation",
@@ -2661,8 +2661,8 @@
     {
       "id": "RD-007",
       "action": {
-        "id": "0c04efa2901a",
-        "pageUrl": "http://127.0.0.1:37284/examples/react/dist/",
+        "id": "f17bd16efe4a",
+        "pageUrl": "http://127.0.0.1:37285/examples/react/dist/",
         "label": "Quick Start",
         "activation": "click",
         "kind": "navigation",
@@ -2734,8 +2734,8 @@
     {
       "id": "RD-008",
       "action": {
-        "id": "0e3e18deca36",
-        "pageUrl": "http://127.0.0.1:37284/examples/react/dist/",
+        "id": "64a8c0e9e1e2",
+        "pageUrl": "http://127.0.0.1:37285/examples/react/dist/",
         "label": "API Reference",
         "activation": "click",
         "kind": "navigation",
@@ -2807,8 +2807,8 @@
     {
       "id": "RD-009",
       "action": {
-        "id": "acb28d95632b",
-        "pageUrl": "http://127.0.0.1:37284/examples/react/dist/",
+        "id": "b255fa1f0e7e",
+        "pageUrl": "http://127.0.0.1:37285/examples/react/dist/",
         "label": "Philosophy",
         "activation": "click",
         "kind": "navigation",
@@ -2880,8 +2880,8 @@
     {
       "id": "RD-010",
       "action": {
-        "id": "e375c9cf4c34",
-        "pageUrl": "http://127.0.0.1:37284/examples/react/dist/",
+        "id": "653153b59e1e",
+        "pageUrl": "http://127.0.0.1:37285/examples/react/dist/",
         "label": "React Community",
         "activation": "click",
         "kind": "navigation",
@@ -2953,8 +2953,8 @@
     {
       "id": "RD-011",
       "action": {
-        "id": "a2fcb4b49175",
-        "pageUrl": "http://127.0.0.1:37284/examples/react/dist/",
+        "id": "ebff3a7ee6bf",
+        "pageUrl": "http://127.0.0.1:37285/examples/react/dist/",
         "label": "ReactJS on Stack Overflow",
         "activation": "click",
         "kind": "navigation",
@@ -3026,8 +3026,8 @@
     {
       "id": "RD-012",
       "action": {
-        "id": "d3aab82b1296",
-        "pageUrl": "http://127.0.0.1:37284/examples/react/dist/",
+        "id": "505d98376a8f",
+        "pageUrl": "http://127.0.0.1:37285/examples/react/dist/",
         "label": "let us know",
         "activation": "click",
         "kind": "navigation",
@@ -3099,8 +3099,8 @@
     {
       "id": "RD-013",
       "action": {
-        "id": "1f2c42ff7bab",
-        "pageUrl": "http://127.0.0.1:37284/examples/react/dist/",
+        "id": "fd357c4fcd3e",
+        "pageUrl": "http://127.0.0.1:37285/examples/react/dist/",
         "label": "TodoMVC",
         "activation": "click",
         "kind": "navigation",
@@ -3172,8 +3172,8 @@
     {
       "id": "RD-014",
       "action": {
-        "id": "cd570a42997e",
-        "pageUrl": "http://127.0.0.1:37284/examples/typescript-react/#/",
+        "id": "a10ce9196af9",
+        "pageUrl": "http://127.0.0.1:37285/examples/typescript-react/#/",
         "label": "Remo H. Jansen",
         "activation": "click",
         "kind": "navigation",
@@ -3245,8 +3245,8 @@
     {
       "id": "RD-015",
       "action": {
-        "id": "6f223b3d3c3c",
-        "pageUrl": "http://127.0.0.1:37284/examples/typescript-react/#/",
+        "id": "d9e1cacd8966",
+        "pageUrl": "http://127.0.0.1:37285/examples/typescript-react/#/",
         "label": "TodoMVC",
         "activation": "click",
         "kind": "navigation",
@@ -3318,9 +3318,9 @@
   ],
   "environment": {
     "status": "VALID",
-    "checkedAt": "2026-07-26T13:48:53.119Z",
-    "durationMs": 1734,
-    "targetUrl": "http://127.0.0.1:37284/examples/react/dist/",
+    "checkedAt": "2026-07-26T16:05:47.747Z",
+    "durationMs": 1688,
+    "targetUrl": "http://127.0.0.1:37285/examples/react/dist/",
     "mainDocument": {
       "status": 200,
       "contentType": "text/html"

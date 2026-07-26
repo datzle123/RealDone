@@ -1,9 +1,9 @@
 {
   "schemaVersion": "1.0",
-  "scanId": "20260726T135032Z-94f7",
-  "targetUrl": "http://127.0.0.1:37451/",
-  "startedAt": "2026-07-26T13:50:32.442Z",
-  "finishedAt": "2026-07-26T13:51:30.254Z",
+  "scanId": "20260726T160858Z-9f53",
+  "targetUrl": "http://127.0.0.1:37461/",
+  "startedAt": "2026-07-26T16:08:58.508Z",
+  "finishedAt": "2026-07-26T16:09:56.303Z",
   "options": {
     "maxPages": 10,
     "maxActions": 50,
@@ -41,25 +41,25 @@
   },
   "pages": [
     {
-      "url": "http://127.0.0.1:37451/",
+      "url": "http://127.0.0.1:37461/",
       "title": "Actual",
       "actions": [
         {
-          "id": "e10e57f0505e",
-          "pageUrl": "http://127.0.0.1:37451/",
+          "id": "e4332fb21c01",
+          "pageUrl": "http://127.0.0.1:37461/",
           "label": "Start budgeting",
           "activation": "click",
           "kind": "local",
           "intent": "interact",
           "risk": "safe",
           "fingerprint": {
-            "selector": "#react-aria6506301084-_r_0_",
+            "selector": "#react-aria7247362851-_r_0_",
             "tag": "button",
             "ordinal": 0,
             "role": "button",
             "accessibleName": "Start budgeting",
             "text": "Start budgeting",
-            "id": "react-aria6506301084-_r_0_",
+            "id": "react-aria7247362851-_r_0_",
             "type": "button",
             "candidates": [
               {
@@ -79,7 +79,7 @@
               {
                 "strategy": "id",
                 "weight": 80,
-                "selector": "#react-aria6506301084-_r_0_"
+                "selector": "#react-aria7247362851-_r_0_"
               },
               {
                 "strategy": "text",
@@ -90,28 +90,28 @@
               {
                 "strategy": "css",
                 "weight": 35,
-                "selector": "#react-aria6506301084-_r_0_"
+                "selector": "#react-aria7247362851-_r_0_"
               }
             ]
           },
           "fields": []
         },
         {
-          "id": "a98615e01455",
-          "pageUrl": "http://127.0.0.1:37451/",
+          "id": "002ae604da2d",
+          "pageUrl": "http://127.0.0.1:37461/",
           "label": "Try the demo",
           "activation": "click",
           "kind": "local",
           "intent": "interact",
           "risk": "safe",
           "fingerprint": {
-            "selector": "#react-aria6506301084-_r_2_",
+            "selector": "#react-aria7247362851-_r_2_",
             "tag": "button",
             "ordinal": 1,
             "role": "button",
             "accessibleName": "Try the demo",
             "text": "Try the demo",
-            "id": "react-aria6506301084-_r_2_",
+            "id": "react-aria7247362851-_r_2_",
             "type": "button",
             "candidates": [
               {
@@ -131,7 +131,7 @@
               {
                 "strategy": "id",
                 "weight": 80,
-                "selector": "#react-aria6506301084-_r_2_"
+                "selector": "#react-aria7247362851-_r_2_"
               },
               {
                 "strategy": "text",
@@ -142,28 +142,28 @@
               {
                 "strategy": "css",
                 "weight": 35,
-                "selector": "#react-aria6506301084-_r_2_"
+                "selector": "#react-aria7247362851-_r_2_"
               }
             ]
           },
           "fields": []
         },
         {
-          "id": "574bbd3b7d99",
-          "pageUrl": "http://127.0.0.1:37451/",
+          "id": "be3591164cdd",
+          "pageUrl": "http://127.0.0.1:37461/",
           "label": "Connect to a sync server",
           "activation": "click",
           "kind": "local",
           "intent": "interact",
           "risk": "safe",
           "fingerprint": {
-            "selector": "#react-aria6506301084-_r_4_",
+            "selector": "#react-aria7247362851-_r_4_",
             "tag": "button",
             "ordinal": 2,
             "role": "button",
             "accessibleName": "Connect to a sync server",
             "text": "Connect to a sync server",
-            "id": "react-aria6506301084-_r_4_",
+            "id": "react-aria7247362851-_r_4_",
             "type": "button",
             "candidates": [
               {
@@ -183,7 +183,7 @@
               {
                 "strategy": "id",
                 "weight": 80,
-                "selector": "#react-aria6506301084-_r_4_"
+                "selector": "#react-aria7247362851-_r_4_"
               },
               {
                 "strategy": "text",
@@ -194,28 +194,28 @@
               {
                 "strategy": "css",
                 "weight": 35,
-                "selector": "#react-aria6506301084-_r_4_"
+                "selector": "#react-aria7247362851-_r_4_"
               }
             ]
           },
           "fields": []
         },
         {
-          "id": "c50615ba48ee",
-          "pageUrl": "http://127.0.0.1:37451/",
+          "id": "a0fe43c0e0b2",
+          "pageUrl": "http://127.0.0.1:37461/",
           "label": "Import my budget",
           "activation": "click",
           "kind": "local",
           "intent": "interact",
           "risk": "safe",
           "fingerprint": {
-            "selector": "#react-aria6506301084-_r_6_",
+            "selector": "#react-aria7247362851-_r_6_",
             "tag": "button",
             "ordinal": 3,
             "role": "button",
             "accessibleName": "Import my budget",
             "text": "Import my budget",
-            "id": "react-aria6506301084-_r_6_",
+            "id": "react-aria7247362851-_r_6_",
             "type": "button",
             "candidates": [
               {
@@ -235,7 +235,7 @@
               {
                 "strategy": "id",
                 "weight": 80,
-                "selector": "#react-aria6506301084-_r_6_"
+                "selector": "#react-aria7247362851-_r_6_"
               },
               {
                 "strategy": "text",
@@ -246,15 +246,15 @@
               {
                 "strategy": "css",
                 "weight": 35,
-                "selector": "#react-aria6506301084-_r_6_"
+                "selector": "#react-aria7247362851-_r_6_"
               }
             ]
           },
           "fields": []
         },
         {
-          "id": "b29e08bd9425",
-          "pageUrl": "http://127.0.0.1:37451/",
+          "id": "fd055203dd24",
+          "pageUrl": "http://127.0.0.1:37461/",
           "label": "guided tour",
           "activation": "click",
           "kind": "navigation",
@@ -305,8 +305,8 @@
           "fields": []
         },
         {
-          "id": "f8ee1d36ab99",
-          "pageUrl": "http://127.0.0.1:37451/",
+          "id": "e5e26062a598",
+          "pageUrl": "http://127.0.0.1:37461/",
           "label": "Set up sync",
           "activation": "click",
           "kind": "navigation",
@@ -319,7 +319,7 @@
             "role": "link",
             "accessibleName": "Set up sync",
             "text": "Set up sync",
-            "href": "http://127.0.0.1:37451/config-server",
+            "href": "http://127.0.0.1:37461/config-server",
             "candidates": [
               {
                 "strategy": "role",
@@ -338,7 +338,7 @@
               {
                 "strategy": "href",
                 "weight": 72,
-                "value": "http://127.0.0.1:37451/config-server"
+                "value": "http://127.0.0.1:37461/config-server"
               },
               {
                 "strategy": "text",
@@ -358,25 +358,25 @@
       ]
     },
     {
-      "url": "http://127.0.0.1:37451/config-server",
+      "url": "http://127.0.0.1:37461/config-server",
       "title": "Actual",
       "actions": [
         {
-          "id": "fffad240a2f8",
-          "pageUrl": "http://127.0.0.1:37451/config-server",
+          "id": "b6d7e37da580",
+          "pageUrl": "http://127.0.0.1:37461/config-server",
           "label": "Back",
           "activation": "click",
           "kind": "navigation",
           "intent": "navigate",
           "risk": "safe",
           "fingerprint": {
-            "selector": "#react-aria8871071898-_r_0_",
+            "selector": "#react-aria550301568-_r_0_",
             "tag": "button",
             "ordinal": 0,
             "role": "button",
             "accessibleName": "Back",
             "text": "Back",
-            "id": "react-aria8871071898-_r_0_",
+            "id": "react-aria550301568-_r_0_",
             "type": "button",
             "candidates": [
               {
@@ -396,7 +396,7 @@
               {
                 "strategy": "id",
                 "weight": 80,
-                "selector": "#react-aria8871071898-_r_0_"
+                "selector": "#react-aria550301568-_r_0_"
               },
               {
                 "strategy": "text",
@@ -407,15 +407,15 @@
               {
                 "strategy": "css",
                 "weight": 35,
-                "selector": "#react-aria8871071898-_r_0_"
+                "selector": "#react-aria550301568-_r_0_"
               }
             ]
           },
           "fields": []
         },
         {
-          "id": "a77a4a048f93",
-          "pageUrl": "http://127.0.0.1:37451/config-server",
+          "id": "64655644879b",
+          "pageUrl": "http://127.0.0.1:37461/config-server",
           "label": "learn how to set one up",
           "activation": "click",
           "kind": "navigation",
@@ -466,21 +466,21 @@
           "fields": []
         },
         {
-          "id": "add38cce56ec",
-          "pageUrl": "http://127.0.0.1:37451/config-server",
+          "id": "0547a44dc682",
+          "pageUrl": "http://127.0.0.1:37461/config-server",
           "label": "Connect",
           "activation": "click",
           "kind": "external",
           "intent": "external",
           "risk": "external",
           "fingerprint": {
-            "selector": "#react-aria8871071898-_r_2_",
+            "selector": "#react-aria550301568-_r_2_",
             "tag": "button",
             "ordinal": 2,
             "role": "button",
             "accessibleName": "Connect",
             "text": "Connect",
-            "id": "react-aria8871071898-_r_2_",
+            "id": "react-aria550301568-_r_2_",
             "type": "button",
             "candidates": [
               {
@@ -500,7 +500,7 @@
               {
                 "strategy": "id",
                 "weight": 80,
-                "selector": "#react-aria8871071898-_r_2_"
+                "selector": "#react-aria550301568-_r_2_"
               },
               {
                 "strategy": "text",
@@ -511,7 +511,7 @@
               {
                 "strategy": "css",
                 "weight": 35,
-                "selector": "#react-aria8871071898-_r_2_"
+                "selector": "#react-aria550301568-_r_2_"
               }
             ]
           },
@@ -527,21 +527,21 @@
           ]
         },
         {
-          "id": "635b2db2b3ad",
-          "pageUrl": "http://127.0.0.1:37451/config-server",
+          "id": "df23f8a14e27",
+          "pageUrl": "http://127.0.0.1:37461/config-server",
           "label": "Use the current domain",
           "activation": "click",
           "kind": "local",
           "intent": "interact",
           "risk": "safe",
           "fingerprint": {
-            "selector": "#react-aria8871071898-_r_4_",
+            "selector": "#react-aria550301568-_r_4_",
             "tag": "button",
             "ordinal": 3,
             "role": "button",
             "accessibleName": "Use the current domain",
             "text": "Use the current domain",
-            "id": "react-aria8871071898-_r_4_",
+            "id": "react-aria550301568-_r_4_",
             "type": "button",
             "candidates": [
               {
@@ -561,7 +561,7 @@
               {
                 "strategy": "id",
                 "weight": 80,
-                "selector": "#react-aria8871071898-_r_4_"
+                "selector": "#react-aria550301568-_r_4_"
               },
               {
                 "strategy": "text",
@@ -572,7 +572,7 @@
               {
                 "strategy": "css",
                 "weight": 35,
-                "selector": "#react-aria8871071898-_r_4_"
+                "selector": "#react-aria550301568-_r_4_"
               }
             ]
           },
@@ -585,21 +585,21 @@
     {
       "id": "RD-001",
       "action": {
-        "id": "e10e57f0505e",
-        "pageUrl": "http://127.0.0.1:37451/",
+        "id": "e4332fb21c01",
+        "pageUrl": "http://127.0.0.1:37461/",
         "label": "Start budgeting",
         "activation": "click",
         "kind": "local",
         "intent": "interact",
         "risk": "safe",
         "fingerprint": {
-          "selector": "#react-aria6506301084-_r_0_",
+          "selector": "#react-aria7247362851-_r_0_",
           "tag": "button",
           "ordinal": 0,
           "role": "button",
           "accessibleName": "Start budgeting",
           "text": "Start budgeting",
-          "id": "react-aria6506301084-_r_0_",
+          "id": "react-aria7247362851-_r_0_",
           "type": "button",
           "candidates": [
             {
@@ -619,7 +619,7 @@
             {
               "strategy": "id",
               "weight": 80,
-              "selector": "#react-aria6506301084-_r_0_"
+              "selector": "#react-aria7247362851-_r_0_"
             },
             {
               "strategy": "text",
@@ -630,26 +630,26 @@
             {
               "strategy": "css",
               "weight": 35,
-              "selector": "#react-aria6506301084-_r_0_"
+              "selector": "#react-aria7247362851-_r_0_"
             }
           ]
         },
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T13:50:39.108Z",
-        "durationMs": 6631,
-        "canary": "RD_TEST_4C2A7B",
+        "startedAt": "2026-07-26T16:09:05.077Z",
+        "durationMs": 6628,
+        "canary": "RD_TEST_EF876F",
         "network": [
           {
             "id": "net-1",
             "method": "GET",
-            "url": "http://127.0.0.1:37451/static/js/indexeddb-main-thread-worker-e59fee74.B9D89_PE.chunk.js",
+            "url": "http://127.0.0.1:37461/static/js/indexeddb-main-thread-worker-e59fee74.B9D89_PE.chunk.js",
             "resourceType": "script",
-            "startedAt": 5455,
+            "startedAt": 5453,
             "status": 200,
             "ok": true,
-            "finishedAt": 5460,
+            "finishedAt": 5457,
             "contentType": "text/javascript",
             "resourceTypeHint": "indexeddb-main-thread-worker-e59fee74.B9D89_PE.chunk.js"
           },
@@ -658,53 +658,53 @@
             "method": "GET",
             "url": "https://api.github.com/repos/actualbudget/actual/releases/latest",
             "resourceType": "fetch",
-            "startedAt": 5804
+            "startedAt": 5801
           },
           {
             "id": "net-3",
             "method": "GET",
-            "url": "http://127.0.0.1:37451/static/js/wide.BkKPUPVE.chunk.js",
+            "url": "http://127.0.0.1:37461/static/js/wide.BkKPUPVE.chunk.js",
             "resourceType": "script",
-            "startedAt": 5840,
+            "startedAt": 5834,
             "status": 200,
             "ok": true,
-            "finishedAt": 5849,
+            "finishedAt": 5844,
             "contentType": "text/javascript",
             "resourceTypeHint": "wide.BkKPUPVE.chunk.js"
           },
           {
             "id": "net-4",
             "method": "GET",
-            "url": "http://127.0.0.1:37451/static/js/AppliedFilters.Dx7PP3C8.chunk.js",
+            "url": "http://127.0.0.1:37461/static/js/AppliedFilters.Dx7PP3C8.chunk.js",
             "resourceType": "script",
-            "startedAt": 5841,
+            "startedAt": 5834,
             "status": 200,
             "ok": true,
-            "finishedAt": 5848,
+            "finishedAt": 5842,
             "contentType": "text/javascript",
             "resourceTypeHint": "AppliedFilters.Dx7PP3C8.chunk.js"
           },
           {
             "id": "net-5",
             "method": "GET",
-            "url": "http://127.0.0.1:37451/static/js/useTransactionBatchActions.CG8pn3qO.chunk.js",
+            "url": "http://127.0.0.1:37461/static/js/useTransactionBatchActions.CG8pn3qO.chunk.js",
             "resourceType": "script",
-            "startedAt": 5841,
+            "startedAt": 5835,
             "status": 200,
             "ok": true,
-            "finishedAt": 5848,
+            "finishedAt": 5841,
             "contentType": "text/javascript",
             "resourceTypeHint": "useTransactionBatchActions.CG8pn3qO.chunk.js"
           },
           {
             "id": "net-6",
             "method": "GET",
-            "url": "http://127.0.0.1:37451/static/js/PayeeRuleCountLabel.nEXX1VI1.chunk.js",
+            "url": "http://127.0.0.1:37461/static/js/PayeeRuleCountLabel.nEXX1VI1.chunk.js",
             "resourceType": "script",
-            "startedAt": 5842,
+            "startedAt": 5836,
             "status": 200,
             "ok": true,
-            "finishedAt": 5848,
+            "finishedAt": 5842,
             "contentType": "text/javascript",
             "resourceTypeHint": "PayeeRuleCountLabel.nEXX1VI1.chunk.js"
           }
@@ -725,7 +725,7 @@
               "weight": 92,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 8
+              "elapsedMs": 6
             }
           ],
           "chosenStrategy": "role",
@@ -733,8 +733,8 @@
           "retryCount": 0
         },
         "before": {
-          "at": 5393,
-          "url": "http://127.0.0.1:37451/",
+          "at": 5396,
+          "url": "http://127.0.0.1:37461/",
           "title": "Actual",
           "domHash": "0e5db8d3d3693839",
           "canaryPresent": false,
@@ -808,8 +808,8 @@
           }
         },
         "beforeAction": {
-          "at": 5415,
-          "url": "http://127.0.0.1:37451/",
+          "at": 5417,
+          "url": "http://127.0.0.1:37461/",
           "title": "Actual",
           "domHash": "0e5db8d3d3693839",
           "canaryPresent": false,
@@ -884,8 +884,8 @@
         },
         "networkSettled": true,
         "after": {
-          "at": 6626,
-          "url": "http://127.0.0.1:37451/accounts",
+          "at": 6622,
+          "url": "http://127.0.0.1:37461/accounts",
           "title": "Actual",
           "domHash": "823d03cf2b04dc62",
           "canaryPresent": false,
@@ -1077,7 +1077,7 @@
                 ]
               },
               {
-                "name": "documents-Actual-My-Finances-5fd00c2-db.sqlite",
+                "name": "documents-Actual-My-Finances-102011f-db.sqlite",
                 "version": 2,
                 "stores": [
                   {
@@ -1089,7 +1089,7 @@
             ]
           }
         },
-        "trace": "traces/e10e57f0505e.zip",
+        "trace": "traces/e4332fb21c01.zip",
         "snapshotIndex": "snapshots/RD-001.index.json"
       },
       "verdict": "VERIFIED",
@@ -1100,21 +1100,21 @@
     {
       "id": "RD-002",
       "action": {
-        "id": "a98615e01455",
-        "pageUrl": "http://127.0.0.1:37451/",
+        "id": "002ae604da2d",
+        "pageUrl": "http://127.0.0.1:37461/",
         "label": "Try the demo",
         "activation": "click",
         "kind": "local",
         "intent": "interact",
         "risk": "safe",
         "fingerprint": {
-          "selector": "#react-aria6506301084-_r_2_",
+          "selector": "#react-aria7247362851-_r_2_",
           "tag": "button",
           "ordinal": 1,
           "role": "button",
           "accessibleName": "Try the demo",
           "text": "Try the demo",
-          "id": "react-aria6506301084-_r_2_",
+          "id": "react-aria7247362851-_r_2_",
           "type": "button",
           "candidates": [
             {
@@ -1134,7 +1134,7 @@
             {
               "strategy": "id",
               "weight": 80,
-              "selector": "#react-aria6506301084-_r_2_"
+              "selector": "#react-aria7247362851-_r_2_"
             },
             {
               "strategy": "text",
@@ -1145,26 +1145,26 @@
             {
               "strategy": "css",
               "weight": 35,
-              "selector": "#react-aria6506301084-_r_2_"
+              "selector": "#react-aria7247362851-_r_2_"
             }
           ]
         },
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T13:50:46.409Z",
-        "durationMs": 7953,
-        "canary": "RD_TEST_E0D729",
+        "startedAt": "2026-07-26T16:09:12.378Z",
+        "durationMs": 7891,
+        "canary": "RD_TEST_835FD0",
         "network": [
           {
             "id": "net-1",
             "method": "GET",
-            "url": "http://127.0.0.1:37451/static/js/indexeddb-main-thread-worker-e59fee74.B9D89_PE.chunk.js",
+            "url": "http://127.0.0.1:37461/static/js/indexeddb-main-thread-worker-e59fee74.B9D89_PE.chunk.js",
             "resourceType": "script",
-            "startedAt": 6619,
+            "startedAt": 6686,
             "status": 200,
             "ok": true,
-            "finishedAt": 6623,
+            "finishedAt": 6690,
             "contentType": "text/javascript",
             "resourceTypeHint": "indexeddb-main-thread-worker-e59fee74.B9D89_PE.chunk.js"
           },
@@ -1173,53 +1173,53 @@
             "method": "GET",
             "url": "https://api.github.com/repos/actualbudget/actual/releases/latest",
             "resourceType": "fetch",
-            "startedAt": 7622
+            "startedAt": 7790
           },
           {
             "id": "net-3",
             "method": "GET",
-            "url": "http://127.0.0.1:37451/static/js/wide.BkKPUPVE.chunk.js",
+            "url": "http://127.0.0.1:37461/static/js/wide.BkKPUPVE.chunk.js",
             "resourceType": "script",
-            "startedAt": 7682,
+            "startedAt": 7840,
             "status": 200,
             "ok": true,
-            "finishedAt": 7700,
+            "finishedAt": 7854,
             "contentType": "text/javascript",
             "resourceTypeHint": "wide.BkKPUPVE.chunk.js"
           },
           {
             "id": "net-4",
             "method": "GET",
-            "url": "http://127.0.0.1:37451/static/js/AppliedFilters.Dx7PP3C8.chunk.js",
+            "url": "http://127.0.0.1:37461/static/js/AppliedFilters.Dx7PP3C8.chunk.js",
             "resourceType": "script",
-            "startedAt": 7683,
+            "startedAt": 7841,
             "status": 200,
             "ok": true,
-            "finishedAt": 7696,
+            "finishedAt": 7849,
             "contentType": "text/javascript",
             "resourceTypeHint": "AppliedFilters.Dx7PP3C8.chunk.js"
           },
           {
             "id": "net-5",
             "method": "GET",
-            "url": "http://127.0.0.1:37451/static/js/useTransactionBatchActions.CG8pn3qO.chunk.js",
+            "url": "http://127.0.0.1:37461/static/js/useTransactionBatchActions.CG8pn3qO.chunk.js",
             "resourceType": "script",
-            "startedAt": 7684,
+            "startedAt": 7841,
             "status": 200,
             "ok": true,
-            "finishedAt": 7696,
+            "finishedAt": 7849,
             "contentType": "text/javascript",
             "resourceTypeHint": "useTransactionBatchActions.CG8pn3qO.chunk.js"
           },
           {
             "id": "net-6",
             "method": "GET",
-            "url": "http://127.0.0.1:37451/static/js/PayeeRuleCountLabel.nEXX1VI1.chunk.js",
+            "url": "http://127.0.0.1:37461/static/js/PayeeRuleCountLabel.nEXX1VI1.chunk.js",
             "resourceType": "script",
-            "startedAt": 7684,
+            "startedAt": 7842,
             "status": 200,
             "ok": true,
-            "finishedAt": 7695,
+            "finishedAt": 7849,
             "contentType": "text/javascript",
             "resourceTypeHint": "PayeeRuleCountLabel.nEXX1VI1.chunk.js"
           }
@@ -1248,8 +1248,8 @@
           "retryCount": 0
         },
         "before": {
-          "at": 6559,
-          "url": "http://127.0.0.1:37451/",
+          "at": 6630,
+          "url": "http://127.0.0.1:37461/",
           "title": "Actual",
           "domHash": "0e5db8d3d3693839",
           "canaryPresent": false,
@@ -1323,8 +1323,8 @@
           }
         },
         "beforeAction": {
-          "at": 6576,
-          "url": "http://127.0.0.1:37451/",
+          "at": 6650,
+          "url": "http://127.0.0.1:37461/",
           "title": "Actual",
           "domHash": "0e5db8d3d3693839",
           "canaryPresent": false,
@@ -1399,10 +1399,10 @@
         },
         "networkSettled": true,
         "after": {
-          "at": 7941,
-          "url": "http://127.0.0.1:37451/budget",
+          "at": 7882,
+          "url": "http://127.0.0.1:37461/budget",
           "title": "Actual",
-          "domHash": "04d12d766a014c69",
+          "domHash": "f4b34d62567edde6",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -1414,9 +1414,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "0b339b513f028ce0",
-            "visualHash": "77f5f2b5f34a2ca5",
-            "text": "Test Budget Budget Reports Schedules More All accounts 50,199.14 On budget 2,717.31 Bank of America 570.56 Ally Savings 1,723.63 Capital One Checking 378.62 HSBC 44.50 Off budget 47,481.83 Vanguard 401k 3,932.24 Mortgage -294,039.80 House Asset 333,600.00 Roth IRA 3,989.39 Add account No server Help Feb 2026 Mar Apr May Jun Jul Aug Sep Oct Nov Dec June 6,611.26 -0.00 -3,030.00 -3,581.26 Available funds Overspent in May Budgeted For next month To Budget: 0.00 July 5,963.66 -932.21 -3,030.00 -2,001.45 Available funds Overspent in Jun Budgeted For next month To Budget: 0.00 August 2,001.45 -546.97 -0.00 -0.00 Available funds Overspent in Jul Budgeted For next month To Budget: 1,454.48 Category Budgeted 3,030.00 Spent -3,060.10 Balance 715.86 Usual Expenses 1,505.00 -1,535.10 715.86 Food 400.00 -265.97 312.13 Restaurants 300.00 -248.89 264.26 Entertainment 100.00 -177.49 -77.49 Clothing 30.00 -263.00 -233.00 General 500.00 -168.27 686.44 Gift 75.00 -272.22 -197.22 Medical 100.00 -139.26 -39.26 Savings 0.00 0.00 0.00 Bills 1,525.00 -1,525.00 0.00 Cell 75.00 -75.00 0.00 Internet 60.00 -60.00 0.00 Mortgage 1,200.00 -1,200.00 0.00 Water 90.00 -90.00 0.00 Power 100.00 -100.00 0.00 Add group Received Income 2,382.40 Starting Balances 0.00 Misc 0.00 Income 2,382.40",
+            "textHash": "102a68a4a18b577e",
+            "visualHash": "6bed3bc5283d15f3",
+            "text": "Test Budget Budget Reports Schedules More All accounts 73,293.41 On budget 12,146.52 Bank of America 6,150.85 Ally Savings 2,401.80 Capital One Checking 3,197.18 HSBC 396.69 Off budget 61,146.89 Vanguard 401k 2,209.71 Mortgage -294,517.64 House Asset 351,900.00 Roth IRA 1,554.82 Add account No server Help",
             "controls": [
               {
                 "tag": "button",
@@ -1459,692 +1459,6 @@
                 "valueHash": "e3b0c44298fc1c14",
                 "disabled": false,
                 "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": true
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false,
-                "visible": false
               },
               {
                 "tag": "button",
@@ -2183,14 +1497,14 @@
                 "stores": [
                   {
                     "name": "data",
-                    "count": 238
+                    "count": 248
                   }
                 ]
               }
             ]
           }
         },
-        "trace": "traces/a98615e01455.zip",
+        "trace": "traces/002ae604da2d.zip",
         "snapshotIndex": "snapshots/RD-002.index.json"
       },
       "verdict": "VERIFIED",
@@ -2201,21 +1515,21 @@
     {
       "id": "RD-003",
       "action": {
-        "id": "574bbd3b7d99",
-        "pageUrl": "http://127.0.0.1:37451/",
+        "id": "be3591164cdd",
+        "pageUrl": "http://127.0.0.1:37461/",
         "label": "Connect to a sync server",
         "activation": "click",
         "kind": "local",
         "intent": "interact",
         "risk": "safe",
         "fingerprint": {
-          "selector": "#react-aria6506301084-_r_4_",
+          "selector": "#react-aria7247362851-_r_4_",
           "tag": "button",
           "ordinal": 2,
           "role": "button",
           "accessibleName": "Connect to a sync server",
           "text": "Connect to a sync server",
-          "id": "react-aria6506301084-_r_4_",
+          "id": "react-aria7247362851-_r_4_",
           "type": "button",
           "candidates": [
             {
@@ -2235,7 +1549,7 @@
             {
               "strategy": "id",
               "weight": 80,
-              "selector": "#react-aria6506301084-_r_4_"
+              "selector": "#react-aria7247362851-_r_4_"
             },
             {
               "strategy": "text",
@@ -2246,16 +1560,16 @@
             {
               "strategy": "css",
               "weight": 35,
-              "selector": "#react-aria6506301084-_r_4_"
+              "selector": "#react-aria7247362851-_r_4_"
             }
           ]
         },
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T13:50:55.036Z",
-        "durationMs": 6602,
-        "canary": "RD_TEST_03E585",
+        "startedAt": "2026-07-26T16:09:20.936Z",
+        "durationMs": 6702,
+        "canary": "RD_TEST_19D70A",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -2273,7 +1587,7 @@
               "weight": 92,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 6
+              "elapsedMs": 7
             }
           ],
           "chosenStrategy": "role",
@@ -2281,8 +1595,8 @@
           "retryCount": 0
         },
         "before": {
-          "at": 5372,
-          "url": "http://127.0.0.1:37451/",
+          "at": 5467,
+          "url": "http://127.0.0.1:37461/",
           "title": "Actual",
           "domHash": "0e5db8d3d3693839",
           "canaryPresent": false,
@@ -2356,8 +1670,8 @@
           }
         },
         "beforeAction": {
-          "at": 5390,
-          "url": "http://127.0.0.1:37451/",
+          "at": 5487,
+          "url": "http://127.0.0.1:37461/",
           "title": "Actual",
           "domHash": "0e5db8d3d3693839",
           "canaryPresent": false,
@@ -2432,8 +1746,8 @@
         },
         "networkSettled": true,
         "after": {
-          "at": 6598,
-          "url": "http://127.0.0.1:37451/config-server",
+          "at": 6698,
+          "url": "http://127.0.0.1:37461/config-server",
           "title": "Actual",
           "domHash": "97f712565aa26638",
           "canaryPresent": false,
@@ -2507,7 +1821,7 @@
             ]
           }
         },
-        "trace": "traces/574bbd3b7d99.zip",
+        "trace": "traces/be3591164cdd.zip",
         "snapshotIndex": "snapshots/RD-003.index.json"
       },
       "verdict": "VERIFIED",
@@ -2518,21 +1832,21 @@
     {
       "id": "RD-004",
       "action": {
-        "id": "c50615ba48ee",
-        "pageUrl": "http://127.0.0.1:37451/",
+        "id": "a0fe43c0e0b2",
+        "pageUrl": "http://127.0.0.1:37461/",
         "label": "Import my budget",
         "activation": "click",
         "kind": "local",
         "intent": "interact",
         "risk": "safe",
         "fingerprint": {
-          "selector": "#react-aria6506301084-_r_6_",
+          "selector": "#react-aria7247362851-_r_6_",
           "tag": "button",
           "ordinal": 3,
           "role": "button",
           "accessibleName": "Import my budget",
           "text": "Import my budget",
-          "id": "react-aria6506301084-_r_6_",
+          "id": "react-aria7247362851-_r_6_",
           "type": "button",
           "candidates": [
             {
@@ -2552,7 +1866,7 @@
             {
               "strategy": "id",
               "weight": 80,
-              "selector": "#react-aria6506301084-_r_6_"
+              "selector": "#react-aria7247362851-_r_6_"
             },
             {
               "strategy": "text",
@@ -2563,16 +1877,16 @@
             {
               "strategy": "css",
               "weight": 35,
-              "selector": "#react-aria6506301084-_r_6_"
+              "selector": "#react-aria7247362851-_r_6_"
             }
           ]
         },
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T13:51:02.209Z",
-        "durationMs": 6639,
-        "canary": "RD_TEST_9F53E0",
+        "startedAt": "2026-07-26T16:09:28.221Z",
+        "durationMs": 6590,
+        "canary": "RD_TEST_9B34C4",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -2590,7 +1904,7 @@
               "weight": 92,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 6
+              "elapsedMs": 7
             }
           ],
           "chosenStrategy": "role",
@@ -2598,8 +1912,8 @@
           "retryCount": 0
         },
         "before": {
-          "at": 5399,
-          "url": "http://127.0.0.1:37451/",
+          "at": 5351,
+          "url": "http://127.0.0.1:37461/",
           "title": "Actual",
           "domHash": "0e5db8d3d3693839",
           "canaryPresent": false,
@@ -2673,8 +1987,8 @@
           }
         },
         "beforeAction": {
-          "at": 5417,
-          "url": "http://127.0.0.1:37451/",
+          "at": 5371,
+          "url": "http://127.0.0.1:37461/",
           "title": "Actual",
           "domHash": "0e5db8d3d3693839",
           "canaryPresent": false,
@@ -2749,8 +2063,8 @@
         },
         "networkSettled": true,
         "after": {
-          "at": 6634,
-          "url": "http://127.0.0.1:37451/",
+          "at": 6585,
+          "url": "http://127.0.0.1:37461/",
           "title": "Actual",
           "domHash": "3948e6fc1b26ba3f",
           "canaryPresent": false,
@@ -2858,7 +2172,7 @@
             ]
           }
         },
-        "trace": "traces/c50615ba48ee.zip",
+        "trace": "traces/a0fe43c0e0b2.zip",
         "snapshotIndex": "snapshots/RD-004.index.json"
       },
       "verdict": "VERIFIED",
@@ -2869,8 +2183,8 @@
     {
       "id": "RD-005",
       "action": {
-        "id": "f8ee1d36ab99",
-        "pageUrl": "http://127.0.0.1:37451/",
+        "id": "e5e26062a598",
+        "pageUrl": "http://127.0.0.1:37461/",
         "label": "Set up sync",
         "activation": "click",
         "kind": "navigation",
@@ -2883,7 +2197,7 @@
           "role": "link",
           "accessibleName": "Set up sync",
           "text": "Set up sync",
-          "href": "http://127.0.0.1:37451/config-server",
+          "href": "http://127.0.0.1:37461/config-server",
           "candidates": [
             {
               "strategy": "role",
@@ -2902,7 +2216,7 @@
             {
               "strategy": "href",
               "weight": 72,
-              "value": "http://127.0.0.1:37451/config-server"
+              "value": "http://127.0.0.1:37461/config-server"
             },
             {
               "strategy": "text",
@@ -2920,9 +2234,9 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T13:51:09.434Z",
-        "durationMs": 6581,
-        "canary": "RD_TEST_DEABAD",
+        "startedAt": "2026-07-26T16:09:35.368Z",
+        "durationMs": 6688,
+        "canary": "RD_TEST_A75D87",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -2948,8 +2262,8 @@
           "retryCount": 0
         },
         "before": {
-          "at": 5357,
-          "url": "http://127.0.0.1:37451/",
+          "at": 5476,
+          "url": "http://127.0.0.1:37461/",
           "title": "Actual",
           "domHash": "0e5db8d3d3693839",
           "canaryPresent": false,
@@ -3023,8 +2337,8 @@
           }
         },
         "beforeAction": {
-          "at": 5367,
-          "url": "http://127.0.0.1:37451/",
+          "at": 5487,
+          "url": "http://127.0.0.1:37461/",
           "title": "Actual",
           "domHash": "0e5db8d3d3693839",
           "canaryPresent": false,
@@ -3099,8 +2413,8 @@
         },
         "networkSettled": true,
         "after": {
-          "at": 6576,
-          "url": "http://127.0.0.1:37451/config-server",
+          "at": 6684,
+          "url": "http://127.0.0.1:37461/config-server",
           "title": "Actual",
           "domHash": "97f712565aa26638",
           "canaryPresent": false,
@@ -3174,7 +2488,7 @@
             ]
           }
         },
-        "trace": "traces/f8ee1d36ab99.zip",
+        "trace": "traces/e5e26062a598.zip",
         "snapshotIndex": "snapshots/RD-005.index.json"
       },
       "verdict": "VERIFIED",
@@ -3185,21 +2499,21 @@
     {
       "id": "RD-006",
       "action": {
-        "id": "fffad240a2f8",
-        "pageUrl": "http://127.0.0.1:37451/config-server",
+        "id": "b6d7e37da580",
+        "pageUrl": "http://127.0.0.1:37461/config-server",
         "label": "Back",
         "activation": "click",
         "kind": "navigation",
         "intent": "navigate",
         "risk": "safe",
         "fingerprint": {
-          "selector": "#react-aria8871071898-_r_0_",
+          "selector": "#react-aria550301568-_r_0_",
           "tag": "button",
           "ordinal": 0,
           "role": "button",
           "accessibleName": "Back",
           "text": "Back",
-          "id": "react-aria8871071898-_r_0_",
+          "id": "react-aria550301568-_r_0_",
           "type": "button",
           "candidates": [
             {
@@ -3219,7 +2533,7 @@
             {
               "strategy": "id",
               "weight": 80,
-              "selector": "#react-aria8871071898-_r_0_"
+              "selector": "#react-aria550301568-_r_0_"
             },
             {
               "strategy": "text",
@@ -3230,16 +2544,16 @@
             {
               "strategy": "css",
               "weight": 35,
-              "selector": "#react-aria8871071898-_r_0_"
+              "selector": "#react-aria550301568-_r_0_"
             }
           ]
         },
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T13:51:16.564Z",
-        "durationMs": 5988,
-        "canary": "RD_TEST_21EF22",
+        "startedAt": "2026-07-26T16:09:42.617Z",
+        "durationMs": 6037,
+        "canary": "RD_TEST_0E7597",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -3293,7 +2607,7 @@
               "weight": 92,
               "matchCount": 0,
               "visibleCount": 0,
-              "elapsedMs": 3
+              "elapsedMs": 4
             },
             {
               "strategy": "role",
@@ -3307,7 +2621,7 @@
               "weight": 80,
               "matchCount": 0,
               "visibleCount": 0,
-              "elapsedMs": 2
+              "elapsedMs": 3
             },
             {
               "strategy": "text",
@@ -3328,14 +2642,14 @@
               "weight": 92,
               "matchCount": 0,
               "visibleCount": 0,
-              "elapsedMs": 2
+              "elapsedMs": 3
             },
             {
               "strategy": "role",
               "weight": 82,
               "matchCount": 0,
               "visibleCount": 0,
-              "elapsedMs": 2
+              "elapsedMs": 3
             },
             {
               "strategy": "id",
@@ -3362,8 +2676,8 @@
           "retryCount": 2
         },
         "executionError": "No visible element matched the semantic fingerprint. The action was not executed.",
-        "screenshot": "screenshots/fffad240a2f8-error.png",
-        "trace": "traces/fffad240a2f8.zip",
+        "screenshot": "screenshots/b6d7e37da580-error.png",
+        "trace": "traces/b6d7e37da580.zip",
         "snapshotIndex": "snapshots/RD-006.index.json"
       },
       "verdict": "UNCERTAIN",
@@ -3374,21 +2688,21 @@
     {
       "id": "RD-007",
       "action": {
-        "id": "635b2db2b3ad",
-        "pageUrl": "http://127.0.0.1:37451/config-server",
+        "id": "df23f8a14e27",
+        "pageUrl": "http://127.0.0.1:37461/config-server",
         "label": "Use the current domain",
         "activation": "click",
         "kind": "local",
         "intent": "interact",
         "risk": "safe",
         "fingerprint": {
-          "selector": "#react-aria8871071898-_r_4_",
+          "selector": "#react-aria550301568-_r_4_",
           "tag": "button",
           "ordinal": 3,
           "role": "button",
           "accessibleName": "Use the current domain",
           "text": "Use the current domain",
-          "id": "react-aria8871071898-_r_4_",
+          "id": "react-aria550301568-_r_4_",
           "type": "button",
           "candidates": [
             {
@@ -3408,7 +2722,7 @@
             {
               "strategy": "id",
               "weight": 80,
-              "selector": "#react-aria8871071898-_r_4_"
+              "selector": "#react-aria550301568-_r_4_"
             },
             {
               "strategy": "text",
@@ -3419,16 +2733,16 @@
             {
               "strategy": "css",
               "weight": 35,
-              "selector": "#react-aria8871071898-_r_4_"
+              "selector": "#react-aria550301568-_r_4_"
             }
           ]
         },
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T13:51:23.044Z",
-        "durationMs": 6677,
-        "canary": "RD_TEST_080185",
+        "startedAt": "2026-07-26T16:09:49.182Z",
+        "durationMs": 6618,
+        "canary": "RD_TEST_2D8002",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -3454,8 +2768,8 @@
           "retryCount": 0
         },
         "before": {
-          "at": 5457,
-          "url": "http://127.0.0.1:37451/config-server",
+          "at": 5379,
+          "url": "http://127.0.0.1:37461/config-server",
           "title": "Actual",
           "domHash": "0152be5d7ccd41ff",
           "canaryPresent": false,
@@ -3530,8 +2844,8 @@
           }
         },
         "beforeAction": {
-          "at": 5476,
-          "url": "http://127.0.0.1:37451/config-server",
+          "at": 5398,
+          "url": "http://127.0.0.1:37461/config-server",
           "title": "Actual",
           "domHash": "0152be5d7ccd41ff",
           "canaryPresent": false,
@@ -3607,10 +2921,10 @@
         },
         "networkSettled": true,
         "after": {
-          "at": 6673,
-          "url": "http://127.0.0.1:37451/config-server",
+          "at": 6614,
+          "url": "http://127.0.0.1:37461/config-server",
           "title": "Actual",
-          "domHash": "1567fe2c7abd4cc8",
+          "domHash": "b203143bcb8151c1",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -3629,7 +2943,7 @@
               {
                 "tag": "input",
                 "type": "text",
-                "valueHash": "fe19c923993f284f",
+                "valueHash": "d1ba3cfb6b194fd2",
                 "checked": false,
                 "disabled": false,
                 "visible": true
@@ -3682,7 +2996,7 @@
             ]
           }
         },
-        "trace": "traces/635b2db2b3ad.zip",
+        "trace": "traces/df23f8a14e27.zip",
         "snapshotIndex": "snapshots/RD-007.index.json"
       },
       "verdict": "VERIFIED",
@@ -3693,8 +3007,8 @@
     {
       "id": "RD-008",
       "action": {
-        "id": "b29e08bd9425",
-        "pageUrl": "http://127.0.0.1:37451/",
+        "id": "fd055203dd24",
+        "pageUrl": "http://127.0.0.1:37461/",
         "label": "guided tour",
         "activation": "click",
         "kind": "navigation",
@@ -3767,8 +3081,8 @@
     {
       "id": "RD-009",
       "action": {
-        "id": "a77a4a048f93",
-        "pageUrl": "http://127.0.0.1:37451/config-server",
+        "id": "64655644879b",
+        "pageUrl": "http://127.0.0.1:37461/config-server",
         "label": "learn how to set one up",
         "activation": "click",
         "kind": "navigation",
@@ -3841,21 +3155,21 @@
     {
       "id": "RD-010",
       "action": {
-        "id": "add38cce56ec",
-        "pageUrl": "http://127.0.0.1:37451/config-server",
+        "id": "0547a44dc682",
+        "pageUrl": "http://127.0.0.1:37461/config-server",
         "label": "Connect",
         "activation": "click",
         "kind": "external",
         "intent": "external",
         "risk": "external",
         "fingerprint": {
-          "selector": "#react-aria8871071898-_r_2_",
+          "selector": "#react-aria550301568-_r_2_",
           "tag": "button",
           "ordinal": 2,
           "role": "button",
           "accessibleName": "Connect",
           "text": "Connect",
-          "id": "react-aria8871071898-_r_2_",
+          "id": "react-aria550301568-_r_2_",
           "type": "button",
           "candidates": [
             {
@@ -3875,7 +3189,7 @@
             {
               "strategy": "id",
               "weight": 80,
-              "selector": "#react-aria8871071898-_r_2_"
+              "selector": "#react-aria550301568-_r_2_"
             },
             {
               "strategy": "text",
@@ -3886,7 +3200,7 @@
             {
               "strategy": "css",
               "weight": 35,
-              "selector": "#react-aria8871071898-_r_2_"
+              "selector": "#react-aria550301568-_r_2_"
             }
           ]
         },
@@ -3924,9 +3238,9 @@
   ],
   "environment": {
     "status": "VALID",
-    "checkedAt": "2026-07-26T13:50:32.502Z",
-    "durationMs": 2669,
-    "targetUrl": "http://127.0.0.1:37451/",
+    "checkedAt": "2026-07-26T16:08:58.574Z",
+    "durationMs": 2673,
+    "targetUrl": "http://127.0.0.1:37461/",
     "mainDocument": {
       "status": 200,
       "contentType": "text/html"

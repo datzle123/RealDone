@@ -1,15 +1,15 @@
 {
   "schemaVersion": "1.0",
-  "scanId": "20260726T135405Z-d811",
+  "scanId": "20260726T161344Z-27cd",
   "targetUrl": "http://127.0.0.1:37300/",
-  "startedAt": "2026-07-26T13:54:05.601Z",
-  "finishedAt": "2026-07-26T13:54:19.315Z",
+  "startedAt": "2026-07-26T16:13:44.006Z",
+  "finishedAt": "2026-07-26T16:13:58.129Z",
   "options": {
-    "maxPages": 2,
+    "maxPages": 3,
     "maxActions": 20,
     "timeoutMs": 12000,
     "settleMs": 700,
-    "maxDurationMs": 300000,
+    "maxDurationMs": 180000,
     "maxRetries": 2,
     "allowDestructive": false,
     "allowExternal": true,
@@ -391,9 +391,9 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T13:54:07.494Z",
-        "durationMs": 1854,
-        "canary": "RD_TEST_77D506",
+        "startedAt": "2026-07-26T16:13:45.882Z",
+        "durationMs": 2274,
+        "canary": "RD_TEST_A9B24F",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -411,7 +411,7 @@
               "weight": 92,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 6
+              "elapsedMs": 5
             }
           ],
           "chosenStrategy": "role",
@@ -419,10 +419,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 997,
+          "at": 1395,
           "url": "http://127.0.0.1:37300/",
           "title": "Pocket Ledger",
-          "domHash": "f9a40a92fafba7cb",
+          "domHash": "794a2d97e72f669a",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -434,9 +434,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "446d049d8cdd0586",
+            "textHash": "fb397a82adee9c91",
             "visualHash": "46857e11c9fc209f",
-            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 0 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename None yet PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV",
+            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 4 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename RD_TEST_A2E7BF_1.txt PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV",
             "controls": [
               {
                 "tag": "select",
@@ -496,10 +496,10 @@
           }
         },
         "beforeAction": {
-          "at": 1009,
+          "at": 1405,
           "url": "http://127.0.0.1:37300/",
           "title": "Pocket Ledger",
-          "domHash": "f9a40a92fafba7cb",
+          "domHash": "794a2d97e72f669a",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -511,9 +511,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "446d049d8cdd0586",
+            "textHash": "fb397a82adee9c91",
             "visualHash": "46857e11c9fc209f",
-            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 0 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename None yet PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV",
+            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 4 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename RD_TEST_A2E7BF_1.txt PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV",
             "controls": [
               {
                 "tag": "select",
@@ -575,10 +575,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 1850,
+          "at": 2270,
           "url": "http://127.0.0.1:37300/#main",
           "title": "Pocket Ledger",
-          "domHash": "f9a40a92fafba7cb",
+          "domHash": "794a2d97e72f669a",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -590,9 +590,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "446d049d8cdd0586",
+            "textHash": "fb397a82adee9c91",
             "visualHash": "46857e11c9fc209f",
-            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 0 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename None yet PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV",
+            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 4 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename RD_TEST_A2E7BF_1.txt PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV",
             "controls": [
               {
                 "tag": "select",
@@ -698,9 +698,9 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T13:54:09.385Z",
-        "durationMs": 1844,
-        "canary": "RD_TEST_3035DE",
+        "startedAt": "2026-07-26T16:13:48.193Z",
+        "durationMs": 1874,
+        "canary": "RD_TEST_68C366",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -726,10 +726,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 987,
+          "at": 985,
           "url": "http://127.0.0.1:37300/",
           "title": "Pocket Ledger",
-          "domHash": "f9a40a92fafba7cb",
+          "domHash": "794a2d97e72f669a",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -741,9 +741,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "446d049d8cdd0586",
+            "textHash": "fb397a82adee9c91",
             "visualHash": "46857e11c9fc209f",
-            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 0 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename None yet PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV",
+            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 4 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename RD_TEST_A2E7BF_1.txt PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV",
             "controls": [
               {
                 "tag": "select",
@@ -803,10 +803,10 @@
           }
         },
         "beforeAction": {
-          "at": 996,
+          "at": 994,
           "url": "http://127.0.0.1:37300/",
           "title": "Pocket Ledger",
-          "domHash": "f9a40a92fafba7cb",
+          "domHash": "794a2d97e72f669a",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -818,9 +818,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "446d049d8cdd0586",
+            "textHash": "fb397a82adee9c91",
             "visualHash": "46857e11c9fc209f",
-            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 0 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename None yet PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV",
+            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 4 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename RD_TEST_A2E7BF_1.txt PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV",
             "controls": [
               {
                 "tag": "select",
@@ -882,10 +882,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 1839,
+          "at": 1870,
           "url": "http://127.0.0.1:37300/",
           "title": "Pocket Ledger",
-          "domHash": "1295db35f098cfe6",
+          "domHash": "a20a800cf2bdf26d",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -897,9 +897,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "3f915bda1f127a6a",
+            "textHash": "50156dbc20294fd7",
             "visualHash": "46857e11c9fc209f",
-            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 0 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename None yet PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV Now viewing as member.",
+            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 4 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename RD_TEST_A2E7BF_1.txt PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV Now viewing as member.",
             "controls": [
               {
                 "tag": "select",
@@ -1027,19 +1027,19 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T13:54:11.275Z",
-        "durationMs": 1988,
-        "canary": "RD_TEST_F3AD67",
+        "startedAt": "2026-07-26T16:13:50.112Z",
+        "durationMs": 1966,
+        "canary": "RD_TEST_0227F7",
         "network": [
           {
             "id": "net-1",
             "method": "POST",
             "url": "http://127.0.0.1:37300/api/counter/increment",
             "resourceType": "fetch",
-            "startedAt": 1015,
+            "startedAt": 1008,
             "status": 200,
             "ok": true,
-            "finishedAt": 1027,
+            "finishedAt": 1022,
             "contentType": "application/json",
             "resourceTypeHint": "increment"
           }
@@ -1068,10 +1068,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 983,
+          "at": 975,
           "url": "http://127.0.0.1:37300/",
           "title": "Pocket Ledger",
-          "domHash": "f9a40a92fafba7cb",
+          "domHash": "794a2d97e72f669a",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -1083,9 +1083,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "446d049d8cdd0586",
+            "textHash": "fb397a82adee9c91",
             "visualHash": "46857e11c9fc209f",
-            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 0 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename None yet PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV",
+            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 4 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename RD_TEST_A2E7BF_1.txt PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV",
             "controls": [
               {
                 "tag": "select",
@@ -1145,10 +1145,10 @@
           }
         },
         "beforeAction": {
-          "at": 993,
+          "at": 984,
           "url": "http://127.0.0.1:37300/",
           "title": "Pocket Ledger",
-          "domHash": "f9a40a92fafba7cb",
+          "domHash": "794a2d97e72f669a",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -1160,9 +1160,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "446d049d8cdd0586",
+            "textHash": "fb397a82adee9c91",
             "visualHash": "46857e11c9fc209f",
-            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 0 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename None yet PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV",
+            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 4 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename RD_TEST_A2E7BF_1.txt PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV",
             "controls": [
               {
                 "tag": "select",
@@ -1224,10 +1224,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 1896,
+          "at": 1871,
           "url": "http://127.0.0.1:37300/",
           "title": "Pocket Ledger",
-          "domHash": "488a5461c8a14b07",
+          "domHash": "2e199445038dd1f1",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -1239,9 +1239,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "b12953d2f3157a23",
+            "textHash": "157fdd458d903fb6",
             "visualHash": "46857e11c9fc209f",
-            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 1 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename None yet PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV Counter incremented.",
+            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 5 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename RD_TEST_A2E7BF_1.txt PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV Counter incremented.",
             "controls": [
               {
                 "tag": "select",
@@ -1364,9 +1364,9 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T13:54:13.296Z",
-        "durationMs": 1983,
-        "canary": "RD_TEST_728300",
+        "startedAt": "2026-07-26T16:13:52.111Z",
+        "durationMs": 1985,
+        "canary": "RD_TEST_6545CD",
         "network": [
           {
             "id": "net-1",
@@ -1405,10 +1405,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 976,
+          "at": 971,
           "url": "http://127.0.0.1:37300/",
           "title": "Pocket Ledger",
-          "domHash": "814ba71c736aa26d",
+          "domHash": "3f37b34068d01d90",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -1420,9 +1420,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "ff860fe17c5bf67d",
+            "textHash": "783bd8d035fc1676",
             "visualHash": "46857e11c9fc209f",
-            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 1 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename None yet PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV",
+            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 5 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename RD_TEST_A2E7BF_1.txt PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV",
             "controls": [
               {
                 "tag": "select",
@@ -1482,10 +1482,10 @@
           }
         },
         "beforeAction": {
-          "at": 985,
+          "at": 979,
           "url": "http://127.0.0.1:37300/",
           "title": "Pocket Ledger",
-          "domHash": "814ba71c736aa26d",
+          "domHash": "3f37b34068d01d90",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -1497,9 +1497,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "ff860fe17c5bf67d",
+            "textHash": "783bd8d035fc1676",
             "visualHash": "46857e11c9fc209f",
-            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 1 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename None yet PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV",
+            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 5 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename RD_TEST_A2E7BF_1.txt PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV",
             "controls": [
               {
                 "tag": "select",
@@ -1561,10 +1561,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 1893,
+          "at": 1882,
           "url": "http://127.0.0.1:37300/",
           "title": "Pocket Ledger",
-          "domHash": "fd7f4b7d86ba989a",
+          "domHash": "c7d86c6cc855988d",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -1576,9 +1576,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "58dd320d87ee451f",
+            "textHash": "8a109b70a045722c",
             "visualHash": "46857e11c9fc209f",
-            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 0 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename None yet PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV Counter decremented.",
+            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 4 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename RD_TEST_A2E7BF_1.txt PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV Counter decremented.",
             "controls": [
               {
                 "tag": "select",
@@ -1695,19 +1695,19 @@
         ]
       },
       "evidence": {
-        "startedAt": "2026-07-26T13:54:15.313Z",
-        "durationMs": 1986,
-        "canary": "RD_TEST_C22D49",
+        "startedAt": "2026-07-26T16:13:54.130Z",
+        "durationMs": 1980,
+        "canary": "RD_TEST_5A6065",
         "network": [
           {
             "id": "net-1",
             "method": "POST",
             "url": "http://127.0.0.1:37300/api/receipts",
             "resourceType": "fetch",
-            "startedAt": 1009,
+            "startedAt": 1025,
             "status": 200,
             "ok": true,
-            "finishedAt": 1021,
+            "finishedAt": 1036,
             "contentType": "application/json",
             "resourceTypeHint": "receipts"
           }
@@ -1720,7 +1720,7 @@
             "selector": "#receipt",
             "name": "receipt",
             "type": "file",
-            "value": "RD_TEST_C22D49_1.txt",
+            "value": "RD_TEST_5A6065_1.txt",
             "redacted": false
           }
         ],
@@ -1729,10 +1729,10 @@
         "downloadEvidence": [],
         "uploads": [
           {
-            "fileName": "RD_TEST_C22D49_1.txt",
+            "fileName": "RD_TEST_5A6065_1.txt",
             "contentType": "text/plain",
             "size": 41,
-            "contentHash": "dbd519284388aa87",
+            "contentHash": "95434fc254cca2e8",
             "containsCanary": true
           }
         ],
@@ -1752,10 +1752,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 969,
+          "at": 978,
           "url": "http://127.0.0.1:37300/",
           "title": "Pocket Ledger",
-          "domHash": "f9a40a92fafba7cb",
+          "domHash": "794a2d97e72f669a",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -1767,9 +1767,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "446d049d8cdd0586",
+            "textHash": "fb397a82adee9c91",
             "visualHash": "46857e11c9fc209f",
-            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 0 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename None yet PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV",
+            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 4 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename RD_TEST_A2E7BF_1.txt PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV",
             "controls": [
               {
                 "tag": "select",
@@ -1829,10 +1829,10 @@
           }
         },
         "beforeAction": {
-          "at": 989,
+          "at": 998,
           "url": "http://127.0.0.1:37300/",
           "title": "Pocket Ledger",
-          "domHash": "b070da223c05fe4c",
+          "domHash": "3aec770595ce3fa5",
           "canaryPresent": true,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -1844,9 +1844,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "446d049d8cdd0586",
+            "textHash": "fb397a82adee9c91",
             "visualHash": "46857e11c9fc209f",
-            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 0 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename None yet PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV",
+            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 4 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename RD_TEST_A2E7BF_1.txt PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV",
             "controls": [
               {
                 "tag": "select",
@@ -1881,7 +1881,7 @@
                 "tag": "input",
                 "type": "file",
                 "name": "receipt",
-                "valueHash": "b0a0d5416b5e19ea",
+                "valueHash": "c2d3b9d31cdccb33",
                 "checked": false,
                 "disabled": false,
                 "visible": true
@@ -1908,10 +1908,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 1893,
+          "at": 1890,
           "url": "http://127.0.0.1:37300/",
           "title": "Pocket Ledger",
-          "domHash": "2382603d6a8ce862",
+          "domHash": "2efb1b175d57b39b",
           "canaryPresent": true,
           "bodyCanaryPresent": true,
           "temporaryBlobUrls": 0,
@@ -1923,9 +1923,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "9b0c842dc6136d8e",
+            "textHash": "fb36eae8a40d2caf",
             "visualHash": "46857e11c9fc209f",
-            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 0 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename RD_TEST_C22D49_1.txt PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV Receipt details stored. The file contents were discarded.",
+            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 4 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename RD_TEST_5A6065_1.txt PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV Receipt details stored. The file contents were discarded.",
             "controls": [
               {
                 "tag": "select",
@@ -2048,9 +2048,9 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T13:54:17.334Z",
-        "durationMs": 1961,
-        "canary": "RD_TEST_6FE5E2",
+        "startedAt": "2026-07-26T16:13:56.148Z",
+        "durationMs": 1962,
+        "canary": "RD_TEST_3D4DDA",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -2064,7 +2064,7 @@
           {
             "fileName": "pocket-ledger.csv",
             "size": 117,
-            "contentHash": "30dbad307eecc4975535518e9c0942f45009110a6253571d763fafd23de7a43b",
+            "contentHash": "ec8ef88c738880039a1ce55e373a8d3b0572ef4bd41b22d66f9891d7467515e0",
             "containsCanary": false,
             "expectedFieldValues": 0,
             "matchedFieldValues": 0,
@@ -2080,7 +2080,7 @@
               "weight": 92,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 5
+              "elapsedMs": 4
             }
           ],
           "chosenStrategy": "role",
@@ -2088,10 +2088,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 983,
+          "at": 980,
           "url": "http://127.0.0.1:37300/",
           "title": "Pocket Ledger",
-          "domHash": "d67f7b54a898e78a",
+          "domHash": "c1498a9644d5dbfb",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -2103,9 +2103,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "0016192f2219d157",
+            "textHash": "640311bf08f9b405",
             "visualHash": "46857e11c9fc209f",
-            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 0 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename RD_TEST_C22D49_1.txt PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV",
+            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 4 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename RD_TEST_5A6065_1.txt PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV",
             "controls": [
               {
                 "tag": "select",
@@ -2165,10 +2165,10 @@
           }
         },
         "beforeAction": {
-          "at": 991,
+          "at": 988,
           "url": "http://127.0.0.1:37300/",
           "title": "Pocket Ledger",
-          "domHash": "d67f7b54a898e78a",
+          "domHash": "c1498a9644d5dbfb",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -2180,9 +2180,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "0016192f2219d157",
+            "textHash": "640311bf08f9b405",
             "visualHash": "46857e11c9fc209f",
-            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 0 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename RD_TEST_C22D49_1.txt PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV",
+            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 4 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename RD_TEST_5A6065_1.txt PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV",
             "controls": [
               {
                 "tag": "select",
@@ -2244,10 +2244,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 1866,
+          "at": 1861,
           "url": "http://127.0.0.1:37300/",
           "title": "Pocket Ledger",
-          "domHash": "d67f7b54a898e78a",
+          "domHash": "c1498a9644d5dbfb",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -2259,9 +2259,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "0016192f2219d157",
+            "textHash": "640311bf08f9b405",
             "visualHash": "46857e11c9fc209f",
-            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 0 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename RD_TEST_C22D49_1.txt PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV",
+            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 4 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename RD_TEST_5A6065_1.txt PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV",
             "controls": [
               {
                 "tag": "select",
@@ -2332,8 +2332,8 @@
   ],
   "environment": {
     "status": "VALID",
-    "checkedAt": "2026-07-26T13:54:05.672Z",
-    "durationMs": 857,
+    "checkedAt": "2026-07-26T16:13:44.066Z",
+    "durationMs": 836,
     "targetUrl": "http://127.0.0.1:37300/",
     "mainDocument": {
       "status": 200,
@@ -2346,7 +2346,7 @@
       "failed": 0
     },
     "render": {
-      "bodyTextLength": 527,
+      "bodyTextLength": 539,
       "visibleElements": 38,
       "interactiveElements": 7,
       "ready": true

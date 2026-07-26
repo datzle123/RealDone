@@ -6,6 +6,7 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 
 ### Added
 
+- Fresh fingerprint-bound qualification for the Windows plugin-worker cleanup across TodoMVC, Actual Budget, Conduit SQLite/PostgreSQL 17/Supabase CRUD, and Pocket Ledger Level 7 plus Codex RD901 regression/repair evidence.
 - Configured classic branch protection for `main` with the strict/up-to-date GitHub Actions check `normative release gates (15/15)`, administrator enforcement, required conversation resolution, and disabled force-push/deletion; the aggregate now fails closed when a prerequisite fails, is cancelled, or is skipped.
 - Fresh Phase L qualification at fingerprint `3663ff0c…` across TodoMVC, Actual Budget, Conduit SQLite/PostgreSQL 17/Supabase Data API and Pocket Ledger, including PostgreSQL CRUD cleanup, authenticated Level 7 visual suppression and a new Codex RD901 regression/repair cycle.
 - Pre-capture visual privacy for automatic scans and contract/role verification: known-sensitive inputs, `secretEnv` and auth-state contexts now suppress screenshot/video binaries while safe controls retain them, with additive value-free report metadata.

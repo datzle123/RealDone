@@ -1,15 +1,15 @@
 {
   "schemaVersion": "1.0",
-  "verificationId": "20260726T135544Z-465e",
+  "verificationId": "20260726T161550Z-2523",
   "contractId": "increment-persistent-counter-6270",
   "contractName": "Increment persistent counter",
   "browser": "chromium",
   "roles": [
     "default"
   ],
-  "deep": false,
-  "startedAt": "2026-07-26T13:55:44.593Z",
-  "finishedAt": "2026-07-26T13:55:45.906Z",
+  "deep": true,
+  "startedAt": "2026-07-26T16:15:50.527Z",
+  "finishedAt": "2026-07-26T16:15:51.839Z",
   "passed": false,
   "steps": [
     {
@@ -17,7 +17,7 @@
       "type": "navigate",
       "role": "default",
       "status": "passed",
-      "durationMs": 656,
+      "durationMs": 653,
       "reason": "Step and recorded expectations passed.",
       "assertions": []
     },
@@ -26,7 +26,7 @@
       "type": "click",
       "role": "default",
       "status": "failed",
-      "durationMs": 570,
+      "durationMs": 574,
       "reason": "One or more recorded expectations failed.",
       "locatorResolution": {
         "attempts": [
