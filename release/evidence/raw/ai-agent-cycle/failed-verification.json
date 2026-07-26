@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "verificationId": "20260726T081932Z-86b6",
+  "verificationId": "20260726T105538Z-a11a",
   "contractId": "increment-persistent-counter-6270",
   "contractName": "Increment persistent counter",
   "browser": "chromium",
@@ -8,8 +8,8 @@
     "default"
   ],
   "deep": false,
-  "startedAt": "2026-07-26T08:19:32.863Z",
-  "finishedAt": "2026-07-26T08:19:34.200Z",
+  "startedAt": "2026-07-26T10:55:39.096Z",
+  "finishedAt": "2026-07-26T10:55:40.394Z",
   "passed": false,
   "steps": [
     {
@@ -17,7 +17,7 @@
       "type": "navigate",
       "role": "default",
       "status": "passed",
-      "durationMs": 669,
+      "durationMs": 645,
       "reason": "Step and recorded expectations passed.",
       "assertions": []
     },
@@ -26,7 +26,7 @@
       "type": "click",
       "role": "default",
       "status": "failed",
-      "durationMs": 595,
+      "durationMs": 557,
       "reason": "One or more recorded expectations failed.",
       "locatorResolution": {
         "attempts": [
@@ -35,7 +35,7 @@
             "weight": 92,
             "matchCount": 1,
             "visibleCount": 1,
-            "elapsedMs": 24
+            "elapsedMs": 23
           }
         ],
         "chosenStrategy": "role",
@@ -70,6 +70,7 @@
     "traces": [
       "traces/default.zip"
     ],
-    "videos": []
+    "videos": [],
+    "traceSuppressions": []
   }
 }

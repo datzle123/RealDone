@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-07-26T08:45:00.000Z",
-  "engineFingerprint": "f3f65840e53777056fed4fc770853a522da85c46626f5bc910853515c266cc1a",
+  "generatedAt": "2026-07-26T11:10:00.000Z",
+  "engineFingerprint": "0b39d54299d3c50d0f002382e04d569591d56c10c1fca5623d331b374221d047",
   "case": {
     "name": "Pocket Ledger (Codex-generated)",
     "repository": "local/Pocket-Ledger",
@@ -18,17 +18,17 @@
     ]
   },
   "scan": {
-    "scanId": "20260726T081239Z-a6ab",
+    "scanId": "20260726T105210Z-98d7",
     "sourceArtifact": "release/evidence/raw/ai-agent-cycle.scan.json",
-    "sourceSha256": "29c9f89f23b04ea4bcb4bec206f86cc47fe7e37a67f7a89d53ca2f98d2225622",
+    "sourceSha256": "62621a661b8bbe4b5f70984a802c545c1ee9728921bea6bb6229463a677d1cf8",
     "environmentStatus": "VALID",
     "truncated": false,
     "pagesDiscovered": 1,
-    "visibleActions": 6,
-    "actionsVerified": 6,
+    "visibleActions": 5,
+    "actionsVerified": 5,
     "actionsSkipped": 0,
     "verdicts": {
-      "VERIFIED": 6,
+      "VERIFIED": 5,
       "CONTRADICTORY": 0,
       "EPHEMERAL": 0,
       "BROWSER_LOCAL": 0,
@@ -43,37 +43,37 @@
       "id": "codex-session",
       "kind": "agent-session",
       "sourceArtifact": "release/evidence/raw/ai-agent-cycle/codex-session.json",
-      "sourceSha256": "393018db4f963563175ed8e28b978c3fec2d6d9b57186fe3f31c4fcf7fba3f5c"
+      "sourceSha256": "1b3ca13a85509ec3fea3d1ac88918522773e01141579fd7adfd7e4acc9ff88fe"
     },
     {
       "id": "agent-baseline",
       "kind": "agent-baseline",
       "sourceArtifact": "release/evidence/raw/ai-agent-cycle/baseline.json",
-      "sourceSha256": "85c2891a2604819c88578a57e13ed0801f7fe374bd9534c2060878caaf311ac0"
+      "sourceSha256": "93ea5475163d24b6526c52a58a7e02b2ea6f8abe16358e3837c82357b96e13af"
     },
     {
       "id": "agent-regression",
       "kind": "agent-regression",
       "sourceArtifact": "release/evidence/raw/ai-agent-cycle/regression.json",
-      "sourceSha256": "a5f872646d86a2949edd4380f72fa42b14db3e5d3af294a65d52064a3972a414"
+      "sourceSha256": "f6278ceb13aad601c106c6373bd7cf9dc7f17bcbb3fa10b1a6cdeb596d061838"
     },
     {
       "id": "failed-verification",
       "kind": "contract-verification",
       "sourceArtifact": "release/evidence/raw/ai-agent-cycle/failed-verification.json",
-      "sourceSha256": "edfc3c24910e4b073ae347d5c54a4c0b612559f27aeb085cb7cf95dfaadf15f3"
+      "sourceSha256": "03ee0927c34f2070eace195fab8980dcac7b84409fbb8e3281ae930b58153e54"
     },
     {
       "id": "agent-repair",
       "kind": "agent-repair",
       "sourceArtifact": "release/evidence/raw/ai-agent-cycle/repair.json",
-      "sourceSha256": "71ac24e404f63e49f962536aaaf6a8985f9eb308c1ccd5358b9d6ef971753875"
+      "sourceSha256": "37e6c4ae44ed4b0e3b2a21dfeb1059a761a272d5ee252a44fbce41f665ad22ac"
     },
     {
       "id": "role-verification",
       "kind": "contract-verification",
       "sourceArtifact": "release/evidence/raw/ai-agent-cycle/role-verification.json",
-      "sourceSha256": "f9106b1169e9b4ae7ad9da701ab09a1631232853052291d8d8b6fbc3d7c43ede"
+      "sourceSha256": "3f6420d8d870f703479b7ff3adddcc85f57b82c4afaae571d9a5159ac5388a08"
     }
   ],
   "qualification": {
@@ -145,8 +145,8 @@
     {
       "id": "all-visible-actions",
       "passed": true,
-      "expected": "all 6 visible actions verified",
-      "observed": "6 VERIFIED; 0 skipped"
+      "expected": "all 5 visible actions verified",
+      "observed": "5 VERIFIED; 0 skipped"
     }
   ]
 }

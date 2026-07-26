@@ -7,6 +7,7 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 ### Added
 
 - Fail-closed per-trace retention for automatic scans and contract/MCP verification: bounded ZIP inspection now checks generated sensitive fields, contract `secretEnv`, opaque Playwright auth-state cookies/tokens and generic credential patterns before report linkage, with additive value-free suppression metadata for deleted unsafe or unscannable traces.
+- Fresh fingerprint-bound Phase J qualification across TodoMVC, Actual Budget, Conduit SQLite/PostgreSQL 17/Supabase Data API and Pocket Ledger, including PostgreSQL CRUD cleanup, Level 7 roles and a new Codex MCP RD901 regression/repair cycle.
 - Coverage-balanced quick-scan scheduling that represents more routes, action kinds, intents, and keyboard/submit activation paths within the same finite action budget, while placing known policy/environment denials after runnable actions.
 - Additive action-selection telemetry in JSON and HTML reports, including eligible/selected/omitted counts, route coverage, semantic coverage, denial counts, the deterministic strategy version, and an explicit partial-scan explanation.
 - Fresh fingerprint-bound qualification across TodoMVC, Actual Budget, Conduit/SQLite, Conduit/PostgreSQL 17 + Supabase Data API, and Codex-generated Pocket Ledger, including PostgreSQL create/update/delete cleanup, Level 7 roles, and a real Codex MCP baseline → RD901 regression → repair cycle.
