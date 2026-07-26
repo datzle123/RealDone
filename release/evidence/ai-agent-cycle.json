@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-07-26T11:10:00.000Z",
-  "engineFingerprint": "0b39d54299d3c50d0f002382e04d569591d56c10c1fca5623d331b374221d047",
+  "generatedAt": "2026-07-26T12:05:00.000Z",
+  "engineFingerprint": "4625a9ccdcec3484a0251ad00253a719fb04a81c8ce552b1d77763f3deccef94",
   "case": {
     "name": "Pocket Ledger (Codex-generated)",
     "repository": "local/Pocket-Ledger",
@@ -18,17 +18,17 @@
     ]
   },
   "scan": {
-    "scanId": "20260726T105210Z-98d7",
+    "scanId": "20260726T115844Z-3380",
     "sourceArtifact": "release/evidence/raw/ai-agent-cycle.scan.json",
-    "sourceSha256": "62621a661b8bbe4b5f70984a802c545c1ee9728921bea6bb6229463a677d1cf8",
+    "sourceSha256": "93cbad6820fbdb1aa51f7e57b53571444cd99b18c5df5a26adbec8e0bfef3c4b",
     "environmentStatus": "VALID",
     "truncated": false,
     "pagesDiscovered": 1,
-    "visibleActions": 5,
-    "actionsVerified": 5,
+    "visibleActions": 6,
+    "actionsVerified": 6,
     "actionsSkipped": 0,
     "verdicts": {
-      "VERIFIED": 5,
+      "VERIFIED": 6,
       "CONTRADICTORY": 0,
       "EPHEMERAL": 0,
       "BROWSER_LOCAL": 0,
@@ -43,37 +43,37 @@
       "id": "codex-session",
       "kind": "agent-session",
       "sourceArtifact": "release/evidence/raw/ai-agent-cycle/codex-session.json",
-      "sourceSha256": "1b3ca13a85509ec3fea3d1ac88918522773e01141579fd7adfd7e4acc9ff88fe"
+      "sourceSha256": "d5bf652b764f63f587a4b6fd905be88158b0230fee318b4a69c082b2d02fe2dc"
     },
     {
       "id": "agent-baseline",
       "kind": "agent-baseline",
       "sourceArtifact": "release/evidence/raw/ai-agent-cycle/baseline.json",
-      "sourceSha256": "93ea5475163d24b6526c52a58a7e02b2ea6f8abe16358e3837c82357b96e13af"
+      "sourceSha256": "63e23a5387605ebc007dab47863c42bca43531ddabb5a12ed447f92503f2fe1a"
     },
     {
       "id": "agent-regression",
       "kind": "agent-regression",
       "sourceArtifact": "release/evidence/raw/ai-agent-cycle/regression.json",
-      "sourceSha256": "f6278ceb13aad601c106c6373bd7cf9dc7f17bcbb3fa10b1a6cdeb596d061838"
+      "sourceSha256": "675fea7730b2c7c2e89d9a018d1dfba808c346f89b33f378f9d92f83a2b135bc"
     },
     {
       "id": "failed-verification",
       "kind": "contract-verification",
       "sourceArtifact": "release/evidence/raw/ai-agent-cycle/failed-verification.json",
-      "sourceSha256": "03ee0927c34f2070eace195fab8980dcac7b84409fbb8e3281ae930b58153e54"
+      "sourceSha256": "fe2482dbbd8a03e0a37c316da8b271371ca7755b06863dfe80c56f12f8d0a873"
     },
     {
       "id": "agent-repair",
       "kind": "agent-repair",
       "sourceArtifact": "release/evidence/raw/ai-agent-cycle/repair.json",
-      "sourceSha256": "37e6c4ae44ed4b0e3b2a21dfeb1059a761a272d5ee252a44fbce41f665ad22ac"
+      "sourceSha256": "8355893a729294c104295fb290e40574124ad00d73288b5384c07edb83d1d53e"
     },
     {
       "id": "role-verification",
       "kind": "contract-verification",
       "sourceArtifact": "release/evidence/raw/ai-agent-cycle/role-verification.json",
-      "sourceSha256": "3f6420d8d870f703479b7ff3adddcc85f57b82c4afaae571d9a5159ac5388a08"
+      "sourceSha256": "de73eea99cd7101f00c61ac6d9ab2d815ee7c50337fccb961b9810f23d527c70"
     }
   ],
   "qualification": {
@@ -119,6 +119,15 @@
       ]
     },
     {
+      "id": "private-visual-retention",
+      "passed": true,
+      "expected": "authenticated role contexts suppress trace screenshots and video before capture",
+      "observed": "Level 7 verification retained safe snapshot-only traces, videos=0, and value-free screenshot/video authenticated-context suppressions",
+      "evidenceArtifacts": [
+        "role-verification"
+      ]
+    },
+    {
       "id": "capability:ai-generated",
       "passed": true,
       "expected": "authenticated Codex baseline/regression/repair cycle",
@@ -145,8 +154,8 @@
     {
       "id": "all-visible-actions",
       "passed": true,
-      "expected": "all 5 visible actions verified",
-      "observed": "5 VERIFIED; 0 skipped"
+      "expected": "all 6 visible actions verified",
+      "observed": "6 VERIFIED; 0 skipped"
     }
   ]
 }

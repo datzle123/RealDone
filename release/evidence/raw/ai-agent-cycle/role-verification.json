@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "verificationId": "20260726T105254Z-3c11",
+  "verificationId": "20260726T115908Z-7a8a",
   "contractId": "pocket-ledger-role-authorization",
   "contractName": "Member denial and admin visibility",
   "browser": "chromium",
@@ -10,8 +10,8 @@
     "member"
   ],
   "deep": true,
-  "startedAt": "2026-07-26T10:52:54.183Z",
-  "finishedAt": "2026-07-26T10:52:55.181Z",
+  "startedAt": "2026-07-26T11:59:08.708Z",
+  "finishedAt": "2026-07-26T11:59:09.914Z",
   "passed": true,
   "steps": [
     {
@@ -19,7 +19,7 @@
       "type": "navigate",
       "role": "member",
       "status": "passed",
-      "durationMs": 909,
+      "durationMs": 1144,
       "reason": "Step and recorded expectations passed.",
       "assertions": [
         {
@@ -67,6 +67,16 @@
       "traces/admin.zip"
     ],
     "videos": [],
-    "traceSuppressions": []
+    "traceSuppressions": [],
+    "visualSuppressions": [
+      {
+        "artifact": "screenshot",
+        "reason": "authenticated-context"
+      },
+      {
+        "artifact": "video",
+        "reason": "authenticated-context"
+      }
+    ]
   }
 }

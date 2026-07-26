@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-07-26T11:10:00.000Z",
-  "engineFingerprint": "0b39d54299d3c50d0f002382e04d569591d56c10c1fca5623d331b374221d047",
+  "generatedAt": "2026-07-26T12:05:00.000Z",
+  "engineFingerprint": "4625a9ccdcec3484a0251ad00253a719fb04a81c8ce552b1d77763f3deccef94",
   "case": {
     "name": "TodoMVC React",
     "repository": "tastejs/todomvc",
@@ -12,9 +12,9 @@
     "capabilities": []
   },
   "scan": {
-    "scanId": "20260726T102927Z-70c7",
+    "scanId": "20260726T115450Z-9640",
     "sourceArtifact": "release/evidence/raw/todomvc.scan.json",
-    "sourceSha256": "1a97a641a581beb42ad08040bb430b1a1449c26b2221288f1796b38a06cfb06b",
+    "sourceSha256": "d3183f2eb37c9c8cbadc12756fcdbffe48d6160fdec4e476384653567bb92508",
     "environmentStatus": "VALID",
     "truncated": false,
     "pagesDiscovered": 2,
