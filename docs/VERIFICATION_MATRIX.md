@@ -2,7 +2,7 @@
 
 This matrix maps RealDone's public behavior to an executable release gate. A feature is not marked complete merely because an API or type exists; the gate must exercise its observable result or a fail-closed boundary.
 
-This is the executable matrix for the shipped product, not a product-status ledger. The normative scope and 15 full-product release gates live in [`PRODUCT_SPECIFICATION.md`](PRODUCT_SPECIFICATION.md); [`PRODUCT_STATUS.md`](PRODUCT_STATUS.md) is the only area-completeness ledger. Specification §32 is complete because every status row is `IMPLEMENTED` and hosted run `29958126604` passed the full matrix with signed provenance—not merely because an individual phase gate passed.
+This is the executable matrix for the shipped product, not a product-status ledger. The normative scope and 15 full-product release gates live in [`PRODUCT_SPECIFICATION.md`](PRODUCT_SPECIFICATION.md); [`PRODUCT_STATUS.md`](PRODUCT_STATUS.md) is the only area-completeness ledger. Specification §32 is complete because every status row is `IMPLEMENTED`; current main fingerprint `f3f65840…` passed the full matrix with signed provenance in hosted run `30195945498`, not merely because an individual phase gate passed.
 
 | Capability | Runtime evidence | Automated gate |
 | --- | --- | --- |
