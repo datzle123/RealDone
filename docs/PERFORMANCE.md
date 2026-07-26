@@ -4,7 +4,7 @@ Quick scan remains intentionally light: one Chromium worker, no provider/databas
 
 `--deep` opens one additional browser context per executed mutation to confirm persistence scope. Keep it opt-in for important flows or scheduled audits rather than paying that cost in every quick scan.
 
-`--trace` records Playwright snapshots/screenshots and `--video` records the browser viewport. Both add I/O, storage, and post-processing work; use them for diagnosis or release evidence rather than routine scans. `--trace-on-failure` starts bounded tracing but deletes passing traces, retaining portable ZIP evidence only for findings or failed contract verification.
+`--trace` records Playwright snapshots/screenshots and `--video` records the browser viewport. Both add I/O, storage, and post-processing work; use them for diagnosis or release evidence rather than routine scans. Every newly closed trace receives one bounded ZIP secret inspection before it can be linked; unsafe, invalid, oversized, or over-expanded traces are deleted fail-closed. `--trace-on-failure` then deletes safe passing traces, retaining portable ZIP evidence only for findings or failed contract verification.
 
 `scan --full` raises the default safe budgets to 100 pages, 500 actions, and 30 minutes, enables deep persistence and trace-on-failure, but never enables destructive or external effects. Explicit budget flags or policy values still win, and exhausted budgets set `truncated`.
 

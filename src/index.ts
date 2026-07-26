@@ -134,12 +134,17 @@ export { detect, findingFromEvidence } from "./detectors/index.js";
 export { runManagedScan, type ManagedScanRequest, type RuntimeMode } from "./application/managed-scan.js";
 export { createRealDoneMcpServer, runRealDoneMcpServer, type RealDoneMcpDependencies, type RealDoneMcpServerOptions } from "./mcp/server.js";
 export {
+  retainSecretSafeTrace,
+  scanArtifactFileSecrets,
   scanArtifactSecrets,
+  storageStateArtifactSecrets,
   type ArtifactSecret,
   type ArtifactSecretFinding,
   type ArtifactSecretFindingKind,
   type ArtifactSecretScan,
   type ArtifactSecretScanOptions,
+  type SecretSafeTraceRetention,
+  type TraceSuppression,
 } from "./release/artifacts.js";
 export {
   checkArtifactSchemaCompatibility,

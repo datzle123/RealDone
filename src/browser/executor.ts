@@ -6,6 +6,7 @@ import { classifyAction } from "../core/classify.js";
 import { hashText, isSensitiveKey, safeUrl } from "../core/redact.js";
 import { isTransientBrowserError, withRetry } from "../core/retry.js";
 import { actionSkipReason, isSafetyEscalation } from "../core/safety.js";
+import { retainSecretSafeTrace, storageStateArtifactSecrets, type ArtifactSecret } from "../release/artifacts.js";
 import type { ActionSpec, ExecutionEvidence, FilledField, ScanOptions, UploadEvidence } from "../types.js";
 import { attachEvidence, captureState, collectUiClaims } from "./evidence.js";
 import { resolveSemanticLocator, SemanticTargetNotFoundError } from "./locator.js";
@@ -159,8 +160,14 @@ async function assertLiveActionSafety(
   if (reason) throw new PreExecutionSafetyError(`Pre-execution safety check: ${reason}`, runtimeAction);
 }
 
-async function fillForm(page: InteractionScope, action: ActionSpec, canary: string, uploads: UploadEvidence[]): Promise<FilledField[]> {
+async function fillForm(
+  page: InteractionScope,
+  action: ActionSpec,
+  canary: string,
+  uploads: UploadEvidence[],
+): Promise<{ fields: FilledField[]; traceSecrets: ArtifactSecret[] }> {
   const filled: FilledField[] = [];
+  const traceSecrets: ArtifactSecret[] = [];
   for (const [fieldIndex, field] of action.fields.entries()) {
     if (field.disabled) continue;
     const plan = valueForField(field, `${canary}_${fieldIndex + 1}`);
@@ -190,12 +197,13 @@ async function fillForm(page: InteractionScope, action: ActionSpec, canary: stri
         const name = field.name ?? field.label ?? field.placeholder ?? field.type;
         const redacted = plan.redacted || isSensitiveKey(name);
         filled.push({ selector: field.selector, name, type: field.type, value: redacted ? "[REDACTED]" : plan.value, redacted });
+        if (redacted) traceSecrets.push({ label: `browser field ${fieldIndex + 1}`, value: plan.value });
       }
     } catch {
       // A single unsupported field must not invalidate an otherwise runnable form.
     }
   }
-  return filled;
+  return { fields: filled, traceSecrets };
 }
 
 async function nearestTargetText(locator: Locator): Promise<string | undefined> {
@@ -312,6 +320,9 @@ export async function executeAction(
     ...(options.trace || options.traceOnFailure ? [mkdir(traceDirectory, { recursive: true })] : []),
     ...(options.video ? [mkdir(videoDirectory, { recursive: true })] : []),
   ]);
+  const traceSecrets = options.storageStatePath
+    ? await storageStateArtifactSecrets(options.storageStatePath)
+    : [];
   const context = await browser.newContext(
     {
       ...(options.storageStatePath ? { storageState: options.storageStatePath } : {}),
@@ -376,7 +387,9 @@ export async function executeAction(
       if (targetText) evidence.targetText = targetText;
     }
     attached = attachEvidence(page, startedAt, evidence);
-    evidence.filledFields = await fillForm(targetScope, action, canary, evidence.uploads ??= []);
+    const filled = await fillForm(targetScope, action, canary, evidence.uploads ??= []);
+    evidence.filledFields = filled.fields;
+    traceSecrets.push(...filled.traceSecrets);
     evidence.beforeAction = await captureState(targetScope, canary, startedAt);
     // Filling can run application handlers that replace the submitter or escalate
     // its target. Re-read the effective live action immediately before activation.
@@ -537,16 +550,26 @@ export async function executeAction(
     await attached?.flush();
     attached?.detach();
     evidence.durationMs = Date.now() - startedAt;
+    let traceRetentionError: unknown;
     if (options.trace || options.traceOnFailure) {
       const tracePath = path.join(traceDirectory, `${action.id}.zip`);
       const saved = await context.tracing.stop({ path: tracePath }).then(() => true).catch(() => false);
-      if (saved) evidence.trace = tracePath;
+      if (saved) {
+        try {
+          const retention = await retainSecretSafeTrace(tracePath, { secrets: traceSecrets });
+          if (retention.retained) evidence.trace = tracePath;
+          else evidence.traceSuppression = retention.suppression;
+        } catch (error) {
+          traceRetentionError = error;
+        }
+      }
     }
     await context.close();
     if (video) {
       const videoPath = await video.path().catch(() => undefined);
       if (videoPath) evidence.video = videoPath;
     }
+    if (traceRetentionError) throw traceRetentionError;
   }
   return evidence;
 }

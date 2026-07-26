@@ -4,6 +4,8 @@
 
 Unreleased main fingerprint `f3f65840…` preserved the same matrix and package path in hosted run [`30195945498`](https://github.com/datzle123/RealDone/actions/runs/30195945498). All 15 gates passed on Linux, Windows and macOS with Node 20/22, and GitHub signed the aggregate evidence and gate report for merge commit `2572aba57edf418f87750352ed3b3d36868015ac`.
 
+The subsequent Phase I status merge `42006c4` independently repeated the full matrix and signed 15/15 in hosted main run [`30196808460`](https://github.com/datzle123/RealDone/actions/runs/30196808460).
+
 | Surface | Release gate |
 | --- | --- |
 | Node.js | 20 and 22 |
@@ -26,3 +28,5 @@ Codex and Claude Code integrations are command presets, not embedded SDKs. RealD
 ## Unreleased report compatibility
 
 Coverage-balanced action selection adds an optional `completeness.selection` object to `scan.json`. Existing `schemaVersion: "1.0"` fields and meanings are unchanged, old reports remain readable, and validators use passthrough/additive compatibility. Consumers may ignore the new telemetry or use it to distinguish discovered, selected, omitted, and route-represented action coverage.
+
+Secret-safe trace retention adds optional `evidence.traceSuppression` on scan findings and optional `artifacts.traceSuppressions` on contract verification. Existing trace paths are unchanged when a ZIP passes inspection; rejected traces are absent by design. Consumers that ignore the new metadata continue to read schema `1.0`, while Windows, macOS and Linux use the same bounded `fflate` ZIP inspection path.

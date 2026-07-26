@@ -151,3 +151,17 @@ Gate:
 - Broken/control unit coverage and a real-browser three-route budget fixture pass with typecheck, audit, browser smoke and package gates.
 
 Phase I is complete for fingerprint `f3f65840…`: typecheck/unit/build passed 140 tests with 2 expected service-dependent skips, dependency audit reported no known vulnerabilities, full Chromium smoke passed the real three-route budget control, and pack plus installed-tarball package smoke passed. Fresh SHA-256-bound runs cover TodoMVC, Actual Budget, Conduit/SQLite, Conduit/PostgreSQL 17 + Supabase Data API, PostgreSQL CRUD cleanup, Level 7 roles, and a Codex MCP baseline → RD901 regression → repair cycle. Hosted main run [`30195945498`](https://github.com/datzle123/RealDone/actions/runs/30195945498) passed all 15 gates across Linux, macOS and Windows, Node 20/22, PostgreSQL 17, MongoDB 8 and installed-package smoke. GitHub signed the aggregate evidence and gate report, and `gh attestation verify` accepted both artifacts.
+
+## Phase J — secret-safe trace retention (release candidate)
+
+Contributes evidence to: §12–13, §21, §25, §29–30.
+
+Gate:
+
+- Every automatic-scan and contract/MCP trace is inspected immediately after Playwright closes the ZIP and before any report links it.
+- Exact sensitive values already known to the browser/contract—including opaque Playwright auth-state cookies/tokens—and generic private-key/token/sensitive-field patterns are checked without persisting or reporting those values.
+- Secret-bearing, invalid, oversized, or over-expanded trace ZIPs are deleted fail-closed; reports contain only additive value-free suppression metadata.
+- A real-browser sensitive-field broken case loses its trace, a non-sensitive trace control remains available, invalid/limit unit controls fail closed, and the final aggregate artifact secret scan remains green.
+- Typecheck, unit, browser, audit, package, schema, cleanup and hosted cross-platform release gates pass without weakening RG14.
+
+Candidate fingerprint `0b39d542…` passed the local type/unit/build, audit, full Chromium and installed-tarball gates. Fresh pinned runs cover TodoMVC, Actual Budget, Conduit SQLite, Conduit PostgreSQL 17 + Supabase Data API, PostgreSQL create/update/delete cleanup, Pocket Ledger Level 7 and a new Codex MCP baseline → RD901 → repair cycle. Hosted run `30198005122` passed every cross-platform browser/package job and correctly rejected stale Phase I real-case evidence; after the rerun, the refreshed inputs plus its six platform attestations passed 15/15 locally. Phase J is not complete until GitHub repeats and signs the refreshed aggregate.
