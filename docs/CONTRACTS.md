@@ -130,6 +130,8 @@ Password-like fields never store their value. The contract contains `secretEnv`,
 REALDONE_PASSWORD="..." realdone verify .realdone/flows/login.json
 ```
 
+When a contract uses `secretEnv` or an auth-state file, RealDone does not start browser video capture for that context. The verification report records only a value-free visual suppression reason; unauthenticated contracts without sensitive inputs still retain video when `--video` is enabled.
+
 ## Verify
 
 ```bash

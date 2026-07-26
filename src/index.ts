@@ -145,6 +145,7 @@ export {
   type ArtifactSecretScanOptions,
   type SecretSafeTraceRetention,
   type TraceSuppression,
+  type VisualArtifactSuppression,
 } from "./release/artifacts.js";
 export {
   checkArtifactSchemaCompatibility,

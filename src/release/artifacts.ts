@@ -49,6 +49,11 @@ export interface TraceSuppression {
   findingKinds: ArtifactSecretFindingKind[];
 }
 
+export interface VisualArtifactSuppression {
+  artifact: "screenshot" | "video";
+  reason: "sensitive-input" | "authenticated-context";
+}
+
 export type SecretSafeTraceRetention =
   | { retained: true }
   | { retained: false; suppression: TraceSuppression };

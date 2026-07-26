@@ -66,7 +66,7 @@ Provide database/provider credentials and optional CA material as masked workflo
 
 The action accepts one `browser` per job (`chromium`, `firefox`, or `webkit`). Use a job matrix when every engine must gate a pull request. `database-configs`, `provider-configs`, `role-states`, and `plugins` are newline-separated; secret values remain in environment variables or Playwright auth-state files rather than action inputs. Set `install-browser: "false"` only when the selected Playwright browser is already installed.
 
-`deep`, `trace`, and `video` are separate boolean inputs. Deep verification increases browser-context count; traces and videos can be large and may contain private application content, so enable them selectively.
+`deep`, `trace`, and `video` are separate boolean inputs. Deep verification increases browser-context count; traces and videos can be large and may contain private application content, so enable them selectively. Known-sensitive and auth-state contexts suppress screenshot/video capture before binary creation and expose value-free metadata instead.
 
 ## Playwright export
 

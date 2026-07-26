@@ -1,9 +1,9 @@
 {
   "schemaVersion": "1.0",
-  "scanId": "20260726T103152Z-84f6",
-  "targetUrl": "http://127.0.0.1:37431/",
-  "startedAt": "2026-07-26T10:31:52.626Z",
-  "finishedAt": "2026-07-26T10:32:51.125Z",
+  "scanId": "20260726T115602Z-0e1b",
+  "targetUrl": "http://127.0.0.1:37441/",
+  "startedAt": "2026-07-26T11:56:02.689Z",
+  "finishedAt": "2026-07-26T11:57:02.119Z",
   "options": {
     "maxPages": 10,
     "maxActions": 50,
@@ -41,25 +41,25 @@
   },
   "pages": [
     {
-      "url": "http://127.0.0.1:37431/",
+      "url": "http://127.0.0.1:37441/",
       "title": "Actual",
       "actions": [
         {
-          "id": "00dbaed4aa9a",
-          "pageUrl": "http://127.0.0.1:37431/",
+          "id": "f0c54c95b0e8",
+          "pageUrl": "http://127.0.0.1:37441/",
           "label": "Start budgeting",
           "activation": "click",
           "kind": "local",
           "intent": "interact",
           "risk": "safe",
           "fingerprint": {
-            "selector": "#react-aria1725181164-_r_0_",
+            "selector": "#react-aria9334734490-_r_0_",
             "tag": "button",
             "ordinal": 0,
             "role": "button",
             "accessibleName": "Start budgeting",
             "text": "Start budgeting",
-            "id": "react-aria1725181164-_r_0_",
+            "id": "react-aria9334734490-_r_0_",
             "type": "button",
             "candidates": [
               {
@@ -79,7 +79,7 @@
               {
                 "strategy": "id",
                 "weight": 80,
-                "selector": "#react-aria1725181164-_r_0_"
+                "selector": "#react-aria9334734490-_r_0_"
               },
               {
                 "strategy": "text",
@@ -90,28 +90,28 @@
               {
                 "strategy": "css",
                 "weight": 35,
-                "selector": "#react-aria1725181164-_r_0_"
+                "selector": "#react-aria9334734490-_r_0_"
               }
             ]
           },
           "fields": []
         },
         {
-          "id": "293c31d6a5d7",
-          "pageUrl": "http://127.0.0.1:37431/",
+          "id": "8250e0da22f4",
+          "pageUrl": "http://127.0.0.1:37441/",
           "label": "Try the demo",
           "activation": "click",
           "kind": "local",
           "intent": "interact",
           "risk": "safe",
           "fingerprint": {
-            "selector": "#react-aria1725181164-_r_2_",
+            "selector": "#react-aria9334734490-_r_2_",
             "tag": "button",
             "ordinal": 1,
             "role": "button",
             "accessibleName": "Try the demo",
             "text": "Try the demo",
-            "id": "react-aria1725181164-_r_2_",
+            "id": "react-aria9334734490-_r_2_",
             "type": "button",
             "candidates": [
               {
@@ -131,7 +131,7 @@
               {
                 "strategy": "id",
                 "weight": 80,
-                "selector": "#react-aria1725181164-_r_2_"
+                "selector": "#react-aria9334734490-_r_2_"
               },
               {
                 "strategy": "text",
@@ -142,28 +142,28 @@
               {
                 "strategy": "css",
                 "weight": 35,
-                "selector": "#react-aria1725181164-_r_2_"
+                "selector": "#react-aria9334734490-_r_2_"
               }
             ]
           },
           "fields": []
         },
         {
-          "id": "f6722661b67a",
-          "pageUrl": "http://127.0.0.1:37431/",
+          "id": "1d55050e5c4d",
+          "pageUrl": "http://127.0.0.1:37441/",
           "label": "Connect to a sync server",
           "activation": "click",
           "kind": "local",
           "intent": "interact",
           "risk": "safe",
           "fingerprint": {
-            "selector": "#react-aria1725181164-_r_4_",
+            "selector": "#react-aria9334734490-_r_4_",
             "tag": "button",
             "ordinal": 2,
             "role": "button",
             "accessibleName": "Connect to a sync server",
             "text": "Connect to a sync server",
-            "id": "react-aria1725181164-_r_4_",
+            "id": "react-aria9334734490-_r_4_",
             "type": "button",
             "candidates": [
               {
@@ -183,7 +183,7 @@
               {
                 "strategy": "id",
                 "weight": 80,
-                "selector": "#react-aria1725181164-_r_4_"
+                "selector": "#react-aria9334734490-_r_4_"
               },
               {
                 "strategy": "text",
@@ -194,28 +194,28 @@
               {
                 "strategy": "css",
                 "weight": 35,
-                "selector": "#react-aria1725181164-_r_4_"
+                "selector": "#react-aria9334734490-_r_4_"
               }
             ]
           },
           "fields": []
         },
         {
-          "id": "64a4a9ac8aec",
-          "pageUrl": "http://127.0.0.1:37431/",
+          "id": "2a88b0cb903d",
+          "pageUrl": "http://127.0.0.1:37441/",
           "label": "Import my budget",
           "activation": "click",
           "kind": "local",
           "intent": "interact",
           "risk": "safe",
           "fingerprint": {
-            "selector": "#react-aria1725181164-_r_6_",
+            "selector": "#react-aria9334734490-_r_6_",
             "tag": "button",
             "ordinal": 3,
             "role": "button",
             "accessibleName": "Import my budget",
             "text": "Import my budget",
-            "id": "react-aria1725181164-_r_6_",
+            "id": "react-aria9334734490-_r_6_",
             "type": "button",
             "candidates": [
               {
@@ -235,7 +235,7 @@
               {
                 "strategy": "id",
                 "weight": 80,
-                "selector": "#react-aria1725181164-_r_6_"
+                "selector": "#react-aria9334734490-_r_6_"
               },
               {
                 "strategy": "text",
@@ -246,15 +246,15 @@
               {
                 "strategy": "css",
                 "weight": 35,
-                "selector": "#react-aria1725181164-_r_6_"
+                "selector": "#react-aria9334734490-_r_6_"
               }
             ]
           },
           "fields": []
         },
         {
-          "id": "bb0466f5e276",
-          "pageUrl": "http://127.0.0.1:37431/",
+          "id": "458802e154e4",
+          "pageUrl": "http://127.0.0.1:37441/",
           "label": "guided tour",
           "activation": "click",
           "kind": "navigation",
@@ -305,8 +305,8 @@
           "fields": []
         },
         {
-          "id": "621ef0da6867",
-          "pageUrl": "http://127.0.0.1:37431/",
+          "id": "394564881ceb",
+          "pageUrl": "http://127.0.0.1:37441/",
           "label": "Set up sync",
           "activation": "click",
           "kind": "navigation",
@@ -319,7 +319,7 @@
             "role": "link",
             "accessibleName": "Set up sync",
             "text": "Set up sync",
-            "href": "http://127.0.0.1:37431/config-server",
+            "href": "http://127.0.0.1:37441/config-server",
             "candidates": [
               {
                 "strategy": "role",
@@ -338,7 +338,7 @@
               {
                 "strategy": "href",
                 "weight": 72,
-                "value": "http://127.0.0.1:37431/config-server"
+                "value": "http://127.0.0.1:37441/config-server"
               },
               {
                 "strategy": "text",
@@ -358,25 +358,25 @@
       ]
     },
     {
-      "url": "http://127.0.0.1:37431/config-server",
+      "url": "http://127.0.0.1:37441/config-server",
       "title": "Actual",
       "actions": [
         {
-          "id": "cac102f59033",
-          "pageUrl": "http://127.0.0.1:37431/config-server",
+          "id": "320261cf1079",
+          "pageUrl": "http://127.0.0.1:37441/config-server",
           "label": "Back",
           "activation": "click",
           "kind": "navigation",
           "intent": "navigate",
           "risk": "safe",
           "fingerprint": {
-            "selector": "#react-aria1452926844-_r_0_",
+            "selector": "#react-aria6563487283-_r_0_",
             "tag": "button",
             "ordinal": 0,
             "role": "button",
             "accessibleName": "Back",
             "text": "Back",
-            "id": "react-aria1452926844-_r_0_",
+            "id": "react-aria6563487283-_r_0_",
             "type": "button",
             "candidates": [
               {
@@ -396,7 +396,7 @@
               {
                 "strategy": "id",
                 "weight": 80,
-                "selector": "#react-aria1452926844-_r_0_"
+                "selector": "#react-aria6563487283-_r_0_"
               },
               {
                 "strategy": "text",
@@ -407,15 +407,15 @@
               {
                 "strategy": "css",
                 "weight": 35,
-                "selector": "#react-aria1452926844-_r_0_"
+                "selector": "#react-aria6563487283-_r_0_"
               }
             ]
           },
           "fields": []
         },
         {
-          "id": "e8d20e256031",
-          "pageUrl": "http://127.0.0.1:37431/config-server",
+          "id": "0c2f149c5ab1",
+          "pageUrl": "http://127.0.0.1:37441/config-server",
           "label": "learn how to set one up",
           "activation": "click",
           "kind": "navigation",
@@ -466,21 +466,21 @@
           "fields": []
         },
         {
-          "id": "6e589177bd64",
-          "pageUrl": "http://127.0.0.1:37431/config-server",
+          "id": "83a872f40803",
+          "pageUrl": "http://127.0.0.1:37441/config-server",
           "label": "Connect",
           "activation": "click",
           "kind": "external",
           "intent": "external",
           "risk": "external",
           "fingerprint": {
-            "selector": "#react-aria1452926844-_r_2_",
+            "selector": "#react-aria6563487283-_r_2_",
             "tag": "button",
             "ordinal": 2,
             "role": "button",
             "accessibleName": "Connect",
             "text": "Connect",
-            "id": "react-aria1452926844-_r_2_",
+            "id": "react-aria6563487283-_r_2_",
             "type": "button",
             "candidates": [
               {
@@ -500,7 +500,7 @@
               {
                 "strategy": "id",
                 "weight": 80,
-                "selector": "#react-aria1452926844-_r_2_"
+                "selector": "#react-aria6563487283-_r_2_"
               },
               {
                 "strategy": "text",
@@ -511,7 +511,7 @@
               {
                 "strategy": "css",
                 "weight": 35,
-                "selector": "#react-aria1452926844-_r_2_"
+                "selector": "#react-aria6563487283-_r_2_"
               }
             ]
           },
@@ -527,21 +527,21 @@
           ]
         },
         {
-          "id": "c4006271e563",
-          "pageUrl": "http://127.0.0.1:37431/config-server",
+          "id": "962eef26f4be",
+          "pageUrl": "http://127.0.0.1:37441/config-server",
           "label": "Use the current domain",
           "activation": "click",
           "kind": "local",
           "intent": "interact",
           "risk": "safe",
           "fingerprint": {
-            "selector": "#react-aria1452926844-_r_4_",
+            "selector": "#react-aria6563487283-_r_4_",
             "tag": "button",
             "ordinal": 3,
             "role": "button",
             "accessibleName": "Use the current domain",
             "text": "Use the current domain",
-            "id": "react-aria1452926844-_r_4_",
+            "id": "react-aria6563487283-_r_4_",
             "type": "button",
             "candidates": [
               {
@@ -561,7 +561,7 @@
               {
                 "strategy": "id",
                 "weight": 80,
-                "selector": "#react-aria1452926844-_r_4_"
+                "selector": "#react-aria6563487283-_r_4_"
               },
               {
                 "strategy": "text",
@@ -572,7 +572,7 @@
               {
                 "strategy": "css",
                 "weight": 35,
-                "selector": "#react-aria1452926844-_r_4_"
+                "selector": "#react-aria6563487283-_r_4_"
               }
             ]
           },
@@ -585,21 +585,21 @@
     {
       "id": "RD-001",
       "action": {
-        "id": "00dbaed4aa9a",
-        "pageUrl": "http://127.0.0.1:37431/",
+        "id": "f0c54c95b0e8",
+        "pageUrl": "http://127.0.0.1:37441/",
         "label": "Start budgeting",
         "activation": "click",
         "kind": "local",
         "intent": "interact",
         "risk": "safe",
         "fingerprint": {
-          "selector": "#react-aria1725181164-_r_0_",
+          "selector": "#react-aria9334734490-_r_0_",
           "tag": "button",
           "ordinal": 0,
           "role": "button",
           "accessibleName": "Start budgeting",
           "text": "Start budgeting",
-          "id": "react-aria1725181164-_r_0_",
+          "id": "react-aria9334734490-_r_0_",
           "type": "button",
           "candidates": [
             {
@@ -619,7 +619,7 @@
             {
               "strategy": "id",
               "weight": 80,
-              "selector": "#react-aria1725181164-_r_0_"
+              "selector": "#react-aria9334734490-_r_0_"
             },
             {
               "strategy": "text",
@@ -630,26 +630,26 @@
             {
               "strategy": "css",
               "weight": 35,
-              "selector": "#react-aria1725181164-_r_0_"
+              "selector": "#react-aria9334734490-_r_0_"
             }
           ]
         },
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T10:31:59.351Z",
-        "durationMs": 6683,
-        "canary": "RD_TEST_3CF08D",
+        "startedAt": "2026-07-26T11:56:09.425Z",
+        "durationMs": 6725,
+        "canary": "RD_TEST_FB0E71",
         "network": [
           {
             "id": "net-1",
             "method": "GET",
-            "url": "http://127.0.0.1:37431/static/js/indexeddb-main-thread-worker-e59fee74.B9D89_PE.chunk.js",
+            "url": "http://127.0.0.1:37441/static/js/indexeddb-main-thread-worker-e59fee74.B9D89_PE.chunk.js",
             "resourceType": "script",
-            "startedAt": 5537,
+            "startedAt": 5545,
             "status": 200,
             "ok": true,
-            "finishedAt": 5541,
+            "finishedAt": 5551,
             "contentType": "text/javascript",
             "resourceTypeHint": "indexeddb-main-thread-worker-e59fee74.B9D89_PE.chunk.js"
           },
@@ -658,53 +658,53 @@
             "method": "GET",
             "url": "https://api.github.com/repos/actualbudget/actual/releases/latest",
             "resourceType": "fetch",
-            "startedAt": 5876
+            "startedAt": 5923
           },
           {
             "id": "net-3",
             "method": "GET",
-            "url": "http://127.0.0.1:37431/static/js/wide.BkKPUPVE.chunk.js",
+            "url": "http://127.0.0.1:37441/static/js/wide.BkKPUPVE.chunk.js",
             "resourceType": "script",
-            "startedAt": 5910,
+            "startedAt": 5956,
             "status": 200,
             "ok": true,
-            "finishedAt": 5921,
+            "finishedAt": 5967,
             "contentType": "text/javascript",
             "resourceTypeHint": "wide.BkKPUPVE.chunk.js"
           },
           {
             "id": "net-4",
             "method": "GET",
-            "url": "http://127.0.0.1:37431/static/js/AppliedFilters.Dx7PP3C8.chunk.js",
+            "url": "http://127.0.0.1:37441/static/js/AppliedFilters.Dx7PP3C8.chunk.js",
             "resourceType": "script",
-            "startedAt": 5910,
+            "startedAt": 5957,
             "status": 200,
             "ok": true,
-            "finishedAt": 5919,
+            "finishedAt": 5966,
             "contentType": "text/javascript",
             "resourceTypeHint": "AppliedFilters.Dx7PP3C8.chunk.js"
           },
           {
             "id": "net-5",
             "method": "GET",
-            "url": "http://127.0.0.1:37431/static/js/useTransactionBatchActions.CG8pn3qO.chunk.js",
+            "url": "http://127.0.0.1:37441/static/js/useTransactionBatchActions.CG8pn3qO.chunk.js",
             "resourceType": "script",
-            "startedAt": 5911,
+            "startedAt": 5957,
             "status": 200,
             "ok": true,
-            "finishedAt": 5918,
+            "finishedAt": 5966,
             "contentType": "text/javascript",
             "resourceTypeHint": "useTransactionBatchActions.CG8pn3qO.chunk.js"
           },
           {
             "id": "net-6",
             "method": "GET",
-            "url": "http://127.0.0.1:37431/static/js/PayeeRuleCountLabel.nEXX1VI1.chunk.js",
+            "url": "http://127.0.0.1:37441/static/js/PayeeRuleCountLabel.nEXX1VI1.chunk.js",
             "resourceType": "script",
-            "startedAt": 5911,
+            "startedAt": 5957,
             "status": 200,
             "ok": true,
-            "finishedAt": 5918,
+            "finishedAt": 5966,
             "contentType": "text/javascript",
             "resourceTypeHint": "PayeeRuleCountLabel.nEXX1VI1.chunk.js"
           }
@@ -725,7 +725,7 @@
               "weight": 92,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 8
+              "elapsedMs": 9
             }
           ],
           "chosenStrategy": "role",
@@ -733,8 +733,8 @@
           "retryCount": 0
         },
         "before": {
-          "at": 5466,
-          "url": "http://127.0.0.1:37431/",
+          "at": 5473,
+          "url": "http://127.0.0.1:37441/",
           "title": "Actual",
           "domHash": "0e5db8d3d3693839",
           "canaryPresent": false,
@@ -808,8 +808,8 @@
           }
         },
         "beforeAction": {
-          "at": 5487,
-          "url": "http://127.0.0.1:37431/",
+          "at": 5497,
+          "url": "http://127.0.0.1:37441/",
           "title": "Actual",
           "domHash": "0e5db8d3d3693839",
           "canaryPresent": false,
@@ -884,8 +884,8 @@
         },
         "networkSettled": true,
         "after": {
-          "at": 6677,
-          "url": "http://127.0.0.1:37431/accounts",
+          "at": 6719,
+          "url": "http://127.0.0.1:37441/accounts",
           "title": "Actual",
           "domHash": "823d03cf2b04dc62",
           "canaryPresent": false,
@@ -1077,7 +1077,7 @@
                 ]
               },
               {
-                "name": "documents-Actual-My-Finances-cd53949-db.sqlite",
+                "name": "documents-Actual-My-Finances-f72112d-db.sqlite",
                 "version": 2,
                 "stores": [
                   {
@@ -1089,7 +1089,7 @@
             ]
           }
         },
-        "trace": "traces/00dbaed4aa9a.zip",
+        "trace": "traces/f0c54c95b0e8.zip",
         "snapshotIndex": "snapshots/RD-001.index.json"
       },
       "verdict": "VERIFIED",
@@ -1100,21 +1100,21 @@
     {
       "id": "RD-002",
       "action": {
-        "id": "293c31d6a5d7",
-        "pageUrl": "http://127.0.0.1:37431/",
+        "id": "8250e0da22f4",
+        "pageUrl": "http://127.0.0.1:37441/",
         "label": "Try the demo",
         "activation": "click",
         "kind": "local",
         "intent": "interact",
         "risk": "safe",
         "fingerprint": {
-          "selector": "#react-aria1725181164-_r_2_",
+          "selector": "#react-aria9334734490-_r_2_",
           "tag": "button",
           "ordinal": 1,
           "role": "button",
           "accessibleName": "Try the demo",
           "text": "Try the demo",
-          "id": "react-aria1725181164-_r_2_",
+          "id": "react-aria9334734490-_r_2_",
           "type": "button",
           "candidates": [
             {
@@ -1134,7 +1134,7 @@
             {
               "strategy": "id",
               "weight": 80,
-              "selector": "#react-aria1725181164-_r_2_"
+              "selector": "#react-aria9334734490-_r_2_"
             },
             {
               "strategy": "text",
@@ -1145,26 +1145,26 @@
             {
               "strategy": "css",
               "weight": 35,
-              "selector": "#react-aria1725181164-_r_2_"
+              "selector": "#react-aria9334734490-_r_2_"
             }
           ]
         },
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T10:32:06.728Z",
-        "durationMs": 7865,
-        "canary": "RD_TEST_6B2D91",
+        "startedAt": "2026-07-26T11:56:16.818Z",
+        "durationMs": 7911,
+        "canary": "RD_TEST_42810A",
         "network": [
           {
             "id": "net-1",
             "method": "GET",
-            "url": "http://127.0.0.1:37431/static/js/indexeddb-main-thread-worker-e59fee74.B9D89_PE.chunk.js",
+            "url": "http://127.0.0.1:37441/static/js/indexeddb-main-thread-worker-e59fee74.B9D89_PE.chunk.js",
             "resourceType": "script",
-            "startedAt": 6643,
+            "startedAt": 6702,
             "status": 200,
             "ok": true,
-            "finishedAt": 6647,
+            "finishedAt": 6707,
             "contentType": "text/javascript",
             "resourceTypeHint": "indexeddb-main-thread-worker-e59fee74.B9D89_PE.chunk.js"
           },
@@ -1173,53 +1173,53 @@
             "method": "GET",
             "url": "https://api.github.com/repos/actualbudget/actual/releases/latest",
             "resourceType": "fetch",
-            "startedAt": 7762
+            "startedAt": 7803
           },
           {
             "id": "net-3",
             "method": "GET",
-            "url": "http://127.0.0.1:37431/static/js/wide.BkKPUPVE.chunk.js",
+            "url": "http://127.0.0.1:37441/static/js/wide.BkKPUPVE.chunk.js",
             "resourceType": "script",
-            "startedAt": 7823,
+            "startedAt": 7853,
             "status": 200,
             "ok": true,
-            "finishedAt": 7834,
+            "finishedAt": 7868,
             "contentType": "text/javascript",
             "resourceTypeHint": "wide.BkKPUPVE.chunk.js"
           },
           {
             "id": "net-4",
             "method": "GET",
-            "url": "http://127.0.0.1:37431/static/js/AppliedFilters.Dx7PP3C8.chunk.js",
+            "url": "http://127.0.0.1:37441/static/js/AppliedFilters.Dx7PP3C8.chunk.js",
             "resourceType": "script",
-            "startedAt": 7823,
+            "startedAt": 7854,
             "status": 200,
             "ok": true,
-            "finishedAt": 7833,
+            "finishedAt": 7867,
             "contentType": "text/javascript",
             "resourceTypeHint": "AppliedFilters.Dx7PP3C8.chunk.js"
           },
           {
             "id": "net-5",
             "method": "GET",
-            "url": "http://127.0.0.1:37431/static/js/useTransactionBatchActions.CG8pn3qO.chunk.js",
+            "url": "http://127.0.0.1:37441/static/js/useTransactionBatchActions.CG8pn3qO.chunk.js",
             "resourceType": "script",
-            "startedAt": 7824,
+            "startedAt": 7854,
             "status": 200,
             "ok": true,
-            "finishedAt": 7832,
+            "finishedAt": 7866,
             "contentType": "text/javascript",
             "resourceTypeHint": "useTransactionBatchActions.CG8pn3qO.chunk.js"
           },
           {
             "id": "net-6",
             "method": "GET",
-            "url": "http://127.0.0.1:37431/static/js/PayeeRuleCountLabel.nEXX1VI1.chunk.js",
+            "url": "http://127.0.0.1:37441/static/js/PayeeRuleCountLabel.nEXX1VI1.chunk.js",
             "resourceType": "script",
-            "startedAt": 7824,
+            "startedAt": 7855,
             "status": 200,
             "ok": true,
-            "finishedAt": 7834,
+            "finishedAt": 7866,
             "contentType": "text/javascript",
             "resourceTypeHint": "PayeeRuleCountLabel.nEXX1VI1.chunk.js"
           }
@@ -1240,7 +1240,7 @@
               "weight": 92,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 8
+              "elapsedMs": 7
             }
           ],
           "chosenStrategy": "role",
@@ -1248,8 +1248,8 @@
           "retryCount": 0
         },
         "before": {
-          "at": 6577,
-          "url": "http://127.0.0.1:37431/",
+          "at": 6645,
+          "url": "http://127.0.0.1:37441/",
           "title": "Actual",
           "domHash": "0e5db8d3d3693839",
           "canaryPresent": false,
@@ -1323,8 +1323,8 @@
           }
         },
         "beforeAction": {
-          "at": 6598,
-          "url": "http://127.0.0.1:37431/",
+          "at": 6665,
+          "url": "http://127.0.0.1:37441/",
           "title": "Actual",
           "domHash": "0e5db8d3d3693839",
           "canaryPresent": false,
@@ -1399,10 +1399,10 @@
         },
         "networkSettled": true,
         "after": {
-          "at": 7853,
-          "url": "http://127.0.0.1:37431/budget",
+          "at": 7901,
+          "url": "http://127.0.0.1:37441/budget",
           "title": "Actual",
-          "domHash": "924df8fa0c1809d8",
+          "domHash": "71aad7ec8aafea27",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -1414,9 +1414,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "a532b6b3b2f9366b",
+            "textHash": "e8bf802bf1ea852c",
             "visualHash": "6bed3bc5283d15f3",
-            "text": "Test Budget Budget Reports Schedules More All accounts 66,851.95 On budget 15,562.97 Bank of America 10,974.46 Ally Savings 3,254.20 Capital One Checking 456.95 HSBC 877.36 Off budget 51,288.98 Vanguard 401k 1,908.60 Mortgage -320,852.15 House Asset 0.00 Roth IRA 0.00 Add account No server Help",
+            "text": "Test Budget Budget Reports Schedules More All accounts 81,008.37 On budget 9,485.91 Bank of America 3,061.42 Ally Savings 5,205.00 Capital One Checking -673.79 HSBC 1,893.28 Off budget 71,522.46 Vanguard 401k 2,082.26 Mortgage -300,229.68 House Asset 366,700.00 Roth IRA 2,969.88 Add account No server Help",
             "controls": [
               {
                 "tag": "button",
@@ -1497,14 +1497,14 @@
                 "stores": [
                   {
                     "name": "data",
-                    "count": 246
+                    "count": 244
                   }
                 ]
               }
             ]
           }
         },
-        "trace": "traces/293c31d6a5d7.zip",
+        "trace": "traces/8250e0da22f4.zip",
         "snapshotIndex": "snapshots/RD-002.index.json"
       },
       "verdict": "VERIFIED",
@@ -1515,21 +1515,21 @@
     {
       "id": "RD-003",
       "action": {
-        "id": "f6722661b67a",
-        "pageUrl": "http://127.0.0.1:37431/",
+        "id": "1d55050e5c4d",
+        "pageUrl": "http://127.0.0.1:37441/",
         "label": "Connect to a sync server",
         "activation": "click",
         "kind": "local",
         "intent": "interact",
         "risk": "safe",
         "fingerprint": {
-          "selector": "#react-aria1725181164-_r_4_",
+          "selector": "#react-aria9334734490-_r_4_",
           "tag": "button",
           "ordinal": 2,
           "role": "button",
           "accessibleName": "Connect to a sync server",
           "text": "Connect to a sync server",
-          "id": "react-aria1725181164-_r_4_",
+          "id": "react-aria9334734490-_r_4_",
           "type": "button",
           "candidates": [
             {
@@ -1549,7 +1549,7 @@
             {
               "strategy": "id",
               "weight": 80,
-              "selector": "#react-aria1725181164-_r_4_"
+              "selector": "#react-aria9334734490-_r_4_"
             },
             {
               "strategy": "text",
@@ -1560,16 +1560,16 @@
             {
               "strategy": "css",
               "weight": 35,
-              "selector": "#react-aria1725181164-_r_4_"
+              "selector": "#react-aria9334734490-_r_4_"
             }
           ]
         },
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T10:32:15.243Z",
-        "durationMs": 6625,
-        "canary": "RD_TEST_FBB7A6",
+        "startedAt": "2026-07-26T11:56:25.392Z",
+        "durationMs": 6760,
+        "canary": "RD_TEST_489FCB",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -1587,7 +1587,7 @@
               "weight": 92,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 7
+              "elapsedMs": 8
             }
           ],
           "chosenStrategy": "role",
@@ -1595,8 +1595,8 @@
           "retryCount": 0
         },
         "before": {
-          "at": 5399,
-          "url": "http://127.0.0.1:37431/",
+          "at": 5528,
+          "url": "http://127.0.0.1:37441/",
           "title": "Actual",
           "domHash": "0e5db8d3d3693839",
           "canaryPresent": false,
@@ -1670,8 +1670,8 @@
           }
         },
         "beforeAction": {
-          "at": 5418,
-          "url": "http://127.0.0.1:37431/",
+          "at": 5553,
+          "url": "http://127.0.0.1:37441/",
           "title": "Actual",
           "domHash": "0e5db8d3d3693839",
           "canaryPresent": false,
@@ -1746,8 +1746,8 @@
         },
         "networkSettled": true,
         "after": {
-          "at": 6621,
-          "url": "http://127.0.0.1:37431/config-server",
+          "at": 6756,
+          "url": "http://127.0.0.1:37441/config-server",
           "title": "Actual",
           "domHash": "97f712565aa26638",
           "canaryPresent": false,
@@ -1821,7 +1821,7 @@
             ]
           }
         },
-        "trace": "traces/f6722661b67a.zip",
+        "trace": "traces/1d55050e5c4d.zip",
         "snapshotIndex": "snapshots/RD-003.index.json"
       },
       "verdict": "VERIFIED",
@@ -1832,21 +1832,21 @@
     {
       "id": "RD-004",
       "action": {
-        "id": "64a4a9ac8aec",
-        "pageUrl": "http://127.0.0.1:37431/",
+        "id": "2a88b0cb903d",
+        "pageUrl": "http://127.0.0.1:37441/",
         "label": "Import my budget",
         "activation": "click",
         "kind": "local",
         "intent": "interact",
         "risk": "safe",
         "fingerprint": {
-          "selector": "#react-aria1725181164-_r_6_",
+          "selector": "#react-aria9334734490-_r_6_",
           "tag": "button",
           "ordinal": 3,
           "role": "button",
           "accessibleName": "Import my budget",
           "text": "Import my budget",
-          "id": "react-aria1725181164-_r_6_",
+          "id": "react-aria9334734490-_r_6_",
           "type": "button",
           "candidates": [
             {
@@ -1866,7 +1866,7 @@
             {
               "strategy": "id",
               "weight": 80,
-              "selector": "#react-aria1725181164-_r_6_"
+              "selector": "#react-aria9334734490-_r_6_"
             },
             {
               "strategy": "text",
@@ -1877,16 +1877,16 @@
             {
               "strategy": "css",
               "weight": 35,
-              "selector": "#react-aria1725181164-_r_6_"
+              "selector": "#react-aria9334734490-_r_6_"
             }
           ]
         },
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T10:32:22.445Z",
-        "durationMs": 6795,
-        "canary": "RD_TEST_29E575",
+        "startedAt": "2026-07-26T11:56:32.735Z",
+        "durationMs": 6753,
+        "canary": "RD_TEST_AEA1F2",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -1912,8 +1912,8 @@
           "retryCount": 0
         },
         "before": {
-          "at": 5525,
-          "url": "http://127.0.0.1:37431/",
+          "at": 5507,
+          "url": "http://127.0.0.1:37441/",
           "title": "Actual",
           "domHash": "0e5db8d3d3693839",
           "canaryPresent": false,
@@ -1987,8 +1987,8 @@
           }
         },
         "beforeAction": {
-          "at": 5544,
-          "url": "http://127.0.0.1:37431/",
+          "at": 5528,
+          "url": "http://127.0.0.1:37441/",
           "title": "Actual",
           "domHash": "0e5db8d3d3693839",
           "canaryPresent": false,
@@ -2063,8 +2063,8 @@
         },
         "networkSettled": true,
         "after": {
-          "at": 6790,
-          "url": "http://127.0.0.1:37431/",
+          "at": 6748,
+          "url": "http://127.0.0.1:37441/",
           "title": "Actual",
           "domHash": "3948e6fc1b26ba3f",
           "canaryPresent": false,
@@ -2172,7 +2172,7 @@
             ]
           }
         },
-        "trace": "traces/64a4a9ac8aec.zip",
+        "trace": "traces/2a88b0cb903d.zip",
         "snapshotIndex": "snapshots/RD-004.index.json"
       },
       "verdict": "VERIFIED",
@@ -2183,8 +2183,8 @@
     {
       "id": "RD-005",
       "action": {
-        "id": "621ef0da6867",
-        "pageUrl": "http://127.0.0.1:37431/",
+        "id": "394564881ceb",
+        "pageUrl": "http://127.0.0.1:37441/",
         "label": "Set up sync",
         "activation": "click",
         "kind": "navigation",
@@ -2197,7 +2197,7 @@
           "role": "link",
           "accessibleName": "Set up sync",
           "text": "Set up sync",
-          "href": "http://127.0.0.1:37431/config-server",
+          "href": "http://127.0.0.1:37441/config-server",
           "candidates": [
             {
               "strategy": "role",
@@ -2216,7 +2216,7 @@
             {
               "strategy": "href",
               "weight": 72,
-              "value": "http://127.0.0.1:37431/config-server"
+              "value": "http://127.0.0.1:37441/config-server"
             },
             {
               "strategy": "text",
@@ -2234,9 +2234,9 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T10:32:29.828Z",
-        "durationMs": 6803,
-        "canary": "RD_TEST_FE54B4",
+        "startedAt": "2026-07-26T11:56:40.124Z",
+        "durationMs": 6685,
+        "canary": "RD_TEST_421A3D",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -2254,7 +2254,7 @@
               "weight": 92,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 6
+              "elapsedMs": 7
             }
           ],
           "chosenStrategy": "role",
@@ -2262,8 +2262,8 @@
           "retryCount": 0
         },
         "before": {
-          "at": 5591,
-          "url": "http://127.0.0.1:37431/",
+          "at": 5458,
+          "url": "http://127.0.0.1:37441/",
           "title": "Actual",
           "domHash": "0e5db8d3d3693839",
           "canaryPresent": false,
@@ -2337,8 +2337,8 @@
           }
         },
         "beforeAction": {
-          "at": 5601,
-          "url": "http://127.0.0.1:37431/",
+          "at": 5469,
+          "url": "http://127.0.0.1:37441/",
           "title": "Actual",
           "domHash": "0e5db8d3d3693839",
           "canaryPresent": false,
@@ -2413,8 +2413,8 @@
         },
         "networkSettled": true,
         "after": {
-          "at": 6798,
-          "url": "http://127.0.0.1:37431/config-server",
+          "at": 6680,
+          "url": "http://127.0.0.1:37441/config-server",
           "title": "Actual",
           "domHash": "97f712565aa26638",
           "canaryPresent": false,
@@ -2488,7 +2488,7 @@
             ]
           }
         },
-        "trace": "traces/621ef0da6867.zip",
+        "trace": "traces/394564881ceb.zip",
         "snapshotIndex": "snapshots/RD-005.index.json"
       },
       "verdict": "VERIFIED",
@@ -2499,21 +2499,21 @@
     {
       "id": "RD-006",
       "action": {
-        "id": "cac102f59033",
-        "pageUrl": "http://127.0.0.1:37431/config-server",
+        "id": "320261cf1079",
+        "pageUrl": "http://127.0.0.1:37441/config-server",
         "label": "Back",
         "activation": "click",
         "kind": "navigation",
         "intent": "navigate",
         "risk": "safe",
         "fingerprint": {
-          "selector": "#react-aria1452926844-_r_0_",
+          "selector": "#react-aria6563487283-_r_0_",
           "tag": "button",
           "ordinal": 0,
           "role": "button",
           "accessibleName": "Back",
           "text": "Back",
-          "id": "react-aria1452926844-_r_0_",
+          "id": "react-aria6563487283-_r_0_",
           "type": "button",
           "candidates": [
             {
@@ -2533,7 +2533,7 @@
             {
               "strategy": "id",
               "weight": 80,
-              "selector": "#react-aria1452926844-_r_0_"
+              "selector": "#react-aria6563487283-_r_0_"
             },
             {
               "strategy": "text",
@@ -2544,16 +2544,16 @@
             {
               "strategy": "css",
               "weight": 35,
-              "selector": "#react-aria1452926844-_r_0_"
+              "selector": "#react-aria6563487283-_r_0_"
             }
           ]
         },
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T10:32:37.191Z",
-        "durationMs": 6109,
-        "canary": "RD_TEST_E8A663",
+        "startedAt": "2026-07-26T11:56:47.781Z",
+        "durationMs": 6393,
+        "canary": "RD_TEST_AD75A4",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -2572,41 +2572,6 @@
               "weight": 92,
               "matchCount": 0,
               "visibleCount": 0,
-              "elapsedMs": 4
-            },
-            {
-              "strategy": "role",
-              "weight": 82,
-              "matchCount": 0,
-              "visibleCount": 0,
-              "elapsedMs": 2
-            },
-            {
-              "strategy": "id",
-              "weight": 80,
-              "matchCount": 0,
-              "visibleCount": 0,
-              "elapsedMs": 3
-            },
-            {
-              "strategy": "text",
-              "weight": 60,
-              "matchCount": 0,
-              "visibleCount": 0,
-              "elapsedMs": 2
-            },
-            {
-              "strategy": "css",
-              "weight": 35,
-              "matchCount": 0,
-              "visibleCount": 0,
-              "elapsedMs": 2
-            },
-            {
-              "strategy": "role",
-              "weight": 92,
-              "matchCount": 0,
-              "visibleCount": 0,
               "elapsedMs": 3
             },
             {
@@ -2657,6 +2622,41 @@
               "matchCount": 0,
               "visibleCount": 0,
               "elapsedMs": 2
+            },
+            {
+              "strategy": "text",
+              "weight": 60,
+              "matchCount": 0,
+              "visibleCount": 0,
+              "elapsedMs": 3
+            },
+            {
+              "strategy": "css",
+              "weight": 35,
+              "matchCount": 0,
+              "visibleCount": 0,
+              "elapsedMs": 2
+            },
+            {
+              "strategy": "role",
+              "weight": 92,
+              "matchCount": 0,
+              "visibleCount": 0,
+              "elapsedMs": 3
+            },
+            {
+              "strategy": "role",
+              "weight": 82,
+              "matchCount": 0,
+              "visibleCount": 0,
+              "elapsedMs": 2
+            },
+            {
+              "strategy": "id",
+              "weight": 80,
+              "matchCount": 0,
+              "visibleCount": 0,
+              "elapsedMs": 3
             },
             {
               "strategy": "text",
@@ -2676,8 +2676,8 @@
           "retryCount": 2
         },
         "executionError": "No visible element matched the semantic fingerprint. The action was not executed.",
-        "screenshot": "screenshots/cac102f59033-error.png",
-        "trace": "traces/cac102f59033.zip",
+        "screenshot": "screenshots/320261cf1079-error.png",
+        "trace": "traces/320261cf1079.zip",
         "snapshotIndex": "snapshots/RD-006.index.json"
       },
       "verdict": "UNCERTAIN",
@@ -2688,21 +2688,21 @@
     {
       "id": "RD-007",
       "action": {
-        "id": "c4006271e563",
-        "pageUrl": "http://127.0.0.1:37431/config-server",
+        "id": "962eef26f4be",
+        "pageUrl": "http://127.0.0.1:37441/config-server",
         "label": "Use the current domain",
         "activation": "click",
         "kind": "local",
         "intent": "interact",
         "risk": "safe",
         "fingerprint": {
-          "selector": "#react-aria1452926844-_r_4_",
+          "selector": "#react-aria6563487283-_r_4_",
           "tag": "button",
           "ordinal": 3,
           "role": "button",
           "accessibleName": "Use the current domain",
           "text": "Use the current domain",
-          "id": "react-aria1452926844-_r_4_",
+          "id": "react-aria6563487283-_r_4_",
           "type": "button",
           "candidates": [
             {
@@ -2722,7 +2722,7 @@
             {
               "strategy": "id",
               "weight": 80,
-              "selector": "#react-aria1452926844-_r_4_"
+              "selector": "#react-aria6563487283-_r_4_"
             },
             {
               "strategy": "text",
@@ -2733,16 +2733,16 @@
             {
               "strategy": "css",
               "weight": 35,
-              "selector": "#react-aria1452926844-_r_4_"
+              "selector": "#react-aria6563487283-_r_4_"
             }
           ]
         },
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T10:32:43.902Z",
-        "durationMs": 6658,
-        "canary": "RD_TEST_7AF9F8",
+        "startedAt": "2026-07-26T11:56:54.871Z",
+        "durationMs": 6736,
+        "canary": "RD_TEST_3BE33D",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -2768,8 +2768,8 @@
           "retryCount": 0
         },
         "before": {
-          "at": 5426,
-          "url": "http://127.0.0.1:37431/config-server",
+          "at": 5507,
+          "url": "http://127.0.0.1:37441/config-server",
           "title": "Actual",
           "domHash": "0152be5d7ccd41ff",
           "canaryPresent": false,
@@ -2844,8 +2844,8 @@
           }
         },
         "beforeAction": {
-          "at": 5444,
-          "url": "http://127.0.0.1:37431/config-server",
+          "at": 5526,
+          "url": "http://127.0.0.1:37441/config-server",
           "title": "Actual",
           "domHash": "0152be5d7ccd41ff",
           "canaryPresent": false,
@@ -2921,10 +2921,10 @@
         },
         "networkSettled": true,
         "after": {
-          "at": 6653,
-          "url": "http://127.0.0.1:37431/config-server",
+          "at": 6732,
+          "url": "http://127.0.0.1:37441/config-server",
           "title": "Actual",
-          "domHash": "1f1fb3917a4de776",
+          "domHash": "33eb3efeada5497f",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -2943,7 +2943,7 @@
               {
                 "tag": "input",
                 "type": "text",
-                "valueHash": "70ff51ef969bdd4e",
+                "valueHash": "d4e9118720f52c01",
                 "checked": false,
                 "disabled": false,
                 "visible": true
@@ -2996,7 +2996,7 @@
             ]
           }
         },
-        "trace": "traces/c4006271e563.zip",
+        "trace": "traces/962eef26f4be.zip",
         "snapshotIndex": "snapshots/RD-007.index.json"
       },
       "verdict": "VERIFIED",
@@ -3007,8 +3007,8 @@
     {
       "id": "RD-008",
       "action": {
-        "id": "bb0466f5e276",
-        "pageUrl": "http://127.0.0.1:37431/",
+        "id": "458802e154e4",
+        "pageUrl": "http://127.0.0.1:37441/",
         "label": "guided tour",
         "activation": "click",
         "kind": "navigation",
@@ -3081,8 +3081,8 @@
     {
       "id": "RD-009",
       "action": {
-        "id": "e8d20e256031",
-        "pageUrl": "http://127.0.0.1:37431/config-server",
+        "id": "0c2f149c5ab1",
+        "pageUrl": "http://127.0.0.1:37441/config-server",
         "label": "learn how to set one up",
         "activation": "click",
         "kind": "navigation",
@@ -3155,21 +3155,21 @@
     {
       "id": "RD-010",
       "action": {
-        "id": "6e589177bd64",
-        "pageUrl": "http://127.0.0.1:37431/config-server",
+        "id": "83a872f40803",
+        "pageUrl": "http://127.0.0.1:37441/config-server",
         "label": "Connect",
         "activation": "click",
         "kind": "external",
         "intent": "external",
         "risk": "external",
         "fingerprint": {
-          "selector": "#react-aria1452926844-_r_2_",
+          "selector": "#react-aria6563487283-_r_2_",
           "tag": "button",
           "ordinal": 2,
           "role": "button",
           "accessibleName": "Connect",
           "text": "Connect",
-          "id": "react-aria1452926844-_r_2_",
+          "id": "react-aria6563487283-_r_2_",
           "type": "button",
           "candidates": [
             {
@@ -3189,7 +3189,7 @@
             {
               "strategy": "id",
               "weight": 80,
-              "selector": "#react-aria1452926844-_r_2_"
+              "selector": "#react-aria6563487283-_r_2_"
             },
             {
               "strategy": "text",
@@ -3200,7 +3200,7 @@
             {
               "strategy": "css",
               "weight": 35,
-              "selector": "#react-aria1452926844-_r_2_"
+              "selector": "#react-aria6563487283-_r_2_"
             }
           ]
         },
@@ -3238,9 +3238,9 @@
   ],
   "environment": {
     "status": "VALID",
-    "checkedAt": "2026-07-26T10:31:52.690Z",
-    "durationMs": 2733,
-    "targetUrl": "http://127.0.0.1:37431/",
+    "checkedAt": "2026-07-26T11:56:02.752Z",
+    "durationMs": 2705,
+    "targetUrl": "http://127.0.0.1:37441/",
     "mainDocument": {
       "status": 200,
       "contentType": "text/html"

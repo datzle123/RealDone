@@ -1,9 +1,9 @@
 {
   "schemaVersion": "1.0",
-  "scanId": "20260726T105841Z-a0d2",
-  "targetUrl": "http://127.0.0.1:37213/#/editor",
-  "startedAt": "2026-07-26T10:58:41.145Z",
-  "finishedAt": "2026-07-26T10:59:16.677Z",
+  "scanId": "20260726T121518Z-1fab",
+  "targetUrl": "http://127.0.0.1:37223/#/editor",
+  "startedAt": "2026-07-26T12:15:18.227Z",
+  "finishedAt": "2026-07-26T12:15:53.728Z",
   "options": {
     "maxPages": 3,
     "maxActions": 50,
@@ -41,12 +41,12 @@
   },
   "pages": [
     {
-      "url": "http://127.0.0.1:37213/#/editor",
+      "url": "http://127.0.0.1:37223/#/editor",
       "title": "Conduit",
       "actions": [
         {
-          "id": "4240ac8c9986",
-          "pageUrl": "http://127.0.0.1:37213/#/editor",
+          "id": "1bf42ddc57a0",
+          "pageUrl": "http://127.0.0.1:37223/#/editor",
           "label": "conduit",
           "activation": "click",
           "kind": "navigation",
@@ -59,7 +59,7 @@
             "role": "link",
             "accessibleName": "conduit",
             "text": "conduit",
-            "href": "http://127.0.0.1:37213/#/",
+            "href": "http://127.0.0.1:37223/#/",
             "candidates": [
               {
                 "strategy": "role",
@@ -78,7 +78,7 @@
               {
                 "strategy": "href",
                 "weight": 72,
-                "value": "http://127.0.0.1:37213/#/"
+                "value": "http://127.0.0.1:37223/#/"
               },
               {
                 "strategy": "text",
@@ -96,8 +96,8 @@
           "fields": []
         },
         {
-          "id": "cf7f7e055d50",
-          "pageUrl": "http://127.0.0.1:37213/#/editor",
+          "id": "d26ff438143d",
+          "pageUrl": "http://127.0.0.1:37223/#/editor",
           "label": "Source code",
           "activation": "click",
           "kind": "navigation",
@@ -147,8 +147,8 @@
           "fields": []
         },
         {
-          "id": "b2ce5788ac2d",
-          "pageUrl": "http://127.0.0.1:37213/#/editor",
+          "id": "53cf74a707f5",
+          "pageUrl": "http://127.0.0.1:37223/#/editor",
           "label": "Home",
           "activation": "click",
           "kind": "navigation",
@@ -161,7 +161,7 @@
             "role": "link",
             "accessibleName": "Home",
             "text": "Home",
-            "href": "http://127.0.0.1:37213/#/",
+            "href": "http://127.0.0.1:37223/#/",
             "candidates": [
               {
                 "strategy": "role",
@@ -180,7 +180,7 @@
               {
                 "strategy": "href",
                 "weight": 72,
-                "value": "http://127.0.0.1:37213/#/"
+                "value": "http://127.0.0.1:37223/#/"
               },
               {
                 "strategy": "text",
@@ -198,8 +198,8 @@
           "fields": []
         },
         {
-          "id": "38dd0a454d48",
-          "pageUrl": "http://127.0.0.1:37213/#/editor",
+          "id": "f33e20a1aa27",
+          "pageUrl": "http://127.0.0.1:37223/#/editor",
           "label": "New Article",
           "activation": "click",
           "kind": "navigation",
@@ -212,7 +212,7 @@
             "role": "link",
             "accessibleName": "New Article",
             "text": "New Article",
-            "href": "http://127.0.0.1:37213/#/editor",
+            "href": "http://127.0.0.1:37223/#/editor",
             "candidates": [
               {
                 "strategy": "role",
@@ -231,7 +231,7 @@
               {
                 "strategy": "href",
                 "weight": 72,
-                "value": "http://127.0.0.1:37213/#/editor"
+                "value": "http://127.0.0.1:37223/#/editor"
               },
               {
                 "strategy": "text",
@@ -249,8 +249,8 @@
           "fields": []
         },
         {
-          "id": "b725edd599a8",
-          "pageUrl": "http://127.0.0.1:37213/#/editor",
+          "id": "a6522be0fc1d",
+          "pageUrl": "http://127.0.0.1:37223/#/editor",
           "label": "Publish Article",
           "activation": "submit",
           "kind": "mutation",
@@ -316,8 +316,8 @@
           ]
         },
         {
-          "id": "615ef8bfaf91",
-          "pageUrl": "http://127.0.0.1:37213/#/editor",
+          "id": "663211a5be23",
+          "pageUrl": "http://127.0.0.1:37223/#/editor",
           "label": "conduit",
           "activation": "click",
           "kind": "navigation",
@@ -330,7 +330,7 @@
             "role": "link",
             "accessibleName": "conduit",
             "text": "conduit",
-            "href": "http://127.0.0.1:37213/#/",
+            "href": "http://127.0.0.1:37223/#/",
             "candidates": [
               {
                 "strategy": "role",
@@ -349,7 +349,7 @@
               {
                 "strategy": "href",
                 "weight": 72,
-                "value": "http://127.0.0.1:37213/#/"
+                "value": "http://127.0.0.1:37223/#/"
               },
               {
                 "strategy": "text",
@@ -367,8 +367,8 @@
           "fields": []
         },
         {
-          "id": "955bb7c4ae7a",
-          "pageUrl": "http://127.0.0.1:37213/#/editor",
+          "id": "7c82bc9fd8ce",
+          "pageUrl": "http://127.0.0.1:37223/#/editor",
           "label": "Thinkster",
           "activation": "click",
           "kind": "navigation",
@@ -418,8 +418,8 @@
           "fields": []
         },
         {
-          "id": "865611a40b7e",
-          "pageUrl": "http://127.0.0.1:37213/#/editor",
+          "id": "ab9bf2cd0dfb",
+          "pageUrl": "http://127.0.0.1:37223/#/editor",
           "label": "Source code",
           "activation": "click",
           "kind": "navigation",
@@ -471,12 +471,12 @@
       ]
     },
     {
-      "url": "http://127.0.0.1:37213/",
+      "url": "http://127.0.0.1:37223/",
       "title": "Conduit",
       "actions": [
         {
-          "id": "a0147c56db57",
-          "pageUrl": "http://127.0.0.1:37213/",
+          "id": "92446496b665",
+          "pageUrl": "http://127.0.0.1:37223/",
           "label": "conduit",
           "activation": "click",
           "kind": "navigation",
@@ -489,7 +489,7 @@
             "role": "link",
             "accessibleName": "conduit",
             "text": "conduit",
-            "href": "http://127.0.0.1:37213/#/",
+            "href": "http://127.0.0.1:37223/#/",
             "candidates": [
               {
                 "strategy": "role",
@@ -508,7 +508,7 @@
               {
                 "strategy": "href",
                 "weight": 72,
-                "value": "http://127.0.0.1:37213/#/"
+                "value": "http://127.0.0.1:37223/#/"
               },
               {
                 "strategy": "text",
@@ -526,8 +526,8 @@
           "fields": []
         },
         {
-          "id": "36a91b6a1f72",
-          "pageUrl": "http://127.0.0.1:37213/",
+          "id": "dff655920243",
+          "pageUrl": "http://127.0.0.1:37223/",
           "label": "Source code",
           "activation": "click",
           "kind": "navigation",
@@ -577,8 +577,8 @@
           "fields": []
         },
         {
-          "id": "63ad14060515",
-          "pageUrl": "http://127.0.0.1:37213/",
+          "id": "3800f03bc706",
+          "pageUrl": "http://127.0.0.1:37223/",
           "label": "Home",
           "activation": "click",
           "kind": "navigation",
@@ -591,7 +591,7 @@
             "role": "link",
             "accessibleName": "Home",
             "text": "Home",
-            "href": "http://127.0.0.1:37213/#/",
+            "href": "http://127.0.0.1:37223/#/",
             "candidates": [
               {
                 "strategy": "role",
@@ -610,7 +610,7 @@
               {
                 "strategy": "href",
                 "weight": 72,
-                "value": "http://127.0.0.1:37213/#/"
+                "value": "http://127.0.0.1:37223/#/"
               },
               {
                 "strategy": "text",
@@ -628,8 +628,8 @@
           "fields": []
         },
         {
-          "id": "2b6be7d79a5f",
-          "pageUrl": "http://127.0.0.1:37213/",
+          "id": "c88ed7554ce5",
+          "pageUrl": "http://127.0.0.1:37223/",
           "label": "New Article",
           "activation": "click",
           "kind": "navigation",
@@ -642,7 +642,7 @@
             "role": "link",
             "accessibleName": "New Article",
             "text": "New Article",
-            "href": "http://127.0.0.1:37213/#/editor",
+            "href": "http://127.0.0.1:37223/#/editor",
             "candidates": [
               {
                 "strategy": "role",
@@ -661,7 +661,7 @@
               {
                 "strategy": "href",
                 "weight": 72,
-                "value": "http://127.0.0.1:37213/#/editor"
+                "value": "http://127.0.0.1:37223/#/editor"
               },
               {
                 "strategy": "text",
@@ -679,8 +679,8 @@
           "fields": []
         },
         {
-          "id": "b6f0b8724ae3",
-          "pageUrl": "http://127.0.0.1:37213/",
+          "id": "d61ab1459de8",
+          "pageUrl": "http://127.0.0.1:37223/",
           "label": "Your Feed",
           "activation": "click",
           "kind": "local",
@@ -725,8 +725,8 @@
           "fields": []
         },
         {
-          "id": "98ade3898516",
-          "pageUrl": "http://127.0.0.1:37213/",
+          "id": "a69f66f3ce86",
+          "pageUrl": "http://127.0.0.1:37223/",
           "label": "Global Feed",
           "activation": "click",
           "kind": "local",
@@ -771,8 +771,8 @@
           "fields": []
         },
         {
-          "id": "60e12226e19d",
-          "pageUrl": "http://127.0.0.1:37213/",
+          "id": "9d442a70bdcb",
+          "pageUrl": "http://127.0.0.1:37223/",
           "label": "conduit",
           "activation": "click",
           "kind": "navigation",
@@ -785,7 +785,7 @@
             "role": "link",
             "accessibleName": "conduit",
             "text": "conduit",
-            "href": "http://127.0.0.1:37213/#/",
+            "href": "http://127.0.0.1:37223/#/",
             "candidates": [
               {
                 "strategy": "role",
@@ -804,7 +804,7 @@
               {
                 "strategy": "href",
                 "weight": 72,
-                "value": "http://127.0.0.1:37213/#/"
+                "value": "http://127.0.0.1:37223/#/"
               },
               {
                 "strategy": "text",
@@ -822,8 +822,8 @@
           "fields": []
         },
         {
-          "id": "731b624cc34c",
-          "pageUrl": "http://127.0.0.1:37213/",
+          "id": "d0d3611360e0",
+          "pageUrl": "http://127.0.0.1:37223/",
           "label": "Thinkster",
           "activation": "click",
           "kind": "navigation",
@@ -873,8 +873,8 @@
           "fields": []
         },
         {
-          "id": "c5063859c1ad",
-          "pageUrl": "http://127.0.0.1:37213/",
+          "id": "aece598f17f5",
+          "pageUrl": "http://127.0.0.1:37223/",
           "label": "Source code",
           "activation": "click",
           "kind": "navigation",
@@ -930,8 +930,8 @@
     {
       "id": "RD-001",
       "action": {
-        "id": "4240ac8c9986",
-        "pageUrl": "http://127.0.0.1:37213/#/editor",
+        "id": "1bf42ddc57a0",
+        "pageUrl": "http://127.0.0.1:37223/#/editor",
         "label": "conduit",
         "activation": "click",
         "kind": "navigation",
@@ -944,7 +944,7 @@
           "role": "link",
           "accessibleName": "conduit",
           "text": "conduit",
-          "href": "http://127.0.0.1:37213/#/",
+          "href": "http://127.0.0.1:37223/#/",
           "candidates": [
             {
               "strategy": "role",
@@ -963,7 +963,7 @@
             {
               "strategy": "href",
               "weight": 72,
-              "value": "http://127.0.0.1:37213/#/"
+              "value": "http://127.0.0.1:37223/#/"
             },
             {
               "strategy": "text",
@@ -981,31 +981,31 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T10:58:46.373Z",
-        "durationMs": 2551,
-        "canary": "RD_TEST_96078D",
+        "startedAt": "2026-07-26T12:15:23.416Z",
+        "durationMs": 2587,
+        "canary": "RD_TEST_7E5EC1",
         "network": [
           {
             "id": "net-1",
             "method": "GET",
-            "url": "http://127.0.0.1:37213/api/articles/feed?limit=3&&offset=0",
+            "url": "http://127.0.0.1:37223/api/articles/feed?limit=3&&offset=0",
             "resourceType": "xhr",
-            "startedAt": 1585,
+            "startedAt": 1608,
             "status": 200,
             "ok": true,
-            "finishedAt": 1592,
+            "finishedAt": 1614,
             "contentType": "application/json",
             "resourceTypeHint": "feed"
           },
           {
             "id": "net-2",
             "method": "GET",
-            "url": "http://127.0.0.1:37213/api/tags",
+            "url": "http://127.0.0.1:37223/api/tags",
             "resourceType": "xhr",
-            "startedAt": 1586,
+            "startedAt": 1609,
             "status": 200,
             "ok": true,
-            "finishedAt": 1590,
+            "finishedAt": 1613,
             "contentType": "application/json",
             "resourceTypeHint": "tags"
           }
@@ -1019,6 +1019,12 @@
         "downloadEvidence": [],
         "uploads": [],
         "popupUrls": [],
+        "visualSuppressions": [
+          {
+            "artifact": "screenshot",
+            "reason": "authenticated-context"
+          }
+        ],
         "locatorResolution": {
           "attempts": [
             {
@@ -1033,7 +1039,7 @@
               "weight": 82,
               "matchCount": 2,
               "visibleCount": 2,
-              "elapsedMs": 6
+              "elapsedMs": 7
             },
             {
               "strategy": "href",
@@ -1054,7 +1060,7 @@
               "weight": 35,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 4
+              "elapsedMs": 6
             }
           ],
           "chosenStrategy": "css",
@@ -1062,10 +1068,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1543,
-          "url": "http://127.0.0.1:37213/#/editor",
+          "at": 1561,
+          "url": "http://127.0.0.1:37223/#/editor",
           "title": "Conduit",
-          "domHash": "25121aa0be44bdb5",
+          "domHash": "c936833dbedd7df2",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -1077,9 +1083,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "e43f8008221f4f9e",
+            "textHash": "d0c4b4fdb77a11e9",
             "visualHash": "b85410fa0ea5a358",
-            "text": "conduit Source code Home New Article RD_TEST_AFDF00_1 Publish Article conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_PHASE_K_CRUD_OWNER Publish Article conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "input",
@@ -1131,7 +1137,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "a7264f4e63c29386",
+                "valueHash": "2dae499c83c06299",
                 "containsCanary": false
               }
             ],
@@ -1142,10 +1148,10 @@
           }
         },
         "beforeAction": {
-          "at": 1554,
-          "url": "http://127.0.0.1:37213/#/editor",
+          "at": 1577,
+          "url": "http://127.0.0.1:37223/#/editor",
           "title": "Conduit",
-          "domHash": "25121aa0be44bdb5",
+          "domHash": "c936833dbedd7df2",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -1157,9 +1163,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "e43f8008221f4f9e",
+            "textHash": "d0c4b4fdb77a11e9",
             "visualHash": "b85410fa0ea5a358",
-            "text": "conduit Source code Home New Article RD_TEST_AFDF00_1 Publish Article conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_PHASE_K_CRUD_OWNER Publish Article conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "input",
@@ -1211,7 +1217,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "a7264f4e63c29386",
+                "valueHash": "2dae499c83c06299",
                 "containsCanary": false
               }
             ],
@@ -1224,10 +1230,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2547,
-          "url": "http://127.0.0.1:37213/#/",
+          "at": 2583,
+          "url": "http://127.0.0.1:37223/#/",
           "title": "Conduit",
-          "domHash": "712217d34ae7776a",
+          "domHash": "b5f3eaaec75e7b4d",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -1239,9 +1245,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "e7fb8b5727d2c916",
+            "textHash": "8f037986f2b00a1b",
             "visualHash": "dfad2167a8f7c17f",
-            "text": "conduit Source code Home New Article RD_TEST_AFDF00_1 Your Feed Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_PHASE_K_CRUD_OWNER Your Feed Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
@@ -1265,7 +1271,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "a7264f4e63c29386",
+                "valueHash": "2dae499c83c06299",
                 "containsCanary": false
               }
             ],
@@ -1293,8 +1299,8 @@
     {
       "id": "RD-002",
       "action": {
-        "id": "b2ce5788ac2d",
-        "pageUrl": "http://127.0.0.1:37213/#/editor",
+        "id": "53cf74a707f5",
+        "pageUrl": "http://127.0.0.1:37223/#/editor",
         "label": "Home",
         "activation": "click",
         "kind": "navigation",
@@ -1307,7 +1313,7 @@
           "role": "link",
           "accessibleName": "Home",
           "text": "Home",
-          "href": "http://127.0.0.1:37213/#/",
+          "href": "http://127.0.0.1:37223/#/",
           "candidates": [
             {
               "strategy": "role",
@@ -1326,7 +1332,7 @@
             {
               "strategy": "href",
               "weight": 72,
-              "value": "http://127.0.0.1:37213/#/"
+              "value": "http://127.0.0.1:37223/#/"
             },
             {
               "strategy": "text",
@@ -1344,31 +1350,31 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T10:58:48.993Z",
-        "durationMs": 2476,
-        "canary": "RD_TEST_9F2EBB",
+        "startedAt": "2026-07-26T12:15:26.053Z",
+        "durationMs": 2526,
+        "canary": "RD_TEST_9C0CBB",
         "network": [
           {
             "id": "net-1",
             "method": "GET",
-            "url": "http://127.0.0.1:37213/api/articles/feed?limit=3&&offset=0",
+            "url": "http://127.0.0.1:37223/api/articles/feed?limit=3&&offset=0",
             "resourceType": "xhr",
-            "startedAt": 1516,
+            "startedAt": 1554,
             "status": 200,
             "ok": true,
-            "finishedAt": 1523,
+            "finishedAt": 1560,
             "contentType": "application/json",
             "resourceTypeHint": "feed"
           },
           {
             "id": "net-2",
             "method": "GET",
-            "url": "http://127.0.0.1:37213/api/tags",
+            "url": "http://127.0.0.1:37223/api/tags",
             "resourceType": "xhr",
-            "startedAt": 1517,
+            "startedAt": 1555,
             "status": 200,
             "ok": true,
-            "finishedAt": 1522,
+            "finishedAt": 1559,
             "contentType": "application/json",
             "resourceTypeHint": "tags"
           }
@@ -1382,6 +1388,12 @@
         "downloadEvidence": [],
         "uploads": [],
         "popupUrls": [],
+        "visualSuppressions": [
+          {
+            "artifact": "screenshot",
+            "reason": "authenticated-context"
+          }
+        ],
         "locatorResolution": {
           "attempts": [
             {
@@ -1389,7 +1401,7 @@
               "weight": 92,
               "matchCount": 0,
               "visibleCount": 0,
-              "elapsedMs": 3
+              "elapsedMs": 4
             },
             {
               "strategy": "role",
@@ -1404,10 +1416,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1475,
-          "url": "http://127.0.0.1:37213/#/editor",
+          "at": 1517,
+          "url": "http://127.0.0.1:37223/#/editor",
           "title": "Conduit",
-          "domHash": "25121aa0be44bdb5",
+          "domHash": "c936833dbedd7df2",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -1419,9 +1431,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "e43f8008221f4f9e",
+            "textHash": "d0c4b4fdb77a11e9",
             "visualHash": "b85410fa0ea5a358",
-            "text": "conduit Source code Home New Article RD_TEST_AFDF00_1 Publish Article conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_PHASE_K_CRUD_OWNER Publish Article conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "input",
@@ -1473,7 +1485,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "a7264f4e63c29386",
+                "valueHash": "2dae499c83c06299",
                 "containsCanary": false
               }
             ],
@@ -1484,10 +1496,10 @@
           }
         },
         "beforeAction": {
-          "at": 1485,
-          "url": "http://127.0.0.1:37213/#/editor",
+          "at": 1526,
+          "url": "http://127.0.0.1:37223/#/editor",
           "title": "Conduit",
-          "domHash": "25121aa0be44bdb5",
+          "domHash": "c936833dbedd7df2",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -1499,9 +1511,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "e43f8008221f4f9e",
+            "textHash": "d0c4b4fdb77a11e9",
             "visualHash": "b85410fa0ea5a358",
-            "text": "conduit Source code Home New Article RD_TEST_AFDF00_1 Publish Article conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_PHASE_K_CRUD_OWNER Publish Article conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "input",
@@ -1553,7 +1565,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "a7264f4e63c29386",
+                "valueHash": "2dae499c83c06299",
                 "containsCanary": false
               }
             ],
@@ -1566,10 +1578,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2472,
-          "url": "http://127.0.0.1:37213/#/",
+          "at": 2522,
+          "url": "http://127.0.0.1:37223/#/",
           "title": "Conduit",
-          "domHash": "712217d34ae7776a",
+          "domHash": "b5f3eaaec75e7b4d",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -1581,9 +1593,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "e7fb8b5727d2c916",
+            "textHash": "8f037986f2b00a1b",
             "visualHash": "dfad2167a8f7c17f",
-            "text": "conduit Source code Home New Article RD_TEST_AFDF00_1 Your Feed Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_PHASE_K_CRUD_OWNER Your Feed Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
@@ -1607,7 +1619,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "a7264f4e63c29386",
+                "valueHash": "2dae499c83c06299",
                 "containsCanary": false
               }
             ],
@@ -1635,8 +1647,8 @@
     {
       "id": "RD-003",
       "action": {
-        "id": "b725edd599a8",
-        "pageUrl": "http://127.0.0.1:37213/#/editor",
+        "id": "a6522be0fc1d",
+        "pageUrl": "http://127.0.0.1:37223/#/editor",
         "label": "Publish Article",
         "activation": "submit",
         "kind": "mutation",
@@ -1702,19 +1714,19 @@
         ]
       },
       "evidence": {
-        "startedAt": "2026-07-26T10:58:51.558Z",
-        "durationMs": 7183,
-        "canary": "RD_TEST_1DB90D",
+        "startedAt": "2026-07-26T12:15:28.705Z",
+        "durationMs": 7158,
+        "canary": "RD_TEST_F3F938",
         "network": [
           {
             "id": "net-1",
             "method": "POST",
-            "url": "http://127.0.0.1:37213/api/articles",
+            "url": "http://127.0.0.1:37223/api/articles",
             "resourceType": "xhr",
-            "startedAt": 1624,
+            "startedAt": 1657,
             "status": 201,
             "ok": true,
-            "finishedAt": 1641,
+            "finishedAt": 1674,
             "contentType": "application/json",
             "resourceTypeHint": "articles"
           },
@@ -1723,70 +1735,70 @@
             "method": "GET",
             "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3ig4vwlxdu.woff2",
             "resourceType": "font",
-            "startedAt": 1649,
+            "startedAt": 1681,
             "status": 200,
             "ok": true,
-            "finishedAt": 1695,
+            "finishedAt": 1727,
             "contentType": "font/woff2",
             "resourceTypeHint": "6xKydSBYKcSV-LCoeQqfX1RYOo3ig4vwlxdu.woff2"
           },
           {
             "id": "net-3",
             "method": "GET",
-            "url": "http://127.0.0.1:37213/api/articles/rd-test-1db90d-1/comments",
+            "url": "http://127.0.0.1:37223/api/articles/rd-test-f3f938-1/comments",
             "resourceType": "xhr",
-            "startedAt": 1650,
+            "startedAt": 1683,
             "status": 200,
             "ok": true,
-            "finishedAt": 1659,
+            "finishedAt": 1692,
             "contentType": "application/json",
             "resourceTypeHint": "comments"
           },
           {
             "id": "net-4",
             "method": "GET",
-            "url": "http://127.0.0.1:37213/api/articles/rd-test-1db90d-1",
+            "url": "http://127.0.0.1:37223/api/articles/rd-test-f3f938-1",
             "resourceType": "xhr",
-            "startedAt": 1651,
+            "startedAt": 1684,
             "status": 200,
             "ok": true,
-            "finishedAt": 1663,
+            "finishedAt": 1697,
             "contentType": "application/json",
-            "resourceTypeHint": "rd-test-1db90d-1"
+            "resourceTypeHint": "rd-test-f3f938-1"
           },
           {
             "id": "net-5",
             "method": "GET",
             "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3i54rwlxdu.woff2",
             "resourceType": "font",
-            "startedAt": 1681,
+            "startedAt": 1714,
             "status": 200,
             "ok": true,
-            "finishedAt": 1732,
+            "finishedAt": 1760,
             "contentType": "font/woff2",
             "resourceTypeHint": "6xKydSBYKcSV-LCoeQqfX1RYOo3i54rwlxdu.woff2"
           },
           {
             "id": "net-6",
             "method": "GET",
-            "url": "http://127.0.0.1:37213/",
+            "url": "http://127.0.0.1:37223/",
             "resourceType": "document",
-            "startedAt": 2755,
+            "startedAt": 2746,
             "status": 200,
             "ok": true,
             "contentType": "text/html",
             "resourceTypeHint": "resource",
-            "finishedAt": 2764
+            "finishedAt": 2755
           },
           {
             "id": "net-7",
             "method": "GET",
             "url": "http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css",
             "resourceType": "stylesheet",
-            "startedAt": 2762,
+            "startedAt": 2753,
             "status": 307,
             "ok": false,
-            "finishedAt": 2765,
+            "finishedAt": 2757,
             "location": "https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css",
             "resourceTypeHint": "ionicons.min.css"
           },
@@ -1795,34 +1807,34 @@
             "method": "GET",
             "url": "http://fonts.googleapis.com/css?family=Titillium+Web:700|Source+Serif+Pro:400,700|Merriweather+Sans:400,700|Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic,700italic",
             "resourceType": "stylesheet",
-            "startedAt": 2762,
+            "startedAt": 2754,
             "status": 200,
             "ok": true,
-            "finishedAt": 2811,
+            "finishedAt": 2794,
             "contentType": "text/css",
             "resourceTypeHint": "css"
           },
           {
             "id": "net-9",
             "method": "GET",
-            "url": "http://127.0.0.1:37213/assets/index-CLdavoKn.js",
+            "url": "http://127.0.0.1:37223/assets/index-CLdavoKn.js",
             "resourceType": "script",
-            "startedAt": 2763,
+            "startedAt": 2754,
             "status": 200,
             "ok": true,
-            "finishedAt": 2775,
+            "finishedAt": 2769,
             "contentType": "text/javascript",
             "resourceTypeHint": "index-CLdavoKn.js"
           },
           {
             "id": "net-10",
             "method": "GET",
-            "url": "http://127.0.0.1:37213/assets/index-De1Lwdlm.css",
+            "url": "http://127.0.0.1:37223/assets/index-De1Lwdlm.css",
             "resourceType": "stylesheet",
-            "startedAt": 2763,
+            "startedAt": 2755,
             "status": 200,
             "ok": true,
-            "finishedAt": 2769,
+            "finishedAt": 2761,
             "contentType": "text/css",
             "resourceTypeHint": "index-De1Lwdlm.css"
           },
@@ -1831,10 +1843,10 @@
             "method": "GET",
             "url": "https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css",
             "resourceType": "stylesheet",
-            "startedAt": 2765,
+            "startedAt": 2757,
             "status": 200,
             "ok": true,
-            "finishedAt": 3055,
+            "finishedAt": 3047,
             "contentType": "text/css",
             "resourceTypeHint": "ionicons.min.css"
           },
@@ -1843,10 +1855,10 @@
             "method": "GET",
             "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdu.woff2",
             "resourceType": "font",
-            "startedAt": 3065,
+            "startedAt": 3057,
             "status": 200,
             "ok": true,
-            "finishedAt": 3112,
+            "finishedAt": 3102,
             "contentType": "font/woff2",
             "resourceTypeHint": "6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdu.woff2"
           },
@@ -1855,10 +1867,10 @@
             "method": "GET",
             "url": "https://code.ionicframework.com/ionicons/2.0.1/fonts/ionicons.ttf?v=2.0.1",
             "resourceType": "font",
-            "startedAt": 3065,
+            "startedAt": 3057,
             "status": 200,
             "ok": true,
-            "finishedAt": 3186,
+            "finishedAt": 3176,
             "contentType": "font/ttf",
             "resourceTypeHint": "ionicons.ttf"
           },
@@ -1867,10 +1879,10 @@
             "method": "GET",
             "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7l.woff2",
             "resourceType": "font",
-            "startedAt": 3066,
+            "startedAt": 3058,
             "status": 200,
             "ok": true,
-            "finishedAt": 3115,
+            "finishedAt": 3105,
             "contentType": "font/woff2",
             "resourceTypeHint": "6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7l.woff2"
           },
@@ -1879,10 +1891,10 @@
             "method": "GET",
             "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3ig4vwlxdu.woff2",
             "resourceType": "font",
-            "startedAt": 3066,
+            "startedAt": 3059,
             "status": 200,
             "ok": true,
-            "finishedAt": 3114,
+            "finishedAt": 3104,
             "contentType": "font/woff2",
             "resourceTypeHint": "6xKydSBYKcSV-LCoeQqfX1RYOo3ig4vwlxdu.woff2"
           },
@@ -1891,46 +1903,46 @@
             "method": "GET",
             "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xK1dSBYKcSV-LCoeQqfX1RYOo3qPZ7nsDI.woff2",
             "resourceType": "font",
-            "startedAt": 3066,
+            "startedAt": 3059,
             "status": 200,
             "ok": true,
-            "finishedAt": 3164,
+            "finishedAt": 3155,
             "contentType": "font/woff2",
             "resourceTypeHint": "6xK1dSBYKcSV-LCoeQqfX1RYOo3qPZ7nsDI.woff2"
           },
           {
             "id": "net-17",
             "method": "GET",
-            "url": "http://127.0.0.1:37213/api/articles/rd-test-1db90d-1/comments",
+            "url": "http://127.0.0.1:37223/api/articles/rd-test-f3f938-1/comments",
             "resourceType": "xhr",
-            "startedAt": 3068,
+            "startedAt": 3060,
             "status": 200,
             "ok": true,
-            "finishedAt": 3075,
+            "finishedAt": 3068,
             "contentType": "application/json",
             "resourceTypeHint": "comments"
           },
           {
             "id": "net-18",
             "method": "GET",
-            "url": "http://127.0.0.1:37213/api/articles/rd-test-1db90d-1",
+            "url": "http://127.0.0.1:37223/api/articles/rd-test-f3f938-1",
             "resourceType": "xhr",
-            "startedAt": 3068,
+            "startedAt": 3061,
             "status": 200,
             "ok": true,
-            "finishedAt": 3078,
+            "finishedAt": 3071,
             "contentType": "application/json",
-            "resourceTypeHint": "rd-test-1db90d-1"
+            "resourceTypeHint": "rd-test-f3f938-1"
           },
           {
             "id": "net-19",
             "method": "GET",
-            "url": "http://127.0.0.1:37213/api/user",
+            "url": "http://127.0.0.1:37223/api/user",
             "resourceType": "xhr",
-            "startedAt": 3069,
+            "startedAt": 3061,
             "status": 200,
             "ok": true,
-            "finishedAt": 3076,
+            "finishedAt": 3069,
             "contentType": "application/json",
             "resourceTypeHint": "user"
           },
@@ -1939,34 +1951,34 @@
             "method": "GET",
             "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3i54rwlxdu.woff2",
             "resourceType": "font",
-            "startedAt": 3083,
+            "startedAt": 3085,
             "status": 200,
             "ok": true,
-            "finishedAt": 3154,
+            "finishedAt": 3143,
             "contentType": "font/woff2",
             "resourceTypeHint": "6xKydSBYKcSV-LCoeQqfX1RYOo3i54rwlxdu.woff2"
           },
           {
             "id": "net-21",
             "method": "GET",
-            "url": "http://127.0.0.1:37213/",
+            "url": "http://127.0.0.1:37223/",
             "resourceType": "document",
-            "startedAt": 3941,
+            "startedAt": 3885,
             "status": 200,
             "ok": true,
             "contentType": "text/html",
             "resourceTypeHint": "resource",
-            "finishedAt": 3950
+            "finishedAt": 3893
           },
           {
             "id": "net-22",
             "method": "GET",
             "url": "http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css",
             "resourceType": "stylesheet",
-            "startedAt": 3948,
+            "startedAt": 3892,
             "status": 307,
             "ok": false,
-            "finishedAt": 3951,
+            "finishedAt": 3895,
             "location": "https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css",
             "resourceTypeHint": "ionicons.min.css"
           },
@@ -1975,34 +1987,34 @@
             "method": "GET",
             "url": "http://fonts.googleapis.com/css?family=Titillium+Web:700|Source+Serif+Pro:400,700|Merriweather+Sans:400,700|Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic,700italic",
             "resourceType": "stylesheet",
-            "startedAt": 3948,
+            "startedAt": 3892,
             "status": 200,
             "ok": true,
-            "finishedAt": 3990,
+            "finishedAt": 3929,
             "contentType": "text/css",
             "resourceTypeHint": "css"
           },
           {
             "id": "net-24",
             "method": "GET",
-            "url": "http://127.0.0.1:37213/assets/index-CLdavoKn.js",
+            "url": "http://127.0.0.1:37223/assets/index-CLdavoKn.js",
             "resourceType": "script",
-            "startedAt": 3949,
+            "startedAt": 3892,
             "status": 200,
             "ok": true,
-            "finishedAt": 3961,
+            "finishedAt": 3910,
             "contentType": "text/javascript",
             "resourceTypeHint": "index-CLdavoKn.js"
           },
           {
             "id": "net-25",
             "method": "GET",
-            "url": "http://127.0.0.1:37213/assets/index-De1Lwdlm.css",
+            "url": "http://127.0.0.1:37223/assets/index-De1Lwdlm.css",
             "resourceType": "stylesheet",
-            "startedAt": 3949,
+            "startedAt": 3892,
             "status": 200,
             "ok": true,
-            "finishedAt": 3954,
+            "finishedAt": 3897,
             "contentType": "text/css",
             "resourceTypeHint": "index-De1Lwdlm.css"
           },
@@ -2011,10 +2023,10 @@
             "method": "GET",
             "url": "https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css",
             "resourceType": "stylesheet",
-            "startedAt": 3951,
+            "startedAt": 3895,
             "status": 200,
             "ok": true,
-            "finishedAt": 4028,
+            "finishedAt": 3974,
             "contentType": "text/css",
             "resourceTypeHint": "ionicons.min.css"
           },
@@ -2023,10 +2035,10 @@
             "method": "GET",
             "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdu.woff2",
             "resourceType": "font",
-            "startedAt": 4038,
+            "startedAt": 3983,
             "status": 200,
             "ok": true,
-            "finishedAt": 4087,
+            "finishedAt": 4035,
             "contentType": "font/woff2",
             "resourceTypeHint": "6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdu.woff2"
           },
@@ -2035,10 +2047,10 @@
             "method": "GET",
             "url": "https://code.ionicframework.com/ionicons/2.0.1/fonts/ionicons.ttf?v=2.0.1",
             "resourceType": "font",
-            "startedAt": 4038,
+            "startedAt": 3984,
             "status": 200,
             "ok": true,
-            "finishedAt": 4157,
+            "finishedAt": 4105,
             "contentType": "font/ttf",
             "resourceTypeHint": "ionicons.ttf"
           },
@@ -2047,10 +2059,10 @@
             "method": "GET",
             "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7l.woff2",
             "resourceType": "font",
-            "startedAt": 4039,
+            "startedAt": 3985,
             "status": 200,
             "ok": true,
-            "finishedAt": 4084,
+            "finishedAt": 4031,
             "contentType": "font/woff2",
             "resourceTypeHint": "6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7l.woff2"
           },
@@ -2059,10 +2071,10 @@
             "method": "GET",
             "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3ig4vwlxdu.woff2",
             "resourceType": "font",
-            "startedAt": 4040,
+            "startedAt": 3986,
             "status": 200,
             "ok": true,
-            "finishedAt": 4087,
+            "finishedAt": 4034,
             "contentType": "font/woff2",
             "resourceTypeHint": "6xKydSBYKcSV-LCoeQqfX1RYOo3ig4vwlxdu.woff2"
           },
@@ -2071,58 +2083,58 @@
             "method": "GET",
             "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xK1dSBYKcSV-LCoeQqfX1RYOo3qPZ7nsDI.woff2",
             "resourceType": "font",
-            "startedAt": 4040,
+            "startedAt": 3986,
             "status": 200,
             "ok": true,
-            "finishedAt": 4088,
+            "finishedAt": 4034,
             "contentType": "font/woff2",
             "resourceTypeHint": "6xK1dSBYKcSV-LCoeQqfX1RYOo3qPZ7nsDI.woff2"
           },
           {
             "id": "net-32",
             "method": "GET",
-            "url": "http://127.0.0.1:37213/api/articles/rd-test-1db90d-1/comments",
+            "url": "http://127.0.0.1:37223/api/articles/rd-test-f3f938-1/comments",
             "resourceType": "xhr",
-            "startedAt": 4041,
+            "startedAt": 3988,
             "status": 200,
             "ok": true,
-            "finishedAt": 4048,
+            "finishedAt": 3995,
             "contentType": "application/json",
             "resourceTypeHint": "comments"
           },
           {
             "id": "net-33",
             "method": "GET",
-            "url": "http://127.0.0.1:37213/api/articles/rd-test-1db90d-1",
+            "url": "http://127.0.0.1:37223/api/articles/rd-test-f3f938-1",
             "resourceType": "xhr",
-            "startedAt": 4041,
+            "startedAt": 3988,
             "status": 200,
             "ok": true,
-            "finishedAt": 4054,
+            "finishedAt": 4001,
             "contentType": "application/json",
-            "resourceTypeHint": "rd-test-1db90d-1"
+            "resourceTypeHint": "rd-test-f3f938-1"
           },
           {
             "id": "net-34",
             "method": "GET",
-            "url": "http://127.0.0.1:37213/api/user",
+            "url": "http://127.0.0.1:37223/api/user",
             "resourceType": "xhr",
-            "startedAt": 4042,
+            "startedAt": 3989,
             "status": 200,
             "ok": true,
             "contentType": "application/json",
             "resourceTypeHint": "user",
-            "finishedAt": 4048
+            "finishedAt": 3995
           },
           {
             "id": "net-35",
             "method": "GET",
             "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3i54rwlxdu.woff2",
             "resourceType": "font",
-            "startedAt": 4064,
+            "startedAt": 4003,
             "status": 200,
             "ok": true,
-            "finishedAt": 4128,
+            "finishedAt": 4068,
             "contentType": "font/woff2",
             "resourceTypeHint": "6xKydSBYKcSV-LCoeQqfX1RYOo3i54rwlxdu.woff2"
           }
@@ -2135,28 +2147,28 @@
             "selector": "body > div > main > div > div > div > div > form > fieldset > fieldset:nth-of-type(1) > input",
             "name": "title",
             "type": "text",
-            "value": "RD_TEST_1DB90D_1",
+            "value": "RD_TEST_F3F938_1",
             "redacted": false
           },
           {
             "selector": "body > div > main > div > div > div > div > form > fieldset > fieldset:nth-of-type(2) > input",
             "name": "description",
             "type": "text",
-            "value": "RD_TEST_1DB90D_2",
+            "value": "RD_TEST_F3F938_2",
             "redacted": false
           },
           {
             "selector": "body > div > main > div > div > div > div > form > fieldset > fieldset:nth-of-type(3) > textarea",
             "name": "body",
             "type": "textarea",
-            "value": "RD_TEST_1DB90D_3",
+            "value": "RD_TEST_F3F938_3",
             "redacted": false
           },
           {
             "selector": "body > div > main > div > div > div > div > form > fieldset > fieldset:nth-of-type(4) > input",
             "name": "tags",
             "type": "text",
-            "value": "RD_TEST_1DB90D_4",
+            "value": "RD_TEST_F3F938_4",
             "redacted": false
           }
         ],
@@ -2165,6 +2177,12 @@
         "downloadEvidence": [],
         "uploads": [],
         "popupUrls": [],
+        "visualSuppressions": [
+          {
+            "artifact": "screenshot",
+            "reason": "authenticated-context"
+          }
+        ],
         "locatorResolution": {
           "attempts": [
             {
@@ -2172,7 +2190,7 @@
               "weight": 60,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 4
+              "elapsedMs": 5
             }
           ],
           "chosenStrategy": "text",
@@ -2180,10 +2198,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1513,
-          "url": "http://127.0.0.1:37213/#/editor",
+          "at": 1553,
+          "url": "http://127.0.0.1:37223/#/editor",
           "title": "Conduit",
-          "domHash": "25121aa0be44bdb5",
+          "domHash": "c936833dbedd7df2",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -2195,9 +2213,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "e43f8008221f4f9e",
+            "textHash": "d0c4b4fdb77a11e9",
             "visualHash": "b85410fa0ea5a358",
-            "text": "conduit Source code Home New Article RD_TEST_AFDF00_1 Publish Article conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_PHASE_K_CRUD_OWNER Publish Article conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "input",
@@ -2249,7 +2267,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "a7264f4e63c29386",
+                "valueHash": "2dae499c83c06299",
                 "containsCanary": false
               }
             ],
@@ -2272,8 +2290,78 @@
               "schemaHash": "b7a8a911cd0fd4e9",
               "rows": [
                 {
+                  "keyHash": "186347d9ea7673a2",
+                  "rowHash": "4d8311a4b9df0bbb",
+                  "softDeleted": false
+                },
+                {
                   "keyHash": "da7114755c3b82ba",
-                  "rowHash": "f1108a413122f589",
+                  "rowHash": "39bd56af0b169023",
+                  "softDeleted": false
+                },
+                {
+                  "keyHash": "84cf60166b2ca345",
+                  "rowHash": "aa49653a67bcd399",
+                  "softDeleted": false
+                },
+                {
+                  "keyHash": "9ef59241e15425e0",
+                  "rowHash": "3343e1b012ad4f04",
+                  "softDeleted": false
+                },
+                {
+                  "keyHash": "82a8445b12df5a29",
+                  "rowHash": "db866c24a3538c63",
+                  "softDeleted": false
+                },
+                {
+                  "keyHash": "667da1af4b45220f",
+                  "rowHash": "5c8f98476fb3bfca",
+                  "softDeleted": false
+                }
+              ],
+              "truncated": false
+            },
+            {
+              "adapter": "supabase",
+              "resource": "articles",
+              "schemaHash": "777de19e0eca5f66",
+              "rows": [],
+              "truncated": false
+            },
+            {
+              "adapter": "supabase",
+              "resource": "users",
+              "schemaHash": "cd9a96cfad9b0bff",
+              "rows": [
+                {
+                  "keyHash": "186347d9ea7673a2",
+                  "rowHash": "4d8311a4b9df0bbb",
+                  "softDeleted": false
+                },
+                {
+                  "keyHash": "da7114755c3b82ba",
+                  "rowHash": "39bd56af0b169023",
+                  "softDeleted": false
+                },
+                {
+                  "keyHash": "84cf60166b2ca345",
+                  "rowHash": "aa49653a67bcd399",
+                  "softDeleted": false
+                },
+                {
+                  "keyHash": "9ef59241e15425e0",
+                  "rowHash": "3343e1b012ad4f04",
+                  "softDeleted": false
+                },
+                {
+                  "keyHash": "82a8445b12df5a29",
+                  "rowHash": "db866c24a3538c63",
+                  "softDeleted": false
+                },
+                {
+                  "keyHash": "667da1af4b45220f",
+                  "rowHash": "5c8f98476fb3bfca",
                   "softDeleted": false
                 }
               ],
@@ -2282,10 +2370,10 @@
           ]
         },
         "beforeAction": {
-          "at": 1571,
-          "url": "http://127.0.0.1:37213/#/editor",
+          "at": 1611,
+          "url": "http://127.0.0.1:37223/#/editor",
           "title": "Conduit",
-          "domHash": "129b77ab6b3ff0ae",
+          "domHash": "eca152a0b620b6b9",
           "canaryPresent": true,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -2297,15 +2385,15 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "e43f8008221f4f9e",
+            "textHash": "d0c4b4fdb77a11e9",
             "visualHash": "b85410fa0ea5a358",
-            "text": "conduit Source code Home New Article RD_TEST_AFDF00_1 Publish Article conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_PHASE_K_CRUD_OWNER Publish Article conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "input",
                 "type": "text",
                 "name": "title",
-                "valueHash": "b1e6e711a6234597",
+                "valueHash": "4edf37e7b916fb84",
                 "checked": false,
                 "disabled": false,
                 "visible": true
@@ -2314,7 +2402,7 @@
                 "tag": "input",
                 "type": "text",
                 "name": "description",
-                "valueHash": "b88339d960a264a0",
+                "valueHash": "05c8c5ab3e5d145c",
                 "checked": false,
                 "disabled": false,
                 "visible": true
@@ -2323,7 +2411,7 @@
                 "tag": "textarea",
                 "type": "textarea",
                 "name": "body",
-                "valueHash": "576c4815d7a09b26",
+                "valueHash": "3e20dda6d23b3bfb",
                 "disabled": false,
                 "visible": true
               },
@@ -2331,7 +2419,7 @@
                 "tag": "input",
                 "type": "text",
                 "name": "tags",
-                "valueHash": "77ae5c6394cae14e",
+                "valueHash": "9b3570f9ddf845d4",
                 "checked": false,
                 "disabled": false,
                 "visible": true
@@ -2351,7 +2439,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "a7264f4e63c29386",
+                "valueHash": "2dae499c83c06299",
                 "containsCanary": false
               }
             ],
@@ -2365,10 +2453,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2696,
-          "url": "http://127.0.0.1:37213/#/article/rd-test-1db90d-1",
+          "at": 2740,
+          "url": "http://127.0.0.1:37223/#/article/rd-test-f3f938-1",
           "title": "Conduit",
-          "domHash": "f6df27fc845c10bf",
+          "domHash": "228fd45ce63fe634",
           "canaryPresent": true,
           "bodyCanaryPresent": true,
           "temporaryBlobUrls": 0,
@@ -2380,9 +2468,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "2c403465c0040d0a",
+            "textHash": "3095f07e5155c8c4",
             "visualHash": "471347ba69eaf940",
-            "text": "conduit Source code Home New Article RD_TEST_AFDF00_1 RD_TEST_1DB90D_1 RD_TEST_AFDF00_1 July 26, 2026 Delete Article Edit Article RD_TEST_1DB90D_3 RD_TEST_1DB90D_4 RD_TEST_AFDF00_1 July 26, 2026 Delete Article Edit Article Post Comment There are no comments yet... conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_PHASE_K_CRUD_OWNER RD_TEST_F3F938_1 RD_PHASE_K_CRUD_OWNER July 26, 2026 Delete Article Edit Article RD_TEST_F3F938_3 RD_TEST_F3F938_4 RD_PHASE_K_CRUD_OWNER July 26, 2026 Delete Article Edit Article Post Comment There are no comments yet... conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
@@ -2434,7 +2522,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "a7264f4e63c29386",
+                "valueHash": "2dae499c83c06299",
                 "containsCanary": false
               }
             ],
@@ -2451,7 +2539,7 @@
               "rows": [
                 {
                   "keyHash": "186347d9ea7673a2",
-                  "rowHash": "39c9ca19e186f10d",
+                  "rowHash": "6acb0748d78f5535",
                   "softDeleted": false
                 }
               ],
@@ -2463,8 +2551,84 @@
               "schemaHash": "b7a8a911cd0fd4e9",
               "rows": [
                 {
+                  "keyHash": "186347d9ea7673a2",
+                  "rowHash": "4d8311a4b9df0bbb",
+                  "softDeleted": false
+                },
+                {
                   "keyHash": "da7114755c3b82ba",
-                  "rowHash": "f1108a413122f589",
+                  "rowHash": "39bd56af0b169023",
+                  "softDeleted": false
+                },
+                {
+                  "keyHash": "84cf60166b2ca345",
+                  "rowHash": "aa49653a67bcd399",
+                  "softDeleted": false
+                },
+                {
+                  "keyHash": "9ef59241e15425e0",
+                  "rowHash": "3343e1b012ad4f04",
+                  "softDeleted": false
+                },
+                {
+                  "keyHash": "82a8445b12df5a29",
+                  "rowHash": "db866c24a3538c63",
+                  "softDeleted": false
+                },
+                {
+                  "keyHash": "667da1af4b45220f",
+                  "rowHash": "5c8f98476fb3bfca",
+                  "softDeleted": false
+                }
+              ],
+              "truncated": false
+            },
+            {
+              "adapter": "supabase",
+              "resource": "articles",
+              "schemaHash": "777de19e0eca5f66",
+              "rows": [
+                {
+                  "keyHash": "186347d9ea7673a2",
+                  "rowHash": "6acb0748d78f5535",
+                  "softDeleted": false
+                }
+              ],
+              "truncated": false
+            },
+            {
+              "adapter": "supabase",
+              "resource": "users",
+              "schemaHash": "cd9a96cfad9b0bff",
+              "rows": [
+                {
+                  "keyHash": "186347d9ea7673a2",
+                  "rowHash": "4d8311a4b9df0bbb",
+                  "softDeleted": false
+                },
+                {
+                  "keyHash": "da7114755c3b82ba",
+                  "rowHash": "39bd56af0b169023",
+                  "softDeleted": false
+                },
+                {
+                  "keyHash": "84cf60166b2ca345",
+                  "rowHash": "aa49653a67bcd399",
+                  "softDeleted": false
+                },
+                {
+                  "keyHash": "9ef59241e15425e0",
+                  "rowHash": "3343e1b012ad4f04",
+                  "softDeleted": false
+                },
+                {
+                  "keyHash": "82a8445b12df5a29",
+                  "rowHash": "db866c24a3538c63",
+                  "softDeleted": false
+                },
+                {
+                  "keyHash": "667da1af4b45220f",
+                  "rowHash": "5c8f98476fb3bfca",
                   "softDeleted": false
                 }
               ],
@@ -2472,12 +2636,11 @@
             }
           ]
         },
-        "screenshot": "screenshots/b725edd599a8-after.png",
         "afterRefresh": {
-          "at": 3890,
-          "url": "http://127.0.0.1:37213/#/article/rd-test-1db90d-1",
+          "at": 3882,
+          "url": "http://127.0.0.1:37223/#/article/rd-test-f3f938-1",
           "title": "Conduit",
-          "domHash": "f6df27fc845c10bf",
+          "domHash": "228fd45ce63fe634",
           "canaryPresent": true,
           "bodyCanaryPresent": true,
           "temporaryBlobUrls": 0,
@@ -2489,9 +2652,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "2c403465c0040d0a",
+            "textHash": "3095f07e5155c8c4",
             "visualHash": "471347ba69eaf940",
-            "text": "conduit Source code Home New Article RD_TEST_AFDF00_1 RD_TEST_1DB90D_1 RD_TEST_AFDF00_1 July 26, 2026 Delete Article Edit Article RD_TEST_1DB90D_3 RD_TEST_1DB90D_4 RD_TEST_AFDF00_1 July 26, 2026 Delete Article Edit Article Post Comment There are no comments yet... conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_PHASE_K_CRUD_OWNER RD_TEST_F3F938_1 RD_PHASE_K_CRUD_OWNER July 26, 2026 Delete Article Edit Article RD_TEST_F3F938_3 RD_TEST_F3F938_4 RD_PHASE_K_CRUD_OWNER July 26, 2026 Delete Article Edit Article Post Comment There are no comments yet... conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
@@ -2543,7 +2706,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "a7264f4e63c29386",
+                "valueHash": "2dae499c83c06299",
                 "containsCanary": false
               }
             ],
@@ -2553,12 +2716,11 @@
             "indexedDb": []
           }
         },
-        "refreshScreenshot": "screenshots/b725edd599a8-refresh.png",
         "afterHardRefresh": {
-          "at": 4866,
-          "url": "http://127.0.0.1:37213/#/article/rd-test-1db90d-1",
+          "at": 4810,
+          "url": "http://127.0.0.1:37223/#/article/rd-test-f3f938-1",
           "title": "Conduit",
-          "domHash": "f6df27fc845c10bf",
+          "domHash": "228fd45ce63fe634",
           "canaryPresent": true,
           "bodyCanaryPresent": true,
           "temporaryBlobUrls": 0,
@@ -2570,9 +2732,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "2c403465c0040d0a",
+            "textHash": "3095f07e5155c8c4",
             "visualHash": "471347ba69eaf940",
-            "text": "conduit Source code Home New Article RD_TEST_AFDF00_1 RD_TEST_1DB90D_1 RD_TEST_AFDF00_1 July 26, 2026 Delete Article Edit Article RD_TEST_1DB90D_3 RD_TEST_1DB90D_4 RD_TEST_AFDF00_1 July 26, 2026 Delete Article Edit Article Post Comment There are no comments yet... conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_PHASE_K_CRUD_OWNER RD_TEST_F3F938_1 RD_PHASE_K_CRUD_OWNER July 26, 2026 Delete Article Edit Article RD_TEST_F3F938_3 RD_TEST_F3F938_4 RD_PHASE_K_CRUD_OWNER July 26, 2026 Delete Article Edit Article Post Comment There are no comments yet... conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
@@ -2624,7 +2786,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "a7264f4e63c29386",
+                "valueHash": "2dae499c83c06299",
                 "containsCanary": false
               }
             ],
@@ -2635,10 +2797,10 @@
           }
         },
         "afterNewTab": {
-          "at": 5855,
-          "url": "http://127.0.0.1:37213/#/editor",
+          "at": 5810,
+          "url": "http://127.0.0.1:37223/#/editor",
           "title": "Conduit",
-          "domHash": "25121aa0be44bdb5",
+          "domHash": "c936833dbedd7df2",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -2650,9 +2812,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "e43f8008221f4f9e",
+            "textHash": "d0c4b4fdb77a11e9",
             "visualHash": "b85410fa0ea5a358",
-            "text": "conduit Source code Home New Article RD_TEST_AFDF00_1 Publish Article conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_PHASE_K_CRUD_OWNER Publish Article conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "input",
@@ -2704,7 +2866,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "a7264f4e63c29386",
+                "valueHash": "2dae499c83c06299",
                 "containsCanary": false
               }
             ],
@@ -2715,10 +2877,10 @@
           }
         },
         "afterNewContext": {
-          "at": 7180,
-          "url": "http://127.0.0.1:37213/#/article/rd-test-1db90d-1",
+          "at": 7155,
+          "url": "http://127.0.0.1:37223/#/article/rd-test-f3f938-1",
           "title": "Conduit",
-          "domHash": "f6df27fc845c10bf",
+          "domHash": "228fd45ce63fe634",
           "canaryPresent": true,
           "bodyCanaryPresent": true,
           "temporaryBlobUrls": 0,
@@ -2730,9 +2892,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "2c403465c0040d0a",
+            "textHash": "3095f07e5155c8c4",
             "visualHash": "471347ba69eaf940",
-            "text": "conduit Source code Home New Article RD_TEST_AFDF00_1 RD_TEST_1DB90D_1 RD_TEST_AFDF00_1 July 26, 2026 Delete Article Edit Article RD_TEST_1DB90D_3 RD_TEST_1DB90D_4 RD_TEST_AFDF00_1 July 26, 2026 Delete Article Edit Article Post Comment There are no comments yet... conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_PHASE_K_CRUD_OWNER RD_TEST_F3F938_1 RD_PHASE_K_CRUD_OWNER July 26, 2026 Delete Article Edit Article RD_TEST_F3F938_3 RD_TEST_F3F938_4 RD_PHASE_K_CRUD_OWNER July 26, 2026 Delete Article Edit Article Post Comment There are no comments yet... conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
@@ -2784,7 +2946,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "a7264f4e63c29386",
+                "valueHash": "2dae499c83c06299",
                 "containsCanary": false
               }
             ],
@@ -2823,6 +2985,26 @@
             "changed": [],
             "softDeleted": [],
             "truncated": false
+          },
+          {
+            "adapter": "supabase",
+            "resource": "articles",
+            "added": [
+              "186347d9ea7673a2"
+            ],
+            "removed": [],
+            "changed": [],
+            "softDeleted": [],
+            "truncated": false
+          },
+          {
+            "adapter": "supabase",
+            "resource": "users",
+            "added": [],
+            "removed": [],
+            "changed": [],
+            "softDeleted": [],
+            "truncated": false
           }
         ],
         "sourceSnapshotErrors": [],
@@ -2836,8 +3018,8 @@
     {
       "id": "RD-004",
       "action": {
-        "id": "615ef8bfaf91",
-        "pageUrl": "http://127.0.0.1:37213/#/editor",
+        "id": "663211a5be23",
+        "pageUrl": "http://127.0.0.1:37223/#/editor",
         "label": "conduit",
         "activation": "click",
         "kind": "navigation",
@@ -2850,7 +3032,7 @@
           "role": "link",
           "accessibleName": "conduit",
           "text": "conduit",
-          "href": "http://127.0.0.1:37213/#/",
+          "href": "http://127.0.0.1:37223/#/",
           "candidates": [
             {
               "strategy": "role",
@@ -2869,7 +3051,7 @@
             {
               "strategy": "href",
               "weight": 72,
-              "value": "http://127.0.0.1:37213/#/"
+              "value": "http://127.0.0.1:37223/#/"
             },
             {
               "strategy": "text",
@@ -2887,31 +3069,31 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T10:58:58.873Z",
-        "durationMs": 2517,
-        "canary": "RD_TEST_84BB18",
+        "startedAt": "2026-07-26T12:15:35.951Z",
+        "durationMs": 2535,
+        "canary": "RD_TEST_278E60",
         "network": [
           {
             "id": "net-1",
             "method": "GET",
-            "url": "http://127.0.0.1:37213/api/articles/feed?limit=3&&offset=0",
+            "url": "http://127.0.0.1:37223/api/articles/feed?limit=3&&offset=0",
             "resourceType": "xhr",
-            "startedAt": 1555,
+            "startedAt": 1557,
             "status": 200,
             "ok": true,
-            "finishedAt": 1561,
+            "finishedAt": 1566,
             "contentType": "application/json",
             "resourceTypeHint": "feed"
           },
           {
             "id": "net-2",
             "method": "GET",
-            "url": "http://127.0.0.1:37213/api/tags",
+            "url": "http://127.0.0.1:37223/api/tags",
             "resourceType": "xhr",
-            "startedAt": 1556,
+            "startedAt": 1558,
             "status": 200,
             "ok": true,
-            "finishedAt": 1560,
+            "finishedAt": 1564,
             "contentType": "application/json",
             "resourceTypeHint": "tags"
           }
@@ -2925,6 +3107,12 @@
         "downloadEvidence": [],
         "uploads": [],
         "popupUrls": [],
+        "visualSuppressions": [
+          {
+            "artifact": "screenshot",
+            "reason": "authenticated-context"
+          }
+        ],
         "locatorResolution": {
           "attempts": [
             {
@@ -2932,14 +3120,14 @@
               "weight": 92,
               "matchCount": 2,
               "visibleCount": 2,
-              "elapsedMs": 7
+              "elapsedMs": 8
             },
             {
               "strategy": "role",
               "weight": 82,
               "matchCount": 2,
               "visibleCount": 2,
-              "elapsedMs": 7
+              "elapsedMs": 8
             },
             {
               "strategy": "href",
@@ -2953,7 +3141,7 @@
               "weight": 60,
               "matchCount": 2,
               "visibleCount": 2,
-              "elapsedMs": 6
+              "elapsedMs": 7
             },
             {
               "strategy": "css",
@@ -2968,10 +3156,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1520,
-          "url": "http://127.0.0.1:37213/#/editor",
+          "at": 1524,
+          "url": "http://127.0.0.1:37223/#/editor",
           "title": "Conduit",
-          "domHash": "25121aa0be44bdb5",
+          "domHash": "c936833dbedd7df2",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -2983,9 +3171,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "e43f8008221f4f9e",
+            "textHash": "d0c4b4fdb77a11e9",
             "visualHash": "b85410fa0ea5a358",
-            "text": "conduit Source code Home New Article RD_TEST_AFDF00_1 Publish Article conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_PHASE_K_CRUD_OWNER Publish Article conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "input",
@@ -3037,7 +3225,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "a7264f4e63c29386",
+                "valueHash": "2dae499c83c06299",
                 "containsCanary": false
               }
             ],
@@ -3048,10 +3236,10 @@
           }
         },
         "beforeAction": {
-          "at": 1529,
-          "url": "http://127.0.0.1:37213/#/editor",
+          "at": 1533,
+          "url": "http://127.0.0.1:37223/#/editor",
           "title": "Conduit",
-          "domHash": "25121aa0be44bdb5",
+          "domHash": "c936833dbedd7df2",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -3063,9 +3251,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "e43f8008221f4f9e",
+            "textHash": "d0c4b4fdb77a11e9",
             "visualHash": "b85410fa0ea5a358",
-            "text": "conduit Source code Home New Article RD_TEST_AFDF00_1 Publish Article conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_PHASE_K_CRUD_OWNER Publish Article conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "input",
@@ -3117,7 +3305,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "a7264f4e63c29386",
+                "valueHash": "2dae499c83c06299",
                 "containsCanary": false
               }
             ],
@@ -3130,10 +3318,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2514,
-          "url": "http://127.0.0.1:37213/#/",
+          "at": 2531,
+          "url": "http://127.0.0.1:37223/#/",
           "title": "Conduit",
-          "domHash": "a2c5dd8fb3c76cc2",
+          "domHash": "09a0c2dcd70a0114",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -3145,9 +3333,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "259817bb48ae635b",
+            "textHash": "b0238cc5ff984bef",
             "visualHash": "72ad38eb67085423",
-            "text": "conduit Source code Home New Article RD_TEST_AFDF00_1 Your Feed Global Feed Articles not available. Popular Tags RD_TEST_1DB90D_4 conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_PHASE_K_CRUD_OWNER Your Feed Global Feed Articles not available. Popular Tags RD_TEST_F3F938_4 conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
@@ -3178,7 +3366,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "a7264f4e63c29386",
+                "valueHash": "2dae499c83c06299",
                 "containsCanary": false
               }
             ],
@@ -3206,8 +3394,8 @@
     {
       "id": "RD-005",
       "action": {
-        "id": "a0147c56db57",
-        "pageUrl": "http://127.0.0.1:37213/",
+        "id": "92446496b665",
+        "pageUrl": "http://127.0.0.1:37223/",
         "label": "conduit",
         "activation": "click",
         "kind": "navigation",
@@ -3220,7 +3408,7 @@
           "role": "link",
           "accessibleName": "conduit",
           "text": "conduit",
-          "href": "http://127.0.0.1:37213/#/",
+          "href": "http://127.0.0.1:37223/#/",
           "candidates": [
             {
               "strategy": "role",
@@ -3239,7 +3427,7 @@
             {
               "strategy": "href",
               "weight": 72,
-              "value": "http://127.0.0.1:37213/#/"
+              "value": "http://127.0.0.1:37223/#/"
             },
             {
               "strategy": "text",
@@ -3257,9 +3445,9 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T10:59:01.426Z",
-        "durationMs": 2519,
-        "canary": "RD_TEST_1B18AC",
+        "startedAt": "2026-07-26T12:15:38.510Z",
+        "durationMs": 2523,
+        "canary": "RD_TEST_81BF70",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -3270,6 +3458,12 @@
         "downloadEvidence": [],
         "uploads": [],
         "popupUrls": [],
+        "visualSuppressions": [
+          {
+            "artifact": "screenshot",
+            "reason": "authenticated-context"
+          }
+        ],
         "locatorResolution": {
           "attempts": [
             {
@@ -3277,7 +3471,7 @@
               "weight": 92,
               "matchCount": 2,
               "visibleCount": 2,
-              "elapsedMs": 7
+              "elapsedMs": 8
             },
             {
               "strategy": "role",
@@ -3313,10 +3507,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1514,
-          "url": "http://127.0.0.1:37213/",
+          "at": 1519,
+          "url": "http://127.0.0.1:37223/",
           "title": "Conduit",
-          "domHash": "a2c5dd8fb3c76cc2",
+          "domHash": "09a0c2dcd70a0114",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -3328,9 +3522,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "259817bb48ae635b",
+            "textHash": "b0238cc5ff984bef",
             "visualHash": "72ad38eb67085423",
-            "text": "conduit Source code Home New Article RD_TEST_AFDF00_1 Your Feed Global Feed Articles not available. Popular Tags RD_TEST_1DB90D_4 conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_PHASE_K_CRUD_OWNER Your Feed Global Feed Articles not available. Popular Tags RD_TEST_F3F938_4 conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
@@ -3361,7 +3555,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "a7264f4e63c29386",
+                "valueHash": "2dae499c83c06299",
                 "containsCanary": false
               }
             ],
@@ -3372,10 +3566,10 @@
           }
         },
         "beforeAction": {
-          "at": 1522,
-          "url": "http://127.0.0.1:37213/",
+          "at": 1527,
+          "url": "http://127.0.0.1:37223/",
           "title": "Conduit",
-          "domHash": "a2c5dd8fb3c76cc2",
+          "domHash": "09a0c2dcd70a0114",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -3387,9 +3581,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "259817bb48ae635b",
+            "textHash": "b0238cc5ff984bef",
             "visualHash": "72ad38eb67085423",
-            "text": "conduit Source code Home New Article RD_TEST_AFDF00_1 Your Feed Global Feed Articles not available. Popular Tags RD_TEST_1DB90D_4 conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_PHASE_K_CRUD_OWNER Your Feed Global Feed Articles not available. Popular Tags RD_TEST_F3F938_4 conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
@@ -3420,7 +3614,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "a7264f4e63c29386",
+                "valueHash": "2dae499c83c06299",
                 "containsCanary": false
               }
             ],
@@ -3433,10 +3627,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2515,
-          "url": "http://127.0.0.1:37213/#/",
+          "at": 2519,
+          "url": "http://127.0.0.1:37223/#/",
           "title": "Conduit",
-          "domHash": "a2c5dd8fb3c76cc2",
+          "domHash": "09a0c2dcd70a0114",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -3448,9 +3642,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "259817bb48ae635b",
+            "textHash": "b0238cc5ff984bef",
             "visualHash": "72ad38eb67085423",
-            "text": "conduit Source code Home New Article RD_TEST_AFDF00_1 Your Feed Global Feed Articles not available. Popular Tags RD_TEST_1DB90D_4 conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_PHASE_K_CRUD_OWNER Your Feed Global Feed Articles not available. Popular Tags RD_TEST_F3F938_4 conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
@@ -3481,7 +3675,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "a7264f4e63c29386",
+                "valueHash": "2dae499c83c06299",
                 "containsCanary": false
               }
             ],
@@ -3509,8 +3703,8 @@
     {
       "id": "RD-006",
       "action": {
-        "id": "63ad14060515",
-        "pageUrl": "http://127.0.0.1:37213/",
+        "id": "3800f03bc706",
+        "pageUrl": "http://127.0.0.1:37223/",
         "label": "Home",
         "activation": "click",
         "kind": "navigation",
@@ -3523,7 +3717,7 @@
           "role": "link",
           "accessibleName": "Home",
           "text": "Home",
-          "href": "http://127.0.0.1:37213/#/",
+          "href": "http://127.0.0.1:37223/#/",
           "candidates": [
             {
               "strategy": "role",
@@ -3542,7 +3736,7 @@
             {
               "strategy": "href",
               "weight": 72,
-              "value": "http://127.0.0.1:37213/#/"
+              "value": "http://127.0.0.1:37223/#/"
             },
             {
               "strategy": "text",
@@ -3560,9 +3754,9 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T10:59:03.972Z",
-        "durationMs": 2496,
-        "canary": "RD_TEST_F68B22",
+        "startedAt": "2026-07-26T12:15:41.061Z",
+        "durationMs": 2517,
+        "canary": "RD_TEST_FBE3AC",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -3573,6 +3767,12 @@
         "downloadEvidence": [],
         "uploads": [],
         "popupUrls": [],
+        "visualSuppressions": [
+          {
+            "artifact": "screenshot",
+            "reason": "authenticated-context"
+          }
+        ],
         "locatorResolution": {
           "attempts": [
             {
@@ -3580,7 +3780,7 @@
               "weight": 92,
               "matchCount": 0,
               "visibleCount": 0,
-              "elapsedMs": 3
+              "elapsedMs": 4
             },
             {
               "strategy": "role",
@@ -3595,10 +3795,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1489,
-          "url": "http://127.0.0.1:37213/",
+          "at": 1510,
+          "url": "http://127.0.0.1:37223/",
           "title": "Conduit",
-          "domHash": "a2c5dd8fb3c76cc2",
+          "domHash": "09a0c2dcd70a0114",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -3610,9 +3810,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "259817bb48ae635b",
+            "textHash": "b0238cc5ff984bef",
             "visualHash": "72ad38eb67085423",
-            "text": "conduit Source code Home New Article RD_TEST_AFDF00_1 Your Feed Global Feed Articles not available. Popular Tags RD_TEST_1DB90D_4 conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_PHASE_K_CRUD_OWNER Your Feed Global Feed Articles not available. Popular Tags RD_TEST_F3F938_4 conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
@@ -3643,7 +3843,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "a7264f4e63c29386",
+                "valueHash": "2dae499c83c06299",
                 "containsCanary": false
               }
             ],
@@ -3654,10 +3854,10 @@
           }
         },
         "beforeAction": {
-          "at": 1499,
-          "url": "http://127.0.0.1:37213/",
+          "at": 1519,
+          "url": "http://127.0.0.1:37223/",
           "title": "Conduit",
-          "domHash": "a2c5dd8fb3c76cc2",
+          "domHash": "09a0c2dcd70a0114",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -3669,9 +3869,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "259817bb48ae635b",
+            "textHash": "b0238cc5ff984bef",
             "visualHash": "72ad38eb67085423",
-            "text": "conduit Source code Home New Article RD_TEST_AFDF00_1 Your Feed Global Feed Articles not available. Popular Tags RD_TEST_1DB90D_4 conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_PHASE_K_CRUD_OWNER Your Feed Global Feed Articles not available. Popular Tags RD_TEST_F3F938_4 conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
@@ -3702,7 +3902,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "a7264f4e63c29386",
+                "valueHash": "2dae499c83c06299",
                 "containsCanary": false
               }
             ],
@@ -3715,10 +3915,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2492,
-          "url": "http://127.0.0.1:37213/#/",
+          "at": 2513,
+          "url": "http://127.0.0.1:37223/#/",
           "title": "Conduit",
-          "domHash": "a2c5dd8fb3c76cc2",
+          "domHash": "09a0c2dcd70a0114",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -3730,9 +3930,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "259817bb48ae635b",
+            "textHash": "b0238cc5ff984bef",
             "visualHash": "72ad38eb67085423",
-            "text": "conduit Source code Home New Article RD_TEST_AFDF00_1 Your Feed Global Feed Articles not available. Popular Tags RD_TEST_1DB90D_4 conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_PHASE_K_CRUD_OWNER Your Feed Global Feed Articles not available. Popular Tags RD_TEST_F3F938_4 conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
@@ -3763,7 +3963,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "a7264f4e63c29386",
+                "valueHash": "2dae499c83c06299",
                 "containsCanary": false
               }
             ],
@@ -3791,8 +3991,8 @@
     {
       "id": "RD-007",
       "action": {
-        "id": "2b6be7d79a5f",
-        "pageUrl": "http://127.0.0.1:37213/",
+        "id": "c88ed7554ce5",
+        "pageUrl": "http://127.0.0.1:37223/",
         "label": "New Article",
         "activation": "click",
         "kind": "navigation",
@@ -3805,7 +4005,7 @@
           "role": "link",
           "accessibleName": "New Article",
           "text": "New Article",
-          "href": "http://127.0.0.1:37213/#/editor",
+          "href": "http://127.0.0.1:37223/#/editor",
           "candidates": [
             {
               "strategy": "role",
@@ -3824,7 +4024,7 @@
             {
               "strategy": "href",
               "weight": 72,
-              "value": "http://127.0.0.1:37213/#/editor"
+              "value": "http://127.0.0.1:37223/#/editor"
             },
             {
               "strategy": "text",
@@ -3842,9 +4042,9 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T10:59:06.496Z",
-        "durationMs": 2495,
-        "canary": "RD_TEST_836648",
+        "startedAt": "2026-07-26T12:15:43.604Z",
+        "durationMs": 2494,
+        "canary": "RD_TEST_BD6E18",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -3855,6 +4055,12 @@
         "downloadEvidence": [],
         "uploads": [],
         "popupUrls": [],
+        "visualSuppressions": [
+          {
+            "artifact": "screenshot",
+            "reason": "authenticated-context"
+          }
+        ],
         "locatorResolution": {
           "attempts": [
             {
@@ -3869,7 +4075,7 @@
               "weight": 82,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 4
+              "elapsedMs": 5
             }
           ],
           "chosenStrategy": "role",
@@ -3877,10 +4083,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1492,
-          "url": "http://127.0.0.1:37213/",
+          "at": 1469,
+          "url": "http://127.0.0.1:37223/",
           "title": "Conduit",
-          "domHash": "a2c5dd8fb3c76cc2",
+          "domHash": "09a0c2dcd70a0114",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -3892,9 +4098,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "259817bb48ae635b",
+            "textHash": "b0238cc5ff984bef",
             "visualHash": "72ad38eb67085423",
-            "text": "conduit Source code Home New Article RD_TEST_AFDF00_1 Your Feed Global Feed Articles not available. Popular Tags RD_TEST_1DB90D_4 conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_PHASE_K_CRUD_OWNER Your Feed Global Feed Articles not available. Popular Tags RD_TEST_F3F938_4 conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
@@ -3925,7 +4131,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "a7264f4e63c29386",
+                "valueHash": "2dae499c83c06299",
                 "containsCanary": false
               }
             ],
@@ -3936,10 +4142,10 @@
           }
         },
         "beforeAction": {
-          "at": 1500,
-          "url": "http://127.0.0.1:37213/",
+          "at": 1482,
+          "url": "http://127.0.0.1:37223/",
           "title": "Conduit",
-          "domHash": "a2c5dd8fb3c76cc2",
+          "domHash": "09a0c2dcd70a0114",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -3951,9 +4157,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "259817bb48ae635b",
+            "textHash": "b0238cc5ff984bef",
             "visualHash": "72ad38eb67085423",
-            "text": "conduit Source code Home New Article RD_TEST_AFDF00_1 Your Feed Global Feed Articles not available. Popular Tags RD_TEST_1DB90D_4 conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_PHASE_K_CRUD_OWNER Your Feed Global Feed Articles not available. Popular Tags RD_TEST_F3F938_4 conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
@@ -3984,7 +4190,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "a7264f4e63c29386",
+                "valueHash": "2dae499c83c06299",
                 "containsCanary": false
               }
             ],
@@ -3997,10 +4203,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2491,
-          "url": "http://127.0.0.1:37213/#/editor",
+          "at": 2488,
+          "url": "http://127.0.0.1:37223/#/editor",
           "title": "Conduit",
-          "domHash": "25121aa0be44bdb5",
+          "domHash": "c936833dbedd7df2",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -4012,9 +4218,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "e43f8008221f4f9e",
+            "textHash": "d0c4b4fdb77a11e9",
             "visualHash": "b85410fa0ea5a358",
-            "text": "conduit Source code Home New Article RD_TEST_AFDF00_1 Publish Article conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_PHASE_K_CRUD_OWNER Publish Article conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "input",
@@ -4066,7 +4272,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "a7264f4e63c29386",
+                "valueHash": "2dae499c83c06299",
                 "containsCanary": false
               }
             ],
@@ -4094,8 +4300,8 @@
     {
       "id": "RD-008",
       "action": {
-        "id": "b6f0b8724ae3",
-        "pageUrl": "http://127.0.0.1:37213/",
+        "id": "d61ab1459de8",
+        "pageUrl": "http://127.0.0.1:37223/",
         "label": "Your Feed",
         "activation": "click",
         "kind": "local",
@@ -4140,19 +4346,19 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T10:59:09.031Z",
-        "durationMs": 2546,
-        "canary": "RD_TEST_B153C4",
+        "startedAt": "2026-07-26T12:15:46.123Z",
+        "durationMs": 2509,
+        "canary": "RD_TEST_442023",
         "network": [
           {
             "id": "net-1",
             "method": "GET",
-            "url": "http://127.0.0.1:37213/api/articles/feed?limit=3&&offset=0",
+            "url": "http://127.0.0.1:37223/api/articles/feed?limit=3&&offset=0",
             "resourceType": "xhr",
-            "startedAt": 1547,
+            "startedAt": 1537,
             "status": 200,
             "ok": true,
-            "finishedAt": 1558,
+            "finishedAt": 1547,
             "contentType": "application/json",
             "resourceTypeHint": "feed"
           }
@@ -4166,6 +4372,12 @@
         "downloadEvidence": [],
         "uploads": [],
         "popupUrls": [],
+        "visualSuppressions": [
+          {
+            "artifact": "screenshot",
+            "reason": "authenticated-context"
+          }
+        ],
         "locatorResolution": {
           "attempts": [
             {
@@ -4173,7 +4385,7 @@
               "weight": 92,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 4
+              "elapsedMs": 5
             }
           ],
           "chosenStrategy": "role",
@@ -4181,10 +4393,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1507,
-          "url": "http://127.0.0.1:37213/",
+          "at": 1504,
+          "url": "http://127.0.0.1:37223/",
           "title": "Conduit",
-          "domHash": "a2c5dd8fb3c76cc2",
+          "domHash": "09a0c2dcd70a0114",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -4196,9 +4408,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "259817bb48ae635b",
+            "textHash": "b0238cc5ff984bef",
             "visualHash": "72ad38eb67085423",
-            "text": "conduit Source code Home New Article RD_TEST_AFDF00_1 Your Feed Global Feed Articles not available. Popular Tags RD_TEST_1DB90D_4 conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_PHASE_K_CRUD_OWNER Your Feed Global Feed Articles not available. Popular Tags RD_TEST_F3F938_4 conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
@@ -4229,7 +4441,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "a7264f4e63c29386",
+                "valueHash": "2dae499c83c06299",
                 "containsCanary": false
               }
             ],
@@ -4240,10 +4452,10 @@
           }
         },
         "beforeAction": {
-          "at": 1516,
-          "url": "http://127.0.0.1:37213/",
+          "at": 1513,
+          "url": "http://127.0.0.1:37223/",
           "title": "Conduit",
-          "domHash": "a2c5dd8fb3c76cc2",
+          "domHash": "09a0c2dcd70a0114",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -4255,9 +4467,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "259817bb48ae635b",
+            "textHash": "b0238cc5ff984bef",
             "visualHash": "72ad38eb67085423",
-            "text": "conduit Source code Home New Article RD_TEST_AFDF00_1 Your Feed Global Feed Articles not available. Popular Tags RD_TEST_1DB90D_4 conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_PHASE_K_CRUD_OWNER Your Feed Global Feed Articles not available. Popular Tags RD_TEST_F3F938_4 conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
@@ -4288,7 +4500,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "a7264f4e63c29386",
+                "valueHash": "2dae499c83c06299",
                 "containsCanary": false
               }
             ],
@@ -4301,10 +4513,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2520,
-          "url": "http://127.0.0.1:37213/",
+          "at": 2506,
+          "url": "http://127.0.0.1:37223/",
           "title": "Conduit",
-          "domHash": "a2c5dd8fb3c76cc2",
+          "domHash": "09a0c2dcd70a0114",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -4316,9 +4528,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "259817bb48ae635b",
+            "textHash": "b0238cc5ff984bef",
             "visualHash": "72ad38eb67085423",
-            "text": "conduit Source code Home New Article RD_TEST_AFDF00_1 Your Feed Global Feed Articles not available. Popular Tags RD_TEST_1DB90D_4 conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_PHASE_K_CRUD_OWNER Your Feed Global Feed Articles not available. Popular Tags RD_TEST_F3F938_4 conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
@@ -4349,7 +4561,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "a7264f4e63c29386",
+                "valueHash": "2dae499c83c06299",
                 "containsCanary": false
               }
             ],
@@ -4359,7 +4571,6 @@
             "indexedDb": []
           }
         },
-        "screenshot": "screenshots/b6f0b8724ae3-after.png",
         "traceSuppression": {
           "artifact": "trace",
           "reason": "secret-detected",
@@ -4378,8 +4589,8 @@
     {
       "id": "RD-009",
       "action": {
-        "id": "98ade3898516",
-        "pageUrl": "http://127.0.0.1:37213/",
+        "id": "a69f66f3ce86",
+        "pageUrl": "http://127.0.0.1:37223/",
         "label": "Global Feed",
         "activation": "click",
         "kind": "local",
@@ -4424,19 +4635,19 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T10:59:11.614Z",
-        "durationMs": 2519,
-        "canary": "RD_TEST_A4CBAB",
+        "startedAt": "2026-07-26T12:15:48.656Z",
+        "durationMs": 2507,
+        "canary": "RD_TEST_4BB6A5",
         "network": [
           {
             "id": "net-1",
             "method": "GET",
-            "url": "http://127.0.0.1:37213/api/articles?limit=3&&offset=0",
+            "url": "http://127.0.0.1:37223/api/articles?limit=3&&offset=0",
             "resourceType": "xhr",
-            "startedAt": 1480,
+            "startedAt": 1469,
             "status": 200,
             "ok": true,
-            "finishedAt": 1491,
+            "finishedAt": 1482,
             "contentType": "application/json",
             "resourceTypeHint": "articles"
           },
@@ -4445,10 +4656,10 @@
             "method": "GET",
             "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3i54rwlxdu.woff2",
             "resourceType": "font",
-            "startedAt": 1505,
+            "startedAt": 1496,
             "status": 200,
             "ok": true,
-            "finishedAt": 1548,
+            "finishedAt": 1541,
             "contentType": "font/woff2",
             "resourceTypeHint": "6xKydSBYKcSV-LCoeQqfX1RYOo3i54rwlxdu.woff2"
           }
@@ -4462,6 +4673,12 @@
         "downloadEvidence": [],
         "uploads": [],
         "popupUrls": [],
+        "visualSuppressions": [
+          {
+            "artifact": "screenshot",
+            "reason": "authenticated-context"
+          }
+        ],
         "locatorResolution": {
           "attempts": [
             {
@@ -4477,10 +4694,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1444,
-          "url": "http://127.0.0.1:37213/",
+          "at": 1443,
+          "url": "http://127.0.0.1:37223/",
           "title": "Conduit",
-          "domHash": "a2c5dd8fb3c76cc2",
+          "domHash": "09a0c2dcd70a0114",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -4492,9 +4709,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "259817bb48ae635b",
+            "textHash": "b0238cc5ff984bef",
             "visualHash": "72ad38eb67085423",
-            "text": "conduit Source code Home New Article RD_TEST_AFDF00_1 Your Feed Global Feed Articles not available. Popular Tags RD_TEST_1DB90D_4 conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_PHASE_K_CRUD_OWNER Your Feed Global Feed Articles not available. Popular Tags RD_TEST_F3F938_4 conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
@@ -4525,7 +4742,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "a7264f4e63c29386",
+                "valueHash": "2dae499c83c06299",
                 "containsCanary": false
               }
             ],
@@ -4537,9 +4754,9 @@
         },
         "beforeAction": {
           "at": 1452,
-          "url": "http://127.0.0.1:37213/",
+          "url": "http://127.0.0.1:37223/",
           "title": "Conduit",
-          "domHash": "a2c5dd8fb3c76cc2",
+          "domHash": "09a0c2dcd70a0114",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -4551,9 +4768,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "259817bb48ae635b",
+            "textHash": "b0238cc5ff984bef",
             "visualHash": "72ad38eb67085423",
-            "text": "conduit Source code Home New Article RD_TEST_AFDF00_1 Your Feed Global Feed Articles not available. Popular Tags RD_TEST_1DB90D_4 conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_PHASE_K_CRUD_OWNER Your Feed Global Feed Articles not available. Popular Tags RD_TEST_F3F938_4 conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
@@ -4584,7 +4801,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "a7264f4e63c29386",
+                "valueHash": "2dae499c83c06299",
                 "containsCanary": false
               }
             ],
@@ -4597,10 +4814,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2514,
-          "url": "http://127.0.0.1:37213/",
+          "at": 2503,
+          "url": "http://127.0.0.1:37223/",
           "title": "Conduit",
-          "domHash": "1833272e3e93cd5f",
+          "domHash": "e4b4be49562e496e",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -4612,9 +4829,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "2e9dec301abdcb4f",
+            "textHash": "3739616a12c17583",
             "visualHash": "805f65e8f4aada8d",
-            "text": "conduit Source code Home New Article RD_TEST_AFDF00_1 Your Feed Global Feed RD_TEST_AFDF00_1 July 26, 2026 ( 0 ) RD_TEST_1DB90D_1 RD_TEST_1DB90D_2 Read more... RD_TEST_1DB90D_4 1 Popular Tags RD_TEST_1DB90D_4 conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_PHASE_K_CRUD_OWNER Your Feed Global Feed RD_PHASE_K_CRUD_OWNER July 26, 2026 ( 0 ) RD_TEST_F3F938_1 RD_TEST_F3F938_2 Read more... RD_TEST_F3F938_4 1 Popular Tags RD_TEST_F3F938_4 conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
@@ -4652,7 +4869,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "a7264f4e63c29386",
+                "valueHash": "2dae499c83c06299",
                 "containsCanary": false
               }
             ],
@@ -4680,8 +4897,8 @@
     {
       "id": "RD-010",
       "action": {
-        "id": "60e12226e19d",
-        "pageUrl": "http://127.0.0.1:37213/",
+        "id": "9d442a70bdcb",
+        "pageUrl": "http://127.0.0.1:37223/",
         "label": "conduit",
         "activation": "click",
         "kind": "navigation",
@@ -4694,7 +4911,7 @@
           "role": "link",
           "accessibleName": "conduit",
           "text": "conduit",
-          "href": "http://127.0.0.1:37213/#/",
+          "href": "http://127.0.0.1:37223/#/",
           "candidates": [
             {
               "strategy": "role",
@@ -4713,7 +4930,7 @@
             {
               "strategy": "href",
               "weight": 72,
-              "value": "http://127.0.0.1:37213/#/"
+              "value": "http://127.0.0.1:37223/#/"
             },
             {
               "strategy": "text",
@@ -4731,9 +4948,9 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T10:59:14.175Z",
-        "durationMs": 2474,
-        "canary": "RD_TEST_A94CD5",
+        "startedAt": "2026-07-26T12:15:51.187Z",
+        "durationMs": 2516,
+        "canary": "RD_TEST_C7F261",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -4744,6 +4961,12 @@
         "downloadEvidence": [],
         "uploads": [],
         "popupUrls": [],
+        "visualSuppressions": [
+          {
+            "artifact": "screenshot",
+            "reason": "authenticated-context"
+          }
+        ],
         "locatorResolution": {
           "attempts": [
             {
@@ -4751,7 +4974,7 @@
               "weight": 92,
               "matchCount": 2,
               "visibleCount": 2,
-              "elapsedMs": 8
+              "elapsedMs": 7
             },
             {
               "strategy": "role",
@@ -4772,7 +4995,7 @@
               "weight": 60,
               "matchCount": 2,
               "visibleCount": 2,
-              "elapsedMs": 6
+              "elapsedMs": 7
             },
             {
               "strategy": "css",
@@ -4787,10 +5010,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1494,
-          "url": "http://127.0.0.1:37213/",
+          "at": 1506,
+          "url": "http://127.0.0.1:37223/",
           "title": "Conduit",
-          "domHash": "a2c5dd8fb3c76cc2",
+          "domHash": "09a0c2dcd70a0114",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -4802,9 +5025,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "259817bb48ae635b",
+            "textHash": "b0238cc5ff984bef",
             "visualHash": "72ad38eb67085423",
-            "text": "conduit Source code Home New Article RD_TEST_AFDF00_1 Your Feed Global Feed Articles not available. Popular Tags RD_TEST_1DB90D_4 conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_PHASE_K_CRUD_OWNER Your Feed Global Feed Articles not available. Popular Tags RD_TEST_F3F938_4 conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
@@ -4835,7 +5058,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "a7264f4e63c29386",
+                "valueHash": "2dae499c83c06299",
                 "containsCanary": false
               }
             ],
@@ -4846,10 +5069,10 @@
           }
         },
         "beforeAction": {
-          "at": 1502,
-          "url": "http://127.0.0.1:37213/",
+          "at": 1515,
+          "url": "http://127.0.0.1:37223/",
           "title": "Conduit",
-          "domHash": "a2c5dd8fb3c76cc2",
+          "domHash": "09a0c2dcd70a0114",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -4861,9 +5084,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "259817bb48ae635b",
+            "textHash": "b0238cc5ff984bef",
             "visualHash": "72ad38eb67085423",
-            "text": "conduit Source code Home New Article RD_TEST_AFDF00_1 Your Feed Global Feed Articles not available. Popular Tags RD_TEST_1DB90D_4 conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_PHASE_K_CRUD_OWNER Your Feed Global Feed Articles not available. Popular Tags RD_TEST_F3F938_4 conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
@@ -4894,7 +5117,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "a7264f4e63c29386",
+                "valueHash": "2dae499c83c06299",
                 "containsCanary": false
               }
             ],
@@ -4907,10 +5130,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2470,
-          "url": "http://127.0.0.1:37213/#/",
+          "at": 2512,
+          "url": "http://127.0.0.1:37223/#/",
           "title": "Conduit",
-          "domHash": "a2c5dd8fb3c76cc2",
+          "domHash": "09a0c2dcd70a0114",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -4922,9 +5145,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "259817bb48ae635b",
+            "textHash": "b0238cc5ff984bef",
             "visualHash": "72ad38eb67085423",
-            "text": "conduit Source code Home New Article RD_TEST_AFDF00_1 Your Feed Global Feed Articles not available. Popular Tags RD_TEST_1DB90D_4 conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_PHASE_K_CRUD_OWNER Your Feed Global Feed Articles not available. Popular Tags RD_TEST_F3F938_4 conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
@@ -4955,7 +5178,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "a7264f4e63c29386",
+                "valueHash": "2dae499c83c06299",
                 "containsCanary": false
               }
             ],
@@ -4983,8 +5206,8 @@
     {
       "id": "RD-011",
       "action": {
-        "id": "cf7f7e055d50",
-        "pageUrl": "http://127.0.0.1:37213/#/editor",
+        "id": "d26ff438143d",
+        "pageUrl": "http://127.0.0.1:37223/#/editor",
         "label": "Source code",
         "activation": "click",
         "kind": "navigation",
@@ -5056,8 +5279,8 @@
     {
       "id": "RD-012",
       "action": {
-        "id": "38dd0a454d48",
-        "pageUrl": "http://127.0.0.1:37213/#/editor",
+        "id": "f33e20a1aa27",
+        "pageUrl": "http://127.0.0.1:37223/#/editor",
         "label": "New Article",
         "activation": "click",
         "kind": "navigation",
@@ -5070,7 +5293,7 @@
           "role": "link",
           "accessibleName": "New Article",
           "text": "New Article",
-          "href": "http://127.0.0.1:37213/#/editor",
+          "href": "http://127.0.0.1:37223/#/editor",
           "candidates": [
             {
               "strategy": "role",
@@ -5089,7 +5312,7 @@
             {
               "strategy": "href",
               "weight": 72,
-              "value": "http://127.0.0.1:37213/#/editor"
+              "value": "http://127.0.0.1:37223/#/editor"
             },
             {
               "strategy": "text",
@@ -5129,8 +5352,8 @@
     {
       "id": "RD-013",
       "action": {
-        "id": "955bb7c4ae7a",
-        "pageUrl": "http://127.0.0.1:37213/#/editor",
+        "id": "7c82bc9fd8ce",
+        "pageUrl": "http://127.0.0.1:37223/#/editor",
         "label": "Thinkster",
         "activation": "click",
         "kind": "navigation",
@@ -5202,8 +5425,8 @@
     {
       "id": "RD-014",
       "action": {
-        "id": "865611a40b7e",
-        "pageUrl": "http://127.0.0.1:37213/#/editor",
+        "id": "ab9bf2cd0dfb",
+        "pageUrl": "http://127.0.0.1:37223/#/editor",
         "label": "Source code",
         "activation": "click",
         "kind": "navigation",
@@ -5275,8 +5498,8 @@
     {
       "id": "RD-015",
       "action": {
-        "id": "36a91b6a1f72",
-        "pageUrl": "http://127.0.0.1:37213/",
+        "id": "dff655920243",
+        "pageUrl": "http://127.0.0.1:37223/",
         "label": "Source code",
         "activation": "click",
         "kind": "navigation",
@@ -5348,8 +5571,8 @@
     {
       "id": "RD-016",
       "action": {
-        "id": "731b624cc34c",
-        "pageUrl": "http://127.0.0.1:37213/",
+        "id": "d0d3611360e0",
+        "pageUrl": "http://127.0.0.1:37223/",
         "label": "Thinkster",
         "activation": "click",
         "kind": "navigation",
@@ -5421,8 +5644,8 @@
     {
       "id": "RD-017",
       "action": {
-        "id": "c5063859c1ad",
-        "pageUrl": "http://127.0.0.1:37213/",
+        "id": "aece598f17f5",
+        "pageUrl": "http://127.0.0.1:37223/",
         "label": "Source code",
         "activation": "click",
         "kind": "navigation",
@@ -5494,9 +5717,9 @@
   ],
   "environment": {
     "status": "VALID",
-    "checkedAt": "2026-07-26T10:58:41.208Z",
-    "durationMs": 2667,
-    "targetUrl": "http://127.0.0.1:37213/#/editor",
+    "checkedAt": "2026-07-26T12:15:18.289Z",
+    "durationMs": 2628,
+    "targetUrl": "http://127.0.0.1:37223/#/editor",
     "mainDocument": {
       "status": 200,
       "contentType": "text/html"
@@ -5508,7 +5731,7 @@
       "failed": 0
     },
     "render": {
-      "bodyTextLength": 171,
+      "bodyTextLength": 176,
       "visibleElements": 44,
       "interactiveElements": 12,
       "ready": true

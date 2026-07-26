@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-07-26T11:04:00.000Z",
+  "generatedAt": "2026-07-26T12:25:00.000Z",
   "adapter": "postgresql",
-  "database": "conduit_phase_j",
+  "database": "conduit_phase_k",
   "resources": [
     {
       "resource": "signup-scan-user",
@@ -13,11 +13,27 @@
       "resource": "crud-qualification-articles",
       "status": "cleaned",
       "cleanupKey": "server-generated-primary-key"
+    },
+    {
+      "resource": "qualification-tags",
+      "status": "cleaned",
+      "cleanupKey": "canary-prefix"
     }
   ],
-  "deletedRows": 2,
+  "deletedRows": 4,
   "remainingQualificationUsers": 0,
   "remainingQualificationArticles": 0,
+  "remainingQualificationComments": 0,
+  "remainingQualificationTags": 0,
+  "totalUsersAfterCleanup": 5,
+  "totalRowsAfterCleanup": {
+    "articles": 0,
+    "comments": 0,
+    "tags": 0,
+    "favorites": 0,
+    "followers": 0,
+    "tagList": 0
+  },
   "transaction": "read-write",
   "scope": "disposable-local-qualification-database"
 }

@@ -1,4 +1,4 @@
-import type { TraceSuppression } from "./release/artifacts.js";
+import type { TraceSuppression, VisualArtifactSuppression } from "./release/artifacts.js";
 
 export type ActionKind = "navigation" | "local" | "mutation" | "external";
 export type ActionIntent =
@@ -400,6 +400,7 @@ export interface ExecutionEvidence {
   refreshScreenshot?: string;
   trace?: string;
   traceSuppression?: TraceSuppression;
+  visualSuppressions?: VisualArtifactSuppression[];
   video?: string;
   snapshotIndex?: string;
   executionError?: string;

@@ -63,6 +63,12 @@ function findingTimeline(finding: Finding): string {
       text: `Trace suppressed by secret-safety inspection (${evidence.traceSuppression.reason}; ${evidence.traceSuppression.findingKinds.join(", ")}).`,
     });
   }
+  for (const suppression of evidence.visualSuppressions ?? []) {
+    items.push({
+      at: evidence.durationMs,
+      text: `${suppression.artifact === "screenshot" ? "Screenshot" : "Video"} suppressed by visual-privacy policy (${suppression.reason}).`,
+    });
+  }
   for (const interaction of evidence.preparedInteractions ?? []) items.push({ at: 0, text: `Prepared interaction: ${interaction}` });
   return items
     .sort((a, b) => a.at - b.at)

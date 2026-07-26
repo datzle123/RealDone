@@ -452,8 +452,10 @@ try {
   assert.equal(cliSummary.verdicts.BROWSER_LOCAL, 1);
   const cliReportNames = await readdir(path.join(outputRoot, "cli-scan"), { withFileTypes: true });
   const cliReportDirectory = path.join(outputRoot, "cli-scan", cliReportNames.find((entry) => entry.isDirectory()).name);
+  const cliReport = JSON.parse(await readFile(path.join(cliReportDirectory, "scan.json"), "utf8"));
   assert.ok((await readdir(path.join(cliReportDirectory, "traces"))).length > 0);
   assert.ok((await readdir(path.join(cliReportDirectory, "videos"))).length > 0);
+  assert.ok(cliReport.findings.some((finding) => finding.evidence.screenshot));
   const failureTrace = await runScan({
     ...scan,
     targetUrl: `${fixture.url}/fake-create`,
@@ -488,14 +490,23 @@ try {
     deep: false,
     trace: true,
     traceOnFailure: false,
+    video: true,
   });
   const secretTraceFinding = secretTrace.report.findings.find((finding) => finding.action.label.includes("Login"));
   assert.equal(secretTraceFinding?.verdict, "CONTRADICTORY");
   assert.equal(secretTraceFinding?.evidence.trace, undefined);
   assert.equal(secretTraceFinding?.evidence.traceSuppression?.reason, "secret-detected");
   assert.ok(secretTraceFinding?.evidence.traceSuppression?.findingKinds.includes("exact-secret"));
+  assert.equal(secretTraceFinding?.evidence.screenshot, undefined);
+  assert.equal(secretTraceFinding?.evidence.refreshScreenshot, undefined);
+  assert.equal(secretTraceFinding?.evidence.video, undefined);
+  assert.ok(secretTraceFinding?.evidence.visualSuppressions?.some((item) => item.artifact === "screenshot" && item.reason === "sensitive-input"));
+  assert.ok(secretTraceFinding?.evidence.visualSuppressions?.some((item) => item.artifact === "video" && item.reason === "sensitive-input"));
   assert.equal((await readdir(path.join(secretTrace.reportDirectory, "traces"))).length, 0);
+  assert.equal((await readdir(path.join(secretTrace.reportDirectory, "screenshots"))).length, 0);
+  assert.equal((await readdir(path.join(secretTrace.reportDirectory, "videos"))).length, 0);
   assert.match(await readFile(path.join(secretTrace.reportDirectory, "report.html"), "utf8"), /Trace suppressed by secret-safety inspection/);
+  assert.match(await readFile(path.join(secretTrace.reportDirectory, "report.html"), "utf8"), /visual-privacy policy/);
   const selectorFinding = result.report.findings.find((finding) => finding.action.label.includes("Toggle resilient"));
   assert.equal(selectorFinding?.evidence.locatorResolution?.chosenStrategy, "role");
   const cleanupDryRun = await runCleanup(result.reportDirectory, { confirm: false, allowHosts: [], retries: 1 });
@@ -549,10 +560,14 @@ try {
     deep: false,
     trace: true,
     traceOnFailure: false,
+    video: true,
   });
   assert.equal(authenticatedTraceScan.report.findings[0]?.evidence.trace, undefined);
   assert.equal(authenticatedTraceScan.report.findings[0]?.evidence.traceSuppression?.reason, "secret-detected");
   assert.ok(authenticatedTraceScan.report.findings[0]?.evidence.traceSuppression?.findingKinds.includes("exact-secret"));
+  assert.equal(authenticatedTraceScan.report.findings[0]?.evidence.video, undefined);
+  assert.ok(authenticatedTraceScan.report.findings[0]?.evidence.visualSuppressions?.some((item) => item.artifact === "screenshot" && item.reason === "authenticated-context"));
+  assert.ok(authenticatedTraceScan.report.findings[0]?.evidence.visualSuppressions?.some((item) => item.artifact === "video" && item.reason === "authenticated-context"));
   const recorderSecret = "RD-RECORDER-SECRET-42";
   const secretRecording = await recordFlow(
     {
@@ -592,6 +607,7 @@ try {
       allowExternal: false,
       allowHosts: [],
       trace: true,
+      video: true,
       ...(process.env.REALDONE_BROWSER_PATH ? { executablePath: process.env.REALDONE_BROWSER_PATH } : {}),
     });
   } finally {
@@ -602,8 +618,13 @@ try {
   assert.equal(secretTraceVerification.verification.artifacts?.traces.length ?? 0, 0);
   assert.ok((secretTraceVerification.verification.artifacts?.traceSuppressions?.length ?? 0) > 0);
   assert.ok(secretTraceVerification.verification.artifacts.traceSuppressions.some((item) => item.reason === "secret-detected"));
+  assert.equal(secretTraceVerification.verification.artifacts?.videos.length ?? 0, 0);
+  assert.ok(secretTraceVerification.verification.artifacts?.visualSuppressions?.some((item) => item.artifact === "screenshot" && item.reason === "sensitive-input"));
+  assert.ok(secretTraceVerification.verification.artifacts?.visualSuppressions?.some((item) => item.artifact === "video" && item.reason === "sensitive-input"));
   assert.equal((await readdir(path.join(secretTraceVerification.outputDirectory, "traces"))).length, 0);
+  assert.equal((await readdir(path.join(secretTraceVerification.outputDirectory, "videos"))).length, 0);
   assert.match(await readFile(path.join(secretTraceVerification.outputDirectory, "report.html"), "utf8"), /Trace suppressed by secret-safety inspection/);
+  assert.match(await readFile(path.join(secretTraceVerification.outputDirectory, "report.html"), "utf8"), /visual-privacy policy/);
   const cspRecording = await recordFlow(
     {
       targetUrl: `${fixture.url}/recorder-csp`,
@@ -665,11 +686,14 @@ try {
     allowExternal: true,
     allowHosts: [],
     trace: true,
+    video: true,
     ...(process.env.REALDONE_BROWSER_PATH ? { executablePath: process.env.REALDONE_BROWSER_PATH } : {}),
   });
   delete process.env.REALDONE_UPLOAD_RECEIPT_FILE;
   assert.equal(complexVerification.verification.passed, true);
   assert.ok((complexVerification.verification.artifacts?.traces.length ?? 0) > 0);
+  assert.ok((complexVerification.verification.artifacts?.videos.length ?? 0) > 0);
+  assert.equal(complexVerification.verification.artifacts?.visualSuppressions?.length ?? 0, 0);
   recording.contract.roles = {
     observer: { description: "Independent observer", authState: { path: "auth.json" } },
   };
@@ -883,7 +907,9 @@ try {
   assert.equal(verification.verification.deep, true);
   assert.equal(verification.verification.artifacts?.traces.length ?? 0, 0);
   assert.ok((verification.verification.artifacts?.traceSuppressions?.length ?? 0) > 0);
-  assert.ok((verification.verification.artifacts?.videos.length ?? 0) > 0);
+  assert.equal(verification.verification.artifacts?.videos.length ?? 0, 0);
+  assert.ok(verification.verification.artifacts?.visualSuppressions?.some((item) => item.artifact === "screenshot" && item.reason === "authenticated-context"));
+  assert.ok(verification.verification.artifacts?.visualSuppressions?.some((item) => item.artifact === "video" && item.reason === "authenticated-context"));
   for (const artifact of [
     ...(verification.verification.artifacts?.traces ?? []),
     ...(verification.verification.artifacts?.videos ?? []),

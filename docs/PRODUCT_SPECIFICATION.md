@@ -660,6 +660,8 @@ Baseline
 
 Mỗi Playwright trace chỉ được liên kết vào evidence sau khi ZIP vừa tạo đã qua kiểm tra secret có giới hạn. Phép kiểm tra phải gồm cả sensitive field được điền, `secretEnv`, opaque cookie/token trong Playwright `storageState` đã được cấp, và các pattern credential tổng quát. Nếu phát hiện secret, ZIP không đọc được, hoặc vượt giới hạn kiểm tra, RealDone phải xóa trace theo hướng fail-closed, không công bố đường dẫn đã bị loại, và chỉ ghi metadata lý do không chứa giá trị hay fingerprint của secret. Quy tắc này áp dụng giống nhau cho scan tự động, contract verification, browser matrix, CI và MCP.
 
+PNG screenshot và WebM video là binary artifact nên text secret scanner không thể chứng minh nội dung render bên trong là an toàn. Khi automatic action có field nhạy cảm đã biết, hoặc browser context dùng `storageState`/auth state, RealDone không được tạo standalone screenshot, trace-embedded screenshot hay video cho context đó. Contract context có `secretEnv` hoặc auth state cũng phải chặn trace screenshot và video trước khi recording bắt đầu. Report chỉ được ghi additive suppression metadata gồm loại artifact và lý do hữu hạn, không chứa giá trị, fingerprint, selector hay đường dẫn artifact đã bị chặn. Automatic scan và contract không nhạy cảm phải giữ screenshot/video control để tránh biến privacy gate thành việc vô hiệu hóa toàn bộ visual evidence.
+
 ---
 
 # 13. State Snapshot Engine
@@ -1112,6 +1114,7 @@ Report phải phân biệt:
 * regression;
 * expected change.
 * trace đã bị loại bởi kiểm tra secret, tách biệt với việc không bật trace hoặc xóa passing trace theo `--trace-on-failure`.
+* screenshot/video đã bị chặn bởi visual-privacy policy, tách biệt với việc người dùng không bật video hoặc action không cần screenshot.
 
 ---
 
@@ -1217,6 +1220,8 @@ RD_TEST_<timestamp>_<random>
 Cleanup ledger phải ghi mọi resource được tạo.
 
 Trace là artifact nhạy cảm: redaction trong JSON/DOM không đủ để chứng minh ZIP Playwright an toàn. Mọi trace được giữ lại phải qua kiểm tra bounded ngay sau khi đóng trace; trace không kiểm tra được hoặc có secret phải bị xóa trước khi report được ghi.
+
+Screenshot/video cũng là artifact nhạy cảm nhưng không có text-inspection gate đáng tin cậy. RealDone phải fail closed trước capture đối với known-sensitive input, `secretEnv` và authenticated context; không được tạo binary rồi chỉ dựa vào aggregate scanner vốn bỏ qua định dạng binary.
 
 ---
 
@@ -1359,7 +1364,7 @@ Một release chỉ được phát hành khi:
 11. Environment health gate pass.
 12. Cross-platform smoke pass.
 13. Report schema backward-compatible.
-14. Không có secret trong artifact; trace bị phát hiện không an toàn hoặc không kiểm tra được phải bị xóa và không được liên kết trong report.
+14. Không có secret trong artifact; trace bị phát hiện không an toàn hoặc không kiểm tra được phải bị xóa và không được liên kết trong report; screenshot/video của known-sensitive hoặc authenticated context phải bị chặn trước capture và chỉ để lại value-free suppression metadata.
 15. Case study bên ngoài không regression nghiêm trọng.
 
 Không được release chỉ vì:

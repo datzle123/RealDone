@@ -2,7 +2,7 @@
 
 This matrix maps RealDone's public behavior to an executable release gate. A feature is not marked complete merely because an API or type exists; the gate must exercise its observable result or a fail-closed boundary.
 
-This is the executable matrix for the shipped product, not a product-status ledger. The normative scope and 15 full-product release gates live in [`PRODUCT_SPECIFICATION.md`](PRODUCT_SPECIFICATION.md); [`PRODUCT_STATUS.md`](PRODUCT_STATUS.md) is the only area-completeness ledger. Specification §32 is complete because every status row is `IMPLEMENTED`; current main fingerprint `f3f65840…` passed the full matrix with signed provenance in hosted run `30195945498`, not merely because an individual phase gate passed.
+This is the executable matrix for the shipped product, not a product-status ledger. The normative scope and 15 full-product release gates live in [`PRODUCT_SPECIFICATION.md`](PRODUCT_SPECIFICATION.md); [`PRODUCT_STATUS.md`](PRODUCT_STATUS.md) is the only area-completeness ledger. Specification §32 is complete because every status row is `IMPLEMENTED`; current main fingerprint `0b39d542…` passed the full matrix with signed provenance in hosted run `30200299159`, not merely because an individual phase gate passed.
 
 | Capability | Runtime evidence | Automated gate |
 | --- | --- | --- |
@@ -21,6 +21,7 @@ This is the executable matrix for the shipped product, not a product-status ledg
 | Evidence reports | HTML, scan/summary/finding/environment JSON, screenshots, traces/videos, cleanup ledger, reproductions, and per-finding network/snapshot/console/WebSocket/upload/download/contract JSON | artifact existence and timeline checks in browser smoke |
 | Trace and video | Portable Playwright trace ZIP and browser video linked from reports | opt-in CLI and contract smoke |
 | Secret-safe trace retention | Every newly closed scan/contract trace is inspected before linkage; unsafe or unscannable ZIPs are deleted and only value-free suppression metadata remains | direct ZIP safe/secret/invalid controls plus real-browser automatic-scan and recorded-contract sensitive-field controls; aggregate RG14 scan must remain green |
+| Private visual retention | Screenshot/video capture is blocked before binary creation for known-sensitive inputs, `secretEnv` and authenticated contexts, while safe controls retain visual evidence | real-browser automatic sensitive/auth-state broken cases, recorded-contract `secretEnv` case, unauthenticated scan/contract screenshot-video controls, schema and aggregate RG14 gates |
 | Replay and cleanup | Fresh execution distinguishes reproduced, changed, environment-changed, target-missing, and uncertain outcomes; provider-backed reproductions require fresh exact causal provider proof; cleanup is idempotent and benchmark-gated | five-outcome browser smoke, provider broken/control replay, benchmark replay, and cleanup smoke |
 | Flow recording | Human-driven navigation/click/fill/select/check/keypress/upload/rich-text/drag interactions become a schema-valid contract plus masked rrweb evidence | complex recorder browser smoke and real Conduit login recording |
 | Recorded verification | Semantic source/target steps and request/status/text/persistence/popup/download assertions run deterministically | complex contract browser smoke and generated Playwright execution |

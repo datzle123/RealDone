@@ -4,7 +4,7 @@ import type { SourceCleanupTarget, SourceEvidence, SourceExpectation } from "../
 import type { BrowserName } from "../browser/runtime.js";
 import type { ProviderEvidence, ProviderExpectation } from "../providers/types.js";
 import type { PerformanceEvaluation } from "../performance/budget.js";
-import type { TraceSuppression } from "../release/artifacts.js";
+import type { TraceSuppression, VisualArtifactSuppression } from "../release/artifacts.js";
 import type { EvidenceLevel, LocatorResolution, PersistenceScope, SemanticFingerprint } from "../types.js";
 
 export type ContractStepType = "navigate" | "click" | "fill" | "check" | "select" | "press" | "upload" | "richtext" | "drag";
@@ -120,7 +120,12 @@ export interface ContractVerification {
   finishedAt: string;
   passed: boolean;
   performance?: PerformanceEvaluation;
-  artifacts?: { traces: string[]; videos: string[]; traceSuppressions?: TraceSuppression[] };
+  artifacts?: {
+    traces: string[];
+    videos: string[];
+    traceSuppressions?: TraceSuppression[];
+    visualSuppressions?: VisualArtifactSuppression[];
+  };
   steps: StepVerification[];
 }
 
