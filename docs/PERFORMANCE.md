@@ -2,6 +2,8 @@
 
 Quick scan remains intentionally light: one Chromium worker, no provider/database adapter, no extra role, and no trace or video unless explicitly requested.
 
+Managed project startup has a separate 30-second health-check ceiling for CLI/MCP and returns as soon as the app is ready. This protects slower package-manager startup without spending 30 seconds on every scan or weakening the independent browser render, action, and global budgets.
+
 `--deep` opens one additional browser context per executed mutation to confirm persistence scope. Keep it opt-in for important flows or scheduled audits rather than paying that cost in every quick scan.
 
 `--trace` records Playwright snapshots/screenshots and `--video` records the browser viewport. Both add I/O, storage, and post-processing work; use them for diagnosis or release evidence rather than routine scans. Every newly closed trace receives one bounded ZIP secret inspection before it can be linked; unsafe, invalid, oversized, or over-expanded traces are deleted fail-closed. Screenshot/video recording is not started for known-sensitive or authenticated contexts because binary inspection cannot prove rendered content safe. `--trace-on-failure` then deletes safe passing traces, retaining portable ZIP evidence only for findings or failed contract verification.

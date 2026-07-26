@@ -6,6 +6,7 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 
 ### Added
 
+- Fresh Phase L qualification at fingerprint `3663ff0c…` across TodoMVC, Actual Budget, Conduit SQLite/PostgreSQL 17/Supabase Data API and Pocket Ledger, including PostgreSQL CRUD cleanup, authenticated Level 7 visual suppression and a new Codex RD901 regression/repair cycle.
 - Pre-capture visual privacy for automatic scans and contract/role verification: known-sensitive inputs, `secretEnv` and auth-state contexts now suppress screenshot/video binaries while safe controls retain them, with additive value-free report metadata.
 - Fresh Phase K qualification at fingerprint `4625a9cc…` across TodoMVC, Actual Budget, Conduit SQLite/PostgreSQL 17/Supabase Data API and Pocket Ledger, including PostgreSQL CRUD cleanup, 6/6 visible Pocket Ledger actions, Level 7 roles and a new Codex MCP RD901 regression/repair cycle.
 - Fail-closed per-trace retention for automatic scans and contract/MCP verification: bounded ZIP inspection now checks generated sensitive fields, contract `secretEnv`, opaque Playwright auth-state cookies/tokens and generic credential patterns before report linkage, with additive value-free suppression metadata for deleted unsafe or unscannable traces.
@@ -19,6 +20,7 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 
 ### Fixed
 
+- MCP and CLI managed scans now use a dedicated configurable startup-health timeout (30 seconds by default), emit bounded process-state/PID/restart diagnostics, and exercise delayed startup plus dynamic-port cleanup instead of relying on a fixed CI port and a 10-second shared render budget.
 - Playwright traces containing known sensitive field values, generic credential/token material, invalid ZIP data, or bounded-inspection limit failures are removed immediately instead of surviving until the aggregate release artifact gate.
 - Report timelines and environment summaries now render arrows and separators as UTF-8 instead of mojibake.
 

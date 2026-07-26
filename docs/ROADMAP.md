@@ -179,3 +179,17 @@ Gate:
 - Typecheck, unit, real-browser, audit, package, schema, cleanup, fresh real-project and hosted 15/15 gates pass without weakening RG14.
 
 Fingerprint `4625a9cc…` has fresh repository-bound TodoMVC, Actual Budget, Conduit SQLite, Conduit PostgreSQL 17 + Supabase Data API, PostgreSQL CRUD and Pocket Ledger runs. Pocket Ledger verified 6/6 visible actions, Level 7 roles, authenticated visual suppression and a real Codex MCP baseline → RD901 regression → repair cycle. Local check (142 pass, 2 expected service-dependent skips), audit, full Chromium smoke, pack and installed-tarball smoke passed. PR run `30202575079` and main run [`30203185815`](https://github.com/datzle123/RealDone/actions/runs/30203185815) passed 15/15 across Linux, macOS and Windows; Windows Node 22 required one managed-runtime startup retry in both runs. GitHub signed the main aggregate for merge `ca9e9db`, and `gh attestation verify` accepted both artifacts.
+
+## Phase L — deterministic managed-runtime readiness (release candidate)
+
+Contributes evidence to: §6–7, §29, §31–32.
+
+Gate:
+
+- CLI and MCP expose a dedicated bounded managed-startup timeout, defaulting to 30 seconds independently of page-render/action timeouts and returning immediately once health passes.
+- Failure diagnostics contain only redacted runtime state, PID/restart counters and bounded recent logs; timed-out process trees are stopped before the command returns.
+- A real MCP no-URL broken case with a 1-second budget times out and leaves no listener; the same intentionally delayed app passes with the default budget, scans in Chromium and is cleaned up.
+- Smoke ports are allocated dynamically instead of assuming a shared fixed port, and runtime unit controls cover invalid timeout configuration plus delayed broken/correct startup.
+- Typecheck, unit, browser, audit, package, fresh fingerprint-bound real-project and hosted 15/15 gates pass across Linux, macOS and Windows without retrying a product defect.
+
+Candidate fingerprint `3663ff0c…` adds the CLI/MCP option, managed-scan boundary, process diagnostics, dynamic-port smoke and delayed broken/control coverage. Local check (144 pass, 2 expected service-dependent skips), audit, full Chromium smoke, pack and installed-tarball smoke passed. Fresh TodoMVC `20260726T134853Z-47e8`, Actual Budget `20260726T135032Z-94f7`, Conduit SQLite `20260726T140120Z-f665`, Conduit PostgreSQL + Supabase `20260726T140645Z-88ef`, Pocket Ledger `20260726T135405Z-d811`, PostgreSQL CRUD/cleanup, Level 7 roles and Codex regression/repair artifacts are SHA-256-bound and validate with no artifact secret findings. Hosted 15/15 and signed main evidence remain pending.
