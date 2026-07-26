@@ -1,9 +1,9 @@
 {
   "schemaVersion": "1.0",
-  "scanId": "20260726T140645Z-88ef",
+  "scanId": "20260726T162645Z-58b4",
   "targetUrl": "http://127.0.0.1:37233/",
-  "startedAt": "2026-07-26T14:06:45.355Z",
-  "finishedAt": "2026-07-26T14:07:47.069Z",
+  "startedAt": "2026-07-26T16:26:45.548Z",
+  "finishedAt": "2026-07-26T16:27:47.224Z",
   "options": {
     "maxPages": 10,
     "maxActions": 100,
@@ -1594,9 +1594,9 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T14:06:52.676Z",
-        "durationMs": 2530,
-        "canary": "RD_TEST_C4FA76",
+        "startedAt": "2026-07-26T16:26:52.918Z",
+        "durationMs": 2518,
+        "canary": "RD_TEST_A881C8",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -1621,7 +1621,7 @@
               "weight": 82,
               "matchCount": 2,
               "visibleCount": 2,
-              "elapsedMs": 7
+              "elapsedMs": 6
             },
             {
               "strategy": "href",
@@ -1642,7 +1642,7 @@
               "weight": 35,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 5
+              "elapsedMs": 4
             }
           ],
           "chosenStrategy": "css",
@@ -1650,7 +1650,7 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1517,
+          "at": 1498,
           "url": "http://127.0.0.1:37233/",
           "title": "Conduit",
           "domHash": "3c44d4d1ff59317a",
@@ -1689,7 +1689,7 @@
           }
         },
         "beforeAction": {
-          "at": 1528,
+          "at": 1507,
           "url": "http://127.0.0.1:37233/",
           "title": "Conduit",
           "domHash": "3c44d4d1ff59317a",
@@ -1730,7 +1730,7 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2525,
+          "at": 2513,
           "url": "http://127.0.0.1:37233/#/",
           "title": "Conduit",
           "domHash": "3c44d4d1ff59317a",
@@ -1830,9 +1830,9 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T14:06:55.253Z",
-        "durationMs": 2502,
-        "canary": "RD_TEST_335CCD",
+        "startedAt": "2026-07-26T16:26:55.489Z",
+        "durationMs": 2427,
+        "canary": "RD_TEST_FED341",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -1865,7 +1865,7 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1489,
+          "at": 1410,
           "url": "http://127.0.0.1:37233/",
           "title": "Conduit",
           "domHash": "3c44d4d1ff59317a",
@@ -1904,7 +1904,7 @@
           }
         },
         "beforeAction": {
-          "at": 1497,
+          "at": 1419,
           "url": "http://127.0.0.1:37233/",
           "title": "Conduit",
           "domHash": "3c44d4d1ff59317a",
@@ -1945,7 +1945,7 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2498,
+          "at": 2423,
           "url": "http://127.0.0.1:37233/#/",
           "title": "Conduit",
           "domHash": "3c44d4d1ff59317a",
@@ -2045,9 +2045,9 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T14:06:57.786Z",
-        "durationMs": 2448,
-        "canary": "RD_TEST_0EB31F",
+        "startedAt": "2026-07-26T16:26:57.948Z",
+        "durationMs": 2462,
+        "canary": "RD_TEST_CA10DA",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -2072,7 +2072,7 @@
               "weight": 82,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 5
+              "elapsedMs": 4
             }
           ],
           "chosenStrategy": "role",
@@ -2080,7 +2080,7 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1447,
+          "at": 1446,
           "url": "http://127.0.0.1:37233/",
           "title": "Conduit",
           "domHash": "3c44d4d1ff59317a",
@@ -2119,7 +2119,7 @@
           }
         },
         "beforeAction": {
-          "at": 1457,
+          "at": 1455,
           "url": "http://127.0.0.1:37233/",
           "title": "Conduit",
           "domHash": "3c44d4d1ff59317a",
@@ -2160,7 +2160,7 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2444,
+          "at": 2458,
           "url": "http://127.0.0.1:37233/#/login",
           "title": "Conduit",
           "domHash": "c659be8900b0e706",
@@ -2278,9 +2278,9 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T14:07:00.276Z",
-        "durationMs": 2483,
-        "canary": "RD_TEST_6CE21B",
+        "startedAt": "2026-07-26T16:27:00.461Z",
+        "durationMs": 2436,
+        "canary": "RD_TEST_207B20",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -2306,7 +2306,7 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1470,
+          "at": 1440,
           "url": "http://127.0.0.1:37233/",
           "title": "Conduit",
           "domHash": "3c44d4d1ff59317a",
@@ -2345,7 +2345,7 @@
           }
         },
         "beforeAction": {
-          "at": 1479,
+          "at": 1448,
           "url": "http://127.0.0.1:37233/",
           "title": "Conduit",
           "domHash": "3c44d4d1ff59317a",
@@ -2386,7 +2386,7 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2479,
+          "at": 2433,
           "url": "http://127.0.0.1:37233/#/register",
           "title": "Conduit",
           "domHash": "1f4fa65964895f4c",
@@ -2508,19 +2508,19 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T14:07:02.802Z",
-        "durationMs": 2538,
-        "canary": "RD_TEST_6AD4F9",
+        "startedAt": "2026-07-26T16:27:02.940Z",
+        "durationMs": 2467,
+        "canary": "RD_TEST_BD7D27",
         "network": [
           {
             "id": "net-1",
             "method": "GET",
             "url": "http://127.0.0.1:37233/api/articles?limit=3&&offset=0",
             "resourceType": "xhr",
-            "startedAt": 1512,
+            "startedAt": 1467,
             "status": 200,
             "ok": true,
-            "finishedAt": 1520,
+            "finishedAt": 1478,
             "contentType": "application/json",
             "resourceTypeHint": "articles"
           }
@@ -2541,7 +2541,7 @@
               "weight": 92,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 6
+              "elapsedMs": 4
             }
           ],
           "chosenStrategy": "role",
@@ -2549,7 +2549,7 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1468,
+          "at": 1433,
           "url": "http://127.0.0.1:37233/",
           "title": "Conduit",
           "domHash": "3c44d4d1ff59317a",
@@ -2588,7 +2588,7 @@
           }
         },
         "beforeAction": {
-          "at": 1481,
+          "at": 1441,
           "url": "http://127.0.0.1:37233/",
           "title": "Conduit",
           "domHash": "3c44d4d1ff59317a",
@@ -2629,7 +2629,7 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2491,
+          "at": 2440,
           "url": "http://127.0.0.1:37233/",
           "title": "Conduit",
           "domHash": "3c44d4d1ff59317a",
@@ -2730,9 +2730,9 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T14:07:05.373Z",
-        "durationMs": 2500,
-        "canary": "RD_TEST_3E4127",
+        "startedAt": "2026-07-26T16:27:05.442Z",
+        "durationMs": 2484,
+        "canary": "RD_TEST_E4B317",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -2750,7 +2750,7 @@
               "weight": 92,
               "matchCount": 2,
               "visibleCount": 2,
-              "elapsedMs": 8
+              "elapsedMs": 7
             },
             {
               "strategy": "role",
@@ -2771,14 +2771,14 @@
               "weight": 60,
               "matchCount": 3,
               "visibleCount": 3,
-              "elapsedMs": 7
+              "elapsedMs": 8
             },
             {
               "strategy": "css",
               "weight": 35,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 4
+              "elapsedMs": 3
             }
           ],
           "chosenStrategy": "css",
@@ -2786,7 +2786,7 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1492,
+          "at": 1479,
           "url": "http://127.0.0.1:37233/",
           "title": "Conduit",
           "domHash": "3c44d4d1ff59317a",
@@ -2825,7 +2825,7 @@
           }
         },
         "beforeAction": {
-          "at": 1501,
+          "at": 1487,
           "url": "http://127.0.0.1:37233/",
           "title": "Conduit",
           "domHash": "3c44d4d1ff59317a",
@@ -2866,7 +2866,7 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2496,
+          "at": 2480,
           "url": "http://127.0.0.1:37233/#/",
           "title": "Conduit",
           "domHash": "3c44d4d1ff59317a",
@@ -2966,33 +2966,33 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T14:07:07.898Z",
-        "durationMs": 2465,
-        "canary": "RD_TEST_A4D73D",
+        "startedAt": "2026-07-26T16:27:07.969Z",
+        "durationMs": 2474,
+        "canary": "RD_TEST_04D9E0",
         "network": [
           {
             "id": "net-1",
             "method": "GET",
             "url": "http://127.0.0.1:37233/api/articles?limit=3&&offset=0",
             "resourceType": "xhr",
-            "startedAt": 1495,
+            "startedAt": 1504,
             "status": 200,
             "ok": true,
+            "finishedAt": 1509,
             "contentType": "application/json",
-            "resourceTypeHint": "articles",
-            "finishedAt": 1500
+            "resourceTypeHint": "articles"
           },
           {
             "id": "net-2",
             "method": "GET",
             "url": "http://127.0.0.1:37233/api/tags",
             "resourceType": "xhr",
-            "startedAt": 1496,
+            "startedAt": 1504,
             "status": 200,
             "ok": true,
-            "finishedAt": 1501,
             "contentType": "application/json",
-            "resourceTypeHint": "tags"
+            "resourceTypeHint": "tags",
+            "finishedAt": 1509
           }
         ],
         "console": [],
@@ -3032,14 +3032,14 @@
               "weight": 60,
               "matchCount": 2,
               "visibleCount": 2,
-              "elapsedMs": 6
+              "elapsedMs": 5
             },
             {
               "strategy": "css",
               "weight": 35,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 3
+              "elapsedMs": 4
             }
           ],
           "chosenStrategy": "css",
@@ -3047,7 +3047,7 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1457,
+          "at": 1463,
           "url": "http://127.0.0.1:37233/#/login",
           "title": "Conduit",
           "domHash": "c659be8900b0e706",
@@ -3104,7 +3104,7 @@
           }
         },
         "beforeAction": {
-          "at": 1465,
+          "at": 1472,
           "url": "http://127.0.0.1:37233/#/login",
           "title": "Conduit",
           "domHash": "c659be8900b0e706",
@@ -3163,7 +3163,7 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2461,
+          "at": 2470,
           "url": "http://127.0.0.1:37233/#/",
           "title": "Conduit",
           "domHash": "3c44d4d1ff59317a",
@@ -3263,19 +3263,19 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T14:07:10.411Z",
-        "durationMs": 2464,
-        "canary": "RD_TEST_96B6BE",
+        "startedAt": "2026-07-26T16:27:10.544Z",
+        "durationMs": 2465,
+        "canary": "RD_TEST_26FC46",
         "network": [
           {
             "id": "net-1",
             "method": "GET",
             "url": "http://127.0.0.1:37233/api/articles?limit=3&&offset=0",
             "resourceType": "xhr",
-            "startedAt": 1484,
+            "startedAt": 1482,
             "status": 200,
             "ok": true,
-            "finishedAt": 1495,
+            "finishedAt": 1488,
             "contentType": "application/json",
             "resourceTypeHint": "articles"
           },
@@ -3284,12 +3284,12 @@
             "method": "GET",
             "url": "http://127.0.0.1:37233/api/tags",
             "resourceType": "xhr",
-            "startedAt": 1484,
+            "startedAt": 1483,
             "status": 200,
             "ok": true,
-            "finishedAt": 1495,
             "contentType": "application/json",
-            "resourceTypeHint": "tags"
+            "resourceTypeHint": "tags",
+            "finishedAt": 1488
           }
         ],
         "console": [],
@@ -3323,7 +3323,7 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1432,
+          "at": 1445,
           "url": "http://127.0.0.1:37233/#/login",
           "title": "Conduit",
           "domHash": "c659be8900b0e706",
@@ -3380,7 +3380,7 @@
           }
         },
         "beforeAction": {
-          "at": 1442,
+          "at": 1453,
           "url": "http://127.0.0.1:37233/#/login",
           "title": "Conduit",
           "domHash": "c659be8900b0e706",
@@ -3439,7 +3439,7 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2460,
+          "at": 2462,
           "url": "http://127.0.0.1:37233/#/",
           "title": "Conduit",
           "domHash": "3c44d4d1ff59317a",
@@ -3539,9 +3539,9 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T14:07:12.923Z",
-        "durationMs": 2489,
-        "canary": "RD_TEST_616A24",
+        "startedAt": "2026-07-26T16:27:13.060Z",
+        "durationMs": 2427,
+        "canary": "RD_TEST_619634",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -3559,7 +3559,7 @@
               "weight": 92,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 5
+              "elapsedMs": 6
             }
           ],
           "chosenStrategy": "role",
@@ -3567,7 +3567,7 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1472,
+          "at": 1421,
           "url": "http://127.0.0.1:37233/#/login",
           "title": "Conduit",
           "domHash": "c659be8900b0e706",
@@ -3624,7 +3624,7 @@
           }
         },
         "beforeAction": {
-          "at": 1481,
+          "at": 1430,
           "url": "http://127.0.0.1:37233/#/login",
           "title": "Conduit",
           "domHash": "c659be8900b0e706",
@@ -3683,7 +3683,7 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2485,
+          "at": 2423,
           "url": "http://127.0.0.1:37233/#/register",
           "title": "Conduit",
           "domHash": "1f4fa65964895f4c",
@@ -3810,9 +3810,9 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T14:07:15.454Z",
-        "durationMs": 2450,
-        "canary": "RD_TEST_E1EFD4",
+        "startedAt": "2026-07-26T16:27:15.528Z",
+        "durationMs": 2445,
+        "canary": "RD_TEST_853308",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -3838,7 +3838,7 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1440,
+          "at": 1427,
           "url": "http://127.0.0.1:37233/#/login",
           "title": "Conduit",
           "domHash": "c659be8900b0e706",
@@ -3895,7 +3895,7 @@
           }
         },
         "beforeAction": {
-          "at": 1449,
+          "at": 1436,
           "url": "http://127.0.0.1:37233/#/login",
           "title": "Conduit",
           "domHash": "c659be8900b0e706",
@@ -3954,7 +3954,7 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2446,
+          "at": 2441,
           "url": "http://127.0.0.1:37233/#/register",
           "title": "Conduit",
           "domHash": "1f4fa65964895f4c",
@@ -4080,20 +4080,20 @@
         ]
       },
       "evidence": {
-        "startedAt": "2026-07-26T14:07:18.031Z",
-        "durationMs": 6786,
-        "canary": "RD_TEST_E2263C",
+        "startedAt": "2026-07-26T16:27:18.109Z",
+        "durationMs": 6979,
+        "canary": "RD_TEST_F65427",
         "network": [
           {
             "id": "net-1",
             "method": "POST",
             "url": "http://127.0.0.1:37233/api/users/login",
             "resourceType": "xhr",
-            "startedAt": 1563,
+            "startedAt": 1549,
             "status": 404,
             "ok": false,
             "contentType": "application/json",
-            "finishedAt": 1610,
+            "finishedAt": 1597,
             "resourceTypeHint": "login"
           },
           {
@@ -4101,7 +4101,7 @@
             "method": "GET",
             "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3ig4vwlxdu.woff2",
             "resourceType": "font",
-            "startedAt": 1614,
+            "startedAt": 1611,
             "status": 200,
             "ok": true,
             "finishedAt": 1659,
@@ -4113,22 +4113,22 @@
             "method": "GET",
             "url": "http://127.0.0.1:37233/",
             "resourceType": "document",
-            "startedAt": 2625,
+            "startedAt": 2631,
             "status": 200,
             "ok": true,
             "contentType": "text/html",
             "resourceTypeHint": "resource",
-            "finishedAt": 2633
+            "finishedAt": 2639
           },
           {
             "id": "net-4",
             "method": "GET",
             "url": "http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css",
             "resourceType": "stylesheet",
-            "startedAt": 2631,
+            "startedAt": 2637,
             "status": 307,
             "ok": false,
-            "finishedAt": 2634,
+            "finishedAt": 2641,
             "location": "https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css",
             "resourceTypeHint": "ionicons.min.css"
           },
@@ -4137,10 +4137,10 @@
             "method": "GET",
             "url": "http://fonts.googleapis.com/css?family=Titillium+Web:700|Source+Serif+Pro:400,700|Merriweather+Sans:400,700|Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic,700italic",
             "resourceType": "stylesheet",
-            "startedAt": 2632,
+            "startedAt": 2638,
             "status": 200,
             "ok": true,
-            "finishedAt": 2671,
+            "finishedAt": 2677,
             "contentType": "text/css",
             "resourceTypeHint": "css"
           },
@@ -4149,10 +4149,10 @@
             "method": "GET",
             "url": "http://127.0.0.1:37233/assets/index-CLdavoKn.js",
             "resourceType": "script",
-            "startedAt": 2632,
+            "startedAt": 2639,
             "status": 200,
             "ok": true,
-            "finishedAt": 2645,
+            "finishedAt": 2652,
             "contentType": "text/javascript",
             "resourceTypeHint": "index-CLdavoKn.js"
           },
@@ -4161,10 +4161,10 @@
             "method": "GET",
             "url": "http://127.0.0.1:37233/assets/index-De1Lwdlm.css",
             "resourceType": "stylesheet",
-            "startedAt": 2632,
+            "startedAt": 2639,
             "status": 200,
             "ok": true,
-            "finishedAt": 2637,
+            "finishedAt": 2645,
             "contentType": "text/css",
             "resourceTypeHint": "index-De1Lwdlm.css"
           },
@@ -4173,22 +4173,22 @@
             "method": "GET",
             "url": "https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css",
             "resourceType": "stylesheet",
-            "startedAt": 2634,
+            "startedAt": 2641,
             "status": 200,
             "ok": true,
+            "finishedAt": 2939,
             "contentType": "text/css",
-            "resourceTypeHint": "ionicons.min.css",
-            "finishedAt": 2790
+            "resourceTypeHint": "ionicons.min.css"
           },
           {
             "id": "net-9",
             "method": "GET",
             "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdu.woff2",
             "resourceType": "font",
-            "startedAt": 2798,
+            "startedAt": 2947,
             "status": 200,
             "ok": true,
-            "finishedAt": 2844,
+            "finishedAt": 3067,
             "contentType": "font/woff2",
             "resourceTypeHint": "6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdu.woff2"
           },
@@ -4197,22 +4197,22 @@
             "method": "GET",
             "url": "https://code.ionicframework.com/ionicons/2.0.1/fonts/ionicons.ttf?v=2.0.1",
             "resourceType": "font",
-            "startedAt": 2798,
+            "startedAt": 2949,
             "status": 200,
             "ok": true,
-            "finishedAt": 2976,
             "contentType": "font/ttf",
-            "resourceTypeHint": "ionicons.ttf"
+            "resourceTypeHint": "ionicons.ttf",
+            "finishedAt": 3058
           },
           {
             "id": "net-11",
             "method": "GET",
             "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7l.woff2",
             "resourceType": "font",
-            "startedAt": 2799,
+            "startedAt": 2949,
             "status": 200,
             "ok": true,
-            "finishedAt": 2844,
+            "finishedAt": 2994,
             "contentType": "font/woff2",
             "resourceTypeHint": "6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7l.woff2"
           },
@@ -4221,10 +4221,10 @@
             "method": "GET",
             "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xK1dSBYKcSV-LCoeQqfX1RYOo3qPZ7nsDI.woff2",
             "resourceType": "font",
-            "startedAt": 2799,
+            "startedAt": 2949,
             "status": 200,
             "ok": true,
-            "finishedAt": 2845,
+            "finishedAt": 3042,
             "contentType": "font/woff2",
             "resourceTypeHint": "6xK1dSBYKcSV-LCoeQqfX1RYOo3qPZ7nsDI.woff2"
           },
@@ -4233,22 +4233,22 @@
             "method": "GET",
             "url": "http://127.0.0.1:37233/",
             "resourceType": "document",
-            "startedAt": 3626,
+            "startedAt": 3780,
             "status": 200,
             "ok": true,
             "contentType": "text/html",
             "resourceTypeHint": "resource",
-            "finishedAt": 3633
+            "finishedAt": 3787
           },
           {
             "id": "net-14",
             "method": "GET",
             "url": "http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css",
             "resourceType": "stylesheet",
-            "startedAt": 3631,
+            "startedAt": 3786,
             "status": 307,
             "ok": false,
-            "finishedAt": 3634,
+            "finishedAt": 3789,
             "location": "https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css",
             "resourceTypeHint": "ionicons.min.css"
           },
@@ -4257,22 +4257,22 @@
             "method": "GET",
             "url": "http://fonts.googleapis.com/css?family=Titillium+Web:700|Source+Serif+Pro:400,700|Merriweather+Sans:400,700|Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic,700italic",
             "resourceType": "stylesheet",
-            "startedAt": 3632,
+            "startedAt": 3786,
             "status": 200,
             "ok": true,
+            "finishedAt": 3822,
             "contentType": "text/css",
-            "resourceTypeHint": "css",
-            "finishedAt": 3682
+            "resourceTypeHint": "css"
           },
           {
             "id": "net-16",
             "method": "GET",
             "url": "http://127.0.0.1:37233/assets/index-CLdavoKn.js",
             "resourceType": "script",
-            "startedAt": 3632,
+            "startedAt": 3786,
             "status": 200,
             "ok": true,
-            "finishedAt": 3644,
+            "finishedAt": 3799,
             "contentType": "text/javascript",
             "resourceTypeHint": "index-CLdavoKn.js"
           },
@@ -4281,34 +4281,34 @@
             "method": "GET",
             "url": "http://127.0.0.1:37233/assets/index-De1Lwdlm.css",
             "resourceType": "stylesheet",
-            "startedAt": 3632,
+            "startedAt": 3787,
             "status": 200,
             "ok": true,
-            "finishedAt": 3637,
             "contentType": "text/css",
-            "resourceTypeHint": "index-De1Lwdlm.css"
+            "resourceTypeHint": "index-De1Lwdlm.css",
+            "finishedAt": 3791
           },
           {
             "id": "net-18",
             "method": "GET",
             "url": "https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css",
             "resourceType": "stylesheet",
-            "startedAt": 3634,
+            "startedAt": 3789,
             "status": 200,
             "ok": true,
+            "finishedAt": 3868,
             "contentType": "text/css",
-            "resourceTypeHint": "ionicons.min.css",
-            "finishedAt": 3713
+            "resourceTypeHint": "ionicons.min.css"
           },
           {
             "id": "net-19",
             "method": "GET",
             "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdu.woff2",
             "resourceType": "font",
-            "startedAt": 3721,
+            "startedAt": 3875,
             "status": 200,
             "ok": true,
-            "finishedAt": 3768,
+            "finishedAt": 3926,
             "contentType": "font/woff2",
             "resourceTypeHint": "6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdu.woff2"
           },
@@ -4317,10 +4317,10 @@
             "method": "GET",
             "url": "https://code.ionicframework.com/ionicons/2.0.1/fonts/ionicons.ttf?v=2.0.1",
             "resourceType": "font",
-            "startedAt": 3722,
+            "startedAt": 3876,
             "status": 200,
             "ok": true,
-            "finishedAt": 3840,
+            "finishedAt": 3983,
             "contentType": "font/ttf",
             "resourceTypeHint": "ionicons.ttf"
           },
@@ -4329,10 +4329,10 @@
             "method": "GET",
             "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7l.woff2",
             "resourceType": "font",
-            "startedAt": 3722,
+            "startedAt": 3876,
             "status": 200,
             "ok": true,
-            "finishedAt": 3768,
+            "finishedAt": 3920,
             "contentType": "font/woff2",
             "resourceTypeHint": "6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7l.woff2"
           },
@@ -4341,10 +4341,10 @@
             "method": "GET",
             "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xK1dSBYKcSV-LCoeQqfX1RYOo3qPZ7nsDI.woff2",
             "resourceType": "font",
-            "startedAt": 3722,
+            "startedAt": 3876,
             "status": 200,
             "ok": true,
-            "finishedAt": 3767,
+            "finishedAt": 3921,
             "contentType": "font/woff2",
             "resourceTypeHint": "6xK1dSBYKcSV-LCoeQqfX1RYOo3qPZ7nsDI.woff2"
           }
@@ -4353,7 +4353,7 @@
           {
             "type": "error",
             "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
-            "at": 1608
+            "at": 1596
           }
         ],
         "pageErrors": [],
@@ -4363,7 +4363,7 @@
             "selector": "body > div > main > div > div > div > div > form > fieldset:nth-of-type(1) > input",
             "name": "email",
             "type": "email",
-            "value": "rd-rd_test_e2263c_1@example.test",
+            "value": "rd-rd_test_f65427_1@example.test",
             "redacted": false
           },
           {
@@ -4407,7 +4407,7 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1480,
+          "at": 1465,
           "url": "http://127.0.0.1:37233/#/login",
           "title": "Conduit",
           "domHash": "c659be8900b0e706",
@@ -4546,10 +4546,10 @@
           ]
         },
         "beforeAction": {
-          "at": 1513,
+          "at": 1497,
           "url": "http://127.0.0.1:37233/#/login",
           "title": "Conduit",
-          "domHash": "bfcfa645647efde1",
+          "domHash": "76fe9ce3e3d0ff88",
           "canaryPresent": true,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -4569,7 +4569,7 @@
                 "tag": "input",
                 "type": "email",
                 "name": "email",
-                "valueHash": "e672b37db4c7d5ba",
+                "valueHash": "7268132e757dce00",
                 "checked": false,
                 "disabled": false,
                 "visible": true
@@ -4606,10 +4606,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2620,
+          "at": 2625,
           "url": "http://127.0.0.1:37233/#/login",
           "title": "Conduit",
-          "domHash": "adfe3a2a72fe790a",
+          "domHash": "5d7fb65cdc4d49e9",
           "canaryPresent": true,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -4629,7 +4629,7 @@
                 "tag": "input",
                 "type": "email",
                 "name": "email",
-                "valueHash": "e672b37db4c7d5ba",
+                "valueHash": "7268132e757dce00",
                 "checked": false,
                 "disabled": false,
                 "visible": true
@@ -4745,7 +4745,7 @@
           ]
         },
         "afterRefresh": {
-          "at": 3623,
+          "at": 3777,
           "url": "http://127.0.0.1:37233/#/login",
           "title": "Conduit",
           "domHash": "c659be8900b0e706",
@@ -4802,7 +4802,7 @@
           }
         },
         "afterHardRefresh": {
-          "at": 4536,
+          "at": 4696,
           "url": "http://127.0.0.1:37233/#/login",
           "title": "Conduit",
           "domHash": "c659be8900b0e706",
@@ -4859,7 +4859,7 @@
           }
         },
         "afterNewTab": {
-          "at": 5529,
+          "at": 5684,
           "url": "http://127.0.0.1:37233/#/login",
           "title": "Conduit",
           "domHash": "c659be8900b0e706",
@@ -4916,7 +4916,7 @@
           }
         },
         "afterNewContext": {
-          "at": 6784,
+          "at": 6977,
           "url": "http://127.0.0.1:37233/#/login",
           "title": "Conduit",
           "domHash": "c659be8900b0e706",
@@ -5081,31 +5081,31 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T14:07:24.922Z",
-        "durationMs": 2511,
-        "canary": "RD_TEST_086E22",
+        "startedAt": "2026-07-26T16:27:25.182Z",
+        "durationMs": 2444,
+        "canary": "RD_TEST_AA8036",
         "network": [
           {
             "id": "net-1",
             "method": "GET",
             "url": "http://127.0.0.1:37233/api/articles?limit=3&&offset=0",
             "resourceType": "xhr",
-            "startedAt": 1536,
+            "startedAt": 1491,
             "status": 200,
             "ok": true,
+            "finishedAt": 1497,
             "contentType": "application/json",
-            "resourceTypeHint": "articles",
-            "finishedAt": 1543
+            "resourceTypeHint": "articles"
           },
           {
             "id": "net-2",
             "method": "GET",
             "url": "http://127.0.0.1:37233/api/tags",
             "resourceType": "xhr",
-            "startedAt": 1537,
+            "startedAt": 1491,
             "status": 200,
             "ok": true,
-            "finishedAt": 1544,
+            "finishedAt": 1498,
             "contentType": "application/json",
             "resourceTypeHint": "tags"
           }
@@ -5162,7 +5162,7 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1496,
+          "at": 1454,
           "url": "http://127.0.0.1:37233/#/login",
           "title": "Conduit",
           "domHash": "c659be8900b0e706",
@@ -5219,7 +5219,7 @@
           }
         },
         "beforeAction": {
-          "at": 1504,
+          "at": 1463,
           "url": "http://127.0.0.1:37233/#/login",
           "title": "Conduit",
           "domHash": "c659be8900b0e706",
@@ -5278,7 +5278,7 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2507,
+          "at": 2441,
           "url": "http://127.0.0.1:37233/#/",
           "title": "Conduit",
           "domHash": "3c44d4d1ff59317a",
@@ -5378,19 +5378,19 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T14:07:27.480Z",
-        "durationMs": 2482,
-        "canary": "RD_TEST_CF81DC",
+        "startedAt": "2026-07-26T16:27:27.676Z",
+        "durationMs": 2485,
+        "canary": "RD_TEST_CBABF7",
         "network": [
           {
             "id": "net-1",
             "method": "GET",
             "url": "http://127.0.0.1:37233/api/articles?limit=3&&offset=0",
             "resourceType": "xhr",
-            "startedAt": 1504,
+            "startedAt": 1517,
             "status": 200,
             "ok": true,
-            "finishedAt": 1513,
+            "finishedAt": 1526,
             "contentType": "application/json",
             "resourceTypeHint": "articles"
           },
@@ -5399,10 +5399,10 @@
             "method": "GET",
             "url": "http://127.0.0.1:37233/api/tags",
             "resourceType": "xhr",
-            "startedAt": 1505,
+            "startedAt": 1518,
             "status": 200,
             "ok": true,
-            "finishedAt": 1511,
+            "finishedAt": 1523,
             "contentType": "application/json",
             "resourceTypeHint": "tags"
           }
@@ -5430,7 +5430,7 @@
               "weight": 82,
               "matchCount": 2,
               "visibleCount": 2,
-              "elapsedMs": 7
+              "elapsedMs": 6
             },
             {
               "strategy": "href",
@@ -5459,7 +5459,7 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1468,
+          "at": 1482,
           "url": "http://127.0.0.1:37233/#/register",
           "title": "Conduit",
           "domHash": "1f4fa65964895f4c",
@@ -5525,7 +5525,7 @@
           }
         },
         "beforeAction": {
-          "at": 1477,
+          "at": 1490,
           "url": "http://127.0.0.1:37233/#/register",
           "title": "Conduit",
           "domHash": "1f4fa65964895f4c",
@@ -5593,7 +5593,7 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2478,
+          "at": 2481,
           "url": "http://127.0.0.1:37233/#/",
           "title": "Conduit",
           "domHash": "3c44d4d1ff59317a",
@@ -5693,19 +5693,19 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T14:07:30.003Z",
-        "durationMs": 2430,
-        "canary": "RD_TEST_63C0D1",
+        "startedAt": "2026-07-26T16:27:30.195Z",
+        "durationMs": 2483,
+        "canary": "RD_TEST_BDB38A",
         "network": [
           {
             "id": "net-1",
             "method": "GET",
             "url": "http://127.0.0.1:37233/api/articles?limit=3&&offset=0",
             "resourceType": "xhr",
-            "startedAt": 1456,
+            "startedAt": 1511,
             "status": 200,
             "ok": true,
-            "finishedAt": 1462,
+            "finishedAt": 1516,
             "contentType": "application/json",
             "resourceTypeHint": "articles"
           },
@@ -5714,12 +5714,12 @@
             "method": "GET",
             "url": "http://127.0.0.1:37233/api/tags",
             "resourceType": "xhr",
-            "startedAt": 1457,
+            "startedAt": 1512,
             "status": 200,
             "ok": true,
             "contentType": "application/json",
             "resourceTypeHint": "tags",
-            "finishedAt": 1462
+            "finishedAt": 1516
           }
         ],
         "console": [],
@@ -5753,7 +5753,7 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1411,
+          "at": 1466,
           "url": "http://127.0.0.1:37233/#/register",
           "title": "Conduit",
           "domHash": "1f4fa65964895f4c",
@@ -5819,7 +5819,7 @@
           }
         },
         "beforeAction": {
-          "at": 1420,
+          "at": 1474,
           "url": "http://127.0.0.1:37233/#/register",
           "title": "Conduit",
           "domHash": "1f4fa65964895f4c",
@@ -5887,7 +5887,7 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2427,
+          "at": 2480,
           "url": "http://127.0.0.1:37233/#/",
           "title": "Conduit",
           "domHash": "3c44d4d1ff59317a",
@@ -5987,9 +5987,9 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T14:07:32.474Z",
-        "durationMs": 2469,
-        "canary": "RD_TEST_8F1187",
+        "startedAt": "2026-07-26T16:27:32.719Z",
+        "durationMs": 2435,
+        "canary": "RD_TEST_B89B83",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -6007,7 +6007,7 @@
               "weight": 92,
               "matchCount": 0,
               "visibleCount": 0,
-              "elapsedMs": 2
+              "elapsedMs": 3
             },
             {
               "strategy": "role",
@@ -6022,7 +6022,7 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1451,
+          "at": 1425,
           "url": "http://127.0.0.1:37233/#/register",
           "title": "Conduit",
           "domHash": "1f4fa65964895f4c",
@@ -6088,7 +6088,7 @@
           }
         },
         "beforeAction": {
-          "at": 1459,
+          "at": 1433,
           "url": "http://127.0.0.1:37233/#/register",
           "title": "Conduit",
           "domHash": "1f4fa65964895f4c",
@@ -6156,7 +6156,7 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2465,
+          "at": 2431,
           "url": "http://127.0.0.1:37233/#/login",
           "title": "Conduit",
           "domHash": "c659be8900b0e706",
@@ -6274,9 +6274,9 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T14:07:35.006Z",
-        "durationMs": 2504,
-        "canary": "RD_TEST_56343B",
+        "startedAt": "2026-07-26T16:27:35.190Z",
+        "durationMs": 2435,
+        "canary": "RD_TEST_E084AD",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -6294,7 +6294,7 @@
               "weight": 92,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 6
+              "elapsedMs": 5
             }
           ],
           "chosenStrategy": "role",
@@ -6302,7 +6302,7 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1493,
+          "at": 1417,
           "url": "http://127.0.0.1:37233/#/register",
           "title": "Conduit",
           "domHash": "1f4fa65964895f4c",
@@ -6368,7 +6368,7 @@
           }
         },
         "beforeAction": {
-          "at": 1502,
+          "at": 1426,
           "url": "http://127.0.0.1:37233/#/register",
           "title": "Conduit",
           "domHash": "1f4fa65964895f4c",
@@ -6436,7 +6436,7 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2500,
+          "at": 2431,
           "url": "http://127.0.0.1:37233/#/login",
           "title": "Conduit",
           "domHash": "c659be8900b0e706",
@@ -6561,19 +6561,19 @@
         ]
       },
       "evidence": {
-        "startedAt": "2026-07-26T14:07:37.594Z",
-        "durationMs": 6772,
-        "canary": "RD_TEST_D3C056",
+        "startedAt": "2026-07-26T16:27:37.719Z",
+        "durationMs": 6896,
+        "canary": "RD_TEST_7153E9",
         "network": [
           {
             "id": "net-1",
             "method": "POST",
             "url": "http://127.0.0.1:37233/api/users",
             "resourceType": "xhr",
-            "startedAt": 1533,
+            "startedAt": 1555,
             "status": 201,
             "ok": true,
-            "finishedAt": 1595,
+            "finishedAt": 1618,
             "contentType": "application/json",
             "resourceTypeHint": "users"
           },
@@ -6582,10 +6582,10 @@
             "method": "GET",
             "url": "http://127.0.0.1:37233/api/user",
             "resourceType": "xhr",
-            "startedAt": 1599,
+            "startedAt": 1622,
             "status": 200,
             "ok": true,
-            "finishedAt": 1604,
+            "finishedAt": 1628,
             "contentType": "application/json",
             "resourceTypeHint": "user"
           },
@@ -6594,10 +6594,10 @@
             "method": "GET",
             "url": "http://127.0.0.1:37233/api/articles/feed?limit=3&&offset=0",
             "resourceType": "xhr",
-            "startedAt": 1601,
+            "startedAt": 1624,
             "status": 200,
             "ok": true,
-            "finishedAt": 1609,
+            "finishedAt": 1632,
             "contentType": "application/json",
             "resourceTypeHint": "feed"
           },
@@ -6606,10 +6606,10 @@
             "method": "GET",
             "url": "http://127.0.0.1:37233/api/tags",
             "resourceType": "xhr",
-            "startedAt": 1602,
+            "startedAt": 1625,
             "status": 200,
             "ok": true,
-            "finishedAt": 1607,
+            "finishedAt": 1630,
             "contentType": "application/json",
             "resourceTypeHint": "tags"
           },
@@ -6618,22 +6618,22 @@
             "method": "GET",
             "url": "http://127.0.0.1:37233/",
             "resourceType": "document",
-            "startedAt": 2588,
+            "startedAt": 2567,
             "status": 200,
             "ok": true,
             "contentType": "text/html",
             "resourceTypeHint": "resource",
-            "finishedAt": 2596
+            "finishedAt": 2575
           },
           {
             "id": "net-6",
             "method": "GET",
             "url": "http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css",
             "resourceType": "stylesheet",
-            "startedAt": 2594,
+            "startedAt": 2573,
             "status": 307,
             "ok": false,
-            "finishedAt": 2597,
+            "finishedAt": 2576,
             "location": "https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css",
             "resourceTypeHint": "ionicons.min.css"
           },
@@ -6642,10 +6642,10 @@
             "method": "GET",
             "url": "http://fonts.googleapis.com/css?family=Titillium+Web:700|Source+Serif+Pro:400,700|Merriweather+Sans:400,700|Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic,700italic",
             "resourceType": "stylesheet",
-            "startedAt": 2595,
+            "startedAt": 2573,
             "status": 200,
             "ok": true,
-            "finishedAt": 2633,
+            "finishedAt": 2610,
             "contentType": "text/css",
             "resourceTypeHint": "css"
           },
@@ -6654,10 +6654,10 @@
             "method": "GET",
             "url": "http://127.0.0.1:37233/assets/index-CLdavoKn.js",
             "resourceType": "script",
-            "startedAt": 2595,
+            "startedAt": 2574,
             "status": 200,
             "ok": true,
-            "finishedAt": 2608,
+            "finishedAt": 2587,
             "contentType": "text/javascript",
             "resourceTypeHint": "index-CLdavoKn.js"
           },
@@ -6666,10 +6666,10 @@
             "method": "GET",
             "url": "http://127.0.0.1:37233/assets/index-De1Lwdlm.css",
             "resourceType": "stylesheet",
-            "startedAt": 2595,
+            "startedAt": 2574,
             "status": 200,
             "ok": true,
-            "finishedAt": 2600,
+            "finishedAt": 2579,
             "contentType": "text/css",
             "resourceTypeHint": "index-De1Lwdlm.css"
           },
@@ -6678,22 +6678,22 @@
             "method": "GET",
             "url": "https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css",
             "resourceType": "stylesheet",
-            "startedAt": 2597,
+            "startedAt": 2576,
             "status": 200,
             "ok": true,
+            "finishedAt": 2868,
             "contentType": "text/css",
-            "resourceTypeHint": "ionicons.min.css",
-            "finishedAt": 2751
+            "resourceTypeHint": "ionicons.min.css"
           },
           {
             "id": "net-11",
             "method": "GET",
             "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdu.woff2",
             "resourceType": "font",
-            "startedAt": 2761,
+            "startedAt": 2878,
             "status": 200,
             "ok": true,
-            "finishedAt": 2814,
+            "finishedAt": 2970,
             "contentType": "font/woff2",
             "resourceTypeHint": "6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdu.woff2"
           },
@@ -6702,10 +6702,10 @@
             "method": "GET",
             "url": "https://code.ionicframework.com/ionicons/2.0.1/fonts/ionicons.ttf?v=2.0.1",
             "resourceType": "font",
-            "startedAt": 2761,
+            "startedAt": 2878,
             "status": 200,
             "ok": true,
-            "finishedAt": 2884,
+            "finishedAt": 2986,
             "contentType": "font/ttf",
             "resourceTypeHint": "ionicons.ttf"
           },
@@ -6714,10 +6714,10 @@
             "method": "GET",
             "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7l.woff2",
             "resourceType": "font",
-            "startedAt": 2762,
+            "startedAt": 2878,
             "status": 200,
             "ok": true,
-            "finishedAt": 2808,
+            "finishedAt": 2923,
             "contentType": "font/woff2",
             "resourceTypeHint": "6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7l.woff2"
           },
@@ -6726,10 +6726,10 @@
             "method": "GET",
             "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xK1dSBYKcSV-LCoeQqfX1RYOo3qPZ7nsDI.woff2",
             "resourceType": "font",
-            "startedAt": 2763,
+            "startedAt": 2879,
             "status": 200,
             "ok": true,
-            "finishedAt": 2809,
+            "finishedAt": 2940,
             "contentType": "font/woff2",
             "resourceTypeHint": "6xK1dSBYKcSV-LCoeQqfX1RYOo3qPZ7nsDI.woff2"
           },
@@ -6738,10 +6738,10 @@
             "method": "GET",
             "url": "http://127.0.0.1:37233/api/articles/feed?limit=3&&offset=0",
             "resourceType": "xhr",
-            "startedAt": 2764,
+            "startedAt": 2880,
             "status": 200,
             "ok": true,
-            "finishedAt": 2772,
+            "finishedAt": 2889,
             "contentType": "application/json",
             "resourceTypeHint": "feed"
           },
@@ -6750,10 +6750,10 @@
             "method": "GET",
             "url": "http://127.0.0.1:37233/api/tags",
             "resourceType": "xhr",
-            "startedAt": 2764,
+            "startedAt": 2881,
             "status": 200,
             "ok": true,
-            "finishedAt": 2770,
+            "finishedAt": 2887,
             "contentType": "application/json",
             "resourceTypeHint": "tags"
           },
@@ -6762,34 +6762,34 @@
             "method": "GET",
             "url": "http://127.0.0.1:37233/api/user",
             "resourceType": "xhr",
-            "startedAt": 2764,
+            "startedAt": 2881,
             "status": 200,
             "ok": true,
-            "finishedAt": 2771,
             "contentType": "application/json",
-            "resourceTypeHint": "user"
+            "resourceTypeHint": "user",
+            "finishedAt": 2888
           },
           {
             "id": "net-18",
             "method": "GET",
             "url": "http://127.0.0.1:37233/",
             "resourceType": "document",
-            "startedAt": 3584,
+            "startedAt": 3707,
             "status": 200,
             "ok": true,
             "contentType": "text/html",
             "resourceTypeHint": "resource",
-            "finishedAt": 3592
+            "finishedAt": 3715
           },
           {
             "id": "net-19",
             "method": "GET",
             "url": "http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css",
             "resourceType": "stylesheet",
-            "startedAt": 3589,
+            "startedAt": 3714,
             "status": 307,
             "ok": false,
-            "finishedAt": 3592,
+            "finishedAt": 3717,
             "location": "https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css",
             "resourceTypeHint": "ionicons.min.css"
           },
@@ -6798,10 +6798,10 @@
             "method": "GET",
             "url": "http://fonts.googleapis.com/css?family=Titillium+Web:700|Source+Serif+Pro:400,700|Merriweather+Sans:400,700|Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic,700italic",
             "resourceType": "stylesheet",
-            "startedAt": 3590,
+            "startedAt": 3714,
             "status": 200,
             "ok": true,
-            "finishedAt": 3631,
+            "finishedAt": 3753,
             "contentType": "text/css",
             "resourceTypeHint": "css"
           },
@@ -6810,10 +6810,10 @@
             "method": "GET",
             "url": "http://127.0.0.1:37233/assets/index-CLdavoKn.js",
             "resourceType": "script",
-            "startedAt": 3591,
+            "startedAt": 3714,
             "status": 200,
             "ok": true,
-            "finishedAt": 3602,
+            "finishedAt": 3728,
             "contentType": "text/javascript",
             "resourceTypeHint": "index-CLdavoKn.js"
           },
@@ -6822,10 +6822,10 @@
             "method": "GET",
             "url": "http://127.0.0.1:37233/assets/index-De1Lwdlm.css",
             "resourceType": "stylesheet",
-            "startedAt": 3591,
+            "startedAt": 3715,
             "status": 200,
             "ok": true,
-            "finishedAt": 3596,
+            "finishedAt": 3719,
             "contentType": "text/css",
             "resourceTypeHint": "index-De1Lwdlm.css"
           },
@@ -6834,22 +6834,22 @@
             "method": "GET",
             "url": "https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css",
             "resourceType": "stylesheet",
-            "startedAt": 3592,
+            "startedAt": 3717,
             "status": 200,
             "ok": true,
-            "finishedAt": 3684,
             "contentType": "text/css",
-            "resourceTypeHint": "ionicons.min.css"
+            "resourceTypeHint": "ionicons.min.css",
+            "finishedAt": 3802
           },
           {
             "id": "net-24",
             "method": "GET",
             "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdu.woff2",
             "resourceType": "font",
-            "startedAt": 3691,
+            "startedAt": 3810,
             "status": 200,
             "ok": true,
-            "finishedAt": 3741,
+            "finishedAt": 3857,
             "contentType": "font/woff2",
             "resourceTypeHint": "6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdu.woff2"
           },
@@ -6858,22 +6858,22 @@
             "method": "GET",
             "url": "https://code.ionicframework.com/ionicons/2.0.1/fonts/ionicons.ttf?v=2.0.1",
             "resourceType": "font",
-            "startedAt": 3692,
+            "startedAt": 3811,
             "status": 200,
             "ok": true,
+            "finishedAt": 3917,
             "contentType": "font/ttf",
-            "resourceTypeHint": "ionicons.ttf",
-            "finishedAt": 3818
+            "resourceTypeHint": "ionicons.ttf"
           },
           {
             "id": "net-26",
             "method": "GET",
             "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7l.woff2",
             "resourceType": "font",
-            "startedAt": 3692,
+            "startedAt": 3812,
             "status": 200,
             "ok": true,
-            "finishedAt": 3739,
+            "finishedAt": 3858,
             "contentType": "font/woff2",
             "resourceTypeHint": "6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7l.woff2"
           },
@@ -6882,10 +6882,10 @@
             "method": "GET",
             "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xK1dSBYKcSV-LCoeQqfX1RYOo3qPZ7nsDI.woff2",
             "resourceType": "font",
-            "startedAt": 3693,
+            "startedAt": 3812,
             "status": 200,
             "ok": true,
-            "finishedAt": 3738,
+            "finishedAt": 3860,
             "contentType": "font/woff2",
             "resourceTypeHint": "6xK1dSBYKcSV-LCoeQqfX1RYOo3qPZ7nsDI.woff2"
           },
@@ -6894,10 +6894,10 @@
             "method": "GET",
             "url": "http://127.0.0.1:37233/api/articles/feed?limit=3&&offset=0",
             "resourceType": "xhr",
-            "startedAt": 3694,
+            "startedAt": 3813,
             "status": 200,
             "ok": true,
-            "finishedAt": 3702,
+            "finishedAt": 3822,
             "contentType": "application/json",
             "resourceTypeHint": "feed"
           },
@@ -6906,22 +6906,22 @@
             "method": "GET",
             "url": "http://127.0.0.1:37233/api/tags",
             "resourceType": "xhr",
-            "startedAt": 3695,
+            "startedAt": 3814,
             "status": 200,
             "ok": true,
             "contentType": "application/json",
             "resourceTypeHint": "tags",
-            "finishedAt": 3701
+            "finishedAt": 3821
           },
           {
             "id": "net-30",
             "method": "GET",
             "url": "http://127.0.0.1:37233/api/user",
             "resourceType": "xhr",
-            "startedAt": 3695,
+            "startedAt": 3814,
             "status": 200,
             "ok": true,
-            "finishedAt": 3701,
+            "finishedAt": 3821,
             "contentType": "application/json",
             "resourceTypeHint": "user"
           }
@@ -6934,14 +6934,14 @@
             "selector": "body > div > main > div > div > div > div > form > fieldset:nth-of-type(1) > input",
             "name": "username",
             "type": "text",
-            "value": "RD_TEST_D3C056_1",
+            "value": "RD_TEST_7153E9_1",
             "redacted": false
           },
           {
             "selector": "body > div > main > div > div > div > div > form > fieldset:nth-of-type(2) > input",
             "name": "email",
             "type": "email",
-            "value": "rd-rd_test_d3c056_2@example.test",
+            "value": "rd-rd_test_7153e9_2@example.test",
             "redacted": false
           },
           {
@@ -6977,7 +6977,7 @@
               "weight": 35,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 3
+              "elapsedMs": 4
             }
           ],
           "chosenStrategy": "css",
@@ -6985,7 +6985,7 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1446,
+          "at": 1467,
           "url": "http://127.0.0.1:37233/#/register",
           "title": "Conduit",
           "domHash": "1f4fa65964895f4c",
@@ -7133,10 +7133,10 @@
           ]
         },
         "beforeAction": {
-          "at": 1488,
+          "at": 1510,
           "url": "http://127.0.0.1:37233/#/register",
           "title": "Conduit",
-          "domHash": "b9159dafc3ee9e48",
+          "domHash": "4f22f8e136dd13c7",
           "canaryPresent": true,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -7156,7 +7156,7 @@
                 "tag": "input",
                 "type": "text",
                 "name": "username",
-                "valueHash": "c0868b05a741290d",
+                "valueHash": "b8db9e22816e3b51",
                 "checked": false,
                 "disabled": false,
                 "visible": true
@@ -7165,7 +7165,7 @@
                 "tag": "input",
                 "type": "email",
                 "name": "email",
-                "valueHash": "4364263abb6579c3",
+                "valueHash": "738ccbffe048dfc5",
                 "checked": false,
                 "disabled": false,
                 "visible": true
@@ -7201,10 +7201,10 @@
         "targetDisabledAfter": false,
         "networkSettled": true,
         "after": {
-          "at": 2583,
+          "at": 2562,
           "url": "http://127.0.0.1:37233/#/",
           "title": "Conduit",
-          "domHash": "dec60dfe03ee8f3c",
+          "domHash": "78003465f4e52fb4",
           "canaryPresent": true,
           "bodyCanaryPresent": true,
           "temporaryBlobUrls": 0,
@@ -7216,9 +7216,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "191c19b8bb8c695a",
+            "textHash": "c5b4327db824906a",
             "visualHash": "dfad2167a8f7c17f",
-            "text": "conduit Source code Home New Article RD_TEST_D3C056_1 Your Feed Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_TEST_7153E9_1 Your Feed Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
@@ -7242,7 +7242,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "e9a259c18ee9acb9",
+                "valueHash": "29852ccb5c83df81",
                 "containsCanary": true
               }
             ],
@@ -7290,8 +7290,8 @@
                   "softDeleted": false
                 },
                 {
-                  "keyHash": "2766c815d1c00dbe",
-                  "rowHash": "8eb7baae4f7f0c5b",
+                  "keyHash": "667da1af4b45220f",
+                  "rowHash": "0ba0facb60fd6842",
                   "softDeleted": false
                 }
               ],
@@ -7335,8 +7335,8 @@
                   "softDeleted": false
                 },
                 {
-                  "keyHash": "2766c815d1c00dbe",
-                  "rowHash": "8eb7baae4f7f0c5b",
+                  "keyHash": "667da1af4b45220f",
+                  "rowHash": "0ba0facb60fd6842",
                   "softDeleted": false
                 }
               ],
@@ -7345,10 +7345,10 @@
           ]
         },
         "afterRefresh": {
-          "at": 3581,
+          "at": 3705,
           "url": "http://127.0.0.1:37233/#/",
           "title": "Conduit",
-          "domHash": "dec60dfe03ee8f3c",
+          "domHash": "78003465f4e52fb4",
           "canaryPresent": true,
           "bodyCanaryPresent": true,
           "temporaryBlobUrls": 0,
@@ -7360,9 +7360,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "191c19b8bb8c695a",
+            "textHash": "c5b4327db824906a",
             "visualHash": "dfad2167a8f7c17f",
-            "text": "conduit Source code Home New Article RD_TEST_D3C056_1 Your Feed Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_TEST_7153E9_1 Your Feed Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
@@ -7386,7 +7386,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "e9a259c18ee9acb9",
+                "valueHash": "29852ccb5c83df81",
                 "containsCanary": true
               }
             ],
@@ -7397,10 +7397,10 @@
           }
         },
         "afterHardRefresh": {
-          "at": 4514,
+          "at": 4636,
           "url": "http://127.0.0.1:37233/#/",
           "title": "Conduit",
-          "domHash": "dec60dfe03ee8f3c",
+          "domHash": "78003465f4e52fb4",
           "canaryPresent": true,
           "bodyCanaryPresent": true,
           "temporaryBlobUrls": 0,
@@ -7412,9 +7412,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "191c19b8bb8c695a",
+            "textHash": "c5b4327db824906a",
             "visualHash": "dfad2167a8f7c17f",
-            "text": "conduit Source code Home New Article RD_TEST_D3C056_1 Your Feed Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_TEST_7153E9_1 Your Feed Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
@@ -7438,7 +7438,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "e9a259c18ee9acb9",
+                "valueHash": "29852ccb5c83df81",
                 "containsCanary": true
               }
             ],
@@ -7449,10 +7449,10 @@
           }
         },
         "afterNewTab": {
-          "at": 5511,
+          "at": 5622,
           "url": "http://127.0.0.1:37233/#/register",
           "title": "Conduit",
-          "domHash": "525fb0a86a9da2b6",
+          "domHash": "6c890c02e6df0781",
           "canaryPresent": true,
           "bodyCanaryPresent": true,
           "temporaryBlobUrls": 0,
@@ -7464,9 +7464,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "97efe6f05f4b2929",
+            "textHash": "2045e4c8931571f5",
             "visualHash": "4ab503dc0bf627e7",
-            "text": "conduit Source code Home New Article RD_TEST_D3C056_1 Sign up Sign in to your account Sign up conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "text": "conduit Source code Home New Article RD_TEST_7153E9_1 Sign up Sign in to your account Sign up conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "input",
@@ -7510,7 +7510,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "e9a259c18ee9acb9",
+                "valueHash": "29852ccb5c83df81",
                 "containsCanary": true
               }
             ],
@@ -7521,7 +7521,7 @@
           }
         },
         "afterNewContext": {
-          "at": 6769,
+          "at": 6894,
           "url": "http://127.0.0.1:37233/#/",
           "title": "Conduit",
           "domHash": "3c44d4d1ff59317a",
@@ -7583,7 +7583,7 @@
             "adapter": "postgresql",
             "resource": "users",
             "added": [
-              "2766c815d1c00dbe"
+              "667da1af4b45220f"
             ],
             "removed": [],
             "changed": [],
@@ -7603,7 +7603,7 @@
             "adapter": "supabase",
             "resource": "users",
             "added": [
-              "2766c815d1c00dbe"
+              "667da1af4b45220f"
             ],
             "removed": [],
             "changed": [],
@@ -7673,19 +7673,19 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T14:07:44.566Z",
-        "durationMs": 2458,
-        "canary": "RD_TEST_6C37BD",
+        "startedAt": "2026-07-26T16:27:44.690Z",
+        "durationMs": 2491,
+        "canary": "RD_TEST_73CDC5",
         "network": [
           {
             "id": "net-1",
             "method": "GET",
             "url": "http://127.0.0.1:37233/api/articles?limit=3&&offset=0",
             "resourceType": "xhr",
-            "startedAt": 1491,
+            "startedAt": 1519,
             "status": 200,
             "ok": true,
-            "finishedAt": 1496,
+            "finishedAt": 1525,
             "contentType": "application/json",
             "resourceTypeHint": "articles"
           },
@@ -7694,12 +7694,12 @@
             "method": "GET",
             "url": "http://127.0.0.1:37233/api/tags",
             "resourceType": "xhr",
-            "startedAt": 1492,
+            "startedAt": 1519,
             "status": 200,
             "ok": true,
+            "finishedAt": 1524,
             "contentType": "application/json",
-            "resourceTypeHint": "tags",
-            "finishedAt": 1496
+            "resourceTypeHint": "tags"
           }
         ],
         "console": [],
@@ -7718,14 +7718,14 @@
               "weight": 92,
               "matchCount": 2,
               "visibleCount": 2,
-              "elapsedMs": 7
+              "elapsedMs": 8
             },
             {
               "strategy": "role",
               "weight": 82,
               "matchCount": 2,
               "visibleCount": 2,
-              "elapsedMs": 7
+              "elapsedMs": 6
             },
             {
               "strategy": "href",
@@ -7739,14 +7739,14 @@
               "weight": 60,
               "matchCount": 2,
               "visibleCount": 2,
-              "elapsedMs": 5
+              "elapsedMs": 6
             },
             {
               "strategy": "css",
               "weight": 35,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 4
+              "elapsedMs": 3
             }
           ],
           "chosenStrategy": "css",
@@ -7754,7 +7754,7 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1448,
+          "at": 1481,
           "url": "http://127.0.0.1:37233/#/register",
           "title": "Conduit",
           "domHash": "1f4fa65964895f4c",
@@ -7820,7 +7820,7 @@
           }
         },
         "beforeAction": {
-          "at": 1456,
+          "at": 1489,
           "url": "http://127.0.0.1:37233/#/register",
           "title": "Conduit",
           "domHash": "1f4fa65964895f4c",
@@ -7888,7 +7888,7 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2454,
+          "at": 2487,
           "url": "http://127.0.0.1:37233/#/",
           "title": "Conduit",
           "domHash": "3c44d4d1ff59317a",
@@ -8740,8 +8740,8 @@
   ],
   "environment": {
     "status": "VALID",
-    "checkedAt": "2026-07-26T14:06:45.427Z",
-    "durationMs": 3929,
+    "checkedAt": "2026-07-26T16:26:45.615Z",
+    "durationMs": 3936,
     "targetUrl": "http://127.0.0.1:37233/",
     "mainDocument": {
       "status": 200,

@@ -6,6 +6,7 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 
 ### Added
 
+- Fresh fingerprint-bound qualification for the Windows plugin-worker cleanup across TodoMVC, Actual Budget, Conduit SQLite/PostgreSQL 17/Supabase CRUD, and Pocket Ledger Level 7 plus Codex RD901 regression/repair evidence.
 - Configured classic branch protection for `main` with the strict/up-to-date GitHub Actions check `normative release gates (15/15)`, administrator enforcement, required conversation resolution, and disabled force-push/deletion; the aggregate now fails closed when a prerequisite fails, is cancelled, or is skipped.
 - Fresh Phase L qualification at fingerprint `3663ff0c…` across TodoMVC, Actual Budget, Conduit SQLite/PostgreSQL 17/Supabase Data API and Pocket Ledger, including PostgreSQL CRUD cleanup, authenticated Level 7 visual suppression and a new Codex RD901 regression/repair cycle.
 - Pre-capture visual privacy for automatic scans and contract/role verification: known-sensitive inputs, `secretEnv` and auth-state contexts now suppress screenshot/video binaries while safe controls retain them, with additive value-free report metadata.
@@ -22,6 +23,7 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 
 ### Fixed
 
+- Plugin timeout/error/success paths now settle only after the isolated worker has terminated, preventing locked plugin files and `ENOTEMPTY` cleanup failures on Windows.
 - MCP and CLI managed scans now use a dedicated configurable startup-health timeout (30 seconds by default), emit bounded process-state/PID/restart diagnostics, and exercise delayed startup plus dynamic-port cleanup instead of relying on a fixed CI port and a 10-second shared render budget.
 - Playwright traces containing known sensitive field values, generic credential/token material, invalid ZIP data, or bounded-inspection limit failures are removed immediately instead of surviving until the aggregate release artifact gate.
 - Report timelines and environment summaries now render arrows and separators as UTF-8 instead of mojibake.

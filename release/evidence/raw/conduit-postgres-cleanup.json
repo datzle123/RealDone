@@ -1,22 +1,22 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-07-26T14:12:58.222Z",
-  "engineFingerprint": "3663ff0c5e291f6a54b335d5d33fb9035e4e4495785dd15d2f1923e97b4e9d74",
+  "generatedAt": "2026-07-26T16:38:00.000Z",
+  "engineFingerprint": "44fc30ce7bbf3da7b5ab4e17fb59cfeec8948c97f08d106a57d206ab8a8b9114",
   "adapter": "postgresql",
   "database": "conduit_phase_l",
   "sourceScanIds": [
-    "20260726T140645Z-88ef",
-    "20260726T140840Z-f37f",
-    "20260726T140939Z-e364",
-    "20260726T141104Z-e396"
+    "20260726T162645Z-58b4",
+    "20260726T162842Z-c6d2",
+    "20260726T163028Z-7813",
+    "20260726T163607Z-671a"
   ],
   "resources": [
     { "resource": "signup-scan-user", "status": "cleaned", "deletedRows": 1 },
-    { "resource": "crud-extra-article", "status": "cleaned", "deletedRows": 1 },
-    { "resource": "crud-tags", "status": "cleaned", "deletedRows": 2 },
-    { "resource": "auth-fixture-user", "status": "cleaned", "deletedRows": 1 }
+    { "resource": "crud-owner-users", "status": "cleaned", "deletedRows": 2 },
+    { "resource": "crud-articles", "status": "cleaned", "deletedRows": 2 },
+    { "resource": "crud-tags", "status": "cleaned", "deletedRows": 3 }
   ],
-  "deletedRows": 5,
+  "deletedRows": 8,
   "remainingQualificationUsers": 0,
   "remainingQualificationArticles": 0,
   "remainingQualificationComments": 0,
