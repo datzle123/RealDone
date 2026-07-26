@@ -1,9 +1,9 @@
 {
   "schemaVersion": "1.0",
-  "scanId": "20260726T115844Z-3380",
+  "scanId": "20260726T135405Z-d811",
   "targetUrl": "http://127.0.0.1:37300/",
-  "startedAt": "2026-07-26T11:58:44.400Z",
-  "finishedAt": "2026-07-26T11:58:58.245Z",
+  "startedAt": "2026-07-26T13:54:05.601Z",
+  "finishedAt": "2026-07-26T13:54:19.315Z",
   "options": {
     "maxPages": 2,
     "maxActions": 20,
@@ -391,9 +391,9 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T11:58:46.319Z",
-        "durationMs": 1870,
-        "canary": "RD_TEST_A843DD",
+        "startedAt": "2026-07-26T13:54:07.494Z",
+        "durationMs": 1854,
+        "canary": "RD_TEST_77D506",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -419,7 +419,7 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1007,
+          "at": 997,
           "url": "http://127.0.0.1:37300/",
           "title": "Pocket Ledger",
           "domHash": "f9a40a92fafba7cb",
@@ -496,7 +496,7 @@
           }
         },
         "beforeAction": {
-          "at": 1017,
+          "at": 1009,
           "url": "http://127.0.0.1:37300/",
           "title": "Pocket Ledger",
           "domHash": "f9a40a92fafba7cb",
@@ -575,7 +575,7 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 1865,
+          "at": 1850,
           "url": "http://127.0.0.1:37300/#main",
           "title": "Pocket Ledger",
           "domHash": "f9a40a92fafba7cb",
@@ -698,9 +698,9 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T11:58:48.225Z",
-        "durationMs": 1867,
-        "canary": "RD_TEST_CFB5C6",
+        "startedAt": "2026-07-26T13:54:09.385Z",
+        "durationMs": 1844,
+        "canary": "RD_TEST_3035DE",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -718,7 +718,7 @@
               "weight": 80,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 7
+              "elapsedMs": 5
             }
           ],
           "chosenStrategy": "id",
@@ -726,7 +726,7 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1002,
+          "at": 987,
           "url": "http://127.0.0.1:37300/",
           "title": "Pocket Ledger",
           "domHash": "f9a40a92fafba7cb",
@@ -803,7 +803,7 @@
           }
         },
         "beforeAction": {
-          "at": 1013,
+          "at": 996,
           "url": "http://127.0.0.1:37300/",
           "title": "Pocket Ledger",
           "domHash": "f9a40a92fafba7cb",
@@ -882,7 +882,7 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 1863,
+          "at": 1839,
           "url": "http://127.0.0.1:37300/",
           "title": "Pocket Ledger",
           "domHash": "1295db35f098cfe6",
@@ -1027,19 +1027,19 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T11:58:50.127Z",
-        "durationMs": 2000,
-        "canary": "RD_TEST_0DC3BB",
+        "startedAt": "2026-07-26T13:54:11.275Z",
+        "durationMs": 1988,
+        "canary": "RD_TEST_F3AD67",
         "network": [
           {
             "id": "net-1",
             "method": "POST",
             "url": "http://127.0.0.1:37300/api/counter/increment",
             "resourceType": "fetch",
-            "startedAt": 1041,
+            "startedAt": 1015,
             "status": 200,
             "ok": true,
-            "finishedAt": 1053,
+            "finishedAt": 1027,
             "contentType": "application/json",
             "resourceTypeHint": "increment"
           }
@@ -1068,7 +1068,7 @@
           "retryCount": 0
         },
         "before": {
-          "at": 995,
+          "at": 983,
           "url": "http://127.0.0.1:37300/",
           "title": "Pocket Ledger",
           "domHash": "f9a40a92fafba7cb",
@@ -1145,7 +1145,7 @@
           }
         },
         "beforeAction": {
-          "at": 1005,
+          "at": 993,
           "url": "http://127.0.0.1:37300/",
           "title": "Pocket Ledger",
           "domHash": "f9a40a92fafba7cb",
@@ -1224,7 +1224,7 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 1905,
+          "at": 1896,
           "url": "http://127.0.0.1:37300/",
           "title": "Pocket Ledger",
           "domHash": "488a5461c8a14b07",
@@ -1364,19 +1364,19 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T11:58:52.163Z",
-        "durationMs": 1995,
-        "canary": "RD_TEST_91A7D3",
+        "startedAt": "2026-07-26T13:54:13.296Z",
+        "durationMs": 1983,
+        "canary": "RD_TEST_728300",
         "network": [
           {
             "id": "net-1",
             "method": "POST",
             "url": "http://127.0.0.1:37300/api/counter/decrement",
             "resourceType": "fetch",
-            "startedAt": 1019,
+            "startedAt": 1009,
             "status": 200,
             "ok": true,
-            "finishedAt": 1033,
+            "finishedAt": 1021,
             "contentType": "application/json",
             "resourceTypeHint": "decrement"
           }
@@ -1397,7 +1397,7 @@
               "weight": 92,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 4
+              "elapsedMs": 5
             }
           ],
           "chosenStrategy": "role",
@@ -1405,7 +1405,7 @@
           "retryCount": 0
         },
         "before": {
-          "at": 986,
+          "at": 976,
           "url": "http://127.0.0.1:37300/",
           "title": "Pocket Ledger",
           "domHash": "814ba71c736aa26d",
@@ -1482,7 +1482,7 @@
           }
         },
         "beforeAction": {
-          "at": 995,
+          "at": 985,
           "url": "http://127.0.0.1:37300/",
           "title": "Pocket Ledger",
           "domHash": "814ba71c736aa26d",
@@ -1561,7 +1561,7 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 1898,
+          "at": 1893,
           "url": "http://127.0.0.1:37300/",
           "title": "Pocket Ledger",
           "domHash": "fd7f4b7d86ba989a",
@@ -1695,19 +1695,19 @@
         ]
       },
       "evidence": {
-        "startedAt": "2026-07-26T11:58:54.192Z",
-        "durationMs": 2019,
-        "canary": "RD_TEST_A2E7BF",
+        "startedAt": "2026-07-26T13:54:15.313Z",
+        "durationMs": 1986,
+        "canary": "RD_TEST_C22D49",
         "network": [
           {
             "id": "net-1",
             "method": "POST",
             "url": "http://127.0.0.1:37300/api/receipts",
             "resourceType": "fetch",
-            "startedAt": 1040,
+            "startedAt": 1009,
             "status": 200,
             "ok": true,
-            "finishedAt": 1053,
+            "finishedAt": 1021,
             "contentType": "application/json",
             "resourceTypeHint": "receipts"
           }
@@ -1720,7 +1720,7 @@
             "selector": "#receipt",
             "name": "receipt",
             "type": "file",
-            "value": "RD_TEST_A2E7BF_1.txt",
+            "value": "RD_TEST_C22D49_1.txt",
             "redacted": false
           }
         ],
@@ -1729,10 +1729,10 @@
         "downloadEvidence": [],
         "uploads": [
           {
-            "fileName": "RD_TEST_A2E7BF_1.txt",
+            "fileName": "RD_TEST_C22D49_1.txt",
             "contentType": "text/plain",
             "size": 41,
-            "contentHash": "ac377a08d548abcd",
+            "contentHash": "dbd519284388aa87",
             "containsCanary": true
           }
         ],
@@ -1744,7 +1744,7 @@
               "weight": 80,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 4
+              "elapsedMs": 5
             }
           ],
           "chosenStrategy": "id",
@@ -1752,7 +1752,7 @@
           "retryCount": 0
         },
         "before": {
-          "at": 987,
+          "at": 969,
           "url": "http://127.0.0.1:37300/",
           "title": "Pocket Ledger",
           "domHash": "f9a40a92fafba7cb",
@@ -1829,10 +1829,10 @@
           }
         },
         "beforeAction": {
-          "at": 1010,
+          "at": 989,
           "url": "http://127.0.0.1:37300/",
           "title": "Pocket Ledger",
-          "domHash": "6cafb323374a04e6",
+          "domHash": "b070da223c05fe4c",
           "canaryPresent": true,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -1881,7 +1881,7 @@
                 "tag": "input",
                 "type": "file",
                 "name": "receipt",
-                "valueHash": "e6665872a3aaf6d7",
+                "valueHash": "b0a0d5416b5e19ea",
                 "checked": false,
                 "disabled": false,
                 "visible": true
@@ -1908,10 +1908,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 1924,
+          "at": 1893,
           "url": "http://127.0.0.1:37300/",
           "title": "Pocket Ledger",
-          "domHash": "c73026ca431bb2c9",
+          "domHash": "2382603d6a8ce862",
           "canaryPresent": true,
           "bodyCanaryPresent": true,
           "temporaryBlobUrls": 0,
@@ -1923,9 +1923,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "53b1fb483d539da9",
+            "textHash": "9b0c842dc6136d8e",
             "visualHash": "46857e11c9fc209f",
-            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 0 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename RD_TEST_A2E7BF_1.txt PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV Receipt details stored. The file contents were discarded.",
+            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 0 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename RD_TEST_C22D49_1.txt PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV Receipt details stored. The file contents were discarded.",
             "controls": [
               {
                 "tag": "select",
@@ -2048,9 +2048,9 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-26T11:58:56.249Z",
-        "durationMs": 1977,
-        "canary": "RD_TEST_7D2CEF",
+        "startedAt": "2026-07-26T13:54:17.334Z",
+        "durationMs": 1961,
+        "canary": "RD_TEST_6FE5E2",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -2064,7 +2064,7 @@
           {
             "fileName": "pocket-ledger.csv",
             "size": 117,
-            "contentHash": "80d48d2d66bbaaf8d1c2fd46a3edc8161ff151f597c7b93848dde0a6d2913d91",
+            "contentHash": "30dbad307eecc4975535518e9c0942f45009110a6253571d763fafd23de7a43b",
             "containsCanary": false,
             "expectedFieldValues": 0,
             "matchedFieldValues": 0,
@@ -2088,10 +2088,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1004,
+          "at": 983,
           "url": "http://127.0.0.1:37300/",
           "title": "Pocket Ledger",
-          "domHash": "7937b049ab65dfd1",
+          "domHash": "d67f7b54a898e78a",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -2103,9 +2103,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "cc5e71df737980b9",
+            "textHash": "0016192f2219d157",
             "visualHash": "46857e11c9fc209f",
-            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 0 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename RD_TEST_A2E7BF_1.txt PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV",
+            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 0 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename RD_TEST_C22D49_1.txt PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV",
             "controls": [
               {
                 "tag": "select",
@@ -2165,10 +2165,10 @@
           }
         },
         "beforeAction": {
-          "at": 1013,
+          "at": 991,
           "url": "http://127.0.0.1:37300/",
           "title": "Pocket Ledger",
-          "domHash": "7937b049ab65dfd1",
+          "domHash": "d67f7b54a898e78a",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -2180,9 +2180,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "cc5e71df737980b9",
+            "textHash": "0016192f2219d157",
             "visualHash": "46857e11c9fc209f",
-            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 0 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename RD_TEST_A2E7BF_1.txt PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV",
+            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 0 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename RD_TEST_C22D49_1.txt PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV",
             "controls": [
               {
                 "tag": "select",
@@ -2244,10 +2244,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 1882,
+          "at": 1866,
           "url": "http://127.0.0.1:37300/",
           "title": "Pocket Ledger",
-          "domHash": "7937b049ab65dfd1",
+          "domHash": "d67f7b54a898e78a",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -2259,9 +2259,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "cc5e71df737980b9",
+            "textHash": "0016192f2219d157",
             "visualHash": "46857e11c9fc209f",
-            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 0 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename RD_TEST_A2E7BF_1.txt PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV",
+            "text": "Skip to content POCKET LEDGER A tiny record, kept reliably. Update the count, note a receipt, and export the current snapshot. View as Member Admin CURRENT TOTAL Counter 0 Increment Decrement RECEIPT NOTE Store safe file details Choose a plain-text receipt. Its contents are checked and discarded; only filename, size, and media type are retained. Text receipt Store receipt details Stored filename RD_TEST_C22D49_1.txt PORTABLE SNAPSHOT Export current state Download a CSV containing the current counter and receipt metadata. Download CSV",
             "controls": [
               {
                 "tag": "select",
@@ -2332,8 +2332,8 @@
   ],
   "environment": {
     "status": "VALID",
-    "checkedAt": "2026-07-26T11:58:44.466Z",
-    "durationMs": 865,
+    "checkedAt": "2026-07-26T13:54:05.672Z",
+    "durationMs": 857,
     "targetUrl": "http://127.0.0.1:37300/",
     "mainDocument": {
       "status": 200,

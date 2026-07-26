@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
-  "runId": "20260726T120154Z-2f1d",
-  "baselineFile": "F:\\RealDone\\work\\phase-k-qualification\\pocket-project\\.realdone\\phase-k-baseline.json",
-  "generatedAt": "2026-07-26T12:01:55.691Z",
+  "runId": "20260726T135544Z-c762",
+  "baselineFile": "F:\\RealDone\\work\\phase-k-qualification\\pocket-project\\.realdone\\phase-l-baseline.json",
+  "generatedAt": "2026-07-26T13:55:46.941Z",
   "passed": false,
   "selectedContracts": 1,
   "regressions": 1,
@@ -32,8 +32,8 @@
             false
           ],
           "verificationId": [
-            "20260726T120020Z-284a",
-            "20260726T120154Z-9cb1"
+            "20260726T135450Z-e8d2",
+            "20260726T135544Z-465e"
           ],
           "steps": {
             "1": {

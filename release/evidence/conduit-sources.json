@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-07-26T12:12:00.000Z",
-  "engineFingerprint": "4625a9ccdcec3484a0251ad00253a719fb04a81c8ce552b1d77763f3deccef94",
+  "generatedAt": "2026-07-26T14:14:00.000Z",
+  "engineFingerprint": "3663ff0c5e291f6a54b335d5d33fb9035e4e4495785dd15d2f1923e97b4e9d74",
   "case": {
     "name": "Conduit RealWorld (PostgreSQL + Supabase Data API)",
     "repository": "TonyMckes/conduit-realworld-example-app",
@@ -17,9 +17,9 @@
     ]
   },
   "scan": {
-    "scanId": "20260726T121026Z-1d20",
+    "scanId": "20260726T140645Z-88ef",
     "sourceArtifact": "release/evidence/raw/conduit-sources.scan.json",
-    "sourceSha256": "eb0bbc70b72b7aaa875068a1fc93433d4a59403ced61fd4b1361990156899b88",
+    "sourceSha256": "b2b4e47bbc4a5d1476becd3d9cd78e9796791b9f967dce74c757349d90eb5f85",
     "environmentStatus": "VALID",
     "truncated": false,
     "pagesDiscovered": 3,
@@ -42,25 +42,25 @@
       "id": "postgres-create",
       "kind": "external-scan",
       "sourceArtifact": "release/evidence/raw/conduit-postgres-create.scan.json",
-      "sourceSha256": "227ccbb2e84fdf35b24bad1a4d364a2d8c1fdae0be6213e0b2c0acf465fb4463"
+      "sourceSha256": "7c9bdcccc8525b7de22d738e87b9b9e71059189ea79997d0b59397edc15f0d04"
     },
     {
       "id": "postgres-update",
       "kind": "external-scan",
       "sourceArtifact": "release/evidence/raw/conduit-postgres-update.scan.json",
-      "sourceSha256": "441658ec3b70fcad0d64b6f09e3a95bd86a5e5b777f54239d9dde7acc98819b5"
+      "sourceSha256": "52bb6e3256abe41888edbb1f2ee8227000e59d05bbf9dcd274ac2541fbac366e"
     },
     {
       "id": "postgres-delete",
       "kind": "external-scan",
       "sourceArtifact": "release/evidence/raw/conduit-postgres-delete.scan.json",
-      "sourceSha256": "3f8a54e4aa89345be312dfcb4c15bd6a0b74849c2d037f51f716ec4e855afee2"
+      "sourceSha256": "28267871506509bd1882a2b202f1de5fcef84ce6aa9e78564d9e43cf62450507"
     },
     {
       "id": "postgres-cleanup",
       "kind": "test-result",
       "sourceArtifact": "release/evidence/raw/conduit-postgres-cleanup.json",
-      "sourceSha256": "b39f20684a595d056e676d900ecd74eb18acf7a6437d7cf9a098da4dc74e8848"
+      "sourceSha256": "040e6eec0008282851b81d08875512accce9211567f9d8347c6c5d4b373bf224"
     }
   ],
   "assertions": [
@@ -74,7 +74,7 @@
       "id": "capability:backend-crud",
       "passed": true,
       "expected": "create/update/delete plus cleanup",
-      "observed": "PostgreSQL row hashes added=1, changed=1, removed=1; cleanup 2/2",
+      "observed": "PostgreSQL row hashes added=1, changed=1, removed=1; cleanup removed 5 rows across 4 qualification resources",
       "evidenceArtifacts": [
         "postgres-create",
         "postgres-update",
