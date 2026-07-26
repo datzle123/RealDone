@@ -20,7 +20,7 @@ RealDone executes browsers, test actions, database reads, optional cleanup, prov
 | Database cleanup | Destructive by design | CLI and database confirmation, adapter opt-in, exact primary keys, maximum-row guards, dedicated write path |
 | Coding agent/build | Can edit and execute repository code | clean-worktree gate, shell-free spawn, time/output bounds, sealed baseline, contract hashes, independent verification |
 | Plugin/provider | Trusted executable code or remote credential | read-only maintained adapters; explicit plugin manifest/permissions; relative entry; schema validation; one-call worker; timeout/memory limits; output redaction |
-| Reports/logs | May contain application content | known/environment-secret redaction, per-trace bounded ZIP inspection with fail-closed deletion, ignored local output tree, no credential values by design |
+| Reports/logs | May contain application content | known/environment-secret redaction, per-trace bounded ZIP inspection with fail-closed deletion, pre-capture screenshot/video suppression for sensitive/authenticated contexts, ignored local output tree, no credential values by design |
 
 ## Evidence-integrity threats
 
@@ -31,13 +31,14 @@ RealDone executes browsers, test actions, database reads, optional cleanup, prov
 - **UI false success:** browser/network/refresh/source/provider/cross-role evidence remains separate from UI claims.
 - **Release summary detached from its run:** external-case evidence is accepted only when its repository-confined raw `scan.json` exists, matches the recorded SHA-256, and agrees exactly with the published scan counters and verdict map.
 - **Browser trace retains a credential:** every newly closed trace is inspected before linkage against generic secret forms and the exact sensitive values known to that scan/contract, including opaque cookies/tokens read from the granted Playwright storage state; unsafe, invalid, oversized, or over-expanded ZIPs are deleted and only value-free suppression metadata remains.
+- **Screenshot/video renders private content:** binary visual artifacts cannot be proven safe by the text gate, so contexts with known-sensitive input, `secretEnv` or auth state do not start standalone/trace screenshot or video capture; reports retain only bounded value-free suppression metadata.
 
 ## Residual risks
 
 - Worker threads are resource/fault isolation, not OS sandboxes. The worker process environment is reduced to declared/referenced names and global `fetch` is host-allowlisted, but malicious plugin code can still read files (including credential files) or use other Node network APIs.
 - A coding agent or build command can execute code with its configured process authority. Use a disposable branch/worktree and external sandbox when the repository is untrusted.
 - Opaque JavaScript/server handlers without observable form, URL, endpoint, provider, or DOM semantics cannot be classified precisely before execution. CLI/MCP therefore require project-level consent that explicitly warns about hidden provider effects; use a recorded flow or project-specific deny/set policy for narrower authority.
-- Redaction and trace inspection cannot recognize every domain-specific secret or private data format. Treat local reports and logs as sensitive even when the automatic gate passes.
+- Redaction, trace inspection and visual pre-capture classification cannot recognize every domain-specific secret or private data format. Treat local reports and logs as sensitive even when the automatic gate passes.
 - Cross-role checks demonstrate one configured observation, not exhaustive authorization or tenant isolation.
 - Provider adapters demonstrate what the provider API or trusted custom plugin observed, not real-world delivery beyond that provider's boundary.
 

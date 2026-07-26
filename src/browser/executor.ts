@@ -6,7 +6,12 @@ import { classifyAction } from "../core/classify.js";
 import { hashText, isSensitiveKey, safeUrl } from "../core/redact.js";
 import { isTransientBrowserError, withRetry } from "../core/retry.js";
 import { actionSkipReason, isSafetyEscalation } from "../core/safety.js";
-import { retainSecretSafeTrace, storageStateArtifactSecrets, type ArtifactSecret } from "../release/artifacts.js";
+import {
+  retainSecretSafeTrace,
+  storageStateArtifactSecrets,
+  type ArtifactSecret,
+  type VisualArtifactSuppression,
+} from "../release/artifacts.js";
 import type { ActionSpec, ExecutionEvidence, FilledField, ScanOptions, UploadEvidence } from "../types.js";
 import { attachEvidence, captureState, collectUiClaims } from "./evidence.js";
 import { resolveSemanticLocator, SemanticTargetNotFoundError } from "./locator.js";
@@ -225,6 +230,29 @@ function screenshotName(action: ActionSpec, suffix: string): string {
   return `${action.id}-${suffix}.png`;
 }
 
+function visualPrivacyReason(
+  action: ActionSpec,
+  storageStatePath?: string,
+): VisualArtifactSuppression["reason"] | undefined {
+  if (storageStatePath) return "authenticated-context";
+  const sensitiveInput = action.fields.some((field) => {
+    const hint = `${field.name ?? ""} ${field.label ?? ""} ${field.placeholder ?? ""}`;
+    return field.type.toLowerCase() === "password" || isSensitiveKey(hint);
+  });
+  return sensitiveInput ? "sensitive-input" : undefined;
+}
+
+function suppressVisualArtifact(
+  evidence: ExecutionEvidence,
+  artifact: VisualArtifactSuppression["artifact"],
+  reason: VisualArtifactSuppression["reason"],
+): void {
+  evidence.visualSuppressions ??= [];
+  if (!evidence.visualSuppressions.some((suppression) => suppression.artifact === artifact && suppression.reason === reason)) {
+    evidence.visualSuppressions.push({ artifact, reason });
+  }
+}
+
 function readBackUrl(evidence: ExecutionEvidence): string | undefined {
   const write = evidence.network.find((request) =>
     ["POST", "PUT", "PATCH"].includes(request.method) && request.ok &&
@@ -315,10 +343,18 @@ export async function executeAction(
   const reportDirectory = path.dirname(screenshotDirectory);
   const traceDirectory = path.join(reportDirectory, "traces");
   const videoDirectory = path.join(reportDirectory, "videos");
+  const visualSuppressionReason = visualPrivacyReason(action, options.storageStatePath);
+  const recordVideo = Boolean(options.video && !visualSuppressionReason);
+  if (options.video && visualSuppressionReason) {
+    suppressVisualArtifact(evidence, "video", visualSuppressionReason);
+  }
+  if ((options.trace || options.traceOnFailure) && visualSuppressionReason) {
+    suppressVisualArtifact(evidence, "screenshot", visualSuppressionReason);
+  }
   await Promise.all([
     mkdir(screenshotDirectory, { recursive: true }),
     ...(options.trace || options.traceOnFailure ? [mkdir(traceDirectory, { recursive: true })] : []),
-    ...(options.video ? [mkdir(videoDirectory, { recursive: true })] : []),
+    ...(recordVideo ? [mkdir(videoDirectory, { recursive: true })] : []),
   ]);
   const traceSecrets = options.storageStatePath
     ? await storageStateArtifactSecrets(options.storageStatePath)
@@ -326,7 +362,7 @@ export async function executeAction(
   const context = await browser.newContext(
     {
       ...(options.storageStatePath ? { storageState: options.storageStatePath } : {}),
-      ...(options.video ? { recordVideo: { dir: videoDirectory } } : {}),
+      ...(recordVideo ? { recordVideo: { dir: videoDirectory } } : {}),
     },
   );
   await context.grantPermissions(["clipboard-write"], { origin: new URL(options.targetUrl).origin }).catch(() => undefined);
@@ -355,7 +391,9 @@ export async function executeAction(
   }
   const page = await context.newPage();
   const video = page.video();
-  if (options.trace || options.traceOnFailure) await context.tracing.start({ screenshots: true, snapshots: true, sources: false });
+  if (options.trace || options.traceOnFailure) {
+    await context.tracing.start({ screenshots: !visualSuppressionReason, snapshots: true, sources: false });
+  }
   let attached: ReturnType<typeof attachEvidence> | undefined;
 
   try {
@@ -471,9 +509,13 @@ export async function executeAction(
     const actionBaseline = evidence.beforeAction ?? evidence.before;
     const noVisibleChange = actionBaseline.domHash === evidence.after.domHash && actionBaseline.url === evidence.after.url;
     if (action.kind === "mutation" || hasWrite || hasFailure || noVisibleChange || evidence.pageErrors.length > 0) {
-      const screenshotPath = path.join(screenshotDirectory, screenshotName(action, "after"));
-      await page.screenshot({ path: screenshotPath, fullPage: true });
-      evidence.screenshot = screenshotPath;
+      if (visualSuppressionReason) {
+        suppressVisualArtifact(evidence, "screenshot", visualSuppressionReason);
+      } else {
+        const screenshotPath = path.join(screenshotDirectory, screenshotName(action, "after"));
+        await page.screenshot({ path: screenshotPath, fullPage: true });
+        evidence.screenshot = screenshotPath;
+      }
     }
 
     if (action.kind === "mutation") {
@@ -485,9 +527,13 @@ export async function executeAction(
       evidence.afterRefresh = await captureState(refreshedScope, canary, startedAt);
       const targetVisibleAfterRefresh = await targetIsVisible(refreshedScope, evidence.targetText);
       if (targetVisibleAfterRefresh !== undefined) evidence.targetVisibleAfterRefresh = targetVisibleAfterRefresh;
-      const refreshPath = path.join(screenshotDirectory, screenshotName(action, "refresh"));
-      await page.screenshot({ path: refreshPath, fullPage: true });
-      evidence.refreshScreenshot = refreshPath;
+      if (visualSuppressionReason) {
+        suppressVisualArtifact(evidence, "screenshot", visualSuppressionReason);
+      } else {
+        const refreshPath = path.join(screenshotDirectory, screenshotName(action, "refresh"));
+        await page.screenshot({ path: refreshPath, fullPage: true });
+        evidence.refreshScreenshot = refreshPath;
+      }
 
       await context.setExtraHTTPHeaders({ "cache-control": "no-cache", pragma: "no-cache" });
       await page.reload({ waitUntil: "domcontentloaded", timeout: options.timeoutMs });
@@ -543,9 +589,13 @@ export async function executeAction(
       evidence.locatorResolution = error.diagnostics;
     }
     evidence.executionError = error instanceof Error ? error.message : String(error);
-    const screenshotPath = path.join(screenshotDirectory, screenshotName(action, "error"));
-    await page.screenshot({ path: screenshotPath, fullPage: true }).catch(() => undefined);
-    evidence.screenshot = screenshotPath;
+    if (visualSuppressionReason) {
+      suppressVisualArtifact(evidence, "screenshot", visualSuppressionReason);
+    } else {
+      const screenshotPath = path.join(screenshotDirectory, screenshotName(action, "error"));
+      const saved = await page.screenshot({ path: screenshotPath, fullPage: true }).then(() => true).catch(() => false);
+      if (saved) evidence.screenshot = screenshotPath;
+    }
   } finally {
     await attached?.flush();
     attached?.detach();

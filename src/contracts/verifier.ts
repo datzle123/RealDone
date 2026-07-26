@@ -16,7 +16,13 @@ import { PluginHost } from "../plugins/host.js";
 import { BuiltinProviderHost } from "../providers/builtin.js";
 import { evaluatePerformance, loadPerformanceBudget } from "../performance/budget.js";
 import { actionSkipReason } from "../core/safety.js";
-import { retainSecretSafeTrace, storageStateArtifactSecrets, type ArtifactSecret, type TraceSuppression } from "../release/artifacts.js";
+import {
+  retainSecretSafeTrace,
+  storageStateArtifactSecrets,
+  type ArtifactSecret,
+  type TraceSuppression,
+  type VisualArtifactSuppression,
+} from "../release/artifacts.js";
 import type { NetworkEvidence } from "../types.js";
 import { loadBehaviorContract, type BehaviorStep, type ContractExpectation, type ContractVerification, type StepVerification } from "./schema.js";
 import { renderContractVerification } from "./report.js";
@@ -435,7 +441,12 @@ async function verifyExpectation(
 interface RolePages {
   page(role?: string): Promise<Page>;
   freshPage(role?: string): Promise<Page>;
-  close(): Promise<{ traces: string[]; videos: string[]; traceSuppressions: TraceSuppression[] }>;
+  close(): Promise<{
+    traces: string[];
+    videos: string[];
+    traceSuppressions: TraceSuppression[];
+    visualSuppressions: VisualArtifactSuppression[];
+  }>;
 }
 
 function createRolePages(
@@ -451,6 +462,7 @@ function createRolePages(
     name: string;
     video: Video | null;
     traceSecrets: ArtifactSecret[];
+    visualSuppressions: VisualArtifactSuppression[];
   }
   const opened = new Map<string, ContextEntry>();
   const contexts: ContextEntry[] = [];
@@ -477,14 +489,37 @@ function createRolePages(
       if (role !== "default" && !contract.roles?.[role]) throw new Error(`Unknown behavior role: ${role}`);
       const storageState = storageFor(role);
       const storageStateSecrets = storageState ? await storageStateArtifactSecrets(storageState) : [];
+      const sensitiveInput = contract.steps.some((step) => Boolean(step.secretEnv) && (step.role ?? "default") === role);
+      const visualReason: VisualArtifactSuppression["reason"] | undefined = storageState
+        ? "authenticated-context"
+        : sensitiveInput
+          ? "sensitive-input"
+          : undefined;
+      const recordVideo = Boolean(options.video && !visualReason);
       const context = await browser.newContext({
         ...(storageState ? { storageState } : {}),
-        ...(options.video ? { recordVideo: { dir: path.join(outputDirectory, "videos") } } : {}),
+        ...(recordVideo ? { recordVideo: { dir: path.join(outputDirectory, "videos") } } : {}),
       });
       const page = await context.newPage();
       const name = fresh ? `${role}-fresh-${++freshSequence}` : role;
-      if (options.trace || options.traceOnFailure) await context.tracing.start({ screenshots: true, snapshots: true, sources: false });
-      const entry = { context, page, name, video: page.video(), traceSecrets: [...contractTraceSecrets, ...storageStateSecrets] };
+      if (options.trace || options.traceOnFailure) {
+        await context.tracing.start({ screenshots: !visualReason, snapshots: true, sources: false });
+      }
+      const entry = {
+        context,
+        page,
+        name,
+        video: page.video(),
+        traceSecrets: [...contractTraceSecrets, ...storageStateSecrets],
+        visualSuppressions: visualReason
+          ? [
+              ...(options.trace || options.traceOnFailure
+                ? [{ artifact: "screenshot" as const, reason: visualReason }]
+                : []),
+              ...(options.video ? [{ artifact: "video" as const, reason: visualReason }] : []),
+            ]
+          : [],
+      };
       contexts.push(entry);
       return entry;
   };
@@ -504,6 +539,7 @@ function createRolePages(
       const traces: string[] = [];
       const videos: string[] = [];
       const traceSuppressions: TraceSuppression[] = [];
+      const visualSuppressions: VisualArtifactSuppression[] = [];
       let traceRetentionError: unknown;
       for (const entry of contexts) {
         if (options.trace || options.traceOnFailure) {
@@ -524,11 +560,19 @@ function createRolePages(
           const videoPath = await entry.video.path().catch(() => undefined);
           if (videoPath) videos.push(portable(videoPath));
         }
+        for (const visualSuppression of entry.visualSuppressions) {
+          if (!visualSuppressions.some((suppression) =>
+            suppression.artifact === visualSuppression.artifact
+            && suppression.reason === visualSuppression.reason
+          )) {
+            visualSuppressions.push(visualSuppression);
+          }
+        }
       }
       opened.clear();
       contexts.length = 0;
       if (traceRetentionError) throw traceRetentionError;
-      return { traces, videos, traceSuppressions };
+      return { traces, videos, traceSuppressions, visualSuppressions };
     },
   };
 }
@@ -585,7 +629,12 @@ export async function verifyContract(
   const rolePages = createRolePages(browser, absoluteContract, contract, options, outputDirectory);
   const startedAt = new Date();
   const results: StepVerification[] = [];
-  let artifacts: { traces: string[]; videos: string[]; traceSuppressions: TraceSuppression[] } = { traces: [], videos: [], traceSuppressions: [] };
+  let artifacts: {
+    traces: string[];
+    videos: string[];
+    traceSuppressions: TraceSuppression[];
+    visualSuppressions: VisualArtifactSuppression[];
+  } = { traces: [], videos: [], traceSuppressions: [], visualSuppressions: [] };
   let blocked = false;
   try {
     for (const step of contract.steps) {
@@ -722,7 +771,12 @@ export async function verifyContract(
     artifacts.traces = [];
   }
   if (performance) verification.performance = performance;
-  if (artifacts.traces.length > 0 || artifacts.videos.length > 0 || artifacts.traceSuppressions.length > 0) verification.artifacts = artifacts;
+  if (
+    artifacts.traces.length > 0
+    || artifacts.videos.length > 0
+    || artifacts.traceSuppressions.length > 0
+    || artifacts.visualSuppressions.length > 0
+  ) verification.artifacts = artifacts;
   await Promise.all([
     writeFile(path.join(outputDirectory, "verification.json"), `${JSON.stringify(verification, null, 2)}\n`),
     writeFile(path.join(outputDirectory, "report.html"), renderContractVerification(verification)),
