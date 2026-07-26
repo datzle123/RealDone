@@ -159,7 +159,7 @@ Contributes evidence to: §12–13, §21, §25, §29–30.
 Gate:
 
 - Every automatic-scan and contract/MCP trace is inspected immediately after Playwright closes the ZIP and before any report links it.
-- Exact sensitive values already known to the browser/contract and generic private-key/token/sensitive-field patterns are checked without persisting or reporting those values.
+- Exact sensitive values already known to the browser/contract—including opaque Playwright auth-state cookies/tokens—and generic private-key/token/sensitive-field patterns are checked without persisting or reporting those values.
 - Secret-bearing, invalid, oversized, or over-expanded trace ZIPs are deleted fail-closed; reports contain only additive value-free suppression metadata.
 - A real-browser sensitive-field broken case loses its trace, a non-sensitive trace control remains available, invalid/limit unit controls fail closed, and the final aggregate artifact secret scan remains green.
 - Typecheck, unit, browser, audit, package, schema, cleanup and hosted cross-platform release gates pass without weakening RG14.

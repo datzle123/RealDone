@@ -658,7 +658,7 @@ Replay
 Baseline
 ```
 
-Mỗi Playwright trace chỉ được liên kết vào evidence sau khi ZIP vừa tạo đã qua kiểm tra secret có giới hạn. Nếu phát hiện secret, ZIP không đọc được, hoặc vượt giới hạn kiểm tra, RealDone phải xóa trace theo hướng fail-closed, không công bố đường dẫn đã bị loại, và chỉ ghi metadata lý do không chứa giá trị hay fingerprint của secret. Quy tắc này áp dụng giống nhau cho scan tự động, contract verification, browser matrix, CI và MCP.
+Mỗi Playwright trace chỉ được liên kết vào evidence sau khi ZIP vừa tạo đã qua kiểm tra secret có giới hạn. Phép kiểm tra phải gồm cả sensitive field được điền, `secretEnv`, opaque cookie/token trong Playwright `storageState` đã được cấp, và các pattern credential tổng quát. Nếu phát hiện secret, ZIP không đọc được, hoặc vượt giới hạn kiểm tra, RealDone phải xóa trace theo hướng fail-closed, không công bố đường dẫn đã bị loại, và chỉ ghi metadata lý do không chứa giá trị hay fingerprint của secret. Quy tắc này áp dụng giống nhau cho scan tự động, contract verification, browser matrix, CI và MCP.
 
 ---
 

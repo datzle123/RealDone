@@ -54,6 +54,7 @@ export type SecretSafeTraceRetention =
   | { retained: false; suppression: TraceSuppression };
 
 const binaryExtensions = new Set([".gif", ".jpeg", ".jpg", ".mp4", ".pdf", ".png", ".webm"]);
+const storageSecretKey = /authorization|cookie|password|passwd|secret|token|api[-_]?key|session/i;
 const genericPatterns: Array<{ kind: ArtifactSecretFindingKind; expression: RegExp; detail: string }> = [
   { kind: "private-key", expression: /-----BEGIN (?:EC |OPENSSH |RSA )?PRIVATE KEY-----/g, detail: "Private-key material appears in an artifact." },
   { kind: "live-provider-key", expression: /\b(?:rk|sk)_live_[A-Za-z0-9]{8,}\b/g, detail: "A live provider key appears in an artifact." },
@@ -120,6 +121,41 @@ async function filesUnder(root: string): Promise<string[]> {
   };
   await visit(root);
   return output.sort();
+}
+
+function objectValue(value: unknown): Record<string, unknown> | undefined {
+  return value && typeof value === "object" && !Array.isArray(value) ? value as Record<string, unknown> : undefined;
+}
+
+export async function storageStateArtifactSecrets(file: string, maxBytes = 5 * 1024 * 1024): Promise<ArtifactSecret[]> {
+  const absoluteFile = path.resolve(file);
+  const info = await stat(absoluteFile).catch(() => undefined);
+  if (!info?.isFile() || info.size > maxBytes) throw new Error("Browser storage state could not be inspected safely for trace retention.");
+  let input: unknown;
+  try {
+    input = JSON.parse(await readFile(absoluteFile, "utf8")) as unknown;
+  } catch {
+    throw new Error("Browser storage state could not be inspected safely for trace retention.");
+  }
+  const root = objectValue(input);
+  if (!root) throw new Error("Browser storage state could not be inspected safely for trace retention.");
+  const values: ArtifactSecret[] = [];
+  for (const [index, value] of (Array.isArray(root.cookies) ? root.cookies : []).entries()) {
+    const cookie = objectValue(value);
+    if (typeof cookie?.value === "string" && cookie.value.length >= 4) {
+      values.push({ label: `storage-state cookie ${index + 1}`, value: cookie.value });
+    }
+  }
+  for (const origin of Array.isArray(root.origins) ? root.origins : []) {
+    const storage = objectValue(origin)?.localStorage;
+    for (const item of Array.isArray(storage) ? storage : []) {
+      const entry = objectValue(item);
+      if (typeof entry?.name === "string" && storageSecretKey.test(entry.name) && typeof entry.value === "string" && entry.value.length >= 4) {
+        values.push({ label: "storage-state sensitive value", value: entry.value });
+      }
+    }
+  }
+  return [...new Map(values.map((secret) => [secret.value, secret])).values()];
 }
 
 function createArtifactScanner(options: ArtifactSecretScanOptions) {

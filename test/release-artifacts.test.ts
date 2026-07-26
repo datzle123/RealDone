@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import test from "node:test";
 import { strToU8, zipSync } from "fflate";
-import { retainSecretSafeTrace, scanArtifactFileSecrets, scanArtifactSecrets } from "../src/release/artifacts.js";
+import { retainSecretSafeTrace, scanArtifactFileSecrets, scanArtifactSecrets, storageStateArtifactSecrets } from "../src/release/artifacts.js";
 import { checkArtifactSchemaCompatibility } from "../src/release/schema.js";
 
 test("artifact secret gate scans text and ZIP entries without echoing secrets", async (context) => {
@@ -77,6 +77,28 @@ test("trace retention keeps safe ZIPs and removes unsafe or unscannable ZIPs", a
   assert.equal(limited.retained, false);
   if (!limited.retained) assert.equal(limited.suppression.reason, "inspection-failed");
   assert.equal(await stat(limitedTrace).catch(() => undefined), undefined);
+});
+
+test("trace retention treats opaque auth storage state as exact secret input", async (context) => {
+  const directory = await mkdtemp(path.join(tmpdir(), "realdone-storage-state-retention-"));
+  context.after(async () => rm(directory, { recursive: true, force: true }));
+  const opaqueCookie = "opaque-session-51f02d8c";
+  const localToken = "opaque-local-token-71c9a0";
+  const storageState = path.join(directory, "auth.json");
+  const trace = path.join(directory, "trace.zip");
+  await writeFile(storageState, JSON.stringify({
+    cookies: [{ name: "sid", value: opaqueCookie, domain: "127.0.0.1", path: "/" }],
+    origins: [{ origin: "http://127.0.0.1", localStorage: [{ name: "access_token", value: localToken }, { name: "theme", value: "dark" }] }],
+  }));
+  await writeFile(trace, zipSync({ "trace.network": strToU8(`Cookie: sid=${opaqueCookie}`) }));
+
+  const secrets = await storageStateArtifactSecrets(storageState);
+  assert.deepEqual(secrets.map((secret) => secret.value).sort(), [localToken, opaqueCookie].sort());
+  const retention = await retainSecretSafeTrace(trace, { secrets });
+  assert.equal(retention.retained, false);
+  if (!retention.retained) assert.ok(retention.suppression.findingKinds.includes("exact-secret"));
+  assert.equal(await stat(trace).catch(() => undefined), undefined);
+  assert.equal(JSON.stringify(retention).includes(opaqueCookie), false);
 });
 
 test("artifact schema gate accepts a compatible set and rejects a missing required artifact", async (context) => {

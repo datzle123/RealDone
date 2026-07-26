@@ -30,7 +30,7 @@ RealDone executes browsers, test actions, database reads, optional cleanup, prov
 - **Plugin invents a verdict:** plugins return a typed observation; RealDone validates it and computes pass/fail. A malicious trusted plugin can still lie about `found`, so plugin provenance remains part of the trust model.
 - **UI false success:** browser/network/refresh/source/provider/cross-role evidence remains separate from UI claims.
 - **Release summary detached from its run:** external-case evidence is accepted only when its repository-confined raw `scan.json` exists, matches the recorded SHA-256, and agrees exactly with the published scan counters and verdict map.
-- **Browser trace retains a credential:** every newly closed trace is inspected before linkage against generic secret forms and the exact sensitive values known to that scan/contract; unsafe, invalid, oversized, or over-expanded ZIPs are deleted and only value-free suppression metadata remains.
+- **Browser trace retains a credential:** every newly closed trace is inspected before linkage against generic secret forms and the exact sensitive values known to that scan/contract, including opaque cookies/tokens read from the granted Playwright storage state; unsafe, invalid, oversized, or over-expanded ZIPs are deleted and only value-free suppression metadata remains.
 
 ## Residual risks
 

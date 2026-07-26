@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { access, mkdir, mkdtemp, readFile, readdir, writeFile } from "node:fs/promises";
+import { access, mkdir, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { spawn } from "node:child_process";
@@ -525,6 +525,34 @@ try {
   assert.ok(recording.contract.steps.some((step) => step.type === "fill"));
   assert.ok(recording.contract.steps.some((step) => step.type === "click"));
   assert.ok((recording.contract.artifacts?.rrwebEventCount ?? 0) > 0);
+  const authStateFile = path.join(flowDirectory, "auth.json");
+  const opaqueAuthSession = "opaque-smoke-session-5c23f90a";
+  const authState = JSON.parse(await readFile(authStateFile, "utf8"));
+  authState.cookies.push({
+    name: "rd_session",
+    value: opaqueAuthSession,
+    domain: new URL(fixture.url).hostname,
+    path: "/",
+    expires: -1,
+    httpOnly: true,
+    secure: false,
+    sameSite: "Lax",
+  });
+  await writeFile(authStateFile, JSON.stringify(authState));
+  const authenticatedTraceScan = await runScan({
+    ...scan,
+    targetUrl: `${fixture.url}/loading-control`,
+    outputRoot: path.join(outputRoot, "authenticated-scan-trace"),
+    storageStatePath: authStateFile,
+    maxPages: 1,
+    maxActions: 1,
+    deep: false,
+    trace: true,
+    traceOnFailure: false,
+  });
+  assert.equal(authenticatedTraceScan.report.findings[0]?.evidence.trace, undefined);
+  assert.equal(authenticatedTraceScan.report.findings[0]?.evidence.traceSuppression?.reason, "secret-detected");
+  assert.ok(authenticatedTraceScan.report.findings[0]?.evidence.traceSuppression?.findingKinds.includes("exact-secret"));
   const recorderSecret = "RD-RECORDER-SECRET-42";
   const secretRecording = await recordFlow(
     {
@@ -636,10 +664,12 @@ try {
     allowDestructive: false,
     allowExternal: true,
     allowHosts: [],
+    trace: true,
     ...(process.env.REALDONE_BROWSER_PATH ? { executablePath: process.env.REALDONE_BROWSER_PATH } : {}),
   });
   delete process.env.REALDONE_UPLOAD_RECEIPT_FILE;
   assert.equal(complexVerification.verification.passed, true);
+  assert.ok((complexVerification.verification.artifacts?.traces.length ?? 0) > 0);
   recording.contract.roles = {
     observer: { description: "Independent observer", authState: { path: "auth.json" } },
   };
@@ -851,7 +881,8 @@ try {
   assert.ok(verification.verification.steps.some((step) => step.assertions.some((assertion) => assertion.persistenceScope === "SOURCE_OF_TRUTH_CONFIRMED" && assertion.passed)));
   assert.equal(verification.verification.performance?.passed, true);
   assert.equal(verification.verification.deep, true);
-  assert.ok((verification.verification.artifacts?.traces.length ?? 0) > 0);
+  assert.equal(verification.verification.artifacts?.traces.length ?? 0, 0);
+  assert.ok((verification.verification.artifacts?.traceSuppressions?.length ?? 0) > 0);
   assert.ok((verification.verification.artifacts?.videos.length ?? 0) > 0);
   for (const artifact of [
     ...(verification.verification.artifacts?.traces ?? []),
@@ -904,7 +935,8 @@ try {
   };
   const brokenAuthorization = await verifyContract(brokenAuthorizationFile, authorizationOptions);
   assert.equal(brokenAuthorization.verification.passed, false);
-  assert.ok((brokenAuthorization.verification.artifacts?.traces.length ?? 0) > 0);
+  assert.equal(brokenAuthorization.verification.artifacts?.traces.length ?? 0, 0);
+  assert.ok((brokenAuthorization.verification.artifacts?.traceSuppressions?.length ?? 0) > 0);
   assert.deepEqual(
     brokenAuthorization.verification.steps.flatMap((step) => step.assertions.map((assertion) => assertion.detectorCode)).filter(Boolean).sort(),
     ["RD601", "RD602", "RD603", "RD604", "RD605"],
@@ -912,6 +944,7 @@ try {
   const controlAuthorization = await verifyContract(controlAuthorizationFile, authorizationOptions);
   assert.equal(controlAuthorization.verification.passed, true);
   assert.equal(controlAuthorization.verification.artifacts?.traces.length ?? 0, 0);
+  assert.ok((controlAuthorization.verification.artifacts?.traceSuppressions?.length ?? 0) > 0);
   assert.equal(controlAuthorization.verification.steps.some((step) => step.assertions.some((assertion) => assertion.detectorCode)), false);
   const verifyOptions = {
     outputRoot: path.join(outputRoot, "baseline-runs"),
@@ -1018,8 +1051,10 @@ try {
   const sqliteCheck = new SqliteDatabase(sqliteFile, { readonly: true });
   assert.equal(sqliteCheck.prepare("SELECT COUNT(*) AS count FROM customers WHERE id = ?").get(1).count, 0);
   sqliteCheck.close();
+  await rm(authStateFile, { force: true });
   const artifactSecretGate = await scanArtifactSecrets(outputRoot, {
     secrets: [
+      { label: "opaque auth-state fixture", value: opaqueAuthSession },
       { label: "Supabase fixture key", value: "fixture-supabase-key" },
       { label: "Stripe fixture key", value: "sk_test_fixture" },
       { label: "AWS fixture access key", value: "AKIATEST" },

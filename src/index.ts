@@ -137,6 +137,7 @@ export {
   retainSecretSafeTrace,
   scanArtifactFileSecrets,
   scanArtifactSecrets,
+  storageStateArtifactSecrets,
   type ArtifactSecret,
   type ArtifactSecretFinding,
   type ArtifactSecretFindingKind,

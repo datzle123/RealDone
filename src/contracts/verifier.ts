@@ -16,7 +16,7 @@ import { PluginHost } from "../plugins/host.js";
 import { BuiltinProviderHost } from "../providers/builtin.js";
 import { evaluatePerformance, loadPerformanceBudget } from "../performance/budget.js";
 import { actionSkipReason } from "../core/safety.js";
-import { retainSecretSafeTrace, type ArtifactSecret, type TraceSuppression } from "../release/artifacts.js";
+import { retainSecretSafeTrace, storageStateArtifactSecrets, type ArtifactSecret, type TraceSuppression } from "../release/artifacts.js";
 import type { NetworkEvidence } from "../types.js";
 import { loadBehaviorContract, type BehaviorStep, type ContractExpectation, type ContractVerification, type StepVerification } from "./schema.js";
 import { renderContractVerification } from "./report.js";
@@ -450,12 +450,13 @@ function createRolePages(
     page: Page;
     name: string;
     video: Video | null;
+    traceSecrets: ArtifactSecret[];
   }
   const opened = new Map<string, ContextEntry>();
   const contexts: ContextEntry[] = [];
   let freshSequence = 0;
   const contractDirectory = path.dirname(contractFile);
-  const traceSecrets: ArtifactSecret[] = contract.steps.flatMap((step, index) => {
+  const contractTraceSecrets: ArtifactSecret[] = contract.steps.flatMap((step, index) => {
     if (!step.secretEnv) return [];
     const value = process.env[step.secretEnv];
     return value ? [{ label: `contract step ${index + 1}`, value }] : [];
@@ -475,6 +476,7 @@ function createRolePages(
   const open = async (role: string, fresh: boolean): Promise<ContextEntry> => {
       if (role !== "default" && !contract.roles?.[role]) throw new Error(`Unknown behavior role: ${role}`);
       const storageState = storageFor(role);
+      const storageStateSecrets = storageState ? await storageStateArtifactSecrets(storageState) : [];
       const context = await browser.newContext({
         ...(storageState ? { storageState } : {}),
         ...(options.video ? { recordVideo: { dir: path.join(outputDirectory, "videos") } } : {}),
@@ -482,7 +484,7 @@ function createRolePages(
       const page = await context.newPage();
       const name = fresh ? `${role}-fresh-${++freshSequence}` : role;
       if (options.trace || options.traceOnFailure) await context.tracing.start({ screenshots: true, snapshots: true, sources: false });
-      const entry = { context, page, name, video: page.video() };
+      const entry = { context, page, name, video: page.video(), traceSecrets: [...contractTraceSecrets, ...storageStateSecrets] };
       contexts.push(entry);
       return entry;
   };
@@ -509,7 +511,7 @@ function createRolePages(
           const saved = await entry.context.tracing.stop({ path: tracePath }).then(() => true).catch(() => false);
           if (saved) {
             try {
-              const retention = await retainSecretSafeTrace(tracePath, { secrets: traceSecrets });
+              const retention = await retainSecretSafeTrace(tracePath, { secrets: entry.traceSecrets });
               if (retention.retained) traces.push(portable(tracePath));
               else traceSuppressions.push(retention.suppression);
             } catch (error) {

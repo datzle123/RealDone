@@ -6,7 +6,7 @@ import { classifyAction } from "../core/classify.js";
 import { hashText, isSensitiveKey, safeUrl } from "../core/redact.js";
 import { isTransientBrowserError, withRetry } from "../core/retry.js";
 import { actionSkipReason, isSafetyEscalation } from "../core/safety.js";
-import { retainSecretSafeTrace, type ArtifactSecret } from "../release/artifacts.js";
+import { retainSecretSafeTrace, storageStateArtifactSecrets, type ArtifactSecret } from "../release/artifacts.js";
 import type { ActionSpec, ExecutionEvidence, FilledField, ScanOptions, UploadEvidence } from "../types.js";
 import { attachEvidence, captureState, collectUiClaims } from "./evidence.js";
 import { resolveSemanticLocator, SemanticTargetNotFoundError } from "./locator.js";
@@ -320,6 +320,9 @@ export async function executeAction(
     ...(options.trace || options.traceOnFailure ? [mkdir(traceDirectory, { recursive: true })] : []),
     ...(options.video ? [mkdir(videoDirectory, { recursive: true })] : []),
   ]);
+  const traceSecrets = options.storageStatePath
+    ? await storageStateArtifactSecrets(options.storageStatePath)
+    : [];
   const context = await browser.newContext(
     {
       ...(options.storageStatePath ? { storageState: options.storageStatePath } : {}),
@@ -329,7 +332,6 @@ export async function executeAction(
   await context.grantPermissions(["clipboard-write"], { origin: new URL(options.targetUrl).origin }).catch(() => undefined);
   let activationStarted = false;
   let blockedNavigation: string | undefined;
-  let traceSecrets: ArtifactSecret[] = [];
   if (!options.allowExternal) {
     const targetOrigin = new URL(options.targetUrl).origin;
     await context.route("**/*", async (route) => {
@@ -387,7 +389,7 @@ export async function executeAction(
     attached = attachEvidence(page, startedAt, evidence);
     const filled = await fillForm(targetScope, action, canary, evidence.uploads ??= []);
     evidence.filledFields = filled.fields;
-    traceSecrets = filled.traceSecrets;
+    traceSecrets.push(...filled.traceSecrets);
     evidence.beforeAction = await captureState(targetScope, canary, startedAt);
     // Filling can run application handlers that replace the submitter or escalate
     // its target. Re-read the effective live action immediately before activation.
