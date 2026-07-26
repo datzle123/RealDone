@@ -23,10 +23,13 @@ test("normative product truth is linked, consistent, and shipped", async () => {
     read(".github/workflows/ci.yml"),
   ]);
 
+  const packageJson = JSON.parse(packageText) as { version?: string; files?: string[]; scripts?: Record<string, string> };
+  assert.match(packageJson.version ?? "", /^\d+\.\d+\.\d+$/);
+
   assert.match(specification, /Trạng thái: NORMATIVE/);
   assert.match(specification, /# 29\. Release Gates/);
   assert.match(specification, /# 32\. Định nghĩa hoàn thành full project/);
-  assert.match(status, /Released full product:\*\* \*\*IMPLEMENTED in `v1\.3\.2`/);
+  assert.ok(status.includes(`Released full product:** **IMPLEMENTED in \`v${packageJson.version}\``));
   assert.match(roadmap, /PRODUCT_SPECIFICATION\.md/);
   assert.match(roadmap, /only area-completeness ledger/i);
   assert.doesNotMatch(roadmap, /Mapped specification:/);
@@ -60,7 +63,6 @@ test("normative product truth is linked, consistent, and shipped", async () => {
   assert.doesNotMatch(readmeOpening, /git clone|installed from source|not published/i, "README opening must keep the npm quick start truthful and one-command");
   assert.match(readme, /npmjs\.com\/package\/realdone/);
 
-  const packageJson = JSON.parse(packageText) as { files?: string[]; scripts?: Record<string, string> };
   assert.equal(packageJson.scripts?.realdone, "node dist/cli.js");
   for (const file of ["docs/PRODUCT_SPECIFICATION.md", "docs/PRODUCT_STATUS.md", "docs/ROADMAP.md"]) {
     const shipped = packageJson.files?.some((entry) => file === entry || file.startsWith(`${entry.replace(/\/$/, "")}/`));

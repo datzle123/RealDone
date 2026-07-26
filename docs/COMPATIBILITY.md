@@ -1,6 +1,6 @@
 # Compatibility matrix
 
-`v1.3.2` passed the matrix below in hosted run [`29977292441`](https://github.com/datzle123/RealDone/actions/runs/29977292441), including installed-tarball scan/cleanup gates for metadata-free static and npm projects. GitHub signed the 15/15 aggregate for source commit `ab902acdfb95463c82a7c842f5b497a68d8c325a`.
+`v1.3.3` passed the matrix below in hosted run [`30189340006`](https://github.com/datzle123/RealDone/actions/runs/30189340006), including installed-tarball scan/cleanup gates for metadata-free static and npm projects. GitHub signed the 15/15 aggregate for source commit `b682da329fde789f2f8aa6fe339b0195887c778d`.
 
 | Surface | Release gate |
 | --- | --- |

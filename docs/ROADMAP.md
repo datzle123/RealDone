@@ -6,9 +6,9 @@ The normative destination is [`PRODUCT_SPECIFICATION.md`](PRODUCT_SPECIFICATION.
 
 A phase gate is complete only when its production behavior, broken fixtures, correct controls, deterministic replay where applicable, documentation, changelog, package surface, and hosted gates all pass. Each completed phase gate is committed and pushed independently. A version tag and GitHub release are created only after hosted cross-platform CI is green. Product completion still requires every row in `PRODUCT_STATUS.md` to be `IMPLEMENTED`.
 
-## Current unreleased qualification
+## Released `v1.3.3` qualification
 
-The 2026-07-23 local regression batch ran ten pinned MIT web projects, retained clean controls, injected one reproducible no-op Create action per project, and observed 10/10 `NO_EFFECT / RD002` results in valid Chromium environments. The five normative external cases, PostgreSQL CRUD cleanup, Supabase Data API, Level 7 role contract, and Codex MCP RD901 regression/repair cycle were then rerun and validator-bound to candidate fingerprint `68d4a8cb…`. Signed hosted run [`30187784286`](https://github.com/datzle123/RealDone/actions/runs/30187784286) passed all 15 gates across Windows/macOS/Linux; `v1.3.3` is prepared but remains unreleased until the versioned source commit passes hosted qualification.
+The 2026-07-23 local regression batch ran ten pinned MIT web projects, retained clean controls, injected one reproducible no-op Create action per project, and observed 10/10 `NO_EFFECT / RD002` results in valid Chromium environments. The five normative external cases, PostgreSQL CRUD cleanup, Supabase Data API, Level 7 role contract, and Codex MCP RD901 regression/repair cycle were then rerun and validator-bound to fingerprint `68d4a8cb…`. Release `v1.3.3` passed all 15 gates across Windows/macOS/Linux in signed hosted run [`30189340006`](https://github.com/datzle123/RealDone/actions/runs/30189340006), passed the registry-installed `npx` smoke, and is published on npm and GitHub.
 
 ## Released foundation (`v0.1.0`–`v1.1.0`)
 
