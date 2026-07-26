@@ -1,9 +1,9 @@
 {
   "schemaVersion": "1.0",
-  "scanId": "20260722T203317Z-b957",
+  "scanId": "20260723T145644Z-dcea",
   "targetUrl": "http://127.0.0.1:37201/",
-  "startedAt": "2026-07-22T20:33:17.551Z",
-  "finishedAt": "2026-07-22T20:34:05.578Z",
+  "startedAt": "2026-07-23T14:56:44.701Z",
+  "finishedAt": "2026-07-23T14:57:44.485Z",
   "options": {
     "maxPages": 12,
     "maxActions": 30,
@@ -1594,9 +1594,9 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-22T20:33:22.551Z",
-        "durationMs": 2043,
-        "canary": "RD_TEST_04007E",
+        "startedAt": "2026-07-23T14:56:51.650Z",
+        "durationMs": 2457,
+        "canary": "RD_TEST_868089",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -1614,14 +1614,14 @@
               "weight": 92,
               "matchCount": 2,
               "visibleCount": 2,
-              "elapsedMs": 24
+              "elapsedMs": 11
             },
             {
               "strategy": "role",
               "weight": 82,
               "matchCount": 2,
               "visibleCount": 2,
-              "elapsedMs": 7
+              "elapsedMs": 8
             },
             {
               "strategy": "href",
@@ -1642,7 +1642,7 @@
               "weight": 35,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 5
+              "elapsedMs": 4
             }
           ],
           "chosenStrategy": "css",
@@ -1650,10 +1650,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1051,
+          "at": 1428,
           "url": "http://127.0.0.1:37201/",
           "title": "Conduit",
-          "domHash": "12976dd377f90f2e",
+          "domHash": "3c44d4d1ff59317a",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -1666,13 +1666,15 @@
           },
           "semanticDom": {
             "textHash": "f8034dbcac655938",
+            "visualHash": "f56dba1689c65663",
             "text": "conduit Source code Home Login Sign up conduit A place to share your knowledge. Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -1687,10 +1689,10 @@
           }
         },
         "beforeAction": {
-          "at": 1073,
+          "at": 1441,
           "url": "http://127.0.0.1:37201/",
           "title": "Conduit",
-          "domHash": "12976dd377f90f2e",
+          "domHash": "3c44d4d1ff59317a",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -1703,13 +1705,15 @@
           },
           "semanticDom": {
             "textHash": "f8034dbcac655938",
+            "visualHash": "f56dba1689c65663",
             "text": "conduit Source code Home Login Sign up conduit A place to share your knowledge. Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -1726,10 +1730,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2038,
+          "at": 2452,
           "url": "http://127.0.0.1:37201/#/",
           "title": "Conduit",
-          "domHash": "12976dd377f90f2e",
+          "domHash": "3c44d4d1ff59317a",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -1742,13 +1746,15 @@
           },
           "semanticDom": {
             "textHash": "f8034dbcac655938",
+            "visualHash": "f56dba1689c65663",
             "text": "conduit Source code Home Login Sign up conduit A place to share your knowledge. Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -1896,9 +1902,9 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-22T20:33:24.627Z",
-        "durationMs": 2013,
-        "canary": "RD_TEST_BC17C0",
+        "startedAt": "2026-07-23T14:56:54.149Z",
+        "durationMs": 2394,
+        "canary": "RD_TEST_57B0B3",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -1916,7 +1922,7 @@
               "weight": 92,
               "matchCount": 0,
               "visibleCount": 0,
-              "elapsedMs": 16
+              "elapsedMs": 3
             },
             {
               "strategy": "role",
@@ -1931,10 +1937,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1032,
+          "at": 1383,
           "url": "http://127.0.0.1:37201/",
           "title": "Conduit",
-          "domHash": "12976dd377f90f2e",
+          "domHash": "3c44d4d1ff59317a",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -1947,13 +1953,15 @@
           },
           "semanticDom": {
             "textHash": "f8034dbcac655938",
+            "visualHash": "f56dba1689c65663",
             "text": "conduit Source code Home Login Sign up conduit A place to share your knowledge. Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -1968,10 +1976,10 @@
           }
         },
         "beforeAction": {
-          "at": 1050,
+          "at": 1393,
           "url": "http://127.0.0.1:37201/",
           "title": "Conduit",
-          "domHash": "12976dd377f90f2e",
+          "domHash": "3c44d4d1ff59317a",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -1984,13 +1992,15 @@
           },
           "semanticDom": {
             "textHash": "f8034dbcac655938",
+            "visualHash": "f56dba1689c65663",
             "text": "conduit Source code Home Login Sign up conduit A place to share your knowledge. Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -2007,10 +2017,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2009,
+          "at": 2389,
           "url": "http://127.0.0.1:37201/#/",
           "title": "Conduit",
-          "domHash": "12976dd377f90f2e",
+          "domHash": "3c44d4d1ff59317a",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -2023,13 +2033,15 @@
           },
           "semanticDom": {
             "textHash": "f8034dbcac655938",
+            "visualHash": "f56dba1689c65663",
             "text": "conduit Source code Home Login Sign up conduit A place to share your knowledge. Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -2104,9 +2116,9 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-22T20:33:26.665Z",
-        "durationMs": 1976,
-        "canary": "RD_TEST_07F39D",
+        "startedAt": "2026-07-23T14:56:56.573Z",
+        "durationMs": 2408,
+        "canary": "RD_TEST_25206F",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -2124,14 +2136,14 @@
               "weight": 92,
               "matchCount": 0,
               "visibleCount": 0,
-              "elapsedMs": 15
+              "elapsedMs": 4
             },
             {
               "strategy": "role",
               "weight": 82,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 5
+              "elapsedMs": 6
             }
           ],
           "chosenStrategy": "role",
@@ -2139,10 +2151,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1018,
+          "at": 1391,
           "url": "http://127.0.0.1:37201/",
           "title": "Conduit",
-          "domHash": "12976dd377f90f2e",
+          "domHash": "3c44d4d1ff59317a",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -2155,13 +2167,15 @@
           },
           "semanticDom": {
             "textHash": "f8034dbcac655938",
+            "visualHash": "f56dba1689c65663",
             "text": "conduit Source code Home Login Sign up conduit A place to share your knowledge. Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -2176,10 +2190,10 @@
           }
         },
         "beforeAction": {
-          "at": 1037,
+          "at": 1401,
           "url": "http://127.0.0.1:37201/",
           "title": "Conduit",
-          "domHash": "12976dd377f90f2e",
+          "domHash": "3c44d4d1ff59317a",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -2192,13 +2206,15 @@
           },
           "semanticDom": {
             "textHash": "f8034dbcac655938",
+            "visualHash": "f56dba1689c65663",
             "text": "conduit Source code Home Login Sign up conduit A place to share your knowledge. Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -2215,10 +2231,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 1972,
+          "at": 2404,
           "url": "http://127.0.0.1:37201/#/login",
           "title": "Conduit",
-          "domHash": "fa415805e2e45200",
+          "domHash": "c659be8900b0e706",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -2231,6 +2247,7 @@
           },
           "semanticDom": {
             "textHash": "9c42030bf33d5537",
+            "visualHash": "5b9081b1fb63beac",
             "text": "conduit Source code Home Login Sign up Sign in Need an account? Login conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
@@ -2239,7 +2256,8 @@
                 "name": "email",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -2247,13 +2265,15 @@
                 "name": "password",
                 "valueHash": "e54b74eb9192b480",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -2328,9 +2348,9 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-22T20:33:28.673Z",
-        "durationMs": 1998,
-        "canary": "RD_TEST_F0011C",
+        "startedAt": "2026-07-23T14:56:59.021Z",
+        "durationMs": 2414,
+        "canary": "RD_TEST_A3FA6C",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -2348,7 +2368,7 @@
               "weight": 92,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 19
+              "elapsedMs": 6
             }
           ],
           "chosenStrategy": "role",
@@ -2356,10 +2376,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1009,
+          "at": 1388,
           "url": "http://127.0.0.1:37201/",
           "title": "Conduit",
-          "domHash": "12976dd377f90f2e",
+          "domHash": "3c44d4d1ff59317a",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -2372,13 +2392,15 @@
           },
           "semanticDom": {
             "textHash": "f8034dbcac655938",
+            "visualHash": "f56dba1689c65663",
             "text": "conduit Source code Home Login Sign up conduit A place to share your knowledge. Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -2393,10 +2415,10 @@
           }
         },
         "beforeAction": {
-          "at": 1027,
+          "at": 1398,
           "url": "http://127.0.0.1:37201/",
           "title": "Conduit",
-          "domHash": "12976dd377f90f2e",
+          "domHash": "3c44d4d1ff59317a",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -2409,13 +2431,15 @@
           },
           "semanticDom": {
             "textHash": "f8034dbcac655938",
+            "visualHash": "f56dba1689c65663",
             "text": "conduit Source code Home Login Sign up conduit A place to share your knowledge. Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -2432,10 +2456,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 1994,
+          "at": 2409,
           "url": "http://127.0.0.1:37201/#/register",
           "title": "Conduit",
-          "domHash": "29eccd4634d3a293",
+          "domHash": "1f4fa65964895f4c",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -2448,6 +2472,7 @@
           },
           "semanticDom": {
             "textHash": "ab6aef9fc7cf2d60",
+            "visualHash": "b600fd6441482f1a",
             "text": "conduit Source code Home Login Sign up Sign up Sign in to your account Sign up conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
@@ -2456,7 +2481,8 @@
                 "name": "username",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -2464,7 +2490,8 @@
                 "name": "email",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -2472,13 +2499,15 @@
                 "name": "password",
                 "valueHash": "e54b74eb9192b480",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -2548,19 +2577,20 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-22T20:33:30.702Z",
-        "durationMs": 2104,
-        "canary": "RD_TEST_1401C0",
+        "startedAt": "2026-07-23T14:57:01.472Z",
+        "durationMs": 2453,
+        "canary": "RD_TEST_A9BB4E",
         "network": [
           {
             "id": "net-1",
             "method": "GET",
             "url": "http://127.0.0.1:37201/api/articles?limit=3&&offset=0",
             "resourceType": "xhr",
-            "startedAt": 1108,
+            "startedAt": 1437,
             "status": 200,
             "ok": true,
-            "finishedAt": 1118,
+            "finishedAt": 1447,
+            "contentType": "application/json",
             "resourceTypeHint": "articles"
           }
         ],
@@ -2580,7 +2610,7 @@
               "weight": 92,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 18
+              "elapsedMs": 5
             }
           ],
           "chosenStrategy": "role",
@@ -2588,10 +2618,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1063,
+          "at": 1400,
           "url": "http://127.0.0.1:37201/",
           "title": "Conduit",
-          "domHash": "12976dd377f90f2e",
+          "domHash": "3c44d4d1ff59317a",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -2604,13 +2634,15 @@
           },
           "semanticDom": {
             "textHash": "f8034dbcac655938",
+            "visualHash": "f56dba1689c65663",
             "text": "conduit Source code Home Login Sign up conduit A place to share your knowledge. Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -2625,10 +2657,10 @@
           }
         },
         "beforeAction": {
-          "at": 1082,
+          "at": 1411,
           "url": "http://127.0.0.1:37201/",
           "title": "Conduit",
-          "domHash": "12976dd377f90f2e",
+          "domHash": "3c44d4d1ff59317a",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -2641,13 +2673,15 @@
           },
           "semanticDom": {
             "textHash": "f8034dbcac655938",
+            "visualHash": "f56dba1689c65663",
             "text": "conduit Source code Home Login Sign up conduit A place to share your knowledge. Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -2664,10 +2698,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2076,
+          "at": 2414,
           "url": "http://127.0.0.1:37201/",
           "title": "Conduit",
-          "domHash": "12976dd377f90f2e",
+          "domHash": "3c44d4d1ff59317a",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -2680,13 +2714,15 @@
           },
           "semanticDom": {
             "textHash": "f8034dbcac655938",
+            "visualHash": "f56dba1689c65663",
             "text": "conduit Source code Home Login Sign up conduit A place to share your knowledge. Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -2762,9 +2798,9 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-22T20:33:32.832Z",
-        "durationMs": 2035,
-        "canary": "RD_TEST_27694E",
+        "startedAt": "2026-07-23T14:57:03.956Z",
+        "durationMs": 2429,
+        "canary": "RD_TEST_1CDB2B",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -2782,21 +2818,21 @@
               "weight": 92,
               "matchCount": 2,
               "visibleCount": 2,
-              "elapsedMs": 25
+              "elapsedMs": 9
             },
             {
               "strategy": "role",
               "weight": 82,
               "matchCount": 2,
               "visibleCount": 2,
-              "elapsedMs": 9
+              "elapsedMs": 7
             },
             {
               "strategy": "href",
               "weight": 72,
               "matchCount": 0,
               "visibleCount": 0,
-              "elapsedMs": 3
+              "elapsedMs": 2
             },
             {
               "strategy": "text",
@@ -2810,7 +2846,7 @@
               "weight": 35,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 4
+              "elapsedMs": 5
             }
           ],
           "chosenStrategy": "css",
@@ -2818,10 +2854,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1045,
+          "at": 1409,
           "url": "http://127.0.0.1:37201/",
           "title": "Conduit",
-          "domHash": "12976dd377f90f2e",
+          "domHash": "3c44d4d1ff59317a",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -2834,13 +2870,15 @@
           },
           "semanticDom": {
             "textHash": "f8034dbcac655938",
+            "visualHash": "f56dba1689c65663",
             "text": "conduit Source code Home Login Sign up conduit A place to share your knowledge. Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -2855,10 +2893,10 @@
           }
         },
         "beforeAction": {
-          "at": 1063,
+          "at": 1420,
           "url": "http://127.0.0.1:37201/",
           "title": "Conduit",
-          "domHash": "12976dd377f90f2e",
+          "domHash": "3c44d4d1ff59317a",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -2871,13 +2909,15 @@
           },
           "semanticDom": {
             "textHash": "f8034dbcac655938",
+            "visualHash": "f56dba1689c65663",
             "text": "conduit Source code Home Login Sign up conduit A place to share your knowledge. Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -2894,10 +2934,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2031,
+          "at": 2424,
           "url": "http://127.0.0.1:37201/#/",
           "title": "Conduit",
-          "domHash": "12976dd377f90f2e",
+          "domHash": "3c44d4d1ff59317a",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -2910,13 +2950,15 @@
           },
           "semanticDom": {
             "textHash": "f8034dbcac655938",
+            "visualHash": "f56dba1689c65663",
             "text": "conduit Source code Home Login Sign up conduit A place to share your knowledge. Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -3137,31 +3179,31 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-22T20:33:34.892Z",
-        "durationMs": 2030,
-        "canary": "RD_TEST_C7DD20",
+        "startedAt": "2026-07-23T14:57:06.412Z",
+        "durationMs": 2416,
+        "canary": "RD_TEST_08A159",
         "network": [
           {
             "id": "net-1",
             "method": "GET",
             "url": "http://127.0.0.1:37201/api/articles?limit=3&&offset=0",
             "resourceType": "xhr",
-            "startedAt": 1083,
+            "startedAt": 1446,
             "status": 200,
             "ok": true,
             "contentType": "application/json",
             "resourceTypeHint": "articles",
-            "finishedAt": 1086
+            "finishedAt": 1453
           },
           {
             "id": "net-2",
             "method": "GET",
             "url": "http://127.0.0.1:37201/api/tags",
             "resourceType": "xhr",
-            "startedAt": 1083,
+            "startedAt": 1447,
             "status": 200,
             "ok": true,
-            "finishedAt": 1087,
+            "finishedAt": 1454,
             "contentType": "application/json",
             "resourceTypeHint": "tags"
           }
@@ -3182,28 +3224,28 @@
               "weight": 92,
               "matchCount": 2,
               "visibleCount": 2,
-              "elapsedMs": 19
+              "elapsedMs": 9
             },
             {
               "strategy": "role",
               "weight": 82,
               "matchCount": 2,
               "visibleCount": 2,
-              "elapsedMs": 6
+              "elapsedMs": 7
             },
             {
               "strategy": "href",
               "weight": 72,
               "matchCount": 0,
               "visibleCount": 0,
-              "elapsedMs": 2
+              "elapsedMs": 3
             },
             {
               "strategy": "text",
               "weight": 60,
               "matchCount": 2,
               "visibleCount": 2,
-              "elapsedMs": 7
+              "elapsedMs": 6
             },
             {
               "strategy": "css",
@@ -3218,10 +3260,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1035,
+          "at": 1402,
           "url": "http://127.0.0.1:37201/#/login",
           "title": "Conduit",
-          "domHash": "fa415805e2e45200",
+          "domHash": "c659be8900b0e706",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -3234,6 +3276,7 @@
           },
           "semanticDom": {
             "textHash": "9c42030bf33d5537",
+            "visualHash": "5b9081b1fb63beac",
             "text": "conduit Source code Home Login Sign up Sign in Need an account? Login conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
@@ -3242,7 +3285,8 @@
                 "name": "email",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -3250,13 +3294,15 @@
                 "name": "password",
                 "valueHash": "e54b74eb9192b480",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -3271,10 +3317,10 @@
           }
         },
         "beforeAction": {
-          "at": 1052,
+          "at": 1413,
           "url": "http://127.0.0.1:37201/#/login",
           "title": "Conduit",
-          "domHash": "fa415805e2e45200",
+          "domHash": "c659be8900b0e706",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -3287,6 +3333,7 @@
           },
           "semanticDom": {
             "textHash": "9c42030bf33d5537",
+            "visualHash": "5b9081b1fb63beac",
             "text": "conduit Source code Home Login Sign up Sign in Need an account? Login conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
@@ -3295,7 +3342,8 @@
                 "name": "email",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -3303,13 +3351,15 @@
                 "name": "password",
                 "valueHash": "e54b74eb9192b480",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -3326,10 +3376,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2026,
+          "at": 2411,
           "url": "http://127.0.0.1:37201/#/",
           "title": "Conduit",
-          "domHash": "12976dd377f90f2e",
+          "domHash": "3c44d4d1ff59317a",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -3342,13 +3392,15 @@
           },
           "semanticDom": {
             "textHash": "f8034dbcac655938",
+            "visualHash": "f56dba1689c65663",
             "text": "conduit Source code Home Login Sign up conduit A place to share your knowledge. Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -3496,31 +3548,31 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-22T20:33:36.960Z",
-        "durationMs": 2010,
-        "canary": "RD_TEST_1B5B56",
+        "startedAt": "2026-07-23T14:57:08.872Z",
+        "durationMs": 2371,
+        "canary": "RD_TEST_794793",
         "network": [
           {
             "id": "net-1",
             "method": "GET",
             "url": "http://127.0.0.1:37201/api/articles?limit=3&&offset=0",
             "resourceType": "xhr",
-            "startedAt": 1097,
+            "startedAt": 1402,
             "status": 200,
             "ok": true,
-            "finishedAt": 1101,
             "contentType": "application/json",
-            "resourceTypeHint": "articles"
+            "resourceTypeHint": "articles",
+            "finishedAt": 1409
           },
           {
             "id": "net-2",
             "method": "GET",
             "url": "http://127.0.0.1:37201/api/tags",
             "resourceType": "xhr",
-            "startedAt": 1098,
+            "startedAt": 1403,
             "status": 200,
             "ok": true,
-            "finishedAt": 1101,
+            "finishedAt": 1410,
             "contentType": "application/json",
             "resourceTypeHint": "tags"
           }
@@ -3541,14 +3593,14 @@
               "weight": 92,
               "matchCount": 0,
               "visibleCount": 0,
-              "elapsedMs": 17
+              "elapsedMs": 4
             },
             {
               "strategy": "role",
               "weight": 82,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 7
+              "elapsedMs": 5
             }
           ],
           "chosenStrategy": "role",
@@ -3556,10 +3608,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1035,
+          "at": 1361,
           "url": "http://127.0.0.1:37201/#/login",
           "title": "Conduit",
-          "domHash": "fa415805e2e45200",
+          "domHash": "c659be8900b0e706",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -3572,6 +3624,7 @@
           },
           "semanticDom": {
             "textHash": "9c42030bf33d5537",
+            "visualHash": "5b9081b1fb63beac",
             "text": "conduit Source code Home Login Sign up Sign in Need an account? Login conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
@@ -3580,7 +3633,8 @@
                 "name": "email",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -3588,13 +3642,15 @@
                 "name": "password",
                 "valueHash": "e54b74eb9192b480",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -3609,10 +3665,10 @@
           }
         },
         "beforeAction": {
-          "at": 1054,
+          "at": 1371,
           "url": "http://127.0.0.1:37201/#/login",
           "title": "Conduit",
-          "domHash": "fa415805e2e45200",
+          "domHash": "c659be8900b0e706",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -3625,6 +3681,7 @@
           },
           "semanticDom": {
             "textHash": "9c42030bf33d5537",
+            "visualHash": "5b9081b1fb63beac",
             "text": "conduit Source code Home Login Sign up Sign in Need an account? Login conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
@@ -3633,7 +3690,8 @@
                 "name": "email",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -3641,13 +3699,15 @@
                 "name": "password",
                 "valueHash": "e54b74eb9192b480",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -3664,10 +3724,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2006,
+          "at": 2366,
           "url": "http://127.0.0.1:37201/#/",
           "title": "Conduit",
-          "domHash": "12976dd377f90f2e",
+          "domHash": "3c44d4d1ff59317a",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -3680,13 +3740,15 @@
           },
           "semanticDom": {
             "textHash": "f8034dbcac655938",
+            "visualHash": "f56dba1689c65663",
             "text": "conduit Source code Home Login Sign up conduit A place to share your knowledge. Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -3834,9 +3896,9 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-22T20:33:39.015Z",
-        "durationMs": 2018,
-        "canary": "RD_TEST_5A10AA",
+        "startedAt": "2026-07-23T14:57:11.294Z",
+        "durationMs": 2391,
+        "canary": "RD_TEST_981FFC",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -3854,7 +3916,7 @@
               "weight": 92,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 18
+              "elapsedMs": 6
             }
           ],
           "chosenStrategy": "role",
@@ -3862,10 +3924,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1024,
+          "at": 1361,
           "url": "http://127.0.0.1:37201/#/login",
           "title": "Conduit",
-          "domHash": "fa415805e2e45200",
+          "domHash": "c659be8900b0e706",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -3878,6 +3940,7 @@
           },
           "semanticDom": {
             "textHash": "9c42030bf33d5537",
+            "visualHash": "5b9081b1fb63beac",
             "text": "conduit Source code Home Login Sign up Sign in Need an account? Login conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
@@ -3886,7 +3949,8 @@
                 "name": "email",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -3894,13 +3958,15 @@
                 "name": "password",
                 "valueHash": "e54b74eb9192b480",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -3915,10 +3981,10 @@
           }
         },
         "beforeAction": {
-          "at": 1042,
+          "at": 1371,
           "url": "http://127.0.0.1:37201/#/login",
           "title": "Conduit",
-          "domHash": "fa415805e2e45200",
+          "domHash": "c659be8900b0e706",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -3931,6 +3997,7 @@
           },
           "semanticDom": {
             "textHash": "9c42030bf33d5537",
+            "visualHash": "5b9081b1fb63beac",
             "text": "conduit Source code Home Login Sign up Sign in Need an account? Login conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
@@ -3939,7 +4006,8 @@
                 "name": "email",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -3947,13 +4015,15 @@
                 "name": "password",
                 "valueHash": "e54b74eb9192b480",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -3970,10 +4040,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2014,
+          "at": 2386,
           "url": "http://127.0.0.1:37201/#/register",
           "title": "Conduit",
-          "domHash": "29eccd4634d3a293",
+          "domHash": "1f4fa65964895f4c",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -3986,6 +4056,7 @@
           },
           "semanticDom": {
             "textHash": "ab6aef9fc7cf2d60",
+            "visualHash": "b600fd6441482f1a",
             "text": "conduit Source code Home Login Sign up Sign up Sign in to your account Sign up conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
@@ -3994,7 +4065,8 @@
                 "name": "username",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -4002,7 +4074,8 @@
                 "name": "email",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -4010,13 +4083,15 @@
                 "name": "password",
                 "valueHash": "e54b74eb9192b480",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -4091,9 +4166,9 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-22T20:33:41.074Z",
-        "durationMs": 2004,
-        "canary": "RD_TEST_A055F5",
+        "startedAt": "2026-07-23T14:57:13.734Z",
+        "durationMs": 2393,
+        "canary": "RD_TEST_263E3E",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -4111,7 +4186,7 @@
               "weight": 92,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 26
+              "elapsedMs": 6
             }
           ],
           "chosenStrategy": "role",
@@ -4119,10 +4194,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1012,
+          "at": 1383,
           "url": "http://127.0.0.1:37201/#/login",
           "title": "Conduit",
-          "domHash": "fa415805e2e45200",
+          "domHash": "c659be8900b0e706",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -4135,6 +4210,7 @@
           },
           "semanticDom": {
             "textHash": "9c42030bf33d5537",
+            "visualHash": "5b9081b1fb63beac",
             "text": "conduit Source code Home Login Sign up Sign in Need an account? Login conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
@@ -4143,7 +4219,8 @@
                 "name": "email",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -4151,13 +4228,15 @@
                 "name": "password",
                 "valueHash": "e54b74eb9192b480",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -4172,10 +4251,10 @@
           }
         },
         "beforeAction": {
-          "at": 1035,
+          "at": 1392,
           "url": "http://127.0.0.1:37201/#/login",
           "title": "Conduit",
-          "domHash": "fa415805e2e45200",
+          "domHash": "c659be8900b0e706",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -4188,6 +4267,7 @@
           },
           "semanticDom": {
             "textHash": "9c42030bf33d5537",
+            "visualHash": "5b9081b1fb63beac",
             "text": "conduit Source code Home Login Sign up Sign in Need an account? Login conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
@@ -4196,7 +4276,8 @@
                 "name": "email",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -4204,13 +4285,15 @@
                 "name": "password",
                 "valueHash": "e54b74eb9192b480",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -4227,10 +4310,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 1999,
+          "at": 2389,
           "url": "http://127.0.0.1:37201/#/register",
           "title": "Conduit",
-          "domHash": "29eccd4634d3a293",
+          "domHash": "1f4fa65964895f4c",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -4243,6 +4326,7 @@
           },
           "semanticDom": {
             "textHash": "ab6aef9fc7cf2d60",
+            "visualHash": "b600fd6441482f1a",
             "text": "conduit Source code Home Login Sign up Sign up Sign in to your account Sign up conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
@@ -4251,7 +4335,8 @@
                 "name": "username",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -4259,7 +4344,8 @@
                 "name": "email",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -4267,13 +4353,15 @@
                 "name": "password",
                 "valueHash": "e54b74eb9192b480",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -4347,20 +4435,20 @@
         ]
       },
       "evidence": {
-        "startedAt": "2026-07-22T20:33:43.127Z",
-        "durationMs": 4961,
-        "canary": "RD_TEST_ADBE8B",
+        "startedAt": "2026-07-23T14:57:16.176Z",
+        "durationMs": 6867,
+        "canary": "RD_TEST_42C28D",
         "network": [
           {
             "id": "net-1",
             "method": "POST",
             "url": "http://127.0.0.1:37201/api/users/login",
             "resourceType": "xhr",
-            "startedAt": 1149,
+            "startedAt": 1467,
             "status": 404,
             "ok": false,
             "contentType": "application/json",
-            "finishedAt": 1159,
+            "finishedAt": 1716,
             "resourceTypeHint": "login"
           },
           {
@@ -4368,10 +4456,10 @@
             "method": "GET",
             "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3ig4vwlxdu.woff2",
             "resourceType": "font",
-            "startedAt": 1177,
+            "startedAt": 1719,
             "status": 200,
             "ok": true,
-            "finishedAt": 1226,
+            "finishedAt": 1772,
             "contentType": "font/woff2",
             "resourceTypeHint": "6xKydSBYKcSV-LCoeQqfX1RYOo3ig4vwlxdu.woff2"
           },
@@ -4380,21 +4468,22 @@
             "method": "GET",
             "url": "http://127.0.0.1:37201/",
             "resourceType": "document",
-            "startedAt": 2212,
+            "startedAt": 2798,
             "status": 200,
             "ok": true,
+            "contentType": "text/html",
             "resourceTypeHint": "resource",
-            "finishedAt": 2218
+            "finishedAt": 2806
           },
           {
             "id": "net-4",
             "method": "GET",
             "url": "http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css",
             "resourceType": "stylesheet",
-            "startedAt": 2217,
+            "startedAt": 2805,
             "status": 307,
             "ok": false,
-            "finishedAt": 2218,
+            "finishedAt": 2809,
             "location": "https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css",
             "resourceTypeHint": "ionicons.min.css"
           },
@@ -4403,10 +4492,10 @@
             "method": "GET",
             "url": "http://fonts.googleapis.com/css?family=Titillium+Web:700|Source+Serif+Pro:400,700|Merriweather+Sans:400,700|Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic,700italic",
             "resourceType": "stylesheet",
-            "startedAt": 2217,
+            "startedAt": 2805,
             "status": 200,
             "ok": true,
-            "finishedAt": 2218,
+            "finishedAt": 2844,
             "contentType": "text/css",
             "resourceTypeHint": "css"
           },
@@ -4415,10 +4504,11 @@
             "method": "GET",
             "url": "http://127.0.0.1:37201/assets/index-CLdavoKn.js",
             "resourceType": "script",
-            "startedAt": 2218,
-            "status": 304,
-            "ok": false,
-            "finishedAt": 2219,
+            "startedAt": 2805,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 2820,
+            "contentType": "text/javascript",
             "resourceTypeHint": "index-CLdavoKn.js"
           },
           {
@@ -4426,10 +4516,11 @@
             "method": "GET",
             "url": "http://127.0.0.1:37201/assets/index-De1Lwdlm.css",
             "resourceType": "stylesheet",
-            "startedAt": 2218,
-            "status": 304,
-            "ok": false,
-            "finishedAt": 2218,
+            "startedAt": 2806,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 2811,
+            "contentType": "text/css",
             "resourceTypeHint": "index-De1Lwdlm.css"
           },
           {
@@ -4437,231 +4528,187 @@
             "method": "GET",
             "url": "https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css",
             "resourceType": "stylesheet",
-            "startedAt": 2218,
-            "status": 200,
-            "ok": true,
-            "finishedAt": 2219,
-            "contentType": "text/css",
-            "resourceTypeHint": "ionicons.min.css"
-          },
-          {
-            "id": "net-9",
-            "method": "GET",
-            "url": "https://code.ionicframework.com/ionicons/2.0.1/fonts/ionicons.ttf?v=2.0.1",
-            "resourceType": "font",
-            "startedAt": 2221,
-            "status": 200,
-            "ok": true,
-            "finishedAt": 2222,
-            "contentType": "font/ttf",
-            "resourceTypeHint": "ionicons.ttf"
-          },
-          {
-            "id": "net-10",
-            "method": "GET",
-            "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xK1dSBYKcSV-LCoeQqfX1RYOo3qPZ7nsDI.woff2",
-            "resourceType": "font",
-            "startedAt": 2222,
-            "status": 200,
-            "ok": true,
-            "finishedAt": 2222,
-            "contentType": "font/woff2",
-            "resourceTypeHint": "6xK1dSBYKcSV-LCoeQqfX1RYOo3qPZ7nsDI.woff2"
-          },
-          {
-            "id": "net-11",
-            "method": "GET",
-            "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdu.woff2",
-            "resourceType": "font",
-            "startedAt": 2222,
-            "status": 200,
-            "ok": true,
-            "finishedAt": 2223,
-            "contentType": "font/woff2",
-            "resourceTypeHint": "6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdu.woff2"
-          },
-          {
-            "id": "net-12",
-            "method": "GET",
-            "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7l.woff2",
-            "resourceType": "font",
-            "startedAt": 2223,
-            "status": 200,
-            "ok": true,
-            "finishedAt": 2223,
-            "contentType": "font/woff2",
-            "resourceTypeHint": "6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7l.woff2"
-          },
-          {
-            "id": "net-13",
-            "method": "GET",
-            "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3ig4vwlxdu.woff2",
-            "resourceType": "font",
-            "startedAt": 2223,
-            "status": 200,
-            "ok": true,
-            "finishedAt": 2224,
-            "contentType": "font/woff2",
-            "resourceTypeHint": "6xKydSBYKcSV-LCoeQqfX1RYOo3ig4vwlxdu.woff2"
-          },
-          {
-            "id": "net-14",
-            "method": "GET",
-            "url": "http://127.0.0.1:37201/",
-            "resourceType": "document",
-            "startedAt": 2796,
-            "status": 200,
-            "ok": true,
-            "contentType": "text/html",
-            "resourceTypeHint": "resource",
-            "finishedAt": 2803
-          },
-          {
-            "id": "net-15",
-            "method": "GET",
-            "url": "http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css",
-            "resourceType": "stylesheet",
-            "startedAt": 2802,
-            "status": 307,
-            "ok": false,
-            "finishedAt": 2802,
-            "location": "https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css",
-            "resourceTypeHint": "ionicons.min.css"
-          },
-          {
-            "id": "net-16",
-            "method": "GET",
-            "url": "http://fonts.googleapis.com/css?family=Titillium+Web:700|Source+Serif+Pro:400,700|Merriweather+Sans:400,700|Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic,700italic",
-            "resourceType": "stylesheet",
-            "startedAt": 2802,
-            "status": 200,
-            "ok": true,
-            "finishedAt": 2836,
-            "contentType": "text/css",
-            "resourceTypeHint": "css"
-          },
-          {
-            "id": "net-17",
-            "method": "GET",
-            "url": "http://127.0.0.1:37201/assets/index-CLdavoKn.js",
-            "resourceType": "script",
-            "startedAt": 2802,
-            "status": 200,
-            "ok": true,
-            "contentType": "text/javascript",
-            "resourceTypeHint": "index-CLdavoKn.js",
-            "finishedAt": 2806
-          },
-          {
-            "id": "net-18",
-            "method": "GET",
-            "url": "http://127.0.0.1:37201/assets/index-De1Lwdlm.css",
-            "resourceType": "stylesheet",
-            "startedAt": 2802,
-            "status": 200,
-            "ok": true,
-            "contentType": "text/css",
-            "resourceTypeHint": "index-De1Lwdlm.css",
-            "finishedAt": 2806
-          },
-          {
-            "id": "net-19",
-            "method": "GET",
-            "url": "https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css",
-            "resourceType": "stylesheet",
-            "startedAt": 2803,
+            "startedAt": 2809,
             "status": 200,
             "ok": true,
             "contentType": "text/css",
             "resourceTypeHint": "ionicons.min.css",
-            "finishedAt": 2912
+            "finishedAt": 2918
+          },
+          {
+            "id": "net-9",
+            "method": "GET",
+            "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdu.woff2",
+            "resourceType": "font",
+            "startedAt": 2925,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 2978,
+            "contentType": "font/woff2",
+            "resourceTypeHint": "6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdu.woff2"
+          },
+          {
+            "id": "net-10",
+            "method": "GET",
+            "url": "https://code.ionicframework.com/ionicons/2.0.1/fonts/ionicons.ttf?v=2.0.1",
+            "resourceType": "font",
+            "startedAt": 2926,
+            "status": 200,
+            "ok": true,
+            "contentType": "font/ttf",
+            "resourceTypeHint": "ionicons.ttf",
+            "finishedAt": 3017
+          },
+          {
+            "id": "net-11",
+            "method": "GET",
+            "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7l.woff2",
+            "resourceType": "font",
+            "startedAt": 2926,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 2977,
+            "contentType": "font/woff2",
+            "resourceTypeHint": "6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7l.woff2"
+          },
+          {
+            "id": "net-12",
+            "method": "GET",
+            "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xK1dSBYKcSV-LCoeQqfX1RYOo3qPZ7nsDI.woff2",
+            "resourceType": "font",
+            "startedAt": 2927,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 2973,
+            "contentType": "font/woff2",
+            "resourceTypeHint": "6xK1dSBYKcSV-LCoeQqfX1RYOo3qPZ7nsDI.woff2"
+          },
+          {
+            "id": "net-13",
+            "method": "GET",
+            "url": "http://127.0.0.1:37201/",
+            "resourceType": "document",
+            "startedAt": 3797,
+            "status": 200,
+            "ok": true,
+            "contentType": "text/html",
+            "resourceTypeHint": "resource",
+            "finishedAt": 3805
+          },
+          {
+            "id": "net-14",
+            "method": "GET",
+            "url": "http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css",
+            "resourceType": "stylesheet",
+            "startedAt": 3803,
+            "status": 307,
+            "ok": false,
+            "finishedAt": 3806,
+            "location": "https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css",
+            "resourceTypeHint": "ionicons.min.css"
+          },
+          {
+            "id": "net-15",
+            "method": "GET",
+            "url": "http://fonts.googleapis.com/css?family=Titillium+Web:700|Source+Serif+Pro:400,700|Merriweather+Sans:400,700|Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic,700italic",
+            "resourceType": "stylesheet",
+            "startedAt": 3804,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 3843,
+            "contentType": "text/css",
+            "resourceTypeHint": "css"
+          },
+          {
+            "id": "net-16",
+            "method": "GET",
+            "url": "http://127.0.0.1:37201/assets/index-CLdavoKn.js",
+            "resourceType": "script",
+            "startedAt": 3804,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 3819,
+            "contentType": "text/javascript",
+            "resourceTypeHint": "index-CLdavoKn.js"
+          },
+          {
+            "id": "net-17",
+            "method": "GET",
+            "url": "http://127.0.0.1:37201/assets/index-De1Lwdlm.css",
+            "resourceType": "stylesheet",
+            "startedAt": 3804,
+            "status": 200,
+            "ok": true,
+            "contentType": "text/css",
+            "resourceTypeHint": "index-De1Lwdlm.css",
+            "finishedAt": 3810
+          },
+          {
+            "id": "net-18",
+            "method": "GET",
+            "url": "https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css",
+            "resourceType": "stylesheet",
+            "startedAt": 3806,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 3871,
+            "contentType": "text/css",
+            "resourceTypeHint": "ionicons.min.css"
+          },
+          {
+            "id": "net-19",
+            "method": "GET",
+            "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdu.woff2",
+            "resourceType": "font",
+            "startedAt": 3882,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 3935,
+            "contentType": "font/woff2",
+            "resourceTypeHint": "6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdu.woff2"
           },
           {
             "id": "net-20",
             "method": "GET",
-            "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdu.woff2",
+            "url": "https://code.ionicframework.com/ionicons/2.0.1/fonts/ionicons.ttf?v=2.0.1",
             "resourceType": "font",
-            "startedAt": 2921,
-            "finishedAt": 2959,
-            "ok": false,
-            "failure": "net::ERR_FAILED"
+            "startedAt": 3882,
+            "status": 200,
+            "ok": true,
+            "contentType": "font/ttf",
+            "resourceTypeHint": "ionicons.ttf",
+            "finishedAt": 3974
           },
           {
             "id": "net-21",
             "method": "GET",
-            "url": "https://code.ionicframework.com/ionicons/2.0.1/fonts/ionicons.ttf?v=2.0.1",
+            "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7l.woff2",
             "resourceType": "font",
-            "startedAt": 2921,
-            "finishedAt": 2978,
-            "ok": false,
-            "failure": "net::ERR_FAILED"
+            "startedAt": 3883,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 3933,
+            "contentType": "font/woff2",
+            "resourceTypeHint": "6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7l.woff2"
           },
           {
             "id": "net-22",
             "method": "GET",
-            "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7l.woff2",
-            "resourceType": "font",
-            "startedAt": 2921,
-            "finishedAt": 2958,
-            "ok": false,
-            "failure": "net::ERR_FAILED"
-          },
-          {
-            "id": "net-23",
-            "method": "GET",
             "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xK1dSBYKcSV-LCoeQqfX1RYOo3qPZ7nsDI.woff2",
             "resourceType": "font",
-            "startedAt": 2921,
-            "finishedAt": 2956,
-            "ok": false,
-            "failure": "net::ERR_FAILED"
+            "startedAt": 3884,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 3930,
+            "contentType": "font/woff2",
+            "resourceTypeHint": "6xK1dSBYKcSV-LCoeQqfX1RYOo3qPZ7nsDI.woff2"
           }
         ],
         "console": [
           {
             "type": "error",
             "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
-            "at": 1157
-          },
-          {
-            "type": "error",
-            "text": "Access to font at 'http://fonts.gstatic.com/s/sourcesanspro/v23/6xK1dSBYKcSV-LCoeQqfX1RYOo3qPZ7nsDI.woff2' from origin 'http://127.0.0.1:37201' has been blocked by CORS policy: Request header field pragma is not allowed by Access-Control-Allow-Headers in preflight response.",
-            "at": 2955
-          },
-          {
-            "type": "error",
-            "text": "Failed to load resource: net::ERR_FAILED",
-            "at": 2956
-          },
-          {
-            "type": "error",
-            "text": "Access to font at 'http://fonts.gstatic.com/s/sourcesanspro/v23/6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7l.woff2' from origin 'http://127.0.0.1:37201' has been blocked by CORS policy: Request header field pragma is not allowed by Access-Control-Allow-Headers in preflight response.",
-            "at": 2958
-          },
-          {
-            "type": "error",
-            "text": "Failed to load resource: net::ERR_FAILED",
-            "at": 2959
-          },
-          {
-            "type": "error",
-            "text": "Access to font at 'http://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdu.woff2' from origin 'http://127.0.0.1:37201' has been blocked by CORS policy: Request header field pragma is not allowed by Access-Control-Allow-Headers in preflight response.",
-            "at": 2959
-          },
-          {
-            "type": "error",
-            "text": "Failed to load resource: net::ERR_FAILED",
-            "at": 2959
-          },
-          {
-            "type": "error",
-            "text": "Access to font at 'https://code.ionicframework.com/ionicons/2.0.1/fonts/ionicons.ttf?v=2.0.1' from origin 'http://127.0.0.1:37201' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
-            "at": 2977
-          },
-          {
-            "type": "error",
-            "text": "Failed to load resource: net::ERR_FAILED",
-            "at": 2978
+            "at": 1715
           }
         ],
         "pageErrors": [],
@@ -4671,7 +4718,7 @@
             "selector": "body > div > main > div > div > div > div > form > fieldset:nth-of-type(1) > input",
             "name": "email",
             "type": "email",
-            "value": "rd-rd_test_adbe8b_1@example.test",
+            "value": "rd-rd_test_42c28d_1@example.test",
             "redacted": false
           },
           {
@@ -4694,14 +4741,14 @@
               "weight": 60,
               "matchCount": 2,
               "visibleCount": 2,
-              "elapsedMs": 20
+              "elapsedMs": 8
             },
             {
               "strategy": "css",
               "weight": 35,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 6
+              "elapsedMs": 5
             }
           ],
           "chosenStrategy": "css",
@@ -4709,10 +4756,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1049,
+          "at": 1387,
           "url": "http://127.0.0.1:37201/#/login",
           "title": "Conduit",
-          "domHash": "fa415805e2e45200",
+          "domHash": "c659be8900b0e706",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -4725,6 +4772,7 @@
           },
           "semanticDom": {
             "textHash": "9c42030bf33d5537",
+            "visualHash": "5b9081b1fb63beac",
             "text": "conduit Source code Home Login Sign up Sign in Need an account? Login conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
@@ -4733,7 +4781,8 @@
                 "name": "email",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -4741,13 +4790,15 @@
                 "name": "password",
                 "valueHash": "e54b74eb9192b480",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -4809,26 +4860,6 @@
               "schemaHash": "565bde25c1fa7c3f",
               "rows": [
                 {
-                  "keyHash": "186347d9ea7673a2",
-                  "rowHash": "76fd1a163a9acc6f",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "da7114755c3b82ba",
-                  "rowHash": "341d6d6592b79bbc",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "84cf60166b2ca345",
-                  "rowHash": "653385e6fa6d081e",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "9ef59241e15425e0",
-                  "rowHash": "476e57547de6ae1b",
-                  "softDeleted": false
-                },
-                {
                   "keyHash": "82a8445b12df5a29",
                   "rowHash": "98571fe85d57b748",
                   "softDeleted": false
@@ -4842,86 +4873,6 @@
                   "keyHash": "75453dbfb3621178",
                   "rowHash": "4ef7737f091c4810",
                   "softDeleted": false
-                },
-                {
-                  "keyHash": "667da1af4b45220f",
-                  "rowHash": "ae9e999fc4c96aea",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "346f5d46d64077fa",
-                  "rowHash": "db496433ab2bfa40",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "ad6316955326fdd4",
-                  "rowHash": "fa75e1337656bf0e",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "6562957a96f7ee9c",
-                  "rowHash": "c904f683f6063049",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "84c47a358303815f",
-                  "rowHash": "c21410ce4c4ee9cc",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "4e231fcf3ad3ac53",
-                  "rowHash": "57d904ab382f7754",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "d3af639df585f0fd",
-                  "rowHash": "1179d027f85ae996",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "4bd1700a89aedff3",
-                  "rowHash": "151189b7e8a10bf5",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "c1c60cf137829d3c",
-                  "rowHash": "2384f3f29ef34e67",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "a011266992fc9fc8",
-                  "rowHash": "5c41bc67b6e0a504",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "c4bc207fb4553dd5",
-                  "rowHash": "ddfa07222891fb76",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "fc2cab3955490604",
-                  "rowHash": "6e6e53296caeb99d",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "0f8ca455bcf8cc2c",
-                  "rowHash": "ccc38e9164f11c43",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "a045fcf3a9ea9b7a",
-                  "rowHash": "dd532d0529387550",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "0f360aed9a78757d",
-                  "rowHash": "88ec8b023a7d0d79",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "ab13c02b73be8864",
-                  "rowHash": "9b556ce217abbc6d",
-                  "softDeleted": false
                 }
               ],
               "truncated": false
@@ -4929,10 +4880,10 @@
           ]
         },
         "beforeAction": {
-          "at": 1098,
+          "at": 1425,
           "url": "http://127.0.0.1:37201/#/login",
           "title": "Conduit",
-          "domHash": "49eb11dcdb677293",
+          "domHash": "6e5267a6e13932fd",
           "canaryPresent": true,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -4945,15 +4896,17 @@
           },
           "semanticDom": {
             "textHash": "9c42030bf33d5537",
+            "visualHash": "5b9081b1fb63beac",
             "text": "conduit Source code Home Login Sign up Sign in Need an account? Login conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "input",
                 "type": "email",
                 "name": "email",
-                "valueHash": "e9b5b254add5ca7e",
+                "valueHash": "d738a01f9a881b4d",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -4961,13 +4914,15 @@
                 "name": "password",
                 "valueHash": "e54b74eb9192b480",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -4985,10 +4940,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2166,
+          "at": 2751,
           "url": "http://127.0.0.1:37201/#/login",
           "title": "Conduit",
-          "domHash": "b77e6ad72425d2e4",
+          "domHash": "0349bb0055121dfe",
           "canaryPresent": true,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -5001,15 +4956,17 @@
           },
           "semanticDom": {
             "textHash": "df9ded375a63f323",
+            "visualHash": "5b9081b1fb63beac",
             "text": "conduit Source code Home Login Sign up Sign in Need an account? Email not found sign in first Login conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "input",
                 "type": "email",
                 "name": "email",
-                "valueHash": "e9b5b254add5ca7e",
+                "valueHash": "d738a01f9a881b4d",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -5017,13 +4974,15 @@
                 "name": "password",
                 "valueHash": "e54b74eb9192b480",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -5085,26 +5044,6 @@
               "schemaHash": "565bde25c1fa7c3f",
               "rows": [
                 {
-                  "keyHash": "186347d9ea7673a2",
-                  "rowHash": "76fd1a163a9acc6f",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "da7114755c3b82ba",
-                  "rowHash": "341d6d6592b79bbc",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "84cf60166b2ca345",
-                  "rowHash": "653385e6fa6d081e",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "9ef59241e15425e0",
-                  "rowHash": "476e57547de6ae1b",
-                  "softDeleted": false
-                },
-                {
                   "keyHash": "82a8445b12df5a29",
                   "rowHash": "98571fe85d57b748",
                   "softDeleted": false
@@ -5118,86 +5057,6 @@
                   "keyHash": "75453dbfb3621178",
                   "rowHash": "4ef7737f091c4810",
                   "softDeleted": false
-                },
-                {
-                  "keyHash": "667da1af4b45220f",
-                  "rowHash": "ae9e999fc4c96aea",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "346f5d46d64077fa",
-                  "rowHash": "db496433ab2bfa40",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "ad6316955326fdd4",
-                  "rowHash": "fa75e1337656bf0e",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "6562957a96f7ee9c",
-                  "rowHash": "c904f683f6063049",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "84c47a358303815f",
-                  "rowHash": "c21410ce4c4ee9cc",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "4e231fcf3ad3ac53",
-                  "rowHash": "57d904ab382f7754",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "d3af639df585f0fd",
-                  "rowHash": "1179d027f85ae996",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "4bd1700a89aedff3",
-                  "rowHash": "151189b7e8a10bf5",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "c1c60cf137829d3c",
-                  "rowHash": "2384f3f29ef34e67",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "a011266992fc9fc8",
-                  "rowHash": "5c41bc67b6e0a504",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "c4bc207fb4553dd5",
-                  "rowHash": "ddfa07222891fb76",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "fc2cab3955490604",
-                  "rowHash": "6e6e53296caeb99d",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "0f8ca455bcf8cc2c",
-                  "rowHash": "ccc38e9164f11c43",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "a045fcf3a9ea9b7a",
-                  "rowHash": "dd532d0529387550",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "0f360aed9a78757d",
-                  "rowHash": "88ec8b023a7d0d79",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "ab13c02b73be8864",
-                  "rowHash": "9b556ce217abbc6d",
-                  "softDeleted": false
                 }
               ],
               "truncated": false
@@ -5206,10 +5065,10 @@
         },
         "screenshot": "screenshots/7f2e167968b6-after.png",
         "afterRefresh": {
-          "at": 2757,
+          "at": 3756,
           "url": "http://127.0.0.1:37201/#/login",
           "title": "Conduit",
-          "domHash": "fa415805e2e45200",
+          "domHash": "c659be8900b0e706",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -5222,6 +5081,7 @@
           },
           "semanticDom": {
             "textHash": "9c42030bf33d5537",
+            "visualHash": "5b9081b1fb63beac",
             "text": "conduit Source code Home Login Sign up Sign in Need an account? Login conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
@@ -5230,7 +5090,8 @@
                 "name": "email",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -5238,13 +5099,15 @@
                 "name": "password",
                 "valueHash": "e54b74eb9192b480",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -5260,10 +5123,10 @@
         },
         "refreshScreenshot": "screenshots/7f2e167968b6-refresh.png",
         "afterHardRefresh": {
-          "at": 3440,
+          "at": 4703,
           "url": "http://127.0.0.1:37201/#/login",
           "title": "Conduit",
-          "domHash": "fa415805e2e45200",
+          "domHash": "c659be8900b0e706",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -5276,6 +5139,7 @@
           },
           "semanticDom": {
             "textHash": "9c42030bf33d5537",
+            "visualHash": "5b9081b1fb63beac",
             "text": "conduit Source code Home Login Sign up Sign in Need an account? Login conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
@@ -5284,7 +5148,8 @@
                 "name": "email",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -5292,13 +5157,15 @@
                 "name": "password",
                 "valueHash": "e54b74eb9192b480",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -5313,10 +5180,10 @@
           }
         },
         "afterNewTab": {
-          "at": 4080,
+          "at": 5686,
           "url": "http://127.0.0.1:37201/#/login",
           "title": "Conduit",
-          "domHash": "fa415805e2e45200",
+          "domHash": "c659be8900b0e706",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -5329,6 +5196,7 @@
           },
           "semanticDom": {
             "textHash": "9c42030bf33d5537",
+            "visualHash": "5b9081b1fb63beac",
             "text": "conduit Source code Home Login Sign up Sign in Need an account? Login conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
@@ -5337,7 +5205,8 @@
                 "name": "email",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -5345,13 +5214,15 @@
                 "name": "password",
                 "valueHash": "e54b74eb9192b480",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -5366,10 +5237,10 @@
           }
         },
         "afterNewContext": {
-          "at": 4958,
+          "at": 6864,
           "url": "http://127.0.0.1:37201/#/login",
           "title": "Conduit",
-          "domHash": "fa415805e2e45200",
+          "domHash": "c659be8900b0e706",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -5382,6 +5253,7 @@
           },
           "semanticDom": {
             "textHash": "9c42030bf33d5537",
+            "visualHash": "5b9081b1fb63beac",
             "text": "conduit Source code Home Login Sign up Sign in Need an account? Login conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
@@ -5390,7 +5262,8 @@
                 "name": "email",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -5398,13 +5271,15 @@
                 "name": "password",
                 "valueHash": "e54b74eb9192b480",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -5547,31 +5422,31 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-22T20:33:48.166Z",
-        "durationMs": 2018,
-        "canary": "RD_TEST_A09DBE",
+        "startedAt": "2026-07-23T14:57:23.134Z",
+        "durationMs": 2394,
+        "canary": "RD_TEST_EEA979",
         "network": [
           {
             "id": "net-1",
             "method": "GET",
             "url": "http://127.0.0.1:37201/api/articles?limit=3&&offset=0",
             "resourceType": "xhr",
-            "startedAt": 1108,
+            "startedAt": 1439,
             "status": 200,
             "ok": true,
-            "finishedAt": 1112,
             "contentType": "application/json",
-            "resourceTypeHint": "articles"
+            "resourceTypeHint": "articles",
+            "finishedAt": 1446
           },
           {
             "id": "net-2",
             "method": "GET",
             "url": "http://127.0.0.1:37201/api/tags",
             "resourceType": "xhr",
-            "startedAt": 1108,
+            "startedAt": 1439,
             "status": 200,
             "ok": true,
-            "finishedAt": 1113,
+            "finishedAt": 1446,
             "contentType": "application/json",
             "resourceTypeHint": "tags"
           }
@@ -5592,35 +5467,35 @@
               "weight": 92,
               "matchCount": 2,
               "visibleCount": 2,
-              "elapsedMs": 25
+              "elapsedMs": 8
             },
             {
               "strategy": "role",
               "weight": 82,
               "matchCount": 2,
               "visibleCount": 2,
-              "elapsedMs": 8
+              "elapsedMs": 7
             },
             {
               "strategy": "href",
               "weight": 72,
               "matchCount": 0,
               "visibleCount": 0,
-              "elapsedMs": 3
+              "elapsedMs": 2
             },
             {
               "strategy": "text",
               "weight": 60,
               "matchCount": 2,
               "visibleCount": 2,
-              "elapsedMs": 7
+              "elapsedMs": 6
             },
             {
               "strategy": "css",
               "weight": 35,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 5
+              "elapsedMs": 4
             }
           ],
           "chosenStrategy": "css",
@@ -5628,10 +5503,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1033,
+          "at": 1391,
           "url": "http://127.0.0.1:37201/#/login",
           "title": "Conduit",
-          "domHash": "fa415805e2e45200",
+          "domHash": "c659be8900b0e706",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -5644,6 +5519,7 @@
           },
           "semanticDom": {
             "textHash": "9c42030bf33d5537",
+            "visualHash": "5b9081b1fb63beac",
             "text": "conduit Source code Home Login Sign up Sign in Need an account? Login conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
@@ -5652,7 +5528,8 @@
                 "name": "email",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -5660,13 +5537,15 @@
                 "name": "password",
                 "valueHash": "e54b74eb9192b480",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -5681,10 +5560,10 @@
           }
         },
         "beforeAction": {
-          "at": 1058,
+          "at": 1401,
           "url": "http://127.0.0.1:37201/#/login",
           "title": "Conduit",
-          "domHash": "fa415805e2e45200",
+          "domHash": "c659be8900b0e706",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -5697,6 +5576,7 @@
           },
           "semanticDom": {
             "textHash": "9c42030bf33d5537",
+            "visualHash": "5b9081b1fb63beac",
             "text": "conduit Source code Home Login Sign up Sign in Need an account? Login conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
@@ -5705,7 +5585,8 @@
                 "name": "email",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -5713,13 +5594,15 @@
                 "name": "password",
                 "valueHash": "e54b74eb9192b480",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -5736,10 +5619,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2014,
+          "at": 2390,
           "url": "http://127.0.0.1:37201/#/",
           "title": "Conduit",
-          "domHash": "12976dd377f90f2e",
+          "domHash": "3c44d4d1ff59317a",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -5752,13 +5635,15 @@
           },
           "semanticDom": {
             "textHash": "f8034dbcac655938",
+            "visualHash": "f56dba1689c65663",
             "text": "conduit Source code Home Login Sign up conduit A place to share your knowledge. Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -5979,31 +5864,31 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-22T20:33:50.222Z",
-        "durationMs": 2027,
-        "canary": "RD_TEST_4F3145",
+        "startedAt": "2026-07-23T14:57:25.568Z",
+        "durationMs": 2394,
+        "canary": "RD_TEST_D69A07",
         "network": [
           {
             "id": "net-1",
             "method": "GET",
             "url": "http://127.0.0.1:37201/api/articles?limit=3&&offset=0",
             "resourceType": "xhr",
-            "startedAt": 1086,
+            "startedAt": 1420,
             "status": 200,
             "ok": true,
             "contentType": "application/json",
             "resourceTypeHint": "articles",
-            "finishedAt": 1089
+            "finishedAt": 1427
           },
           {
             "id": "net-2",
             "method": "GET",
             "url": "http://127.0.0.1:37201/api/tags",
             "resourceType": "xhr",
-            "startedAt": 1086,
+            "startedAt": 1421,
             "status": 200,
             "ok": true,
-            "finishedAt": 1089,
+            "finishedAt": 1427,
             "contentType": "application/json",
             "resourceTypeHint": "tags"
           }
@@ -6024,14 +5909,14 @@
               "weight": 92,
               "matchCount": 2,
               "visibleCount": 2,
-              "elapsedMs": 19
+              "elapsedMs": 9
             },
             {
               "strategy": "role",
               "weight": 82,
               "matchCount": 2,
               "visibleCount": 2,
-              "elapsedMs": 6
+              "elapsedMs": 8
             },
             {
               "strategy": "href",
@@ -6052,7 +5937,7 @@
               "weight": 35,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 3
+              "elapsedMs": 5
             }
           ],
           "chosenStrategy": "css",
@@ -6060,10 +5945,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1042,
+          "at": 1374,
           "url": "http://127.0.0.1:37201/#/register",
           "title": "Conduit",
-          "domHash": "29eccd4634d3a293",
+          "domHash": "1f4fa65964895f4c",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -6076,6 +5961,7 @@
           },
           "semanticDom": {
             "textHash": "ab6aef9fc7cf2d60",
+            "visualHash": "b600fd6441482f1a",
             "text": "conduit Source code Home Login Sign up Sign up Sign in to your account Sign up conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
@@ -6084,7 +5970,8 @@
                 "name": "username",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -6092,7 +5979,8 @@
                 "name": "email",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -6100,13 +5988,15 @@
                 "name": "password",
                 "valueHash": "e54b74eb9192b480",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -6121,10 +6011,10 @@
           }
         },
         "beforeAction": {
-          "at": 1061,
+          "at": 1385,
           "url": "http://127.0.0.1:37201/#/register",
           "title": "Conduit",
-          "domHash": "29eccd4634d3a293",
+          "domHash": "1f4fa65964895f4c",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -6137,6 +6027,7 @@
           },
           "semanticDom": {
             "textHash": "ab6aef9fc7cf2d60",
+            "visualHash": "b600fd6441482f1a",
             "text": "conduit Source code Home Login Sign up Sign up Sign in to your account Sign up conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
@@ -6145,7 +6036,8 @@
                 "name": "username",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -6153,7 +6045,8 @@
                 "name": "email",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -6161,13 +6054,15 @@
                 "name": "password",
                 "valueHash": "e54b74eb9192b480",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -6184,10 +6079,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2023,
+          "at": 2390,
           "url": "http://127.0.0.1:37201/#/",
           "title": "Conduit",
-          "domHash": "12976dd377f90f2e",
+          "domHash": "3c44d4d1ff59317a",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -6200,13 +6095,15 @@
           },
           "semanticDom": {
             "textHash": "f8034dbcac655938",
+            "visualHash": "f56dba1689c65663",
             "text": "conduit Source code Home Login Sign up conduit A place to share your knowledge. Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -6354,31 +6251,31 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-22T20:33:52.279Z",
-        "durationMs": 1994,
-        "canary": "RD_TEST_BCA369",
+        "startedAt": "2026-07-23T14:57:27.996Z",
+        "durationMs": 2390,
+        "canary": "RD_TEST_98E884",
         "network": [
           {
             "id": "net-1",
             "method": "GET",
             "url": "http://127.0.0.1:37201/api/articles?limit=3&&offset=0",
             "resourceType": "xhr",
-            "startedAt": 1062,
+            "startedAt": 1410,
             "status": 200,
             "ok": true,
             "contentType": "application/json",
             "resourceTypeHint": "articles",
-            "finishedAt": 1065
+            "finishedAt": 1417
           },
           {
             "id": "net-2",
             "method": "GET",
             "url": "http://127.0.0.1:37201/api/tags",
             "resourceType": "xhr",
-            "startedAt": 1062,
+            "startedAt": 1411,
             "status": 200,
             "ok": true,
-            "finishedAt": 1066,
+            "finishedAt": 1417,
             "contentType": "application/json",
             "resourceTypeHint": "tags"
           }
@@ -6399,7 +6296,7 @@
               "weight": 92,
               "matchCount": 0,
               "visibleCount": 0,
-              "elapsedMs": 16
+              "elapsedMs": 4
             },
             {
               "strategy": "role",
@@ -6414,10 +6311,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1015,
+          "at": 1369,
           "url": "http://127.0.0.1:37201/#/register",
           "title": "Conduit",
-          "domHash": "29eccd4634d3a293",
+          "domHash": "1f4fa65964895f4c",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -6430,6 +6327,7 @@
           },
           "semanticDom": {
             "textHash": "ab6aef9fc7cf2d60",
+            "visualHash": "b600fd6441482f1a",
             "text": "conduit Source code Home Login Sign up Sign up Sign in to your account Sign up conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
@@ -6438,7 +6336,8 @@
                 "name": "username",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -6446,7 +6345,8 @@
                 "name": "email",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -6454,13 +6354,15 @@
                 "name": "password",
                 "valueHash": "e54b74eb9192b480",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -6475,10 +6377,10 @@
           }
         },
         "beforeAction": {
-          "at": 1032,
+          "at": 1379,
           "url": "http://127.0.0.1:37201/#/register",
           "title": "Conduit",
-          "domHash": "29eccd4634d3a293",
+          "domHash": "1f4fa65964895f4c",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -6491,6 +6393,7 @@
           },
           "semanticDom": {
             "textHash": "ab6aef9fc7cf2d60",
+            "visualHash": "b600fd6441482f1a",
             "text": "conduit Source code Home Login Sign up Sign up Sign in to your account Sign up conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
@@ -6499,7 +6402,8 @@
                 "name": "username",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -6507,7 +6411,8 @@
                 "name": "email",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -6515,13 +6420,15 @@
                 "name": "password",
                 "valueHash": "e54b74eb9192b480",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -6538,10 +6445,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 1990,
+          "at": 2386,
           "url": "http://127.0.0.1:37201/#/",
           "title": "Conduit",
-          "domHash": "12976dd377f90f2e",
+          "domHash": "3c44d4d1ff59317a",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -6554,13 +6461,15 @@
           },
           "semanticDom": {
             "textHash": "f8034dbcac655938",
+            "visualHash": "f56dba1689c65663",
             "text": "conduit Source code Home Login Sign up conduit A place to share your knowledge. Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -6635,9 +6544,9 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-22T20:33:54.307Z",
-        "durationMs": 2046,
-        "canary": "RD_TEST_8B1CAF",
+        "startedAt": "2026-07-23T14:57:30.421Z",
+        "durationMs": 2380,
+        "canary": "RD_TEST_F72E56",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -6655,7 +6564,7 @@
               "weight": 92,
               "matchCount": 0,
               "visibleCount": 0,
-              "elapsedMs": 14
+              "elapsedMs": 4
             },
             {
               "strategy": "role",
@@ -6670,10 +6579,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1048,
+          "at": 1350,
           "url": "http://127.0.0.1:37201/#/register",
           "title": "Conduit",
-          "domHash": "29eccd4634d3a293",
+          "domHash": "1f4fa65964895f4c",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -6686,6 +6595,7 @@
           },
           "semanticDom": {
             "textHash": "ab6aef9fc7cf2d60",
+            "visualHash": "b600fd6441482f1a",
             "text": "conduit Source code Home Login Sign up Sign up Sign in to your account Sign up conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
@@ -6694,7 +6604,8 @@
                 "name": "username",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -6702,7 +6613,8 @@
                 "name": "email",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -6710,13 +6622,15 @@
                 "name": "password",
                 "valueHash": "e54b74eb9192b480",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -6731,10 +6645,10 @@
           }
         },
         "beforeAction": {
-          "at": 1065,
+          "at": 1361,
           "url": "http://127.0.0.1:37201/#/register",
           "title": "Conduit",
-          "domHash": "29eccd4634d3a293",
+          "domHash": "1f4fa65964895f4c",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -6747,6 +6661,7 @@
           },
           "semanticDom": {
             "textHash": "ab6aef9fc7cf2d60",
+            "visualHash": "b600fd6441482f1a",
             "text": "conduit Source code Home Login Sign up Sign up Sign in to your account Sign up conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
@@ -6755,7 +6670,8 @@
                 "name": "username",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -6763,7 +6679,8 @@
                 "name": "email",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -6771,13 +6688,15 @@
                 "name": "password",
                 "valueHash": "e54b74eb9192b480",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -6794,10 +6713,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2042,
+          "at": 2376,
           "url": "http://127.0.0.1:37201/#/login",
           "title": "Conduit",
-          "domHash": "fa415805e2e45200",
+          "domHash": "c659be8900b0e706",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -6810,6 +6729,7 @@
           },
           "semanticDom": {
             "textHash": "9c42030bf33d5537",
+            "visualHash": "5b9081b1fb63beac",
             "text": "conduit Source code Home Login Sign up Sign in Need an account? Login conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
@@ -6818,7 +6738,8 @@
                 "name": "email",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -6826,13 +6747,15 @@
                 "name": "password",
                 "valueHash": "e54b74eb9192b480",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -6980,9 +6903,9 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-22T20:33:56.385Z",
-        "durationMs": 1984,
-        "canary": "RD_TEST_3BB009",
+        "startedAt": "2026-07-23T14:57:32.841Z",
+        "durationMs": 2372,
+        "canary": "RD_TEST_8CDA27",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -7000,7 +6923,7 @@
               "weight": 92,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 16
+              "elapsedMs": 6
             }
           ],
           "chosenStrategy": "role",
@@ -7008,10 +6931,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1000,
+          "at": 1364,
           "url": "http://127.0.0.1:37201/#/register",
           "title": "Conduit",
-          "domHash": "29eccd4634d3a293",
+          "domHash": "1f4fa65964895f4c",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -7024,6 +6947,7 @@
           },
           "semanticDom": {
             "textHash": "ab6aef9fc7cf2d60",
+            "visualHash": "b600fd6441482f1a",
             "text": "conduit Source code Home Login Sign up Sign up Sign in to your account Sign up conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
@@ -7032,7 +6956,8 @@
                 "name": "username",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -7040,7 +6965,8 @@
                 "name": "email",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -7048,13 +6974,15 @@
                 "name": "password",
                 "valueHash": "e54b74eb9192b480",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -7069,10 +6997,10 @@
           }
         },
         "beforeAction": {
-          "at": 1017,
+          "at": 1374,
           "url": "http://127.0.0.1:37201/#/register",
           "title": "Conduit",
-          "domHash": "29eccd4634d3a293",
+          "domHash": "1f4fa65964895f4c",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -7085,6 +7013,7 @@
           },
           "semanticDom": {
             "textHash": "ab6aef9fc7cf2d60",
+            "visualHash": "b600fd6441482f1a",
             "text": "conduit Source code Home Login Sign up Sign up Sign in to your account Sign up conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
@@ -7093,7 +7022,8 @@
                 "name": "username",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -7101,7 +7031,8 @@
                 "name": "email",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -7109,13 +7040,15 @@
                 "name": "password",
                 "valueHash": "e54b74eb9192b480",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -7132,10 +7065,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 1980,
+          "at": 2368,
           "url": "http://127.0.0.1:37201/#/login",
           "title": "Conduit",
-          "domHash": "fa415805e2e45200",
+          "domHash": "c659be8900b0e706",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -7148,6 +7081,7 @@
           },
           "semanticDom": {
             "textHash": "9c42030bf33d5537",
+            "visualHash": "5b9081b1fb63beac",
             "text": "conduit Source code Home Login Sign up Sign in Need an account? Login conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
@@ -7156,7 +7090,8 @@
                 "name": "email",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -7164,13 +7099,15 @@
                 "name": "password",
                 "valueHash": "e54b74eb9192b480",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -7252,19 +7189,19 @@
         ]
       },
       "evidence": {
-        "startedAt": "2026-07-22T20:33:58.412Z",
-        "durationMs": 4949,
-        "canary": "RD_TEST_252364",
+        "startedAt": "2026-07-23T14:57:35.254Z",
+        "durationMs": 6720,
+        "canary": "RD_TEST_73F84D",
         "network": [
           {
             "id": "net-1",
             "method": "POST",
             "url": "http://127.0.0.1:37201/api/users",
             "resourceType": "xhr",
-            "startedAt": 1112,
+            "startedAt": 1490,
             "status": 201,
             "ok": true,
-            "finishedAt": 1257,
+            "finishedAt": 1661,
             "contentType": "application/json",
             "resourceTypeHint": "users"
           },
@@ -7273,22 +7210,22 @@
             "method": "GET",
             "url": "http://127.0.0.1:37201/api/user",
             "resourceType": "xhr",
-            "startedAt": 1261,
+            "startedAt": 1665,
             "status": 200,
             "ok": true,
-            "finishedAt": 1264,
             "contentType": "application/json",
-            "resourceTypeHint": "user"
+            "resourceTypeHint": "user",
+            "finishedAt": 1671
           },
           {
             "id": "net-3",
             "method": "GET",
             "url": "http://127.0.0.1:37201/api/articles/feed?limit=3&&offset=0",
             "resourceType": "xhr",
-            "startedAt": 1263,
+            "startedAt": 1668,
             "status": 200,
             "ok": true,
-            "finishedAt": 1268,
+            "finishedAt": 1679,
             "contentType": "application/json",
             "resourceTypeHint": "feed"
           },
@@ -7297,10 +7234,10 @@
             "method": "GET",
             "url": "http://127.0.0.1:37201/api/tags",
             "resourceType": "xhr",
-            "startedAt": 1264,
+            "startedAt": 1669,
             "status": 200,
             "ok": true,
-            "finishedAt": 1266,
+            "finishedAt": 1676,
             "contentType": "application/json",
             "resourceTypeHint": "tags"
           },
@@ -7309,21 +7246,22 @@
             "method": "GET",
             "url": "http://127.0.0.1:37201/",
             "resourceType": "document",
-            "startedAt": 2242,
+            "startedAt": 2671,
             "status": 200,
             "ok": true,
+            "contentType": "text/html",
             "resourceTypeHint": "resource",
-            "finishedAt": 2248
+            "finishedAt": 2679
           },
           {
             "id": "net-6",
             "method": "GET",
             "url": "http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css",
             "resourceType": "stylesheet",
-            "startedAt": 2246,
+            "startedAt": 2677,
             "status": 307,
             "ok": false,
-            "finishedAt": 2248,
+            "finishedAt": 2681,
             "location": "https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css",
             "resourceTypeHint": "ionicons.min.css"
           },
@@ -7332,10 +7270,10 @@
             "method": "GET",
             "url": "http://fonts.googleapis.com/css?family=Titillium+Web:700|Source+Serif+Pro:400,700|Merriweather+Sans:400,700|Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic,700italic",
             "resourceType": "stylesheet",
-            "startedAt": 2247,
+            "startedAt": 2677,
             "status": 200,
             "ok": true,
-            "finishedAt": 2247,
+            "finishedAt": 2718,
             "contentType": "text/css",
             "resourceTypeHint": "css"
           },
@@ -7344,10 +7282,11 @@
             "method": "GET",
             "url": "http://127.0.0.1:37201/assets/index-CLdavoKn.js",
             "resourceType": "script",
-            "startedAt": 2248,
-            "status": 304,
-            "ok": false,
-            "finishedAt": 2249,
+            "startedAt": 2678,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 2691,
+            "contentType": "text/javascript",
             "resourceTypeHint": "index-CLdavoKn.js"
           },
           {
@@ -7355,81 +7294,83 @@
             "method": "GET",
             "url": "http://127.0.0.1:37201/assets/index-De1Lwdlm.css",
             "resourceType": "stylesheet",
-            "startedAt": 2248,
-            "status": 304,
-            "ok": false,
-            "finishedAt": 2248,
-            "resourceTypeHint": "index-De1Lwdlm.css"
+            "startedAt": 2678,
+            "status": 200,
+            "ok": true,
+            "contentType": "text/css",
+            "resourceTypeHint": "index-De1Lwdlm.css",
+            "finishedAt": 2684
           },
           {
             "id": "net-10",
             "method": "GET",
             "url": "https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css",
             "resourceType": "stylesheet",
-            "startedAt": 2248,
+            "startedAt": 2681,
             "status": 200,
             "ok": true,
-            "finishedAt": 2249,
             "contentType": "text/css",
-            "resourceTypeHint": "ionicons.min.css"
+            "resourceTypeHint": "ionicons.min.css",
+            "finishedAt": 2796
           },
           {
             "id": "net-11",
             "method": "GET",
-            "url": "https://code.ionicframework.com/ionicons/2.0.1/fonts/ionicons.ttf?v=2.0.1",
-            "resourceType": "font",
-            "startedAt": 2251,
-            "status": 200,
-            "ok": true,
-            "finishedAt": 2252,
-            "contentType": "font/ttf",
-            "resourceTypeHint": "ionicons.ttf"
-          },
-          {
-            "id": "net-12",
-            "method": "GET",
-            "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xK1dSBYKcSV-LCoeQqfX1RYOo3qPZ7nsDI.woff2",
-            "resourceType": "font",
-            "startedAt": 2252,
-            "status": 200,
-            "ok": true,
-            "finishedAt": 2252,
-            "contentType": "font/woff2",
-            "resourceTypeHint": "6xK1dSBYKcSV-LCoeQqfX1RYOo3qPZ7nsDI.woff2"
-          },
-          {
-            "id": "net-13",
-            "method": "GET",
             "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdu.woff2",
             "resourceType": "font",
-            "startedAt": 2252,
+            "startedAt": 2807,
             "status": 200,
             "ok": true,
-            "finishedAt": 2253,
+            "finishedAt": 2857,
             "contentType": "font/woff2",
             "resourceTypeHint": "6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdu.woff2"
           },
           {
-            "id": "net-14",
+            "id": "net-12",
+            "method": "GET",
+            "url": "https://code.ionicframework.com/ionicons/2.0.1/fonts/ionicons.ttf?v=2.0.1",
+            "resourceType": "font",
+            "startedAt": 2809,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 2932,
+            "contentType": "font/ttf",
+            "resourceTypeHint": "ionicons.ttf"
+          },
+          {
+            "id": "net-13",
             "method": "GET",
             "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7l.woff2",
             "resourceType": "font",
-            "startedAt": 2253,
+            "startedAt": 2809,
             "status": 200,
             "ok": true,
-            "finishedAt": 2254,
+            "finishedAt": 2856,
             "contentType": "font/woff2",
             "resourceTypeHint": "6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7l.woff2"
+          },
+          {
+            "id": "net-14",
+            "method": "GET",
+            "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xK1dSBYKcSV-LCoeQqfX1RYOo3qPZ7nsDI.woff2",
+            "resourceType": "font",
+            "startedAt": 2809,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 2858,
+            "contentType": "font/woff2",
+            "resourceTypeHint": "6xK1dSBYKcSV-LCoeQqfX1RYOo3qPZ7nsDI.woff2"
           },
           {
             "id": "net-15",
             "method": "GET",
             "url": "http://127.0.0.1:37201/api/articles/feed?limit=3&&offset=0",
             "resourceType": "xhr",
-            "startedAt": 2264,
+            "startedAt": 2811,
             "status": 200,
             "ok": true,
-            "finishedAt": 2271,
+            "finishedAt": 2822,
+            "contentType": "application/json",
             "resourceTypeHint": "feed"
           },
           {
@@ -7437,10 +7378,11 @@
             "method": "GET",
             "url": "http://127.0.0.1:37201/api/tags",
             "resourceType": "xhr",
-            "startedAt": 2265,
+            "startedAt": 2811,
             "status": 200,
             "ok": true,
-            "finishedAt": 2269,
+            "finishedAt": 2819,
+            "contentType": "application/json",
             "resourceTypeHint": "tags"
           },
           {
@@ -7448,10 +7390,11 @@
             "method": "GET",
             "url": "http://127.0.0.1:37201/api/user",
             "resourceType": "xhr",
-            "startedAt": 2265,
+            "startedAt": 2811,
             "status": 200,
             "ok": true,
-            "finishedAt": 2269,
+            "finishedAt": 2819,
+            "contentType": "application/json",
             "resourceTypeHint": "user"
           },
           {
@@ -7459,22 +7402,22 @@
             "method": "GET",
             "url": "http://127.0.0.1:37201/",
             "resourceType": "document",
-            "startedAt": 2814,
+            "startedAt": 3684,
             "status": 200,
             "ok": true,
             "contentType": "text/html",
             "resourceTypeHint": "resource",
-            "finishedAt": 2820
+            "finishedAt": 3692
           },
           {
             "id": "net-19",
             "method": "GET",
             "url": "http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css",
             "resourceType": "stylesheet",
-            "startedAt": 2818,
+            "startedAt": 3691,
             "status": 307,
             "ok": false,
-            "finishedAt": 2819,
+            "finishedAt": 3694,
             "location": "https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css",
             "resourceTypeHint": "ionicons.min.css"
           },
@@ -7483,10 +7426,10 @@
             "method": "GET",
             "url": "http://fonts.googleapis.com/css?family=Titillium+Web:700|Source+Serif+Pro:400,700|Merriweather+Sans:400,700|Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic,700italic",
             "resourceType": "stylesheet",
-            "startedAt": 2819,
+            "startedAt": 3691,
             "status": 200,
             "ok": true,
-            "finishedAt": 2854,
+            "finishedAt": 3734,
             "contentType": "text/css",
             "resourceTypeHint": "css"
           },
@@ -7495,10 +7438,10 @@
             "method": "GET",
             "url": "http://127.0.0.1:37201/assets/index-CLdavoKn.js",
             "resourceType": "script",
-            "startedAt": 2819,
+            "startedAt": 3691,
             "status": 200,
             "ok": true,
-            "finishedAt": 2822,
+            "finishedAt": 3706,
             "contentType": "text/javascript",
             "resourceTypeHint": "index-CLdavoKn.js"
           },
@@ -7507,74 +7450,82 @@
             "method": "GET",
             "url": "http://127.0.0.1:37201/assets/index-De1Lwdlm.css",
             "resourceType": "stylesheet",
-            "startedAt": 2819,
+            "startedAt": 3692,
             "status": 200,
             "ok": true,
+            "finishedAt": 3696,
             "contentType": "text/css",
-            "resourceTypeHint": "index-De1Lwdlm.css",
-            "finishedAt": 2821
+            "resourceTypeHint": "index-De1Lwdlm.css"
           },
           {
             "id": "net-23",
             "method": "GET",
             "url": "https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css",
             "resourceType": "stylesheet",
-            "startedAt": 2819,
+            "startedAt": 3694,
             "status": 200,
             "ok": true,
             "contentType": "text/css",
             "resourceTypeHint": "ionicons.min.css",
-            "finishedAt": 2922
+            "finishedAt": 3757
           },
           {
             "id": "net-24",
             "method": "GET",
             "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdu.woff2",
             "resourceType": "font",
-            "startedAt": 2933,
-            "finishedAt": 2964,
-            "ok": false,
-            "failure": "net::ERR_FAILED"
+            "startedAt": 3767,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 3821,
+            "contentType": "font/woff2",
+            "resourceTypeHint": "6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdu.woff2"
           },
           {
             "id": "net-25",
             "method": "GET",
             "url": "https://code.ionicframework.com/ionicons/2.0.1/fonts/ionicons.ttf?v=2.0.1",
             "resourceType": "font",
-            "startedAt": 2933,
-            "finishedAt": 2990,
-            "ok": false,
-            "failure": "net::ERR_FAILED"
+            "startedAt": 3768,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 3855,
+            "contentType": "font/ttf",
+            "resourceTypeHint": "ionicons.ttf"
           },
           {
             "id": "net-26",
             "method": "GET",
             "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7l.woff2",
             "resourceType": "font",
-            "startedAt": 2933,
-            "finishedAt": 2964,
-            "ok": false,
-            "failure": "net::ERR_FAILED"
+            "startedAt": 3769,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 3822,
+            "contentType": "font/woff2",
+            "resourceTypeHint": "6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7l.woff2"
           },
           {
             "id": "net-27",
             "method": "GET",
             "url": "http://fonts.gstatic.com/s/sourcesanspro/v23/6xK1dSBYKcSV-LCoeQqfX1RYOo3qPZ7nsDI.woff2",
             "resourceType": "font",
-            "startedAt": 2933,
-            "finishedAt": 2964,
-            "ok": false,
-            "failure": "net::ERR_FAILED"
+            "startedAt": 3769,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 3820,
+            "contentType": "font/woff2",
+            "resourceTypeHint": "6xK1dSBYKcSV-LCoeQqfX1RYOo3qPZ7nsDI.woff2"
           },
           {
             "id": "net-28",
             "method": "GET",
             "url": "http://127.0.0.1:37201/api/articles/feed?limit=3&&offset=0",
             "resourceType": "xhr",
-            "startedAt": 2934,
+            "startedAt": 3771,
             "status": 200,
             "ok": true,
-            "finishedAt": 2941,
+            "finishedAt": 3781,
             "contentType": "application/json",
             "resourceTypeHint": "feed"
           },
@@ -7583,68 +7534,27 @@
             "method": "GET",
             "url": "http://127.0.0.1:37201/api/tags",
             "resourceType": "xhr",
-            "startedAt": 2935,
+            "startedAt": 3771,
             "status": 200,
             "ok": true,
-            "finishedAt": 2939,
             "contentType": "application/json",
-            "resourceTypeHint": "tags"
+            "resourceTypeHint": "tags",
+            "finishedAt": 3778
           },
           {
             "id": "net-30",
             "method": "GET",
             "url": "http://127.0.0.1:37201/api/user",
             "resourceType": "xhr",
-            "startedAt": 2935,
+            "startedAt": 3771,
             "status": 200,
             "ok": true,
-            "finishedAt": 2938,
+            "finishedAt": 3778,
             "contentType": "application/json",
             "resourceTypeHint": "user"
           }
         ],
-        "console": [
-          {
-            "type": "error",
-            "text": "Access to font at 'http://fonts.gstatic.com/s/sourcesanspro/v23/6xK3dSBYKcSV-LCoeQqfX1RYOo3qOK7l.woff2' from origin 'http://127.0.0.1:37201' has been blocked by CORS policy: Request header field pragma is not allowed by Access-Control-Allow-Headers in preflight response.",
-            "at": 2964
-          },
-          {
-            "type": "error",
-            "text": "Failed to load resource: net::ERR_FAILED",
-            "at": 2964
-          },
-          {
-            "type": "error",
-            "text": "Access to font at 'http://fonts.gstatic.com/s/sourcesanspro/v23/6xK1dSBYKcSV-LCoeQqfX1RYOo3qPZ7nsDI.woff2' from origin 'http://127.0.0.1:37201' has been blocked by CORS policy: Request header field pragma is not allowed by Access-Control-Allow-Headers in preflight response.",
-            "at": 2964
-          },
-          {
-            "type": "error",
-            "text": "Failed to load resource: net::ERR_FAILED",
-            "at": 2964
-          },
-          {
-            "type": "error",
-            "text": "Access to font at 'http://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zwlxdu.woff2' from origin 'http://127.0.0.1:37201' has been blocked by CORS policy: Request header field pragma is not allowed by Access-Control-Allow-Headers in preflight response.",
-            "at": 2964
-          },
-          {
-            "type": "error",
-            "text": "Failed to load resource: net::ERR_FAILED",
-            "at": 2964
-          },
-          {
-            "type": "error",
-            "text": "Access to font at 'https://code.ionicframework.com/ionicons/2.0.1/fonts/ionicons.ttf?v=2.0.1' from origin 'http://127.0.0.1:37201' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
-            "at": 2990
-          },
-          {
-            "type": "error",
-            "text": "Failed to load resource: net::ERR_FAILED",
-            "at": 2990
-          }
-        ],
+        "console": [],
         "pageErrors": [],
         "uiClaims": [],
         "filledFields": [
@@ -7652,14 +7562,14 @@
             "selector": "body > div > main > div > div > div > div > form > fieldset:nth-of-type(1) > input",
             "name": "username",
             "type": "text",
-            "value": "RD_TEST_252364_1",
+            "value": "RD_TEST_73F84D_1",
             "redacted": false
           },
           {
             "selector": "body > div > main > div > div > div > div > form > fieldset:nth-of-type(2) > input",
             "name": "email",
             "type": "email",
-            "value": "rd-rd_test_252364_2@example.test",
+            "value": "rd-rd_test_73f84d_2@example.test",
             "redacted": false
           },
           {
@@ -7682,7 +7592,7 @@
               "weight": 60,
               "matchCount": 3,
               "visibleCount": 3,
-              "elapsedMs": 20
+              "elapsedMs": 10
             },
             {
               "strategy": "css",
@@ -7697,10 +7607,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1014,
+          "at": 1377,
           "url": "http://127.0.0.1:37201/#/register",
           "title": "Conduit",
-          "domHash": "29eccd4634d3a293",
+          "domHash": "1f4fa65964895f4c",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -7713,6 +7623,7 @@
           },
           "semanticDom": {
             "textHash": "ab6aef9fc7cf2d60",
+            "visualHash": "b600fd6441482f1a",
             "text": "conduit Source code Home Login Sign up Sign up Sign in to your account Sign up conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
@@ -7721,7 +7632,8 @@
                 "name": "username",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -7729,7 +7641,8 @@
                 "name": "email",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -7737,13 +7650,15 @@
                 "name": "password",
                 "valueHash": "e54b74eb9192b480",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -7805,26 +7720,6 @@
               "schemaHash": "565bde25c1fa7c3f",
               "rows": [
                 {
-                  "keyHash": "186347d9ea7673a2",
-                  "rowHash": "76fd1a163a9acc6f",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "da7114755c3b82ba",
-                  "rowHash": "341d6d6592b79bbc",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "84cf60166b2ca345",
-                  "rowHash": "653385e6fa6d081e",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "9ef59241e15425e0",
-                  "rowHash": "476e57547de6ae1b",
-                  "softDeleted": false
-                },
-                {
                   "keyHash": "82a8445b12df5a29",
                   "rowHash": "98571fe85d57b748",
                   "softDeleted": false
@@ -7838,86 +7733,6 @@
                   "keyHash": "75453dbfb3621178",
                   "rowHash": "4ef7737f091c4810",
                   "softDeleted": false
-                },
-                {
-                  "keyHash": "667da1af4b45220f",
-                  "rowHash": "ae9e999fc4c96aea",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "346f5d46d64077fa",
-                  "rowHash": "db496433ab2bfa40",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "ad6316955326fdd4",
-                  "rowHash": "fa75e1337656bf0e",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "6562957a96f7ee9c",
-                  "rowHash": "c904f683f6063049",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "84c47a358303815f",
-                  "rowHash": "c21410ce4c4ee9cc",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "4e231fcf3ad3ac53",
-                  "rowHash": "57d904ab382f7754",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "d3af639df585f0fd",
-                  "rowHash": "1179d027f85ae996",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "4bd1700a89aedff3",
-                  "rowHash": "151189b7e8a10bf5",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "c1c60cf137829d3c",
-                  "rowHash": "2384f3f29ef34e67",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "a011266992fc9fc8",
-                  "rowHash": "5c41bc67b6e0a504",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "c4bc207fb4553dd5",
-                  "rowHash": "ddfa07222891fb76",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "fc2cab3955490604",
-                  "rowHash": "6e6e53296caeb99d",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "0f8ca455bcf8cc2c",
-                  "rowHash": "ccc38e9164f11c43",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "a045fcf3a9ea9b7a",
-                  "rowHash": "dd532d0529387550",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "0f360aed9a78757d",
-                  "rowHash": "88ec8b023a7d0d79",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "ab13c02b73be8864",
-                  "rowHash": "9b556ce217abbc6d",
-                  "softDeleted": false
                 }
               ],
               "truncated": false
@@ -7925,10 +7740,10 @@
           ]
         },
         "beforeAction": {
-          "at": 1067,
+          "at": 1436,
           "url": "http://127.0.0.1:37201/#/register",
           "title": "Conduit",
-          "domHash": "c324c31519cdace5",
+          "domHash": "21adbda8a55e3bcf",
           "canaryPresent": true,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -7941,23 +7756,26 @@
           },
           "semanticDom": {
             "textHash": "ab6aef9fc7cf2d60",
+            "visualHash": "b600fd6441482f1a",
             "text": "conduit Source code Home Login Sign up Sign up Sign in to your account Sign up conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "input",
                 "type": "text",
                 "name": "username",
-                "valueHash": "62c06db3e0f8c3c2",
+                "valueHash": "29898c49e145195b",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
                 "type": "email",
                 "name": "email",
-                "valueHash": "702951a865ff3a75",
+                "valueHash": "e991c5a54d2b3dec",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -7965,13 +7783,15 @@
                 "name": "password",
                 "valueHash": "e54b74eb9192b480",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -7988,10 +7808,10 @@
         "targetDisabledAfter": false,
         "networkSettled": true,
         "after": {
-          "at": 2213,
+          "at": 2640,
           "url": "http://127.0.0.1:37201/#/",
           "title": "Conduit",
-          "domHash": "47cef29c3b4fcefd",
+          "domHash": "626e808fda42b9e2",
           "canaryPresent": true,
           "bodyCanaryPresent": true,
           "temporaryBlobUrls": 0,
@@ -8003,20 +7823,23 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "de569e857e2332ed",
-            "text": "conduit Source code Home New Article RD_TEST_252364_1 Your Feed Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "textHash": "7230a0fd6d0c519c",
+            "visualHash": "dfad2167a8f7c17f",
+            "text": "conduit Source code Home New Article RD_TEST_73F84D_1 Your Feed Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -8026,7 +7849,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "7f3bface40ee02ee",
+                "valueHash": "fed7fbf91a9f4c89",
                 "containsCanary": true
               }
             ],
@@ -8084,26 +7907,6 @@
               "schemaHash": "565bde25c1fa7c3f",
               "rows": [
                 {
-                  "keyHash": "186347d9ea7673a2",
-                  "rowHash": "76fd1a163a9acc6f",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "da7114755c3b82ba",
-                  "rowHash": "341d6d6592b79bbc",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "84cf60166b2ca345",
-                  "rowHash": "653385e6fa6d081e",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "9ef59241e15425e0",
-                  "rowHash": "476e57547de6ae1b",
-                  "softDeleted": false
-                },
-                {
                   "keyHash": "82a8445b12df5a29",
                   "rowHash": "98571fe85d57b748",
                   "softDeleted": false
@@ -8120,87 +7923,7 @@
                 },
                 {
                   "keyHash": "667da1af4b45220f",
-                  "rowHash": "ae9e999fc4c96aea",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "346f5d46d64077fa",
-                  "rowHash": "db496433ab2bfa40",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "ad6316955326fdd4",
-                  "rowHash": "fa75e1337656bf0e",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "6562957a96f7ee9c",
-                  "rowHash": "c904f683f6063049",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "84c47a358303815f",
-                  "rowHash": "c21410ce4c4ee9cc",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "4e231fcf3ad3ac53",
-                  "rowHash": "57d904ab382f7754",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "d3af639df585f0fd",
-                  "rowHash": "1179d027f85ae996",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "4bd1700a89aedff3",
-                  "rowHash": "151189b7e8a10bf5",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "c1c60cf137829d3c",
-                  "rowHash": "2384f3f29ef34e67",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "a011266992fc9fc8",
-                  "rowHash": "5c41bc67b6e0a504",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "c4bc207fb4553dd5",
-                  "rowHash": "ddfa07222891fb76",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "fc2cab3955490604",
-                  "rowHash": "6e6e53296caeb99d",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "0f8ca455bcf8cc2c",
-                  "rowHash": "ccc38e9164f11c43",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "a045fcf3a9ea9b7a",
-                  "rowHash": "dd532d0529387550",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "0f360aed9a78757d",
-                  "rowHash": "88ec8b023a7d0d79",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "ab13c02b73be8864",
-                  "rowHash": "9b556ce217abbc6d",
-                  "softDeleted": false
-                },
-                {
-                  "keyHash": "6a47047aa0c065e8",
-                  "rowHash": "3955a156a63644b7",
+                  "rowHash": "9d5f93205d1923f0",
                   "softDeleted": false
                 }
               ],
@@ -8210,10 +7933,10 @@
         },
         "screenshot": "screenshots/671961c80a3c-after.png",
         "afterRefresh": {
-          "at": 2783,
+          "at": 3641,
           "url": "http://127.0.0.1:37201/#/",
           "title": "Conduit",
-          "domHash": "47cef29c3b4fcefd",
+          "domHash": "626e808fda42b9e2",
           "canaryPresent": true,
           "bodyCanaryPresent": true,
           "temporaryBlobUrls": 0,
@@ -8225,20 +7948,23 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "de569e857e2332ed",
-            "text": "conduit Source code Home New Article RD_TEST_252364_1 Your Feed Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "textHash": "7230a0fd6d0c519c",
+            "visualHash": "dfad2167a8f7c17f",
+            "text": "conduit Source code Home New Article RD_TEST_73F84D_1 Your Feed Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -8248,7 +7974,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "7f3bface40ee02ee",
+                "valueHash": "fed7fbf91a9f4c89",
                 "containsCanary": true
               }
             ],
@@ -8260,10 +7986,10 @@
         },
         "refreshScreenshot": "screenshots/671961c80a3c-refresh.png",
         "afterHardRefresh": {
-          "at": 3457,
+          "at": 4587,
           "url": "http://127.0.0.1:37201/#/",
           "title": "Conduit",
-          "domHash": "47cef29c3b4fcefd",
+          "domHash": "626e808fda42b9e2",
           "canaryPresent": true,
           "bodyCanaryPresent": true,
           "temporaryBlobUrls": 0,
@@ -8275,20 +8001,23 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "de569e857e2332ed",
-            "text": "conduit Source code Home New Article RD_TEST_252364_1 Your Feed Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "textHash": "7230a0fd6d0c519c",
+            "visualHash": "dfad2167a8f7c17f",
+            "text": "conduit Source code Home New Article RD_TEST_73F84D_1 Your Feed Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -8298,7 +8027,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "7f3bface40ee02ee",
+                "valueHash": "fed7fbf91a9f4c89",
                 "containsCanary": true
               }
             ],
@@ -8309,10 +8038,10 @@
           }
         },
         "afterNewTab": {
-          "at": 4083,
+          "at": 5568,
           "url": "http://127.0.0.1:37201/#/register",
           "title": "Conduit",
-          "domHash": "af1d95ac19129d47",
+          "domHash": "73e0c13eb79433d2",
           "canaryPresent": true,
           "bodyCanaryPresent": true,
           "temporaryBlobUrls": 0,
@@ -8324,8 +8053,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "71a08d9e630fd6be",
-            "text": "conduit Source code Home New Article RD_TEST_252364_1 Sign up Sign in to your account Sign up conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
+            "textHash": "0361b43f6820d7e7",
+            "visualHash": "4ab503dc0bf627e7",
+            "text": "conduit Source code Home New Article RD_TEST_73F84D_1 Sign up Sign in to your account Sign up conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "input",
@@ -8333,7 +8063,8 @@
                 "name": "username",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -8341,7 +8072,8 @@
                 "name": "email",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -8349,13 +8081,15 @@
                 "name": "password",
                 "valueHash": "e54b74eb9192b480",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -8365,7 +8099,7 @@
             "local": [
               {
                 "key": "loggedUser",
-                "valueHash": "7f3bface40ee02ee",
+                "valueHash": "fed7fbf91a9f4c89",
                 "containsCanary": true
               }
             ],
@@ -8376,10 +8110,10 @@
           }
         },
         "afterNewContext": {
-          "at": 4946,
+          "at": 6717,
           "url": "http://127.0.0.1:37201/#/",
           "title": "Conduit",
-          "domHash": "12976dd377f90f2e",
+          "domHash": "3c44d4d1ff59317a",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -8392,13 +8126,15 @@
           },
           "semanticDom": {
             "textHash": "f8034dbcac655938",
+            "visualHash": "f56dba1689c65663",
             "text": "conduit Source code Home Login Sign up conduit A place to share your knowledge. Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -8472,7 +8208,7 @@
             "adapter": "sqlite",
             "resource": "Users",
             "added": [
-              "6a47047aa0c065e8"
+              "667da1af4b45220f"
             ],
             "removed": [],
             "changed": [],
@@ -8542,31 +8278,31 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-22T20:34:03.426Z",
-        "durationMs": 2073,
-        "canary": "RD_TEST_B52680",
+        "startedAt": "2026-07-23T14:57:42.044Z",
+        "durationMs": 2410,
+        "canary": "RD_TEST_250BA8",
         "network": [
           {
             "id": "net-1",
             "method": "GET",
             "url": "http://127.0.0.1:37201/api/articles?limit=3&&offset=0",
             "resourceType": "xhr",
-            "startedAt": 1130,
+            "startedAt": 1443,
             "status": 200,
             "ok": true,
-            "finishedAt": 1134,
             "contentType": "application/json",
-            "resourceTypeHint": "articles"
+            "resourceTypeHint": "articles",
+            "finishedAt": 1450
           },
           {
             "id": "net-2",
             "method": "GET",
             "url": "http://127.0.0.1:37201/api/tags",
             "resourceType": "xhr",
-            "startedAt": 1130,
+            "startedAt": 1443,
             "status": 200,
             "ok": true,
-            "finishedAt": 1134,
+            "finishedAt": 1450,
             "contentType": "application/json",
             "resourceTypeHint": "tags"
           }
@@ -8587,28 +8323,28 @@
               "weight": 92,
               "matchCount": 2,
               "visibleCount": 2,
-              "elapsedMs": 25
+              "elapsedMs": 8
             },
             {
               "strategy": "role",
               "weight": 82,
               "matchCount": 2,
               "visibleCount": 2,
-              "elapsedMs": 10
+              "elapsedMs": 8
             },
             {
               "strategy": "href",
               "weight": 72,
               "matchCount": 0,
               "visibleCount": 0,
-              "elapsedMs": 3
+              "elapsedMs": 2
             },
             {
               "strategy": "text",
               "weight": 60,
               "matchCount": 2,
               "visibleCount": 2,
-              "elapsedMs": 8
+              "elapsedMs": 6
             },
             {
               "strategy": "css",
@@ -8623,10 +8359,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1070,
+          "at": 1398,
           "url": "http://127.0.0.1:37201/#/register",
           "title": "Conduit",
-          "domHash": "29eccd4634d3a293",
+          "domHash": "1f4fa65964895f4c",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -8639,6 +8375,7 @@
           },
           "semanticDom": {
             "textHash": "ab6aef9fc7cf2d60",
+            "visualHash": "b600fd6441482f1a",
             "text": "conduit Source code Home Login Sign up Sign up Sign in to your account Sign up conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
@@ -8647,7 +8384,8 @@
                 "name": "username",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -8655,7 +8393,8 @@
                 "name": "email",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -8663,13 +8402,15 @@
                 "name": "password",
                 "valueHash": "e54b74eb9192b480",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -8684,10 +8425,10 @@
           }
         },
         "beforeAction": {
-          "at": 1093,
+          "at": 1407,
           "url": "http://127.0.0.1:37201/#/register",
           "title": "Conduit",
-          "domHash": "29eccd4634d3a293",
+          "domHash": "1f4fa65964895f4c",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -8700,6 +8441,7 @@
           },
           "semanticDom": {
             "textHash": "ab6aef9fc7cf2d60",
+            "visualHash": "b600fd6441482f1a",
             "text": "conduit Source code Home Login Sign up Sign up Sign in to your account Sign up conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
@@ -8708,7 +8450,8 @@
                 "name": "username",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -8716,7 +8459,8 @@
                 "name": "email",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
@@ -8724,13 +8468,15 @@
                 "name": "password",
                 "valueHash": "e54b74eb9192b480",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -8747,10 +8493,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 2069,
+          "at": 2406,
           "url": "http://127.0.0.1:37201/#/",
           "title": "Conduit",
-          "domHash": "12976dd377f90f2e",
+          "domHash": "3c44d4d1ff59317a",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -8763,13 +8509,15 @@
           },
           "semanticDom": {
             "textHash": "f8034dbcac655938",
+            "visualHash": "f56dba1689c65663",
             "text": "conduit Source code Home Login Sign up conduit A place to share your knowledge. Global Feed Articles not available. Popular Tags Tags list not available conduit An interactive learning project from Thinkster. Code & design licensed under MIT. Source code",
             "controls": [
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -8939,8 +8687,8 @@
   ],
   "environment": {
     "status": "VALID",
-    "checkedAt": "2026-07-22T20:33:17.620Z",
-    "durationMs": 2632,
+    "checkedAt": "2026-07-23T14:56:44.767Z",
+    "durationMs": 3633,
     "targetUrl": "http://127.0.0.1:37201/",
     "mainDocument": {
       "status": 200,

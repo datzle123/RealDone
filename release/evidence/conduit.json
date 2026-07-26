@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-07-22T20:34:30.000Z",
-  "engineFingerprint": "1f88dd858b13faf079fffb32969319bb0efdef569829de6465ee3d1f2ba9a82e",
+  "generatedAt": "2026-07-23T15:17:09.809Z",
+  "engineFingerprint": "68d4a8cb4b087d702df15d609d0ee0f7c92efaf731fdccd0d726b462a9878abe",
   "case": {
     "name": "Conduit RealWorld (SQLite)",
     "repository": "TonyMckes/conduit-realworld-example-app",
@@ -9,12 +9,14 @@
     "status": "passed",
     "environmentValid": true,
     "severeRegressions": 0,
-    "capabilities": ["authentication"]
+    "capabilities": [
+      "authentication"
+    ]
   },
   "scan": {
-    "scanId": "20260722T203317Z-b957",
+    "scanId": "20260723T145644Z-dcea",
     "sourceArtifact": "release/evidence/raw/conduit.scan.json",
-    "sourceSha256": "ea5e353b9e6409fd8f431c648c1943dc193b5fc8c588e6dbb393219713ee4468",
+    "sourceSha256": "eb853846cbf4f27a89579f1eaffdfa932159d1f9899483ecf849e68bd3eeb98c",
     "environmentStatus": "VALID",
     "truncated": false,
     "pagesDiscovered": 3,
@@ -33,10 +35,41 @@
     }
   },
   "assertions": [
-    { "id": "environment-valid", "passed": true, "expected": "VALID", "observed": "VALID; critical assets loaded" },
-    { "id": "scan-complete", "passed": true, "expected": "not truncated", "observed": "not truncated" },
-    { "id": "source-confirmed-create", "passed": true, "expected": "real backend write and read-back", "observed": "Sign up persisted through SQLite source snapshots", "evidenceArtifacts": ["scan"] },
-    { "id": "capability:authentication", "passed": true, "expected": "real signup and honest generated-login rejection", "observed": "signup VERIFIED; generated login UNCERTAIN", "evidenceArtifacts": ["scan"] },
-    { "id": "no-engine-regression", "passed": true, "expected": "zero severe regressions", "observed": "BROKEN=0; CONTRADICTORY=0; NO_EFFECT=0" }
+    {
+      "id": "environment-valid",
+      "passed": true,
+      "expected": "VALID",
+      "observed": "VALID; critical assets loaded"
+    },
+    {
+      "id": "scan-complete",
+      "passed": true,
+      "expected": "not truncated",
+      "observed": "not truncated"
+    },
+    {
+      "id": "source-confirmed-create",
+      "passed": true,
+      "expected": "real backend write and read-back",
+      "observed": "Sign up persisted through SQLite source snapshots",
+      "evidenceArtifacts": [
+        "scan"
+      ]
+    },
+    {
+      "id": "capability:authentication",
+      "passed": true,
+      "expected": "real signup and honest generated-login rejection",
+      "observed": "signup VERIFIED; generated login UNCERTAIN",
+      "evidenceArtifacts": [
+        "scan"
+      ]
+    },
+    {
+      "id": "no-engine-regression",
+      "passed": true,
+      "expected": "zero severe regressions",
+      "observed": "BROKEN=0; CONTRADICTORY=0; NO_EFFECT=0"
+    }
   ]
 }

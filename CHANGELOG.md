@@ -7,6 +7,7 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 ### Added
 
 - Reproducible 10-project Chromium qualification across Flatnotes, Linkding, Flame, TakeNote, Grimoire, Dashy, JSPaint, 2048, Flowy, and Quiver, with pinned MIT licenses, minimal fault patches, clean controls, run IDs, and SHA-256-bound reports.
+- Fresh fingerprint-bound release evidence for TodoMVC, Actual Budget, Conduit/SQLite, Conduit/PostgreSQL + Supabase Data API, and Pocket Ledger, including PostgreSQL CRUD cleanup, Level 7 roles, and a real Codex MCP baseline → RD901 regression → repair cycle.
 - Deterministic browser controls for late bootstrap reads and onboarding work that completes after modal dismissal.
 
 ### Fixed

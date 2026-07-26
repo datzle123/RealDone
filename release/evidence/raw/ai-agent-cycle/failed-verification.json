@@ -1,26 +1,75 @@
 {
   "schemaVersion": "1.0",
-  "verificationId": "20260722T195413Z-4fc3",
+  "verificationId": "20260723T151518Z-eae4",
   "contractId": "increment-persistent-counter-6270",
   "contractName": "Increment persistent counter",
   "browser": "chromium",
+  "roles": [
+    "default"
+  ],
+  "deep": true,
+  "startedAt": "2026-07-23T15:15:19.039Z",
+  "finishedAt": "2026-07-23T15:15:20.328Z",
   "passed": false,
   "steps": [
     {
       "stepId": "S001",
       "type": "navigate",
-      "status": "passed"
+      "role": "default",
+      "status": "passed",
+      "durationMs": 665,
+      "reason": "Step and recorded expectations passed.",
+      "assertions": []
     },
     {
       "stepId": "S002",
       "type": "click",
+      "role": "default",
       "status": "failed",
-      "reason": "The semantic Increment button resolved, but remained disabled until the bounded click timeout."
+      "durationMs": 554,
+      "reason": "One or more recorded expectations failed.",
+      "locatorResolution": {
+        "attempts": [
+          {
+            "strategy": "role",
+            "weight": 92,
+            "matchCount": 1,
+            "visibleCount": 1,
+            "elapsedMs": 24
+          }
+        ],
+        "chosenStrategy": "role",
+        "chosenWeight": 92,
+        "retryCount": 0
+      },
+      "assertions": [
+        {
+          "expectation": {
+            "type": "request",
+            "method": "POST",
+            "urlPattern": "^/api/counter/increment$",
+            "status": 200
+          },
+          "passed": true,
+          "detail": "POST ^/api/counter/increment$ → 200",
+          "evidenceLevel": 3
+        },
+        {
+          "expectation": {
+            "type": "text",
+            "value": "Counter incremented."
+          },
+          "passed": false,
+          "detail": "Visible text: Counter incremented.",
+          "evidenceLevel": 1
+        }
+      ]
     }
   ],
   "artifacts": {
-    "trace": "default.zip",
-    "traceBytes": 111461,
-    "traceSha256": "8e15e43e862fc2ae59edfbd6eeb0048739bdb8dc331861aba4af0a97a8fb09d4"
+    "traces": [
+      "traces/default.zip"
+    ],
+    "videos": []
   }
 }

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-07-22T20:34:30.000Z",
-  "engineFingerprint": "1f88dd858b13faf079fffb32969319bb0efdef569829de6465ee3d1f2ba9a82e",
+  "generatedAt": "2026-07-23T15:17:09.809Z",
+  "engineFingerprint": "68d4a8cb4b087d702df15d609d0ee0f7c92efaf731fdccd0d726b462a9878abe",
   "case": {
     "name": "Conduit RealWorld (PostgreSQL + Supabase Data API)",
     "repository": "TonyMckes/conduit-realworld-example-app",
@@ -9,20 +9,25 @@
     "status": "passed",
     "environmentValid": true,
     "severeRegressions": 0,
-    "capabilities": ["backend-crud", "postgresql", "supabase", "authentication"]
+    "capabilities": [
+      "backend-crud",
+      "postgresql",
+      "supabase",
+      "authentication"
+    ]
   },
   "scan": {
-    "scanId": "20260722T203317Z-3c75",
+    "scanId": "20260723T150111Z-73bf",
     "sourceArtifact": "release/evidence/raw/conduit-sources.scan.json",
-    "sourceSha256": "a9433d88ac799c44db86b427c86e99ef53c669deb7c69ddc09ac90addf982ee6",
+    "sourceSha256": "27f6a2f5e9eea625f57888490aca6f513fb3e6d9c9369adb774bbedc9390c315",
     "environmentStatus": "VALID",
     "truncated": false,
     "pagesDiscovered": 3,
-    "visibleActions": 30,
-    "actionsVerified": 19,
+    "visibleActions": 29,
+    "actionsVerified": 18,
     "actionsSkipped": 11,
     "verdicts": {
-      "VERIFIED": 18,
+      "VERIFIED": 17,
       "CONTRADICTORY": 0,
       "EPHEMERAL": 0,
       "BROWSER_LOCAL": 0,
@@ -37,33 +42,81 @@
       "id": "postgres-create",
       "kind": "external-scan",
       "sourceArtifact": "release/evidence/raw/conduit-postgres-create.scan.json",
-      "sourceSha256": "b443f3c101dc92f5b14d120d1daca6c7321c0bd628083af64bd3b2a0f87f6f88"
+      "sourceSha256": "78849aee05f9d4b5de0cb8acae4ebe376305471155d86377a8c2d72725172643"
     },
     {
       "id": "postgres-update",
       "kind": "external-scan",
       "sourceArtifact": "release/evidence/raw/conduit-postgres-update.scan.json",
-      "sourceSha256": "798e17085ffede37247b2653953b615013ed0eaf22b8c28055bff89edffc1080"
+      "sourceSha256": "a7e5188174b01fc6ab327b10a43cc953bfe6b9cf07fa8e891ccb9d49ef88166f"
     },
     {
       "id": "postgres-delete",
       "kind": "external-scan",
       "sourceArtifact": "release/evidence/raw/conduit-postgres-delete.scan.json",
-      "sourceSha256": "6cd9dbaca4afaf391a9234fa3a7972128eca9905dd2c798edb95588e54abab99"
+      "sourceSha256": "5b4635c4932bd79e1d9c84f39300793404e7df2e65b88b08593d339e73b3a773"
     },
     {
       "id": "postgres-cleanup",
       "kind": "test-result",
       "sourceArtifact": "release/evidence/raw/conduit-postgres-cleanup.json",
-      "sourceSha256": "c707cf31eaed6cf8883749b657cc2189d0e963e96131075bc6577c9e7bfa136d"
+      "sourceSha256": "e84a8170942e294adead98cb20470b16674fe559039e7eccae5f05235d6975d9"
     }
   ],
   "assertions": [
-    { "id": "environment-valid", "passed": true, "expected": "VALID", "observed": "VALID; primary scan not truncated" },
-    { "id": "capability:backend-crud", "passed": true, "expected": "create/update/delete plus cleanup", "observed": "PostgreSQL row hashes added=1, changed=1, removed=1; cleanup 2/2", "evidenceArtifacts": ["postgres-create", "postgres-update", "postgres-delete", "postgres-cleanup"] },
-    { "id": "capability:postgresql", "passed": true, "expected": "real PostgreSQL 17 source confirmation", "observed": "signup VERIFIED Level 6; PostgreSQL users added=1", "evidenceArtifacts": ["scan", "postgres-create", "postgres-update", "postgres-delete"] },
-    { "id": "capability:supabase", "passed": true, "expected": "Supabase Data API/PostgREST confirmation", "observed": "signup VERIFIED Level 6; Supabase users added=1 with the same row hash as PostgreSQL", "evidenceArtifacts": ["scan"] },
-    { "id": "capability:authentication", "passed": true, "expected": "real signup with independent source confirmation", "observed": "signup VERIFIED Level 6; generated login remained honest UNCERTAIN", "evidenceArtifacts": ["scan"] },
-    { "id": "no-engine-regression", "passed": true, "expected": "zero severe regressions", "observed": "BROKEN=0; CONTRADICTORY=0; NO_EFFECT=0" }
+    {
+      "id": "environment-valid",
+      "passed": true,
+      "expected": "VALID",
+      "observed": "VALID; primary scan not truncated"
+    },
+    {
+      "id": "capability:backend-crud",
+      "passed": true,
+      "expected": "create/update/delete plus cleanup",
+      "observed": "PostgreSQL row hashes added=1, changed=1, removed=1; cleanup 2/2",
+      "evidenceArtifacts": [
+        "postgres-create",
+        "postgres-update",
+        "postgres-delete",
+        "postgres-cleanup"
+      ]
+    },
+    {
+      "id": "capability:postgresql",
+      "passed": true,
+      "expected": "real PostgreSQL 17 source confirmation",
+      "observed": "signup VERIFIED Level 6; PostgreSQL users added=1",
+      "evidenceArtifacts": [
+        "scan",
+        "postgres-create",
+        "postgres-update",
+        "postgres-delete"
+      ]
+    },
+    {
+      "id": "capability:supabase",
+      "passed": true,
+      "expected": "Supabase Data API/PostgREST confirmation",
+      "observed": "signup VERIFIED Level 6; Supabase users added=1 with the same row hash as PostgreSQL",
+      "evidenceArtifacts": [
+        "scan"
+      ]
+    },
+    {
+      "id": "capability:authentication",
+      "passed": true,
+      "expected": "real signup with independent source confirmation",
+      "observed": "signup VERIFIED Level 6; generated login remained honest UNCERTAIN",
+      "evidenceArtifacts": [
+        "scan"
+      ]
+    },
+    {
+      "id": "no-engine-regression",
+      "passed": true,
+      "expected": "zero severe regressions",
+      "observed": "BROKEN=0; CONTRADICTORY=0; NO_EFFECT=0"
+    }
   ]
 }

@@ -4,8 +4,8 @@
     "repository": "tastejs/todomvc",
     "pinnedCommit": "ff43b02e59dfa604386bb382034b2cd07c2bcd8a",
     "evidenceFile": "release/evidence/todomvc.json",
-    "evidenceSha256": "3d10b67a4860b3a4cce56efc4d7267edc6211f5ceab2b8ea758d53636771287e",
-    "engineFingerprint": "1f88dd858b13faf079fffb32969319bb0efdef569829de6465ee3d1f2ba9a82e",
+    "evidenceSha256": "1a295738e66cd58d6231b21d5c9b36240c87315dfd33aa76b3b5593c1414ad44",
+    "engineFingerprint": "68d4a8cb4b087d702df15d609d0ee0f7c92efaf731fdccd0d726b462a9878abe",
     "status": "passed",
     "environmentValid": true,
     "severeRegressions": 0,
@@ -16,8 +16,8 @@
     "repository": "actualbudget/actual",
     "pinnedCommit": "7325498af773d591a7bc70d5af16d3912f566654",
     "evidenceFile": "release/evidence/actual-budget.json",
-    "evidenceSha256": "f092e2e6706e36d39c904b10b4361f8b4c209cf8a2f50fed9afdefdfd49bd843",
-    "engineFingerprint": "1f88dd858b13faf079fffb32969319bb0efdef569829de6465ee3d1f2ba9a82e",
+    "evidenceSha256": "bca6aa2e04ecbc2d9219fbdecf7c844a27ad83d23de8487045a153792f647ab7",
+    "engineFingerprint": "68d4a8cb4b087d702df15d609d0ee0f7c92efaf731fdccd0d726b462a9878abe",
     "status": "passed",
     "environmentValid": true,
     "severeRegressions": 0,
@@ -28,35 +28,48 @@
     "repository": "TonyMckes/conduit-realworld-example-app",
     "pinnedCommit": "5e127d8569b300e0a21dc2c20ea680da4967b1aa",
     "evidenceFile": "release/evidence/conduit.json",
-    "evidenceSha256": "3c21b1e0481dfb44a32a4be8bfdedda7da5dfc17534c5a9e22f773393c81cf33",
-    "engineFingerprint": "1f88dd858b13faf079fffb32969319bb0efdef569829de6465ee3d1f2ba9a82e",
+    "evidenceSha256": "155edc64f8ed07ddd3ffd62d3389f0af38bed22151553dc1bd1d0e26b2287c88",
+    "engineFingerprint": "68d4a8cb4b087d702df15d609d0ee0f7c92efaf731fdccd0d726b462a9878abe",
     "status": "passed",
     "environmentValid": true,
     "severeRegressions": 0,
-    "capabilities": ["authentication"]
+    "capabilities": [
+      "authentication"
+    ]
   },
   {
     "name": "Conduit RealWorld (PostgreSQL + Supabase Data API)",
     "repository": "TonyMckes/conduit-realworld-example-app",
     "pinnedCommit": "5e127d8569b300e0a21dc2c20ea680da4967b1aa",
     "evidenceFile": "release/evidence/conduit-sources.json",
-    "evidenceSha256": "5ce016cf0e002d31413097aae557acda92b1fc7580bb24808e842fb7b2b58e5a",
-    "engineFingerprint": "1f88dd858b13faf079fffb32969319bb0efdef569829de6465ee3d1f2ba9a82e",
+    "evidenceSha256": "405e0c6db6d881709fa5c5367cadcb8b520e8ed0bcf665cb9965ed77c4ae025e",
+    "engineFingerprint": "68d4a8cb4b087d702df15d609d0ee0f7c92efaf731fdccd0d726b462a9878abe",
     "status": "passed",
     "environmentValid": true,
     "severeRegressions": 0,
-    "capabilities": ["backend-crud", "postgresql", "supabase", "authentication"]
+    "capabilities": [
+      "backend-crud",
+      "postgresql",
+      "supabase",
+      "authentication"
+    ]
   },
   {
     "name": "Pocket Ledger (Codex-generated)",
     "repository": "local/Pocket-Ledger",
     "pinnedCommit": "fab4847595ec9edff4442fd93d622d5f8ca7d519",
     "evidenceFile": "release/evidence/ai-agent-cycle.json",
-    "evidenceSha256": "8b746b706eecaad13fa84f51580b561eea82b6d31ec18723619a2e54927e0037",
-    "engineFingerprint": "1f88dd858b13faf079fffb32969319bb0efdef569829de6465ee3d1f2ba9a82e",
+    "evidenceSha256": "da39036219c8b097f99537c3f30e03fc501c8eb433d066507d9fffce3e43ca7a",
+    "engineFingerprint": "68d4a8cb4b087d702df15d609d0ee0f7c92efaf731fdccd0d726b462a9878abe",
     "status": "passed",
     "environmentValid": true,
     "severeRegressions": 0,
-    "capabilities": ["upload", "export", "multi-role", "ai-generated", "multi-step"]
+    "capabilities": [
+      "upload",
+      "export",
+      "multi-role",
+      "ai-generated",
+      "multi-step"
+    ]
   }
 ]

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-07-22T20:34:30.000Z",
-  "engineFingerprint": "1f88dd858b13faf079fffb32969319bb0efdef569829de6465ee3d1f2ba9a82e",
+  "generatedAt": "2026-07-23T15:17:09.809Z",
+  "engineFingerprint": "68d4a8cb4b087d702df15d609d0ee0f7c92efaf731fdccd0d726b462a9878abe",
   "case": {
     "name": "TodoMVC React",
     "repository": "tastejs/todomvc",
@@ -12,9 +12,9 @@
     "capabilities": []
   },
   "scan": {
-    "scanId": "20260722T203233Z-7be8",
+    "scanId": "20260723T145310Z-e581",
     "sourceArtifact": "release/evidence/raw/todomvc.scan.json",
-    "sourceSha256": "05cfc47ff3754f148cea0fa85e15faff5c6e46d38d6389bf3aa64953eedc352c",
+    "sourceSha256": "c03204920122c13b24fb005a728ffef14da4c06413b4d3ba2b9d05b84806c309",
     "environmentStatus": "VALID",
     "truncated": false,
     "pagesDiscovered": 1,
@@ -33,10 +33,35 @@
     }
   },
   "assertions": [
-    { "id": "environment-valid", "passed": true, "expected": "VALID", "observed": "VALID; critical assets loaded" },
-    { "id": "scan-complete", "passed": true, "expected": "not truncated", "observed": "not truncated" },
-    { "id": "enter-action-discovered", "passed": true, "expected": "standalone Enter mutation executed", "observed": "New Todo Input executed" },
-    { "id": "known-memory-only-behavior", "passed": true, "expected": "EPHEMERAL with RD101/RD104/RD201", "observed": "EPHEMERAL with RD101/RD104/RD201" },
-    { "id": "no-engine-regression", "passed": true, "expected": "zero severe regressions", "observed": "BROKEN=0; CONTRADICTORY=0; NO_EFFECT=0" }
+    {
+      "id": "environment-valid",
+      "passed": true,
+      "expected": "VALID",
+      "observed": "VALID; critical assets loaded"
+    },
+    {
+      "id": "scan-complete",
+      "passed": true,
+      "expected": "not truncated",
+      "observed": "not truncated"
+    },
+    {
+      "id": "enter-action-discovered",
+      "passed": true,
+      "expected": "standalone Enter mutation executed",
+      "observed": "New Todo Input executed"
+    },
+    {
+      "id": "known-memory-only-behavior",
+      "passed": true,
+      "expected": "EPHEMERAL with RD101/RD104/RD201",
+      "observed": "EPHEMERAL with RD101/RD104/RD201"
+    },
+    {
+      "id": "no-engine-regression",
+      "passed": true,
+      "expected": "zero severe regressions",
+      "observed": "BROKEN=0; CONTRADICTORY=0; NO_EFFECT=0"
+    }
   ]
 }

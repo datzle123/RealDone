@@ -1,9 +1,9 @@
 {
   "schemaVersion": "1.0",
-  "scanId": "20260722T203233Z-7be8",
+  "scanId": "20260723T145310Z-e581",
   "targetUrl": "http://127.0.0.1:37127/",
-  "startedAt": "2026-07-22T20:32:33.060Z",
-  "finishedAt": "2026-07-22T20:32:39.086Z",
+  "startedAt": "2026-07-23T14:53:10.516Z",
+  "finishedAt": "2026-07-23T14:53:18.140Z",
   "options": {
     "maxPages": 2,
     "maxActions": 20,
@@ -214,31 +214,31 @@
         ]
       },
       "evidence": {
-        "startedAt": "2026-07-22T20:32:34.729Z",
-        "durationMs": 4321,
-        "canary": "RD_TEST_A1A4F9",
+        "startedAt": "2026-07-23T14:53:12.871Z",
+        "durationMs": 5219,
+        "canary": "RD_TEST_F0587F",
         "network": [
           {
             "id": "net-1",
             "method": "GET",
             "url": "http://127.0.0.1:37127/",
             "resourceType": "document",
-            "startedAt": 1833,
+            "startedAt": 2015,
             "status": 200,
             "ok": true,
             "contentType": "text/html",
             "resourceTypeHint": "resource",
-            "finishedAt": 1841
+            "finishedAt": 2023
           },
           {
             "id": "net-2",
             "method": "GET",
             "url": "http://127.0.0.1:37127/app.bundle.js",
             "resourceType": "script",
-            "startedAt": 1839,
+            "startedAt": 2021,
             "status": 200,
             "ok": true,
-            "finishedAt": 1846,
+            "finishedAt": 2031,
             "contentType": "text/javascript",
             "resourceTypeHint": "app.bundle.js"
           },
@@ -247,22 +247,22 @@
             "method": "GET",
             "url": "http://127.0.0.1:37127/app.css",
             "resourceType": "stylesheet",
-            "startedAt": 1839,
+            "startedAt": 2022,
             "status": 200,
             "ok": true,
-            "finishedAt": 1840,
             "contentType": "text/css",
-            "resourceTypeHint": "app.css"
+            "resourceTypeHint": "app.css",
+            "finishedAt": 2026
           },
           {
             "id": "net-4",
             "method": "GET",
             "url": "http://127.0.0.1:37127/base.js",
             "resourceType": "script",
-            "startedAt": 1839,
+            "startedAt": 2022,
             "status": 200,
             "ok": true,
-            "finishedAt": 1841,
+            "finishedAt": 2028,
             "contentType": "text/javascript",
             "resourceTypeHint": "base.js"
           },
@@ -271,10 +271,10 @@
             "method": "GET",
             "url": "http://127.0.0.1:37127/learn.json",
             "resourceType": "xhr",
-            "startedAt": 1841,
+            "startedAt": 2028,
             "status": 200,
             "ok": true,
-            "finishedAt": 1843,
+            "finishedAt": 2034,
             "contentType": "text/html",
             "resourceTypeHint": "learn.json"
           },
@@ -283,22 +283,22 @@
             "method": "GET",
             "url": "http://127.0.0.1:37127/",
             "resourceType": "document",
-            "startedAt": 2413,
+            "startedAt": 2794,
             "status": 200,
             "ok": true,
             "contentType": "text/html",
             "resourceTypeHint": "resource",
-            "finishedAt": 2419
+            "finishedAt": 2802
           },
           {
             "id": "net-7",
             "method": "GET",
             "url": "http://127.0.0.1:37127/app.bundle.js",
             "resourceType": "script",
-            "startedAt": 2418,
+            "startedAt": 2801,
             "status": 200,
             "ok": true,
-            "finishedAt": 2425,
+            "finishedAt": 2812,
             "contentType": "text/javascript",
             "resourceTypeHint": "app.bundle.js"
           },
@@ -307,22 +307,22 @@
             "method": "GET",
             "url": "http://127.0.0.1:37127/app.css",
             "resourceType": "stylesheet",
-            "startedAt": 2418,
+            "startedAt": 2801,
             "status": 200,
             "ok": true,
+            "finishedAt": 2807,
             "contentType": "text/css",
-            "resourceTypeHint": "app.css",
-            "finishedAt": 2420
+            "resourceTypeHint": "app.css"
           },
           {
             "id": "net-9",
             "method": "GET",
             "url": "http://127.0.0.1:37127/base.js",
             "resourceType": "script",
-            "startedAt": 2418,
+            "startedAt": 2801,
             "status": 200,
             "ok": true,
-            "finishedAt": 2420,
+            "finishedAt": 2807,
             "contentType": "text/javascript",
             "resourceTypeHint": "base.js"
           },
@@ -331,10 +331,10 @@
             "method": "GET",
             "url": "http://127.0.0.1:37127/learn.json",
             "resourceType": "xhr",
-            "startedAt": 2420,
+            "startedAt": 2808,
             "status": 200,
             "ok": true,
-            "finishedAt": 2421,
+            "finishedAt": 2811,
             "contentType": "text/html",
             "resourceTypeHint": "learn.json"
           }
@@ -347,7 +347,7 @@
             "selector": "[data-testid=\"text-input\"]",
             "name": "New Todo Input",
             "type": "text",
-            "value": "RD_TEST_A1A4F9_1",
+            "value": "RD_TEST_F0587F_1",
             "redacted": false
           }
         ],
@@ -363,7 +363,7 @@
               "weight": 100,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 18
+              "elapsedMs": 7
             }
           ],
           "chosenStrategy": "testid",
@@ -371,10 +371,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 876,
+          "at": 1027,
           "url": "http://127.0.0.1:37127/",
           "title": "TodoMVC: React",
-          "domHash": "8481d3f92c9191d1",
+          "domHash": "ae0b39f9384e021f",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -387,6 +387,7 @@
           },
           "semanticDom": {
             "textHash": "4bd82bc5bab9db84",
+            "visualHash": "1e7593f064775c91",
             "text": "todos Double-click to edit a todo Created by the TodoMVC Team Part of TodoMVC",
             "controls": [
               {
@@ -394,20 +395,23 @@
                 "type": "text",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
                 "type": "checkbox",
                 "valueHash": "b8d31e852725afb1",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": false
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": false
               }
             ]
           },
@@ -422,10 +426,10 @@
           }
         },
         "beforeAction": {
-          "at": 914,
+          "at": 1055,
           "url": "http://127.0.0.1:37127/",
           "title": "TodoMVC: React",
-          "domHash": "b8f881e3c836ef97",
+          "domHash": "c91223991b5818e2",
           "canaryPresent": true,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -438,27 +442,31 @@
           },
           "semanticDom": {
             "textHash": "4bd82bc5bab9db84",
+            "visualHash": "1e7593f064775c91",
             "text": "todos Double-click to edit a todo Created by the TodoMVC Team Part of TodoMVC",
             "controls": [
               {
                 "tag": "input",
                 "type": "text",
-                "valueHash": "a3612c9a8da8043d",
+                "valueHash": "cadd3904b2560dab",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
                 "type": "checkbox",
                 "valueHash": "b8d31e852725afb1",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": false
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": false
               }
             ]
           },
@@ -476,10 +484,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 1797,
+          "at": 1967,
           "url": "http://127.0.0.1:37127/",
           "title": "TodoMVC: React",
-          "domHash": "fb8ad57eee4ac73e",
+          "domHash": "6d0a83e1d3433021",
           "canaryPresent": true,
           "bodyCanaryPresent": true,
           "temporaryBlobUrls": 0,
@@ -491,41 +499,47 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "9aec41ad03de2156",
-            "text": "todos Toggle All Input RD_TEST_A1A4F9_1 1 item left! AllActiveCompleted Double-click to edit a todo Created by the TodoMVC Team Part of TodoMVC",
+            "textHash": "c457a05531621c00",
+            "visualHash": "aae86d0598993262",
+            "text": "todos Toggle All Input RD_TEST_F0587F_1 1 item left! AllActiveCompleted Double-click to edit a todo Created by the TodoMVC Team Part of TodoMVC",
             "controls": [
               {
                 "tag": "input",
                 "type": "text",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
                 "type": "checkbox",
                 "valueHash": "b8d31e852725afb1",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": false
               },
               {
                 "tag": "input",
                 "type": "checkbox",
                 "valueHash": "b8d31e852725afb1",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": false
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": false
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": false
               }
             ]
           },
@@ -541,10 +555,10 @@
         },
         "screenshot": "screenshots/92f9d29fabad-after.png",
         "afterRefresh": {
-          "at": 2377,
+          "at": 2757,
           "url": "http://127.0.0.1:37127/",
           "title": "TodoMVC: React",
-          "domHash": "8481d3f92c9191d1",
+          "domHash": "ae0b39f9384e021f",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -557,6 +571,7 @@
           },
           "semanticDom": {
             "textHash": "4bd82bc5bab9db84",
+            "visualHash": "1e7593f064775c91",
             "text": "todos Double-click to edit a todo Created by the TodoMVC Team Part of TodoMVC",
             "controls": [
               {
@@ -564,20 +579,23 @@
                 "type": "text",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
                 "type": "checkbox",
                 "valueHash": "b8d31e852725afb1",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": false
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": false
               }
             ]
           },
@@ -593,10 +611,10 @@
         },
         "refreshScreenshot": "screenshots/92f9d29fabad-refresh.png",
         "afterHardRefresh": {
-          "at": 2956,
+          "at": 3537,
           "url": "http://127.0.0.1:37127/",
           "title": "TodoMVC: React",
-          "domHash": "8481d3f92c9191d1",
+          "domHash": "ae0b39f9384e021f",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -609,6 +627,7 @@
           },
           "semanticDom": {
             "textHash": "4bd82bc5bab9db84",
+            "visualHash": "1e7593f064775c91",
             "text": "todos Double-click to edit a todo Created by the TodoMVC Team Part of TodoMVC",
             "controls": [
               {
@@ -616,20 +635,23 @@
                 "type": "text",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
                 "type": "checkbox",
                 "valueHash": "b8d31e852725afb1",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": false
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": false
               }
             ]
           },
@@ -644,10 +666,10 @@
           }
         },
         "afterNewTab": {
-          "at": 3618,
+          "at": 4384,
           "url": "http://127.0.0.1:37127/",
           "title": "TodoMVC: React",
-          "domHash": "8481d3f92c9191d1",
+          "domHash": "ae0b39f9384e021f",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -660,6 +682,7 @@
           },
           "semanticDom": {
             "textHash": "4bd82bc5bab9db84",
+            "visualHash": "1e7593f064775c91",
             "text": "todos Double-click to edit a todo Created by the TodoMVC Team Part of TodoMVC",
             "controls": [
               {
@@ -667,20 +690,23 @@
                 "type": "text",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
                 "type": "checkbox",
                 "valueHash": "b8d31e852725afb1",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": false
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": false
               }
             ]
           },
@@ -695,10 +721,10 @@
           }
         },
         "afterNewContext": {
-          "at": 4318,
+          "at": 5215,
           "url": "http://127.0.0.1:37127/",
           "title": "TodoMVC: React",
-          "domHash": "8481d3f92c9191d1",
+          "domHash": "ae0b39f9384e021f",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -711,6 +737,7 @@
           },
           "semanticDom": {
             "textHash": "4bd82bc5bab9db84",
+            "visualHash": "1e7593f064775c91",
             "text": "todos Double-click to edit a todo Created by the TodoMVC Team Part of TodoMVC",
             "controls": [
               {
@@ -718,20 +745,23 @@
                 "type": "text",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
                 "type": "checkbox",
                 "valueHash": "b8d31e852725afb1",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": false
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": false
               }
             ]
           },
@@ -846,8 +876,8 @@
   ],
   "environment": {
     "status": "VALID",
-    "checkedAt": "2026-07-22T20:32:33.133Z",
-    "durationMs": 767,
+    "checkedAt": "2026-07-23T14:53:10.582Z",
+    "durationMs": 1310,
     "targetUrl": "http://127.0.0.1:37127/",
     "mainDocument": {
       "status": 200,

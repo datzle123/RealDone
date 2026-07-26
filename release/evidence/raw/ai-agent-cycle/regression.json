@@ -1,15 +1,18 @@
 {
   "schemaVersion": "1.0",
-  "runId": "20260722T195413Z-217b",
-  "generatedAt": "2026-07-22T19:54:44.045Z",
+  "runId": "20260723T151518Z-7a66",
+  "baselineFile": "F:\\RealDone\\work\\requalification-20260723-215217\\mcp-agent-baseline.json",
+  "generatedAt": "2026-07-23T15:15:20.342Z",
   "passed": false,
   "selectedContracts": 1,
   "regressions": 1,
   "expectedChanges": 0,
+  "improvements": 0,
   "changes": [
     {
       "contractId": "increment-persistent-counter-6270",
       "name": "Increment persistent counter",
+      "kind": "regression",
       "outcome": "REGRESSION",
       "detectorCodes": [
         "RD901"
@@ -19,5 +22,50 @@
       "currentPassed": false,
       "hashChanged": false
     }
-  ]
+  ],
+  "delta": {
+    "contracts": {
+      "0": {
+        "baseline": {
+          "passed": [
+            true,
+            false
+          ],
+          "verificationId": [
+            "20260723T151025Z-80fc",
+            "20260723T151518Z-eae4"
+          ],
+          "steps": {
+            "1": {
+              "status": [
+                "passed",
+                "failed"
+              ],
+              "assertions": {
+                "1": [
+                  {
+                    "type": "text",
+                    "passed": false,
+                    "detail": "Visible text: Counter incremented."
+                  }
+                ],
+                "_t": "a",
+                "_1": [
+                  {
+                    "type": "text",
+                    "passed": true,
+                    "detail": "Visible text: Counter incremented."
+                  },
+                  0,
+                  0
+                ]
+              }
+            },
+            "_t": "a"
+          }
+        }
+      },
+      "_t": "a"
+    }
+  }
 }

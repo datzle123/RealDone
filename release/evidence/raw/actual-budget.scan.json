@@ -1,9 +1,9 @@
 {
   "schemaVersion": "1.0",
-  "scanId": "20260722T203233Z-77e5",
+  "scanId": "20260723T145325Z-691d",
   "targetUrl": "http://127.0.0.1:37200/",
-  "startedAt": "2026-07-22T20:32:33.037Z",
-  "finishedAt": "2026-07-22T20:33:04.161Z",
+  "startedAt": "2026-07-23T14:53:25.066Z",
+  "finishedAt": "2026-07-23T14:54:22.424Z",
   "options": {
     "maxPages": 2,
     "maxActions": 20,
@@ -45,7 +45,7 @@
       "title": "Actual",
       "actions": [
         {
-          "id": "902981e9e4cf",
+          "id": "db322479fdc8",
           "pageUrl": "http://127.0.0.1:37200/",
           "label": "Start budgeting",
           "activation": "click",
@@ -53,13 +53,13 @@
           "intent": "interact",
           "risk": "safe",
           "fingerprint": {
-            "selector": "#react-aria3781528837-_r_0_",
+            "selector": "#react-aria2793412727-_r_0_",
             "tag": "button",
             "ordinal": 0,
             "role": "button",
             "accessibleName": "Start budgeting",
             "text": "Start budgeting",
-            "id": "react-aria3781528837-_r_0_",
+            "id": "react-aria2793412727-_r_0_",
             "type": "button",
             "candidates": [
               {
@@ -79,7 +79,7 @@
               {
                 "strategy": "id",
                 "weight": 80,
-                "selector": "#react-aria3781528837-_r_0_"
+                "selector": "#react-aria2793412727-_r_0_"
               },
               {
                 "strategy": "text",
@@ -90,14 +90,14 @@
               {
                 "strategy": "css",
                 "weight": 35,
-                "selector": "#react-aria3781528837-_r_0_"
+                "selector": "#react-aria2793412727-_r_0_"
               }
             ]
           },
           "fields": []
         },
         {
-          "id": "d31762c27eec",
+          "id": "359f603766c3",
           "pageUrl": "http://127.0.0.1:37200/",
           "label": "Try the demo",
           "activation": "click",
@@ -105,13 +105,13 @@
           "intent": "interact",
           "risk": "safe",
           "fingerprint": {
-            "selector": "#react-aria3781528837-_r_2_",
+            "selector": "#react-aria2793412727-_r_2_",
             "tag": "button",
             "ordinal": 1,
             "role": "button",
             "accessibleName": "Try the demo",
             "text": "Try the demo",
-            "id": "react-aria3781528837-_r_2_",
+            "id": "react-aria2793412727-_r_2_",
             "type": "button",
             "candidates": [
               {
@@ -131,7 +131,7 @@
               {
                 "strategy": "id",
                 "weight": 80,
-                "selector": "#react-aria3781528837-_r_2_"
+                "selector": "#react-aria2793412727-_r_2_"
               },
               {
                 "strategy": "text",
@@ -142,14 +142,14 @@
               {
                 "strategy": "css",
                 "weight": 35,
-                "selector": "#react-aria3781528837-_r_2_"
+                "selector": "#react-aria2793412727-_r_2_"
               }
             ]
           },
           "fields": []
         },
         {
-          "id": "89b0792f559d",
+          "id": "c14283fe5af7",
           "pageUrl": "http://127.0.0.1:37200/",
           "label": "Connect to a sync server",
           "activation": "click",
@@ -157,13 +157,13 @@
           "intent": "interact",
           "risk": "safe",
           "fingerprint": {
-            "selector": "#react-aria3781528837-_r_4_",
+            "selector": "#react-aria2793412727-_r_4_",
             "tag": "button",
             "ordinal": 2,
             "role": "button",
             "accessibleName": "Connect to a sync server",
             "text": "Connect to a sync server",
-            "id": "react-aria3781528837-_r_4_",
+            "id": "react-aria2793412727-_r_4_",
             "type": "button",
             "candidates": [
               {
@@ -183,7 +183,7 @@
               {
                 "strategy": "id",
                 "weight": 80,
-                "selector": "#react-aria3781528837-_r_4_"
+                "selector": "#react-aria2793412727-_r_4_"
               },
               {
                 "strategy": "text",
@@ -194,14 +194,14 @@
               {
                 "strategy": "css",
                 "weight": 35,
-                "selector": "#react-aria3781528837-_r_4_"
+                "selector": "#react-aria2793412727-_r_4_"
               }
             ]
           },
           "fields": []
         },
         {
-          "id": "e3b7f0a016c3",
+          "id": "0b8634510f9e",
           "pageUrl": "http://127.0.0.1:37200/",
           "label": "Import my budget",
           "activation": "click",
@@ -209,13 +209,13 @@
           "intent": "interact",
           "risk": "safe",
           "fingerprint": {
-            "selector": "#react-aria3781528837-_r_6_",
+            "selector": "#react-aria2793412727-_r_6_",
             "tag": "button",
             "ordinal": 3,
             "role": "button",
             "accessibleName": "Import my budget",
             "text": "Import my budget",
-            "id": "react-aria3781528837-_r_6_",
+            "id": "react-aria2793412727-_r_6_",
             "type": "button",
             "candidates": [
               {
@@ -235,7 +235,7 @@
               {
                 "strategy": "id",
                 "weight": 80,
-                "selector": "#react-aria3781528837-_r_6_"
+                "selector": "#react-aria2793412727-_r_6_"
               },
               {
                 "strategy": "text",
@@ -246,7 +246,7 @@
               {
                 "strategy": "css",
                 "weight": 35,
-                "selector": "#react-aria3781528837-_r_6_"
+                "selector": "#react-aria2793412727-_r_6_"
               }
             ]
           },
@@ -362,7 +362,7 @@
       "title": "Actual",
       "actions": [
         {
-          "id": "713acce9ebcc",
+          "id": "211dd240da47",
           "pageUrl": "http://127.0.0.1:37200/config-server",
           "label": "Back",
           "activation": "click",
@@ -370,13 +370,13 @@
           "intent": "navigate",
           "risk": "safe",
           "fingerprint": {
-            "selector": "#react-aria8249129585-_r_0_",
+            "selector": "#react-aria6445893585-_r_0_",
             "tag": "button",
             "ordinal": 0,
             "role": "button",
             "accessibleName": "Back",
             "text": "Back",
-            "id": "react-aria8249129585-_r_0_",
+            "id": "react-aria6445893585-_r_0_",
             "type": "button",
             "candidates": [
               {
@@ -396,7 +396,7 @@
               {
                 "strategy": "id",
                 "weight": 80,
-                "selector": "#react-aria8249129585-_r_0_"
+                "selector": "#react-aria6445893585-_r_0_"
               },
               {
                 "strategy": "text",
@@ -407,7 +407,7 @@
               {
                 "strategy": "css",
                 "weight": 35,
-                "selector": "#react-aria8249129585-_r_0_"
+                "selector": "#react-aria6445893585-_r_0_"
               }
             ]
           },
@@ -466,7 +466,7 @@
           "fields": []
         },
         {
-          "id": "d27f17c2dd57",
+          "id": "b4b1e39438ef",
           "pageUrl": "http://127.0.0.1:37200/config-server",
           "label": "Connect",
           "activation": "click",
@@ -474,13 +474,13 @@
           "intent": "external",
           "risk": "external",
           "fingerprint": {
-            "selector": "#react-aria8249129585-_r_2_",
+            "selector": "#react-aria6445893585-_r_2_",
             "tag": "button",
             "ordinal": 2,
             "role": "button",
             "accessibleName": "Connect",
             "text": "Connect",
-            "id": "react-aria8249129585-_r_2_",
+            "id": "react-aria6445893585-_r_2_",
             "type": "button",
             "candidates": [
               {
@@ -500,7 +500,7 @@
               {
                 "strategy": "id",
                 "weight": 80,
-                "selector": "#react-aria8249129585-_r_2_"
+                "selector": "#react-aria6445893585-_r_2_"
               },
               {
                 "strategy": "text",
@@ -511,7 +511,7 @@
               {
                 "strategy": "css",
                 "weight": 35,
-                "selector": "#react-aria8249129585-_r_2_"
+                "selector": "#react-aria6445893585-_r_2_"
               }
             ]
           },
@@ -527,7 +527,7 @@
           ]
         },
         {
-          "id": "a32efa4a4d90",
+          "id": "11ab18b3cef0",
           "pageUrl": "http://127.0.0.1:37200/config-server",
           "label": "Use the current domain",
           "activation": "click",
@@ -535,13 +535,13 @@
           "intent": "interact",
           "risk": "safe",
           "fingerprint": {
-            "selector": "#react-aria8249129585-_r_4_",
+            "selector": "#react-aria6445893585-_r_4_",
             "tag": "button",
             "ordinal": 3,
             "role": "button",
             "accessibleName": "Use the current domain",
             "text": "Use the current domain",
-            "id": "react-aria8249129585-_r_4_",
+            "id": "react-aria6445893585-_r_4_",
             "type": "button",
             "candidates": [
               {
@@ -561,7 +561,7 @@
               {
                 "strategy": "id",
                 "weight": 80,
-                "selector": "#react-aria8249129585-_r_4_"
+                "selector": "#react-aria6445893585-_r_4_"
               },
               {
                 "strategy": "text",
@@ -572,7 +572,7 @@
               {
                 "strategy": "css",
                 "weight": 35,
-                "selector": "#react-aria8249129585-_r_4_"
+                "selector": "#react-aria6445893585-_r_4_"
               }
             ]
           },
@@ -585,7 +585,7 @@
     {
       "id": "RD-001",
       "action": {
-        "id": "902981e9e4cf",
+        "id": "db322479fdc8",
         "pageUrl": "http://127.0.0.1:37200/",
         "label": "Start budgeting",
         "activation": "click",
@@ -593,13 +593,13 @@
         "intent": "interact",
         "risk": "safe",
         "fingerprint": {
-          "selector": "#react-aria3781528837-_r_0_",
+          "selector": "#react-aria2793412727-_r_0_",
           "tag": "button",
           "ordinal": 0,
           "role": "button",
           "accessibleName": "Start budgeting",
           "text": "Start budgeting",
-          "id": "react-aria3781528837-_r_0_",
+          "id": "react-aria2793412727-_r_0_",
           "type": "button",
           "candidates": [
             {
@@ -619,7 +619,7 @@
             {
               "strategy": "id",
               "weight": 80,
-              "selector": "#react-aria3781528837-_r_0_"
+              "selector": "#react-aria2793412727-_r_0_"
             },
             {
               "strategy": "text",
@@ -630,110 +630,81 @@
             {
               "strategy": "css",
               "weight": 35,
-              "selector": "#react-aria3781528837-_r_0_"
+              "selector": "#react-aria2793412727-_r_0_"
             }
           ]
         },
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-22T20:32:37.907Z",
-        "durationMs": 3264,
-        "canary": "RD_TEST_07ECA8",
+        "startedAt": "2026-07-23T14:53:31.793Z",
+        "durationMs": 6634,
+        "canary": "RD_TEST_61707B",
         "network": [
           {
             "id": "net-1",
             "method": "GET",
             "url": "http://127.0.0.1:37200/static/js/indexeddb-main-thread-worker-e59fee74.B9D89_PE.chunk.js",
             "resourceType": "script",
-            "startedAt": 2222,
+            "startedAt": 5553,
             "status": 200,
             "ok": true,
-            "finishedAt": 2225,
+            "finishedAt": 5558,
             "contentType": "text/javascript",
             "resourceTypeHint": "indexeddb-main-thread-worker-e59fee74.B9D89_PE.chunk.js"
           },
           {
             "id": "net-2",
             "method": "GET",
-            "url": "blob:http://127.0.0.1:37200/df9796c1-ca81-42a4-9d25-186a059af67c",
-            "resourceType": "script",
-            "startedAt": 2226,
-            "status": 200,
-            "ok": true,
-            "contentType": "application/javascript",
-            "resourceTypeHint": "127.0.0.1:37200",
-            "finishedAt": 2231
+            "url": "https://api.github.com/repos/actualbudget/actual/releases/latest",
+            "resourceType": "fetch",
+            "startedAt": 5956
           },
           {
             "id": "net-3",
             "method": "GET",
-            "url": "blob:http://127.0.0.1:37200/df9796c1-ca81-42a4-9d25-186a059af67c",
-            "resourceType": "script",
-            "startedAt": 2247,
-            "status": 200,
-            "ok": true,
-            "contentType": "application/javascript",
-            "resourceTypeHint": "127.0.0.1:37200",
-            "finishedAt": 2249
-          },
-          {
-            "id": "net-4",
-            "method": "GET",
-            "url": "https://api.github.com/repos/actualbudget/actual/releases/latest",
-            "resourceType": "fetch",
-            "startedAt": 2819,
-            "status": 200,
-            "ok": true,
-            "finishedAt": 3228,
-            "contentType": "application/json",
-            "resourceTypeHint": "latest"
-          },
-          {
-            "id": "net-5",
-            "method": "GET",
             "url": "http://127.0.0.1:37200/static/js/wide.BkKPUPVE.chunk.js",
             "resourceType": "script",
-            "startedAt": 2868,
+            "startedAt": 5992,
             "status": 200,
             "ok": true,
-            "finishedAt": 2877,
+            "finishedAt": 6003,
             "contentType": "text/javascript",
             "resourceTypeHint": "wide.BkKPUPVE.chunk.js"
           },
           {
-            "id": "net-6",
+            "id": "net-4",
             "method": "GET",
             "url": "http://127.0.0.1:37200/static/js/AppliedFilters.Dx7PP3C8.chunk.js",
             "resourceType": "script",
-            "startedAt": 2868,
+            "startedAt": 5993,
             "status": 200,
             "ok": true,
-            "finishedAt": 2873,
+            "finishedAt": 6002,
             "contentType": "text/javascript",
             "resourceTypeHint": "AppliedFilters.Dx7PP3C8.chunk.js"
           },
           {
-            "id": "net-7",
+            "id": "net-5",
             "method": "GET",
             "url": "http://127.0.0.1:37200/static/js/useTransactionBatchActions.CG8pn3qO.chunk.js",
             "resourceType": "script",
-            "startedAt": 2868,
+            "startedAt": 5994,
             "status": 200,
             "ok": true,
-            "finishedAt": 2872,
+            "finishedAt": 6000,
             "contentType": "text/javascript",
             "resourceTypeHint": "useTransactionBatchActions.CG8pn3qO.chunk.js"
           },
           {
-            "id": "net-8",
+            "id": "net-6",
             "method": "GET",
             "url": "http://127.0.0.1:37200/static/js/PayeeRuleCountLabel.nEXX1VI1.chunk.js",
             "resourceType": "script",
-            "startedAt": 2868,
+            "startedAt": 5994,
             "status": 200,
             "ok": true,
-            "finishedAt": 2872,
+            "finishedAt": 6001,
             "contentType": "text/javascript",
             "resourceTypeHint": "PayeeRuleCountLabel.nEXX1VI1.chunk.js"
           }
@@ -754,7 +725,7 @@
               "weight": 92,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 21
+              "elapsedMs": 10
             }
           ],
           "chosenStrategy": "role",
@@ -762,10 +733,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1919,
+          "at": 5476,
           "url": "http://127.0.0.1:37200/",
           "title": "Actual",
-          "domHash": "3c323161d21cd3d2",
+          "domHash": "0e5db8d3d3693839",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -778,31 +749,36 @@
           },
           "semanticDom": {
             "textHash": "4b3185be4bea59de",
+            "visualHash": "6e67777d8a1650c1",
             "text": "Welcome to Actual Your finances - made simple Actual is a super fast, privacy-focused app for managing your finances. It is 100% free and open source: everything stays on your device, no data is collected, and there is nothing to sign up for. Start budgeting Try the demo Connect to a sync server Coming from another budgeting app? Import my budget New to budgeting? Take the guided tour to learn how Actual works. Using this device only Set up sync App: v26.7.0 | Server: N/A",
             "controls": [
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -832,10 +808,10 @@
           }
         },
         "beforeAction": {
-          "at": 1945,
+          "at": 5503,
           "url": "http://127.0.0.1:37200/",
           "title": "Actual",
-          "domHash": "3c323161d21cd3d2",
+          "domHash": "0e5db8d3d3693839",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -848,31 +824,36 @@
           },
           "semanticDom": {
             "textHash": "4b3185be4bea59de",
+            "visualHash": "6e67777d8a1650c1",
             "text": "Welcome to Actual Your finances - made simple Actual is a super fast, privacy-focused app for managing your finances. It is 100% free and open source: everything stays on your device, no data is collected, and there is nothing to sign up for. Start budgeting Try the demo Connect to a sync server Coming from another budgeting app? Import my budget New to budgeting? Take the guided tour to learn how Actual works. Using this device only Set up sync App: v26.7.0 | Server: N/A",
             "controls": [
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -903,10 +884,10 @@
         },
         "networkSettled": true,
         "after": {
-          "at": 3256,
+          "at": 6628,
           "url": "http://127.0.0.1:37200/accounts",
           "title": "Actual",
-          "domHash": "88cf07011d46d202",
+          "domHash": "823d03cf2b04dc62",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -919,135 +900,157 @@
           },
           "semanticDom": {
             "textHash": "4ea31d78fbff2c29",
+            "visualHash": "914c2370813dafda",
             "text": "My Finances Budget Reports Schedules More All accounts 0.00 Add account No server Help All Accounts 0.00 Filter Date Account Payee Notes Category Payment Deposit ✓ Let's add your first account. Accounts hold your transactions, like everyday spending, savings, credit cards, or cash. You can connect to your bank to import transactions automatically, or add them yourself. Add account You can add more accounts at any time from the sidebar.",
             "controls": [
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
-              },
-              {
-                "tag": "input",
-                "type": "text",
-                "valueHash": "e3b0c44298fc1c14",
-                "checked": false,
-                "disabled": false
-              },
-              {
-                "tag": "button",
-                "type": "button",
-                "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
                 "disabled": false,
+                "visible": true
+              },
+              {
+                "tag": "button",
+                "type": "button",
+                "valueHash": "e3b0c44298fc1c14",
+                "disabled": false,
+                "visible": true
+              },
+              {
+                "tag": "button",
+                "type": "button",
+                "valueHash": "e3b0c44298fc1c14",
+                "disabled": false,
+                "visible": true
+              },
+              {
+                "tag": "button",
+                "type": "button",
+                "valueHash": "e3b0c44298fc1c14",
+                "disabled": false,
+                "visible": true
+              },
+              {
+                "tag": "button",
+                "type": "button",
+                "valueHash": "e3b0c44298fc1c14",
+                "disabled": false,
+                "visible": true
+              },
+              {
+                "tag": "button",
+                "type": "button",
+                "valueHash": "e3b0c44298fc1c14",
+                "disabled": false,
+                "visible": true
+              },
+              {
+                "tag": "button",
+                "type": "button",
+                "valueHash": "e3b0c44298fc1c14",
+                "disabled": false,
+                "visible": true
+              },
+              {
+                "tag": "button",
+                "type": "button",
+                "valueHash": "e3b0c44298fc1c14",
+                "disabled": false,
+                "visible": true
+              },
+              {
+                "tag": "input",
+                "type": "text",
+                "valueHash": "e3b0c44298fc1c14",
+                "checked": false,
+                "disabled": false,
+                "visible": true
+              },
+              {
+                "tag": "button",
+                "type": "button",
+                "valueHash": "e3b0c44298fc1c14",
+                "disabled": false,
+                "visible": true
+              },
+              {
+                "tag": "button",
+                "type": "button",
+                "valueHash": "e3b0c44298fc1c14",
+                "disabled": false,
+                "visible": true,
                 "expanded": "false"
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -1074,7 +1077,7 @@
                 ]
               },
               {
-                "name": "documents-Actual-My-Finances-c71781d-db.sqlite",
+                "name": "documents-Actual-My-Finances-63eaef8-db.sqlite",
                 "version": 2,
                 "stores": [
                   {
@@ -1096,7 +1099,7 @@
     {
       "id": "RD-002",
       "action": {
-        "id": "d31762c27eec",
+        "id": "359f603766c3",
         "pageUrl": "http://127.0.0.1:37200/",
         "label": "Try the demo",
         "activation": "click",
@@ -1104,13 +1107,13 @@
         "intent": "interact",
         "risk": "safe",
         "fingerprint": {
-          "selector": "#react-aria3781528837-_r_2_",
+          "selector": "#react-aria2793412727-_r_2_",
           "tag": "button",
           "ordinal": 1,
           "role": "button",
           "accessibleName": "Try the demo",
           "text": "Try the demo",
-          "id": "react-aria3781528837-_r_2_",
+          "id": "react-aria2793412727-_r_2_",
           "type": "button",
           "candidates": [
             {
@@ -1130,7 +1133,7 @@
             {
               "strategy": "id",
               "weight": 80,
-              "selector": "#react-aria3781528837-_r_2_"
+              "selector": "#react-aria2793412727-_r_2_"
             },
             {
               "strategy": "text",
@@ -1141,52 +1144,28 @@
             {
               "strategy": "css",
               "weight": 35,
-              "selector": "#react-aria3781528837-_r_2_"
+              "selector": "#react-aria2793412727-_r_2_"
             }
           ]
         },
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-22T20:32:41.897Z",
-        "durationMs": 3598,
-        "canary": "RD_TEST_E0FD53",
+        "startedAt": "2026-07-23T14:53:38.951Z",
+        "durationMs": 7918,
+        "canary": "RD_TEST_A29FE6",
         "network": [
           {
             "id": "net-1",
             "method": "GET",
             "url": "http://127.0.0.1:37200/static/js/indexeddb-main-thread-worker-e59fee74.B9D89_PE.chunk.js",
             "resourceType": "script",
-            "startedAt": 2535,
+            "startedAt": 6844,
             "status": 200,
             "ok": true,
-            "finishedAt": 2544,
+            "finishedAt": 6848,
             "contentType": "text/javascript",
             "resourceTypeHint": "indexeddb-main-thread-worker-e59fee74.B9D89_PE.chunk.js"
-          },
-          {
-            "id": "net-2",
-            "method": "GET",
-            "url": "blob:http://127.0.0.1:37200/89fd8848-ad1f-407c-8d71-c518413f9799",
-            "resourceType": "script",
-            "startedAt": 2545,
-            "status": 200,
-            "ok": true,
-            "contentType": "application/javascript",
-            "resourceTypeHint": "127.0.0.1:37200",
-            "finishedAt": 2553
-          },
-          {
-            "id": "net-3",
-            "method": "GET",
-            "url": "blob:http://127.0.0.1:37200/89fd8848-ad1f-407c-8d71-c518413f9799",
-            "resourceType": "script",
-            "startedAt": 2571,
-            "status": 200,
-            "ok": true,
-            "contentType": "application/javascript",
-            "resourceTypeHint": "127.0.0.1:37200",
-            "finishedAt": 2576
           }
         ],
         "console": [],
@@ -1205,7 +1184,7 @@
               "weight": 92,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 31
+              "elapsedMs": 9
             }
           ],
           "chosenStrategy": "role",
@@ -1213,10 +1192,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 2214,
+          "at": 6783,
           "url": "http://127.0.0.1:37200/",
           "title": "Actual",
-          "domHash": "3c323161d21cd3d2",
+          "domHash": "0e5db8d3d3693839",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -1229,31 +1208,36 @@
           },
           "semanticDom": {
             "textHash": "4b3185be4bea59de",
+            "visualHash": "6e67777d8a1650c1",
             "text": "Welcome to Actual Your finances - made simple Actual is a super fast, privacy-focused app for managing your finances. It is 100% free and open source: everything stays on your device, no data is collected, and there is nothing to sign up for. Start budgeting Try the demo Connect to a sync server Coming from another budgeting app? Import my budget New to budgeting? Take the guided tour to learn how Actual works. Using this device only Set up sync App: v26.7.0 | Server: N/A",
             "controls": [
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -1283,10 +1267,10 @@
           }
         },
         "beforeAction": {
-          "at": 2249,
+          "at": 6803,
           "url": "http://127.0.0.1:37200/",
           "title": "Actual",
-          "domHash": "3c323161d21cd3d2",
+          "domHash": "0e5db8d3d3693839",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -1299,31 +1283,36 @@
           },
           "semanticDom": {
             "textHash": "4b3185be4bea59de",
+            "visualHash": "6e67777d8a1650c1",
             "text": "Welcome to Actual Your finances - made simple Actual is a super fast, privacy-focused app for managing your finances. It is 100% free and open source: everything stays on your device, no data is collected, and there is nothing to sign up for. Start budgeting Try the demo Connect to a sync server Coming from another budgeting app? Import my budget New to budgeting? Take the guided tour to learn how Actual works. Using this device only Set up sync App: v26.7.0 | Server: N/A",
             "controls": [
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -1354,10 +1343,10 @@
         },
         "networkSettled": true,
         "after": {
-          "at": 3589,
+          "at": 7910,
           "url": "http://127.0.0.1:37200/",
           "title": "Actual",
-          "domHash": "5b28dfef8a85d8bc",
+          "domHash": "e58c55874a03866c",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -1370,6 +1359,7 @@
           },
           "semanticDom": {
             "textHash": "d578440bdb7e287d",
+            "visualHash": "4f53cda18c2baa0c",
             "text": "Making demo... App: v26.7.0 | Server: N/A",
             "controls": []
           },
@@ -1401,7 +1391,7 @@
                 "stores": [
                   {
                     "name": "data",
-                    "count": 106
+                    "count": 233
                   }
                 ]
               }
@@ -1418,7 +1408,7 @@
     {
       "id": "RD-003",
       "action": {
-        "id": "89b0792f559d",
+        "id": "c14283fe5af7",
         "pageUrl": "http://127.0.0.1:37200/",
         "label": "Connect to a sync server",
         "activation": "click",
@@ -1426,13 +1416,13 @@
         "intent": "interact",
         "risk": "safe",
         "fingerprint": {
-          "selector": "#react-aria3781528837-_r_4_",
+          "selector": "#react-aria2793412727-_r_4_",
           "tag": "button",
           "ordinal": 2,
           "role": "button",
           "accessibleName": "Connect to a sync server",
           "text": "Connect to a sync server",
-          "id": "react-aria3781528837-_r_4_",
+          "id": "react-aria2793412727-_r_4_",
           "type": "button",
           "candidates": [
             {
@@ -1452,7 +1442,7 @@
             {
               "strategy": "id",
               "weight": 80,
-              "selector": "#react-aria3781528837-_r_4_"
+              "selector": "#react-aria2793412727-_r_4_"
             },
             {
               "strategy": "text",
@@ -1463,16 +1453,16 @@
             {
               "strategy": "css",
               "weight": 35,
-              "selector": "#react-aria3781528837-_r_4_"
+              "selector": "#react-aria2793412727-_r_4_"
             }
           ]
         },
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-22T20:32:46.239Z",
-        "durationMs": 3445,
-        "canary": "RD_TEST_4BEB05",
+        "startedAt": "2026-07-23T14:53:47.512Z",
+        "durationMs": 6711,
+        "canary": "RD_TEST_7D6A1C",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -1490,7 +1480,7 @@
               "weight": 92,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 24
+              "elapsedMs": 7
             }
           ],
           "chosenStrategy": "role",
@@ -1498,10 +1488,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 2238,
+          "at": 5568,
           "url": "http://127.0.0.1:37200/",
           "title": "Actual",
-          "domHash": "3c323161d21cd3d2",
+          "domHash": "0e5db8d3d3693839",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -1514,31 +1504,36 @@
           },
           "semanticDom": {
             "textHash": "4b3185be4bea59de",
+            "visualHash": "6e67777d8a1650c1",
             "text": "Welcome to Actual Your finances - made simple Actual is a super fast, privacy-focused app for managing your finances. It is 100% free and open source: everything stays on your device, no data is collected, and there is nothing to sign up for. Start budgeting Try the demo Connect to a sync server Coming from another budgeting app? Import my budget New to budgeting? Take the guided tour to learn how Actual works. Using this device only Set up sync App: v26.7.0 | Server: N/A",
             "controls": [
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -1568,10 +1563,10 @@
           }
         },
         "beforeAction": {
-          "at": 2267,
+          "at": 5590,
           "url": "http://127.0.0.1:37200/",
           "title": "Actual",
-          "domHash": "3c323161d21cd3d2",
+          "domHash": "0e5db8d3d3693839",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -1584,31 +1579,36 @@
           },
           "semanticDom": {
             "textHash": "4b3185be4bea59de",
+            "visualHash": "6e67777d8a1650c1",
             "text": "Welcome to Actual Your finances - made simple Actual is a super fast, privacy-focused app for managing your finances. It is 100% free and open source: everything stays on your device, no data is collected, and there is nothing to sign up for. Start budgeting Try the demo Connect to a sync server Coming from another budgeting app? Import my budget New to budgeting? Take the guided tour to learn how Actual works. Using this device only Set up sync App: v26.7.0 | Server: N/A",
             "controls": [
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -1639,10 +1639,10 @@
         },
         "networkSettled": true,
         "after": {
-          "at": 3438,
+          "at": 6705,
           "url": "http://127.0.0.1:37200/config-server",
           "title": "Actual",
-          "domHash": "8fb0b2c285b6df91",
+          "domHash": "97f712565aa26638",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -1655,32 +1655,37 @@
           },
           "semanticDom": {
             "textHash": "ca9a81bbe255f6c6",
+            "visualHash": "56d62eccff0044b8",
             "text": "Back Connect to a server A sync server keeps your budget up to date across all your devices and unlocks features like bank syncing. It is completely optional: Actual works great on just this device too. If you already run a server, enter its URL below. Otherwise you can learn how to set one up and connect it whenever you are ready. Connect Use the current domain App: v26.7.0 | Server: N/A",
             "controls": [
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
                 "type": "text",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -1719,7 +1724,7 @@
     {
       "id": "RD-004",
       "action": {
-        "id": "e3b7f0a016c3",
+        "id": "0b8634510f9e",
         "pageUrl": "http://127.0.0.1:37200/",
         "label": "Import my budget",
         "activation": "click",
@@ -1727,13 +1732,13 @@
         "intent": "interact",
         "risk": "safe",
         "fingerprint": {
-          "selector": "#react-aria3781528837-_r_6_",
+          "selector": "#react-aria2793412727-_r_6_",
           "tag": "button",
           "ordinal": 3,
           "role": "button",
           "accessibleName": "Import my budget",
           "text": "Import my budget",
-          "id": "react-aria3781528837-_r_6_",
+          "id": "react-aria2793412727-_r_6_",
           "type": "button",
           "candidates": [
             {
@@ -1753,7 +1758,7 @@
             {
               "strategy": "id",
               "weight": 80,
-              "selector": "#react-aria3781528837-_r_6_"
+              "selector": "#react-aria2793412727-_r_6_"
             },
             {
               "strategy": "text",
@@ -1764,16 +1769,16 @@
             {
               "strategy": "css",
               "weight": 35,
-              "selector": "#react-aria3781528837-_r_6_"
+              "selector": "#react-aria2793412727-_r_6_"
             }
           ]
         },
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-22T20:32:50.262Z",
-        "durationMs": 3672,
-        "canary": "RD_TEST_3F7AFD",
+        "startedAt": "2026-07-23T14:53:54.764Z",
+        "durationMs": 6696,
+        "canary": "RD_TEST_7704BD",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -1791,7 +1796,7 @@
               "weight": 92,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 29
+              "elapsedMs": 7
             }
           ],
           "chosenStrategy": "role",
@@ -1799,10 +1804,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 2325,
+          "at": 5536,
           "url": "http://127.0.0.1:37200/",
           "title": "Actual",
-          "domHash": "3c323161d21cd3d2",
+          "domHash": "0e5db8d3d3693839",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -1815,31 +1820,36 @@
           },
           "semanticDom": {
             "textHash": "4b3185be4bea59de",
+            "visualHash": "6e67777d8a1650c1",
             "text": "Welcome to Actual Your finances - made simple Actual is a super fast, privacy-focused app for managing your finances. It is 100% free and open source: everything stays on your device, no data is collected, and there is nothing to sign up for. Start budgeting Try the demo Connect to a sync server Coming from another budgeting app? Import my budget New to budgeting? Take the guided tour to learn how Actual works. Using this device only Set up sync App: v26.7.0 | Server: N/A",
             "controls": [
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -1869,10 +1879,10 @@
           }
         },
         "beforeAction": {
-          "at": 2356,
+          "at": 5557,
           "url": "http://127.0.0.1:37200/",
           "title": "Actual",
-          "domHash": "3c323161d21cd3d2",
+          "domHash": "0e5db8d3d3693839",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -1885,31 +1895,36 @@
           },
           "semanticDom": {
             "textHash": "4b3185be4bea59de",
+            "visualHash": "6e67777d8a1650c1",
             "text": "Welcome to Actual Your finances - made simple Actual is a super fast, privacy-focused app for managing your finances. It is 100% free and open source: everything stays on your device, no data is collected, and there is nothing to sign up for. Start budgeting Try the demo Connect to a sync server Coming from another budgeting app? Import my budget New to budgeting? Take the guided tour to learn how Actual works. Using this device only Set up sync App: v26.7.0 | Server: N/A",
             "controls": [
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -1940,10 +1955,10 @@
         },
         "networkSettled": true,
         "after": {
-          "at": 3665,
+          "at": 6690,
           "url": "http://127.0.0.1:37200/",
           "title": "Actual",
-          "domHash": "c21ae6fd14f1e5ef",
+          "domHash": "3948e6fc1b26ba3f",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -1956,61 +1971,71 @@
           },
           "semanticDom": {
             "textHash": "0485062a5e3e43bd",
+            "visualHash": "6bd5723f1bb38d09",
             "text": "Welcome to Actual Your finances - made simple Actual is a super fast, privacy-focused app for managing your finances. It is 100% free and open source: everything stays on your device, no data is collected, and there is nothing to sign up for. Start budgeting Try the demo Connect to a sync server Coming from another budgeting app? Import my budget New to budgeting? Take the guided tour to learn how Actual works. Using this device only Set up sync App: v26.7.0 | Server: N/A Import From Select an app to import from, and we'll guide you through the process. YNAB4 The old unsupported desktop app nYNAB The newer web app Actual Import a file exported from Actual",
             "controls": [
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "submit",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -2174,9 +2199,9 @@
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-22T20:32:54.542Z",
-        "durationMs": 3087,
-        "canary": "RD_TEST_8BFDE4",
+        "startedAt": "2026-07-23T14:54:01.947Z",
+        "durationMs": 6663,
+        "canary": "RD_TEST_26E0B4",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -2194,7 +2219,7 @@
               "weight": 92,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 19
+              "elapsedMs": 5
             }
           ],
           "chosenStrategy": "role",
@@ -2202,10 +2227,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1979,
+          "at": 5554,
           "url": "http://127.0.0.1:37200/",
           "title": "Actual",
-          "domHash": "3c323161d21cd3d2",
+          "domHash": "0e5db8d3d3693839",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -2218,31 +2243,36 @@
           },
           "semanticDom": {
             "textHash": "4b3185be4bea59de",
+            "visualHash": "6e67777d8a1650c1",
             "text": "Welcome to Actual Your finances - made simple Actual is a super fast, privacy-focused app for managing your finances. It is 100% free and open source: everything stays on your device, no data is collected, and there is nothing to sign up for. Start budgeting Try the demo Connect to a sync server Coming from another budgeting app? Import my budget New to budgeting? Take the guided tour to learn how Actual works. Using this device only Set up sync App: v26.7.0 | Server: N/A",
             "controls": [
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -2272,10 +2302,10 @@
           }
         },
         "beforeAction": {
-          "at": 1999,
+          "at": 5564,
           "url": "http://127.0.0.1:37200/",
           "title": "Actual",
-          "domHash": "3c323161d21cd3d2",
+          "domHash": "0e5db8d3d3693839",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -2288,31 +2318,36 @@
           },
           "semanticDom": {
             "textHash": "4b3185be4bea59de",
+            "visualHash": "6e67777d8a1650c1",
             "text": "Welcome to Actual Your finances - made simple Actual is a super fast, privacy-focused app for managing your finances. It is 100% free and open source: everything stays on your device, no data is collected, and there is nothing to sign up for. Start budgeting Try the demo Connect to a sync server Coming from another budgeting app? Import my budget New to budgeting? Take the guided tour to learn how Actual works. Using this device only Set up sync App: v26.7.0 | Server: N/A",
             "controls": [
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -2343,10 +2378,10 @@
         },
         "networkSettled": true,
         "after": {
-          "at": 3083,
+          "at": 6659,
           "url": "http://127.0.0.1:37200/config-server",
           "title": "Actual",
-          "domHash": "8fb0b2c285b6df91",
+          "domHash": "97f712565aa26638",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -2359,32 +2394,37 @@
           },
           "semanticDom": {
             "textHash": "ca9a81bbe255f6c6",
+            "visualHash": "56d62eccff0044b8",
             "text": "Back Connect to a server A sync server keeps your budget up to date across all your devices and unlocks features like bank syncing. It is completely optional: Actual works great on just this device too. If you already run a server, enter its URL below. Otherwise you can learn how to set one up and connect it whenever you are ready. Connect Use the current domain App: v26.7.0 | Server: N/A",
             "controls": [
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "input",
                 "type": "text",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -2423,7 +2463,7 @@
     {
       "id": "RD-007",
       "action": {
-        "id": "713acce9ebcc",
+        "id": "211dd240da47",
         "pageUrl": "http://127.0.0.1:37200/config-server",
         "label": "Back",
         "activation": "click",
@@ -2431,13 +2471,13 @@
         "intent": "navigate",
         "risk": "safe",
         "fingerprint": {
-          "selector": "#react-aria8249129585-_r_0_",
+          "selector": "#react-aria6445893585-_r_0_",
           "tag": "button",
           "ordinal": 0,
           "role": "button",
           "accessibleName": "Back",
           "text": "Back",
-          "id": "react-aria8249129585-_r_0_",
+          "id": "react-aria6445893585-_r_0_",
           "type": "button",
           "candidates": [
             {
@@ -2457,7 +2497,7 @@
             {
               "strategy": "id",
               "weight": 80,
-              "selector": "#react-aria8249129585-_r_0_"
+              "selector": "#react-aria6445893585-_r_0_"
             },
             {
               "strategy": "text",
@@ -2468,16 +2508,16 @@
             {
               "strategy": "css",
               "weight": 35,
-              "selector": "#react-aria8249129585-_r_0_"
+              "selector": "#react-aria6445893585-_r_0_"
             }
           ]
         },
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-22T20:32:58.069Z",
-        "durationMs": 2415,
-        "canary": "RD_TEST_FFE8F6",
+        "startedAt": "2026-07-23T14:54:09.056Z",
+        "durationMs": 5984,
+        "canary": "RD_TEST_26BEE3",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -2496,7 +2536,7 @@
               "weight": 92,
               "matchCount": 0,
               "visibleCount": 0,
-              "elapsedMs": 13
+              "elapsedMs": 4
             },
             {
               "strategy": "role",
@@ -2524,70 +2564,70 @@
               "weight": 35,
               "matchCount": 0,
               "visibleCount": 0,
-              "elapsedMs": 3
+              "elapsedMs": 2
             },
             {
               "strategy": "role",
               "weight": 92,
               "matchCount": 0,
               "visibleCount": 0,
-              "elapsedMs": 3
+              "elapsedMs": 4
             },
             {
               "strategy": "role",
               "weight": 82,
               "matchCount": 0,
               "visibleCount": 0,
-              "elapsedMs": 2
+              "elapsedMs": 4
             },
             {
               "strategy": "id",
               "weight": 80,
               "matchCount": 0,
               "visibleCount": 0,
-              "elapsedMs": 2
+              "elapsedMs": 3
             },
             {
               "strategy": "text",
               "weight": 60,
               "matchCount": 0,
               "visibleCount": 0,
-              "elapsedMs": 2
+              "elapsedMs": 3
             },
             {
               "strategy": "css",
               "weight": 35,
               "matchCount": 0,
               "visibleCount": 0,
-              "elapsedMs": 2
+              "elapsedMs": 3
             },
             {
               "strategy": "role",
               "weight": 92,
               "matchCount": 0,
               "visibleCount": 0,
-              "elapsedMs": 3
+              "elapsedMs": 4
             },
             {
               "strategy": "role",
               "weight": 82,
               "matchCount": 0,
               "visibleCount": 0,
-              "elapsedMs": 2
+              "elapsedMs": 3
             },
             {
               "strategy": "id",
               "weight": 80,
               "matchCount": 0,
               "visibleCount": 0,
-              "elapsedMs": 1
+              "elapsedMs": 3
             },
             {
               "strategy": "text",
               "weight": 60,
               "matchCount": 0,
               "visibleCount": 0,
-              "elapsedMs": 2
+              "elapsedMs": 3
             },
             {
               "strategy": "css",
@@ -2600,8 +2640,8 @@
           "retryCount": 2
         },
         "executionError": "No visible element matched the semantic fingerprint. The action was not executed.",
-        "screenshot": "screenshots/713acce9ebcc-error.png",
-        "trace": "traces/713acce9ebcc.zip",
+        "screenshot": "screenshots/211dd240da47-error.png",
+        "trace": "traces/211dd240da47.zip",
         "snapshotIndex": "snapshots/RD-007.index.json"
       },
       "verdict": "UNCERTAIN",
@@ -2686,7 +2726,7 @@
     {
       "id": "RD-009",
       "action": {
-        "id": "d27f17c2dd57",
+        "id": "b4b1e39438ef",
         "pageUrl": "http://127.0.0.1:37200/config-server",
         "label": "Connect",
         "activation": "click",
@@ -2694,13 +2734,13 @@
         "intent": "external",
         "risk": "external",
         "fingerprint": {
-          "selector": "#react-aria8249129585-_r_2_",
+          "selector": "#react-aria6445893585-_r_2_",
           "tag": "button",
           "ordinal": 2,
           "role": "button",
           "accessibleName": "Connect",
           "text": "Connect",
-          "id": "react-aria8249129585-_r_2_",
+          "id": "react-aria6445893585-_r_2_",
           "type": "button",
           "candidates": [
             {
@@ -2720,7 +2760,7 @@
             {
               "strategy": "id",
               "weight": 80,
-              "selector": "#react-aria8249129585-_r_2_"
+              "selector": "#react-aria6445893585-_r_2_"
             },
             {
               "strategy": "text",
@@ -2731,7 +2771,7 @@
             {
               "strategy": "css",
               "weight": 35,
-              "selector": "#react-aria8249129585-_r_2_"
+              "selector": "#react-aria6445893585-_r_2_"
             }
           ]
         },
@@ -2769,7 +2809,7 @@
     {
       "id": "RD-010",
       "action": {
-        "id": "a32efa4a4d90",
+        "id": "11ab18b3cef0",
         "pageUrl": "http://127.0.0.1:37200/config-server",
         "label": "Use the current domain",
         "activation": "click",
@@ -2777,13 +2817,13 @@
         "intent": "interact",
         "risk": "safe",
         "fingerprint": {
-          "selector": "#react-aria8249129585-_r_4_",
+          "selector": "#react-aria6445893585-_r_4_",
           "tag": "button",
           "ordinal": 3,
           "role": "button",
           "accessibleName": "Use the current domain",
           "text": "Use the current domain",
-          "id": "react-aria8249129585-_r_4_",
+          "id": "react-aria6445893585-_r_4_",
           "type": "button",
           "candidates": [
             {
@@ -2803,7 +2843,7 @@
             {
               "strategy": "id",
               "weight": 80,
-              "selector": "#react-aria8249129585-_r_4_"
+              "selector": "#react-aria6445893585-_r_4_"
             },
             {
               "strategy": "text",
@@ -2814,16 +2854,16 @@
             {
               "strategy": "css",
               "weight": 35,
-              "selector": "#react-aria8249129585-_r_4_"
+              "selector": "#react-aria6445893585-_r_4_"
             }
           ]
         },
         "fields": []
       },
       "evidence": {
-        "startedAt": "2026-07-22T20:33:00.871Z",
-        "durationMs": 2897,
-        "canary": "RD_TEST_DF38FD",
+        "startedAt": "2026-07-23T14:54:15.486Z",
+        "durationMs": 6517,
+        "canary": "RD_TEST_0B850F",
         "network": [],
         "console": [],
         "pageErrors": [],
@@ -2841,7 +2881,7 @@
               "weight": 92,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 20
+              "elapsedMs": 8
             }
           ],
           "chosenStrategy": "role",
@@ -2849,10 +2889,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1823,
+          "at": 5370,
           "url": "http://127.0.0.1:37200/config-server",
           "title": "Actual",
-          "domHash": "6718316d614748f3",
+          "domHash": "0152be5d7ccd41ff",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -2865,6 +2905,7 @@
           },
           "semanticDom": {
             "textHash": "4f09c08b43d20208",
+            "visualHash": "d720c9781d69e040",
             "text": "Connect to a server A sync server keeps your budget up to date across all your devices and unlocks features like bank syncing. It is completely optional: Actual works great on just this device too. If you already run a server, enter its URL below. Otherwise you can learn how to set one up and connect it whenever you are ready. Connect Use the current domain Don't use a server App: v26.7.0 | Server: N/A",
             "controls": [
               {
@@ -2872,25 +2913,29 @@
                 "type": "text",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -2920,10 +2965,10 @@
           }
         },
         "beforeAction": {
-          "at": 1842,
+          "at": 5392,
           "url": "http://127.0.0.1:37200/config-server",
           "title": "Actual",
-          "domHash": "6718316d614748f3",
+          "domHash": "0152be5d7ccd41ff",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -2936,6 +2981,7 @@
           },
           "semanticDom": {
             "textHash": "4f09c08b43d20208",
+            "visualHash": "d720c9781d69e040",
             "text": "Connect to a server A sync server keeps your budget up to date across all your devices and unlocks features like bank syncing. It is completely optional: Actual works great on just this device too. If you already run a server, enter its URL below. Otherwise you can learn how to set one up and connect it whenever you are ready. Connect Use the current domain Don't use a server App: v26.7.0 | Server: N/A",
             "controls": [
               {
@@ -2943,25 +2989,29 @@
                 "type": "text",
                 "valueHash": "e3b0c44298fc1c14",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -2992,10 +3042,10 @@
         },
         "networkSettled": true,
         "after": {
-          "at": 2893,
+          "at": 6512,
           "url": "http://127.0.0.1:37200/config-server",
           "title": "Actual",
-          "domHash": "3237de394879045b",
+          "domHash": "22ae81c49890122c",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -3008,6 +3058,7 @@
           },
           "semanticDom": {
             "textHash": "4f09c08b43d20208",
+            "visualHash": "d720c9781d69e040",
             "text": "Connect to a server A sync server keeps your budget up to date across all your devices and unlocks features like bank syncing. It is completely optional: Actual works great on just this device too. If you already run a server, enter its URL below. Otherwise you can learn how to set one up and connect it whenever you are ready. Connect Use the current domain Don't use a server App: v26.7.0 | Server: N/A",
             "controls": [
               {
@@ -3015,25 +3066,29 @@
                 "type": "text",
                 "valueHash": "dc80b31676b9e8e0",
                 "checked": false,
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               },
               {
                 "tag": "button",
                 "type": "button",
                 "valueHash": "e3b0c44298fc1c14",
-                "disabled": false
+                "disabled": false,
+                "visible": true
               }
             ]
           },
@@ -3072,8 +3127,8 @@
   ],
   "environment": {
     "status": "VALID",
-    "checkedAt": "2026-07-22T20:32:33.110Z",
-    "durationMs": 1767,
+    "checkedAt": "2026-07-23T14:53:25.131Z",
+    "durationMs": 2912,
     "targetUrl": "http://127.0.0.1:37200/",
     "mainDocument": {
       "status": 200,
@@ -3086,9 +3141,9 @@
       "failed": 0
     },
     "render": {
-      "bodyTextLength": 132,
-      "visibleElements": 26,
-      "interactiveElements": 0,
+      "bodyTextLength": 476,
+      "visibleElements": 35,
+      "interactiveElements": 6,
       "ready": true
     },
     "findings": [],
