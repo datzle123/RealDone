@@ -4,6 +4,15 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 
 ## [Unreleased]
 
+### Added
+
+- Coverage-balanced quick-scan scheduling that represents more routes, action kinds, intents, and keyboard/submit activation paths within the same finite action budget, while placing known policy/environment denials after runnable actions.
+- Additive action-selection telemetry in JSON and HTML reports, including eligible/selected/omitted counts, route coverage, semantic coverage, denial counts, the deterministic strategy version, and an explicit partial-scan explanation.
+
+### Fixed
+
+- Report timelines and environment summaries now render arrows and separators as UTF-8 instead of mojibake.
+
 ## [1.3.3] - 2026-07-26
 
 ### Added

@@ -8,6 +8,8 @@ Quick scan remains intentionally light: one Chromium worker, no provider/databas
 
 `scan --full` raises the default safe budgets to 100 pages, 500 actions, and 30 minutes, enables deep persistence and trace-on-failure, but never enables destructive or external effects. Explicit budget flags or policy values still win, and exhausted budgets set `truncated`.
 
+Finite scan budgets use the versioned `coverage-balanced-v1` selector. It spreads selected actions across routes and semantic action/activation classes instead of allowing one control-heavy page to consume the budget, prioritizes runnable actions over known denials, and preserves destructive/logout ordering. `scan.json` records additive selection telemetry and the HTML report explains any omitted actions; increase `--max-actions` or use `--full` when the represented coverage is insufficient for the release decision.
+
 Baseline, regression, browser-matrix, and post-agent contract verification accept `--workers 1..16`. Results preserve deterministic input order; quick scan remains one worker because concurrent mutations against the same application can create misleading evidence. Content-addressed snapshot indexes use SHA-256 blobs so repeated states share one portable artifact while legacy per-finding snapshot JSON remains available.
 
 Recorded verification can enforce an explicit budget:

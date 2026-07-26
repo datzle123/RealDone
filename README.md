@@ -61,6 +61,8 @@ npx realdone scan
 
 Best for a quick first check. Default mode uses one Chromium worker, safe actions only, no AI, no account, and no database credential.
 
+Its finite budget is coverage-balanced rather than “the first controls in DOM order”: RealDone represents different routes, action kinds, intents, and Enter/submit paths, then reports exactly what was selected or omitted. Use `--full` when you need broader safe coverage.
+
 ### 2. Record and verify an important flow
 
 ```bash

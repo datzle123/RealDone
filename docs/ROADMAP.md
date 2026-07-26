@@ -137,3 +137,17 @@ Gate:
 - Custom runtimes fail with an actionable URL/Docker path; the public claim remains that every HTTP web app can use the verifier, not that every private build command can be guessed.
 
 Phase H is complete. The final local batch passed 129/129 executed tests, audit, browser smoke, packing, and installed-tarball scans of both a metadata-free static project and an npm project without lockfile/package-manager metadata; both managed runtimes were confirmed stopped. Hosted run [`29977292441`](https://github.com/datzle123/RealDone/actions/runs/29977292441) then passed Linux, Windows and macOS on Node 20/22, the package scan/cleanup gate, and all 15 normative release gates. `gh attestation verify` confirmed GitHub-signed provenance for source commit `ab902acdfb95463c82a7c842f5b497a68d8c325a`.
+
+## Phase I — coverage-balanced quick-scan scheduling (release candidate)
+
+Contributes evidence to: §4.1, §8–11, §29–31.
+
+Gate:
+
+- A finite action budget cannot be consumed solely by discovery/DOM order on one control-heavy route.
+- Selection deterministically maximizes route, action-kind, intent and activation-path coverage while preserving destructive/session-ending ordering.
+- Actions already denied by policy or environment checks do not starve runnable actions.
+- JSON/HTML reports expose eligible, selected, omitted, represented-route, semantic coverage, denial counts and strategy version without breaking schema `1.0` consumers.
+- Broken/control unit coverage and a real-browser three-route budget fixture pass with typecheck, audit, browser smoke and package gates.
+
+Phase I implementation and applicable local gates are complete for candidate fingerprint `f3f65840…`: typecheck/unit/build passed 140 tests with 2 expected service-dependent skips, dependency audit reported no known vulnerabilities, full Chromium smoke passed the real three-route budget control, and pack plus installed-tarball package smoke passed. The phase remains a release candidate; released real-project evidence is still bound to `68d4a8cb…` and must be rerun before hosted release aggregation can qualify this fingerprint.

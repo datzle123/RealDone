@@ -73,6 +73,26 @@ try {
     verifyReplays: true,
     maxReplays: 2,
   });
+  const budgetCoverage = await runScan({
+    ...scan,
+    outputRoot: await mkdtemp(path.join(tmpdir(), "realdone-coverage-budget-")),
+    maxPages: 3,
+    maxActions: 3,
+    maxDurationMs: 60_000,
+    deep: false,
+    trace: false,
+    video: false,
+  });
+  const selection = budgetCoverage.report.completeness?.selection;
+  assert.equal(selection?.strategy, "coverage-balanced-v1");
+  assert.equal(selection?.selectedActions, 3);
+  assert.equal(selection?.selectedPages, 3);
+  assert.equal(new Set(budgetCoverage.report.findings.map((finding) => finding.action.pageUrl)).size, 3);
+  assert.ok((selection?.omittedActions ?? 0) > 0);
+  assert.equal(budgetCoverage.report.completeness?.truncated, true);
+  const coverageHtml = await readFile(path.join(budgetCoverage.reportDirectory, "report.html"), "utf8");
+  assert.match(coverageHtml, /Action coverage/);
+  assert.match(coverageHtml, /3 of \d+ eligible actions selected/);
   assert.ok(result.report.summary.pagesDiscovered >= 11);
   assert.ok(result.report.findings.some((finding) => finding.detectorMatches.some((item) => item.code === "RD201")));
   assert.ok(result.report.findings.some((finding) => finding.detectorMatches.some((item) => item.code === "RD302")));

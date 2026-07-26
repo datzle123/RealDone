@@ -20,6 +20,8 @@ Quick scan uses 8 pages, 24 actions, and a two-minute budget. Full safe audit ra
 realdone scan --full
 ```
 
+The 24-action quick budget is not “the first 24 controls.” RealDone deterministically balances the selection across discovered routes, action kinds, intents, and activation paths such as Enter-submit. Runnable actions are selected before actions already known to be denied by policy or environment checks; destructive and session-ending controls still remain last. The JSON and HTML reports show eligible, selected, omitted, and represented-route counts so partial coverage is explicit.
+
 Explicit `--max-pages`, `--max-actions`, `--max-duration`, or policy budgets override the corresponding preset. If any budget is exhausted, the report is marked `truncated`; RealDone never presents a partial scan as complete.
 
 ## Project discovery, managed runtime, and environment validity
