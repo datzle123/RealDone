@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-07-23T15:17:09.809Z",
-  "engineFingerprint": "68d4a8cb4b087d702df15d609d0ee0f7c92efaf731fdccd0d726b462a9878abe",
+  "generatedAt": "2026-07-26T08:45:00.000Z",
+  "engineFingerprint": "f3f65840e53777056fed4fc770853a522da85c46626f5bc910853515c266cc1a",
   "case": {
     "name": "Pocket Ledger (Codex-generated)",
     "repository": "local/Pocket-Ledger",
@@ -18,9 +18,9 @@
     ]
   },
   "scan": {
-    "scanId": "20260723T145431Z-7f50",
+    "scanId": "20260726T081239Z-a6ab",
     "sourceArtifact": "release/evidence/raw/ai-agent-cycle.scan.json",
-    "sourceSha256": "47047b33dc09a564f317381fa60158973274ff3a517c2cb0d7cc9e722d63f329",
+    "sourceSha256": "29c9f89f23b04ea4bcb4bec206f86cc47fe7e37a67f7a89d53ca2f98d2225622",
     "environmentStatus": "VALID",
     "truncated": false,
     "pagesDiscovered": 1,
@@ -43,37 +43,37 @@
       "id": "codex-session",
       "kind": "agent-session",
       "sourceArtifact": "release/evidence/raw/ai-agent-cycle/codex-session.json",
-      "sourceSha256": "b342e6a10706d66a5c8ec332fdbf9c2679d83bfa692ac2f882c86ee566456602"
+      "sourceSha256": "393018db4f963563175ed8e28b978c3fec2d6d9b57186fe3f31c4fcf7fba3f5c"
     },
     {
       "id": "agent-baseline",
       "kind": "agent-baseline",
       "sourceArtifact": "release/evidence/raw/ai-agent-cycle/baseline.json",
-      "sourceSha256": "c143aebfbff7f50bea80bfbd077c28e59310176210948865849d192803f1775d"
+      "sourceSha256": "85c2891a2604819c88578a57e13ed0801f7fe374bd9534c2060878caaf311ac0"
     },
     {
       "id": "agent-regression",
       "kind": "agent-regression",
       "sourceArtifact": "release/evidence/raw/ai-agent-cycle/regression.json",
-      "sourceSha256": "a38b2701c69e394408186488adc025555e6cd1c59e897b05796828e28725fb38"
+      "sourceSha256": "a5f872646d86a2949edd4380f72fa42b14db3e5d3af294a65d52064a3972a414"
     },
     {
       "id": "failed-verification",
       "kind": "contract-verification",
       "sourceArtifact": "release/evidence/raw/ai-agent-cycle/failed-verification.json",
-      "sourceSha256": "f38328f2cf7fd66f8246e84c230dac23b2e0b1d6503266650f3e7adfd3feca53"
+      "sourceSha256": "edfc3c24910e4b073ae347d5c54a4c0b612559f27aeb085cb7cf95dfaadf15f3"
     },
     {
       "id": "agent-repair",
       "kind": "agent-repair",
       "sourceArtifact": "release/evidence/raw/ai-agent-cycle/repair.json",
-      "sourceSha256": "e5cf1f9255b6aff0ba6a8d60957f3912a0e7b68f5c0782e1989a499457ef64f6"
+      "sourceSha256": "71ac24e404f63e49f962536aaaf6a8985f9eb308c1ccd5358b9d6ef971753875"
     },
     {
       "id": "role-verification",
       "kind": "contract-verification",
       "sourceArtifact": "release/evidence/raw/ai-agent-cycle/role-verification.json",
-      "sourceSha256": "e619672f4d050a77c944ba6346a4761cdddbe3f081354373b8114f4bb4ce9855"
+      "sourceSha256": "f9106b1169e9b4ae7ad9da701ab09a1631232853052291d8d8b6fbc3d7c43ede"
     }
   ],
   "qualification": {

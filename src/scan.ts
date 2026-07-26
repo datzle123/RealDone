@@ -8,11 +8,14 @@ import { launchChromium } from "./browser/runtime.js";
 import { actionSkipReason, isMutationHostAllowed, validateTarget } from "./core/safety.js";
 import { applyActionPolicy } from "./core/policy.js";
 import { summarize } from "./core/summary.js";
+import { selectActionsForExecution } from "./core/selection.js";
 import { findingFromEvidence } from "./detectors/index.js";
 import { inspectEnvironment } from "./environment/health.js";
 import { writeReport } from "./report/writer.js";
 import { redactEnvironmentText } from "./core/redact.js";
 import type { ActionSpec, EnvironmentHealth, ExecutionEvidence, Finding, ScanOptions, ScanReport, SourceSnapshotError } from "./types.js";
+
+export { actionExecutionPriority } from "./core/selection.js";
 
 export interface ScanProgress {
   stage: "runtime" | "environment" | "discovery" | "action" | "report";
@@ -62,12 +65,6 @@ function skippedFinding(id: string, action: ActionSpec, reason: string): Finding
     detectorMatches: discoveryDetector,
     evidence: emptyEvidence(),
   };
-}
-
-export function actionExecutionPriority(action: ActionSpec): number {
-  if (/\b(log[ -]?out|sign[ -]?out|end session|revoke session)\b/i.test(action.label)) return 2;
-  if (action.intent === "delete" || action.risk === "destructive") return 1;
-  return 0;
 }
 
 function mergeEnvironmentHealth(
@@ -269,11 +266,18 @@ export async function runScan(
     }
     const allActions = pages.flatMap((page) => page.actions);
     const eligibleActions = allActions.filter((action) => !options.onlyActionId || action.id === options.onlyActionId);
-    const selected = eligibleActions
-      .map((action, index) => ({ action, index }))
-      .sort((left, right) => actionExecutionPriority(left.action) - actionExecutionPriority(right.action) || left.index - right.index)
-      .map(({ action }) => action)
-      .slice(0, options.maxActions);
+    const knownSkipReasons = new Map<string, string>(policyDenials);
+    for (const action of eligibleActions) {
+      const reason = knownSkipReasons.get(action.id) ?? actionSkipReason(action, {
+        target,
+        allowHosts: options.allowHosts,
+        allowDestructive: options.allowDestructive,
+        allowExternal: options.allowExternal,
+      });
+      if (reason) knownSkipReasons.set(action.id, reason);
+    }
+    const selection = selectActionsForExecution(eligibleActions, options.maxActions, new Set(knownSkipReasons.keys()));
+    const selected = selection.selected;
     const actionTruncated = eligibleActions.length > options.maxActions;
     const sourcePlans = await prepareSourceSnapshotPlans(options.sourceAdapters ?? []);
     const findings: Finding[] = [];
@@ -286,12 +290,7 @@ export async function runScan(
         total: selected.length,
       });
       const budgetReason = Date.now() >= deadline ? "Global scan time budget was exhausted." : undefined;
-      const reason = budgetReason ?? policyDenials.get(action.id) ?? actionSkipReason(action, {
-        target,
-        allowHosts: options.allowHosts,
-        allowDestructive: options.allowDestructive,
-        allowExternal: options.allowExternal,
-      });
+      const reason = budgetReason ?? knownSkipReasons.get(action.id);
       if (reason) {
         findings.push(skippedFinding(findingId, action, reason));
         continue;
@@ -397,6 +396,7 @@ export async function runScan(
           ...(actionTruncated ? ["max-actions" as const] : []),
           ...(Date.now() >= deadline && !discovery.reasons.includes("max-duration") ? ["max-duration" as const] : []),
         ],
+        selection: selection.telemetry,
       },
     };
     report.summary.environmentStatus = environment.status;

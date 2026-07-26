@@ -434,6 +434,21 @@ export interface ScanSummary {
   environmentStatus?: EnvironmentStatus;
 }
 
+export interface ActionSelectionTelemetry {
+  strategy: "coverage-balanced-v1";
+  eligibleActions: number;
+  selectedActions: number;
+  omittedActions: number;
+  eligiblePages: number;
+  selectedPages: number;
+  eligibleKinds: ActionKind[];
+  selectedKinds: ActionKind[];
+  eligibleIntents: ActionIntent[];
+  selectedIntents: ActionIntent[];
+  deniedEligibleActions: number;
+  deniedSelectedActions: number;
+}
+
 export interface ScanReport {
   schemaVersion: "1.0";
   scanId: string;
@@ -448,6 +463,7 @@ export interface ScanReport {
   completeness?: {
     truncated: boolean;
     reasons: Array<"max-pages" | "max-actions" | "max-duration">;
+    selection?: ActionSelectionTelemetry;
   };
 }
 

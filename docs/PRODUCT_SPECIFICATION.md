@@ -1392,12 +1392,15 @@ Full audit mới bật:
 RealDone phải hỗ trợ:
 
 * scan budget;
+* coverage-balanced action selection: khi budget không đủ cho mọi action, không được chỉ lấy các phần tử đầu tiên theo DOM/discovery order; phải ưu tiên action chạy được và tối đa hóa độ phủ route, kind, intent và activation path một cách deterministic;
 * incremental scan;
 * affected-flow selection;
 * snapshot deduplication;
 * trace only on failure;
 * parallel worker giới hạn;
 * timeout rõ ràng.
+
+Report phải ghi rõ số action đủ điều kiện, đã chọn, bị bỏ do budget, số route được đại diện và strategy version. Action đã biết chắc sẽ bị policy/environment chặn không được chiếm chỗ trước action có thể chạy trong cùng safety tier.
 
 ---
 

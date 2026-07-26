@@ -7,6 +7,7 @@ This is the executable matrix for the shipped product, not a product-status ledg
 | Capability | Runtime evidence | Automated gate |
 | --- | --- | --- |
 | Safe browser scan | Discovers routes/actions, fills fields, executes permitted actions | fixture browser smoke |
+| Budget-balanced action coverage | A finite quick-scan budget represents multiple routes, kinds, intents and activation paths; runnable actions precede known denials and reports expose exact omissions | deterministic selector broken/control tests plus a three-route, three-action real-browser budget smoke |
 | Project discovery and managed runtime | Detects package/runtime hints, starts, health-checks, restarts, logs and stops a target process | project/runtime unit tests plus managed-app CLI smoke |
 | Environment validity | HTML, critical assets/content types, bootstrap/render, health endpoint and auth state produce separate `VALID`/`ENVIRONMENT_INVALID`/`BLOCKED` evidence | broken/static-root, delayed-bootstrap and healthy browser controls plus TodoMVC defect copy |
 | External-app behavior | Enter-submit, history-dependent targets, live control state, hash routes and auth contracts run without project-specific selectors; published counters must match committed raw scan artifacts | fixtures plus pinned TodoMVC, Actual Budget and Conduit workflows with SHA-256/source validation |

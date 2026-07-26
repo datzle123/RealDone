@@ -20,3 +20,7 @@ Chromium accepts a custom executable through `--browser-path`. Firefox and WebKi
 The requested Playwright browser is downloaded automatically on first use when it is missing. Set `REALDONE_SKIP_BROWSER_INSTALL=1` to disable bootstrap and install browsers manually.
 
 Codex and Claude Code integrations are command presets, not embedded SDKs. RealDone verifies the current documented non-interactive argument contracts; installed agent authentication and provider availability remain the user's responsibility.
+
+## Unreleased report compatibility
+
+Coverage-balanced action selection adds an optional `completeness.selection` object to `scan.json`. Existing `schemaVersion: "1.0"` fields and meanings are unchanged, old reports remain readable, and validators use passthrough/additive compatibility. Consumers may ignore the new telemetry or use it to distinguish discovered, selected, omitted, and route-represented action coverage.

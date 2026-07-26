@@ -1,43 +1,22 @@
 {
   "schemaVersion": "1.0",
-  "scanId": "conduit-postgresql-requalification-cleanup",
-  "targetUrl": "http://127.0.0.1:3000",
+  "generatedAt": "2026-07-26T08:37:02.892Z",
+  "adapter": "postgresql",
+  "database": "conduit",
   "resources": [
     {
-      "id": "cleanup-conduit-user-8",
-      "type": "users",
-      "strategy": "postgresql",
-      "database": {
-        "adapter": "postgresql",
-        "resource": "users",
-        "filters": [
-          {
-            "field": "id",
-            "value": 8
-          }
-        ]
-      },
+      "resource": "signup-scan-user",
       "status": "cleaned",
-      "attempts": 1,
-      "lastAttemptAt": "2026-07-23T15:13:29.219Z"
+      "cleanupKey": "server-generated-primary-key"
     },
     {
-      "id": "cleanup-conduit-user-9",
-      "type": "users",
-      "strategy": "postgresql",
-      "database": {
-        "adapter": "postgresql",
-        "resource": "users",
-        "filters": [
-          {
-            "field": "id",
-            "value": 9
-          }
-        ]
-      },
+      "resource": "crud-qualification-user",
       "status": "cleaned",
-      "attempts": 1,
-      "lastAttemptAt": "2026-07-23T15:13:29.219Z"
+      "cleanupKey": "server-generated-primary-key"
     }
-  ]
+  ],
+  "deletedRows": 2,
+  "remainingQualificationUsers": 0,
+  "transaction": "read-write",
+  "scope": "disposable-local-qualification-database"
 }
