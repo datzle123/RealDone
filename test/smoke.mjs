@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { access, mkdir, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
+import { createServer } from "node:http";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { spawn } from "node:child_process";
@@ -21,6 +22,15 @@ import { runReplay } from "../dist/replay.js";
 import { scanArtifactSecrets } from "../dist/release/artifacts.js";
 import { checkArtifactSchemaCompatibility } from "../dist/release/schema.js";
 import { BuiltinProviderHost } from "../dist/providers/builtin.js";
+
+async function availablePort() {
+  const server = createServer();
+  await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
+  const address = server.address();
+  if (!address || typeof address === "string") throw new Error("Could not reserve a local port.");
+  await new Promise((resolve, reject) => server.close((error) => error ? reject(error) : resolve()));
+  return address.port;
+}
 
 async function startFixture() {
   const child = spawn(process.execPath, [path.resolve("benchmarks/fixture-app/server.mjs")], {
@@ -399,14 +409,16 @@ try {
   assert.equal(managedReport.findings[0]?.evidence.afterAppRestart?.canaryPresent, true);
   assert.equal(managedReport.findings[0]?.evidence.apiReadBack?.canaryPresent, true);
   const managedProject = path.join(outputRoot, "mcp-managed-app");
+  const managedPort = await availablePort();
   await mkdir(managedProject, { recursive: true });
   await writeFile(path.join(managedProject, "package.json"), JSON.stringify({
     name: "realdone-mcp-managed-smoke",
     private: true,
     packageManager: "npm@10.9.0",
-    scripts: { start: "node server.mjs --port 41238" },
+    scripts: { start: `node delayed-start.mjs --port ${managedPort}` },
   }, null, 2));
   await writeFile(path.join(managedProject, "server.mjs"), await readFile(path.resolve("benchmarks/managed-app/server.mjs")));
+  await writeFile(path.join(managedProject, "delayed-start.mjs"), "setTimeout(() => import('./server.mjs'), 11_000);\n");
   const mcpClient = new Client({ name: "realdone-smoke", version: "1.0.0" });
   const mcpTransport = new StdioClientTransport({
     command: process.execPath,
@@ -416,6 +428,15 @@ try {
   });
   await mcpClient.connect(mcpTransport);
   try {
+    const timedOutMcpScan = await mcpClient.callTool({
+      name: "scan",
+      arguments: { maxPages: 1, maxActions: 1, maxDurationMs: 60_000, runtimeStartupTimeoutMs: 1_000 },
+    });
+    assert.equal(timedOutMcpScan.isError, true);
+    assert.match(JSON.stringify(timedOutMcpScan.content), /within 1000ms/);
+    assert.match(JSON.stringify(timedOutMcpScan.content), /Runtime process: state=starting; pid=\d+; restarts=0\/1/);
+    await assert.rejects(() => fetch(`http://127.0.0.1:${managedPort}/health`), /fetch failed/);
+
     const mcpScan = await mcpClient.callTool({
       name: "scan",
       arguments: { maxPages: 1, maxActions: 2, maxDurationMs: 60_000, traceOnFailure: true },
@@ -426,7 +447,7 @@ try {
   } finally {
     await mcpClient.close();
   }
-  await assert.rejects(() => fetch("http://127.0.0.1:41238/health"), /fetch failed/);
+  await assert.rejects(() => fetch(`http://127.0.0.1:${managedPort}/health`), /fetch failed/);
   const cliScan = await runCommand({
     executable: process.execPath,
     args: [

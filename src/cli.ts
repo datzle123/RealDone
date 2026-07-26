@@ -168,6 +168,7 @@ program
   .option("--manage-runtime", "start and stop the target project around the scan", false)
   .option("--runtime-mode <mode>", "managed runtime mode: development, production, or docker", runtimeMode, "development")
   .option("--runtime-restarts <number>", "restart target crashes up to this count", nonNegativeInteger, 1)
+  .option("--runtime-startup-timeout <milliseconds>", "managed runtime health-check timeout", positiveInteger, 30_000)
   .option("--health-endpoint <path>", "application health endpoint")
   .option("--environment-timeout <milliseconds>", "environment bootstrap and render timeout", positiveInteger, 10_000)
   .option("--accept-environment-risk", "continue after recording an invalid environment", false)
@@ -233,6 +234,7 @@ program
         manageRuntime: Boolean(values.manageRuntime),
         runtimeMode: values.runtimeMode as RuntimeMode,
         runtimeRestarts: Number(values.runtimeRestarts),
+        runtimeStartupTimeoutMs: Number(values.runtimeStartupTimeout),
         ...(values.healthEndpoint ? { healthEndpoint: String(values.healthEndpoint) } : {}),
         scanOptions: options,
       }, progressLine);

@@ -68,6 +68,59 @@ test("managed runtime performs only the configured number of crash restarts", { 
   }
 });
 
+test("managed runtime startup timeout is bounded while a delayed healthy control still passes", { timeout: 10_000 }, async () => {
+  const root = await mkdtemp(path.join(tmpdir(), "realdone-runtime-startup-timeout-"));
+  const script = `const http=require('node:http');const port=Number(process.argv[1]);const delay=Number(process.argv[2]);setTimeout(()=>http.createServer((req,res)=>{res.writeHead(200);res.end('ready')}).listen(port,'127.0.0.1'),delay)`;
+  const brokenPort = await availablePort();
+  const broken = new RuntimeManager({
+    cwd: root,
+    command: { executable: process.execPath, args: ["-e", script, String(brokenPort), "500"], source: "delayed startup broken case" },
+    healthUrl: `http://127.0.0.1:${brokenPort}/health`,
+    healthTimeoutMs: 100,
+    restartLimit: 0,
+  });
+  try {
+    await assert.rejects(
+      () => broken.start(),
+      (error: Error) => {
+        assert.match(error.message, /within 100ms/);
+        assert.match(error.message, /Runtime process: state=starting; pid=\d+; restarts=0\/0/);
+        assert.match(error.message, /Spawned .* as PID \d+/);
+        return true;
+      },
+    );
+  } finally {
+    await broken.stop();
+  }
+
+  const controlPort = await availablePort();
+  const control = new RuntimeManager({
+    cwd: root,
+    command: { executable: process.execPath, args: ["-e", script, String(controlPort), "100"], source: "delayed startup control" },
+    healthUrl: `http://127.0.0.1:${controlPort}/health`,
+    healthTimeoutMs: 3_000,
+    restartLimit: 0,
+  });
+  try {
+    const started = await control.start();
+    assert.equal(started.state, "healthy");
+    assert.equal(await fetch(`http://127.0.0.1:${controlPort}/health`).then((response) => response.text()), "ready");
+  } finally {
+    await control.stop();
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
+test("managed runtime rejects invalid startup timeout configuration", () => {
+  assert.throws(() => new RuntimeManager({
+    cwd: ".",
+    command: { executable: process.execPath, args: ["-e", ""], source: "invalid timeout" },
+    healthUrl: "http://127.0.0.1:1/health",
+    healthTimeoutMs: 0,
+    restartLimit: 0,
+  }), /healthTimeoutMs must be a positive integer/);
+});
+
 test("managed runtime health failures include bounded redacted startup diagnostics", { timeout: 10_000 }, async () => {
   const root = await mkdtemp(path.join(tmpdir(), "realdone-runtime-diagnostic-"));
   const port = await availablePort();

@@ -162,6 +162,7 @@ export function createRealDoneMcpServer(options: RealDoneMcpServerOptions = {}):
       maxPages: z.number().int().min(1).max(100).optional(),
       maxActions: z.number().int().min(1).max(1_000).optional(),
       maxDurationMs: z.number().int().min(10_000).max(1_800_000).optional(),
+      runtimeStartupTimeoutMs: z.number().int().min(1_000).max(300_000).optional().describe("Maximum wait for a managed project runtime to pass its health check."),
       sqlite: relativePathSchema.optional().describe("Project-relative SQLite file for value-free source snapshots."),
       databaseConfigs: z.array(relativePathSchema).max(20).optional().describe("Project-relative built-in source adapter configs."),
       providerConfigs: z.array(relativePathSchema).max(20).optional().describe("Project-relative automatic read-only provider adapter configs."),
@@ -185,6 +186,7 @@ export function createRealDoneMcpServer(options: RealDoneMcpServerOptions = {}):
           manageRuntime: !input.url,
           runtimeMode: "development",
           runtimeRestarts: 1,
+          runtimeStartupTimeoutMs: input.runtimeStartupTimeoutMs ?? 30_000,
           scanOptions: {
             outputRoot: projectPath(projectRoot, ".realdone/reports"),
             headed: false,
