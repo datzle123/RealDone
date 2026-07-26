@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-07-23T15:17:09.809Z",
-  "engineFingerprint": "68d4a8cb4b087d702df15d609d0ee0f7c92efaf731fdccd0d726b462a9878abe",
+  "generatedAt": "2026-07-26T08:45:00.000Z",
+  "engineFingerprint": "f3f65840e53777056fed4fc770853a522da85c46626f5bc910853515c266cc1a",
   "case": {
     "name": "TodoMVC React",
     "repository": "tastejs/todomvc",
@@ -12,24 +12,24 @@
     "capabilities": []
   },
   "scan": {
-    "scanId": "20260723T145310Z-e581",
+    "scanId": "20260726T081307Z-637b",
     "sourceArtifact": "release/evidence/raw/todomvc.scan.json",
-    "sourceSha256": "c03204920122c13b24fb005a728ffef14da4c06413b4d3ba2b9d05b84806c309",
+    "sourceSha256": "4b8468bb5683560e77e50560a5d5740d413fb3aee01999ac869a462f0bc04d7c",
     "environmentStatus": "VALID",
     "truncated": false,
-    "pagesDiscovered": 1,
-    "visibleActions": 2,
-    "actionsVerified": 1,
-    "actionsSkipped": 1,
+    "pagesDiscovered": 2,
+    "visibleActions": 15,
+    "actionsVerified": 3,
+    "actionsSkipped": 12,
     "verdicts": {
-      "VERIFIED": 0,
+      "VERIFIED": 1,
       "CONTRADICTORY": 0,
       "EPHEMERAL": 1,
-      "BROWSER_LOCAL": 0,
+      "BROWSER_LOCAL": 1,
       "BROKEN": 0,
       "NO_EFFECT": 0,
       "UNCERTAIN": 0,
-      "SKIPPED": 1
+      "SKIPPED": 12
     }
   },
   "assertions": [
@@ -48,14 +48,20 @@
     {
       "id": "enter-action-discovered",
       "passed": true,
-      "expected": "standalone Enter mutation executed",
-      "observed": "New Todo Input executed"
+      "expected": "standalone Enter mutations executed without project-specific selectors",
+      "observed": "New Todo Input and What needs to be done? both executed"
     },
     {
       "id": "known-memory-only-behavior",
       "passed": true,
       "expected": "EPHEMERAL with RD101/RD104/RD201",
-      "observed": "EPHEMERAL with RD101/RD104/RD201"
+      "observed": "React input EPHEMERAL with RD101/RD104/RD201"
+    },
+    {
+      "id": "browser-local-behavior",
+      "passed": true,
+      "expected": "TypeScript React todo survives reload but not clean context",
+      "observed": "BROWSER_LOCAL with RD102/RD103"
     },
     {
       "id": "no-engine-regression",

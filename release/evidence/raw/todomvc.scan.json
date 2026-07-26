@@ -1,9 +1,9 @@
 {
   "schemaVersion": "1.0",
-  "scanId": "20260723T145310Z-e581",
-  "targetUrl": "http://127.0.0.1:37127/",
-  "startedAt": "2026-07-23T14:53:10.516Z",
-  "finishedAt": "2026-07-23T14:53:18.140Z",
+  "scanId": "20260726T081307Z-637b",
+  "targetUrl": "http://127.0.0.1:37281/examples/react/dist/",
+  "startedAt": "2026-07-26T08:13:07.707Z",
+  "finishedAt": "2026-07-26T08:13:24.832Z",
   "options": {
     "maxPages": 2,
     "maxActions": 20,
@@ -15,38 +15,548 @@
     "allowExternal": false,
     "mutationAllowed": true,
     "deep": true,
-    "trace": false,
-    "traceOnFailure": true,
+    "trace": true,
+    "traceOnFailure": false,
     "video": false,
     "environmentTimeoutMs": 10000,
     "acceptEnvironmentRisk": false,
     "allowIframes": false
   },
   "summary": {
-    "pagesDiscovered": 1,
-    "visibleActions": 2,
-    "actionsVerified": 1,
-    "actionsSkipped": 1,
+    "pagesDiscovered": 2,
+    "visibleActions": 15,
+    "actionsVerified": 3,
+    "actionsSkipped": 12,
     "verdicts": {
-      "VERIFIED": 0,
+      "VERIFIED": 1,
       "CONTRADICTORY": 0,
       "EPHEMERAL": 1,
-      "BROWSER_LOCAL": 0,
+      "BROWSER_LOCAL": 1,
       "BROKEN": 0,
       "NO_EFFECT": 0,
       "UNCERTAIN": 0,
-      "SKIPPED": 1
+      "SKIPPED": 12
     },
     "environmentStatus": "VALID"
   },
   "pages": [
     {
-      "url": "http://127.0.0.1:37127/",
+      "url": "http://127.0.0.1:37281/examples/react/dist/",
       "title": "TodoMVC: React",
       "actions": [
         {
-          "id": "92f9d29fabad",
-          "pageUrl": "http://127.0.0.1:37127/",
+          "id": "a648a1fe4475",
+          "pageUrl": "http://127.0.0.1:37281/examples/react/dist/",
+          "label": "Source",
+          "activation": "click",
+          "kind": "navigation",
+          "intent": "navigate",
+          "risk": "safe",
+          "fingerprint": {
+            "selector": "body > aside > header > span > a:nth-of-type(1)",
+            "tag": "a",
+            "ordinal": 0,
+            "role": "link",
+            "accessibleName": "Source",
+            "text": "Source",
+            "href": "https://github.com/tastejs/todomvc/tree/gh-pages/examples/react",
+            "candidates": [
+              {
+                "strategy": "role",
+                "weight": 92,
+                "role": "link",
+                "name": "Source",
+                "exact": true
+              },
+              {
+                "strategy": "role",
+                "weight": 82,
+                "role": "link",
+                "name": "Source",
+                "exact": false
+              },
+              {
+                "strategy": "href",
+                "weight": 72,
+                "value": "https://github.com/tastejs/todomvc/tree/gh-pages/examples/react"
+              },
+              {
+                "strategy": "text",
+                "weight": 60,
+                "value": "Source",
+                "exact": true
+              },
+              {
+                "strategy": "css",
+                "weight": 35,
+                "selector": "body > aside > header > span > a:nth-of-type(1)"
+              }
+            ]
+          },
+          "fields": []
+        },
+        {
+          "id": "371506dd6bc1",
+          "pageUrl": "http://127.0.0.1:37281/examples/react/dist/",
+          "label": "Demo",
+          "activation": "click",
+          "kind": "navigation",
+          "intent": "navigate",
+          "risk": "safe",
+          "fingerprint": {
+            "selector": "body > aside > header > span > a:nth-of-type(2)",
+            "tag": "a",
+            "ordinal": 1,
+            "role": "link",
+            "accessibleName": "Demo",
+            "text": "Demo",
+            "href": "http://127.0.0.1:37281/examples/typescript-react",
+            "candidates": [
+              {
+                "strategy": "role",
+                "weight": 92,
+                "role": "link",
+                "name": "Demo",
+                "exact": true
+              },
+              {
+                "strategy": "role",
+                "weight": 82,
+                "role": "link",
+                "name": "Demo",
+                "exact": false
+              },
+              {
+                "strategy": "href",
+                "weight": 72,
+                "value": "http://127.0.0.1:37281/examples/typescript-react"
+              },
+              {
+                "strategy": "text",
+                "weight": 60,
+                "value": "Demo",
+                "exact": true
+              },
+              {
+                "strategy": "css",
+                "weight": 35,
+                "selector": "body > aside > header > span > a:nth-of-type(2)"
+              }
+            ]
+          },
+          "fields": []
+        },
+        {
+          "id": "0c21eea9d35a",
+          "pageUrl": "http://127.0.0.1:37281/examples/react/dist/",
+          "label": "Source",
+          "activation": "click",
+          "kind": "navigation",
+          "intent": "navigate",
+          "risk": "safe",
+          "fingerprint": {
+            "selector": "body > aside > header > span > a:nth-of-type(3)",
+            "tag": "a",
+            "ordinal": 2,
+            "role": "link",
+            "accessibleName": "Source",
+            "text": "Source",
+            "href": "https://github.com/tastejs/todomvc/tree/gh-pages/examples/typescript-react",
+            "candidates": [
+              {
+                "strategy": "role",
+                "weight": 92,
+                "role": "link",
+                "name": "Source",
+                "exact": true
+              },
+              {
+                "strategy": "role",
+                "weight": 82,
+                "role": "link",
+                "name": "Source",
+                "exact": false
+              },
+              {
+                "strategy": "href",
+                "weight": 72,
+                "value": "https://github.com/tastejs/todomvc/tree/gh-pages/examples/typescript-react"
+              },
+              {
+                "strategy": "text",
+                "weight": 60,
+                "value": "Source",
+                "exact": true
+              },
+              {
+                "strategy": "css",
+                "weight": 35,
+                "selector": "body > aside > header > span > a:nth-of-type(3)"
+              }
+            ]
+          },
+          "fields": []
+        },
+        {
+          "id": "138fd677a27c",
+          "pageUrl": "http://127.0.0.1:37281/examples/react/dist/",
+          "label": "React",
+          "activation": "click",
+          "kind": "navigation",
+          "intent": "navigate",
+          "risk": "safe",
+          "fingerprint": {
+            "selector": "body > aside > blockquote > footer > a",
+            "tag": "a",
+            "ordinal": 3,
+            "role": "link",
+            "accessibleName": "React",
+            "text": "React",
+            "href": "http://facebook.github.io/react",
+            "candidates": [
+              {
+                "strategy": "role",
+                "weight": 92,
+                "role": "link",
+                "name": "React",
+                "exact": true
+              },
+              {
+                "strategy": "role",
+                "weight": 82,
+                "role": "link",
+                "name": "React",
+                "exact": false
+              },
+              {
+                "strategy": "href",
+                "weight": 72,
+                "value": "http://facebook.github.io/react"
+              },
+              {
+                "strategy": "text",
+                "weight": 60,
+                "value": "React",
+                "exact": true
+              },
+              {
+                "strategy": "css",
+                "weight": 35,
+                "selector": "body > aside > blockquote > footer > a"
+              }
+            ]
+          },
+          "fields": []
+        },
+        {
+          "id": "2b3591622da9",
+          "pageUrl": "http://127.0.0.1:37281/examples/react/dist/",
+          "label": "Quick Start",
+          "activation": "click",
+          "kind": "navigation",
+          "intent": "navigate",
+          "risk": "safe",
+          "fingerprint": {
+            "selector": "body > aside > ul:nth-of-type(1) > li:nth-of-type(1) > a",
+            "tag": "a",
+            "ordinal": 4,
+            "role": "link",
+            "accessibleName": "Quick Start",
+            "text": "Quick Start",
+            "href": "https://react.dev/learn",
+            "candidates": [
+              {
+                "strategy": "role",
+                "weight": 92,
+                "role": "link",
+                "name": "Quick Start",
+                "exact": true
+              },
+              {
+                "strategy": "role",
+                "weight": 82,
+                "role": "link",
+                "name": "Quick Start",
+                "exact": false
+              },
+              {
+                "strategy": "href",
+                "weight": 72,
+                "value": "https://react.dev/learn"
+              },
+              {
+                "strategy": "text",
+                "weight": 60,
+                "value": "Quick Start",
+                "exact": true
+              },
+              {
+                "strategy": "css",
+                "weight": 35,
+                "selector": "body > aside > ul:nth-of-type(1) > li:nth-of-type(1) > a"
+              }
+            ]
+          },
+          "fields": []
+        },
+        {
+          "id": "fb1a8a81551a",
+          "pageUrl": "http://127.0.0.1:37281/examples/react/dist/",
+          "label": "API Reference",
+          "activation": "click",
+          "kind": "navigation",
+          "intent": "navigate",
+          "risk": "safe",
+          "fingerprint": {
+            "selector": "body > aside > ul:nth-of-type(1) > li:nth-of-type(2) > a",
+            "tag": "a",
+            "ordinal": 5,
+            "role": "link",
+            "accessibleName": "API Reference",
+            "text": "API Reference",
+            "href": "https://react.dev/reference/react",
+            "candidates": [
+              {
+                "strategy": "role",
+                "weight": 92,
+                "role": "link",
+                "name": "API Reference",
+                "exact": true
+              },
+              {
+                "strategy": "role",
+                "weight": 82,
+                "role": "link",
+                "name": "API Reference",
+                "exact": false
+              },
+              {
+                "strategy": "href",
+                "weight": 72,
+                "value": "https://react.dev/reference/react"
+              },
+              {
+                "strategy": "text",
+                "weight": 60,
+                "value": "API Reference",
+                "exact": true
+              },
+              {
+                "strategy": "css",
+                "weight": 35,
+                "selector": "body > aside > ul:nth-of-type(1) > li:nth-of-type(2) > a"
+              }
+            ]
+          },
+          "fields": []
+        },
+        {
+          "id": "537ea2ada93c",
+          "pageUrl": "http://127.0.0.1:37281/examples/react/dist/",
+          "label": "Philosophy",
+          "activation": "click",
+          "kind": "navigation",
+          "intent": "navigate",
+          "risk": "safe",
+          "fingerprint": {
+            "selector": "body > aside > ul:nth-of-type(1) > li:nth-of-type(3) > a",
+            "tag": "a",
+            "ordinal": 6,
+            "role": "link",
+            "accessibleName": "Philosophy",
+            "text": "Philosophy",
+            "href": "https://petehuntsposts.quora.com/React-Under-the-Hood",
+            "candidates": [
+              {
+                "strategy": "role",
+                "weight": 92,
+                "role": "link",
+                "name": "Philosophy",
+                "exact": true
+              },
+              {
+                "strategy": "role",
+                "weight": 82,
+                "role": "link",
+                "name": "Philosophy",
+                "exact": false
+              },
+              {
+                "strategy": "href",
+                "weight": 72,
+                "value": "https://petehuntsposts.quora.com/React-Under-the-Hood"
+              },
+              {
+                "strategy": "text",
+                "weight": 60,
+                "value": "Philosophy",
+                "exact": true
+              },
+              {
+                "strategy": "css",
+                "weight": 35,
+                "selector": "body > aside > ul:nth-of-type(1) > li:nth-of-type(3) > a"
+              }
+            ]
+          },
+          "fields": []
+        },
+        {
+          "id": "195cf1362372",
+          "pageUrl": "http://127.0.0.1:37281/examples/react/dist/",
+          "label": "React Community",
+          "activation": "click",
+          "kind": "navigation",
+          "intent": "navigate",
+          "risk": "safe",
+          "fingerprint": {
+            "selector": "body > aside > ul:nth-of-type(1) > li:nth-of-type(4) > a",
+            "tag": "a",
+            "ordinal": 7,
+            "role": "link",
+            "accessibleName": "React Community",
+            "text": "React Community",
+            "href": "https://react.dev/community",
+            "candidates": [
+              {
+                "strategy": "role",
+                "weight": 92,
+                "role": "link",
+                "name": "React Community",
+                "exact": true
+              },
+              {
+                "strategy": "role",
+                "weight": 82,
+                "role": "link",
+                "name": "React Community",
+                "exact": false
+              },
+              {
+                "strategy": "href",
+                "weight": 72,
+                "value": "https://react.dev/community"
+              },
+              {
+                "strategy": "text",
+                "weight": 60,
+                "value": "React Community",
+                "exact": true
+              },
+              {
+                "strategy": "css",
+                "weight": 35,
+                "selector": "body > aside > ul:nth-of-type(1) > li:nth-of-type(4) > a"
+              }
+            ]
+          },
+          "fields": []
+        },
+        {
+          "id": "e590eb6c9f2e",
+          "pageUrl": "http://127.0.0.1:37281/examples/react/dist/",
+          "label": "ReactJS on Stack Overflow",
+          "activation": "click",
+          "kind": "navigation",
+          "intent": "navigate",
+          "risk": "safe",
+          "fingerprint": {
+            "selector": "body > aside > ul:nth-of-type(2) > li > a",
+            "tag": "a",
+            "ordinal": 8,
+            "role": "link",
+            "accessibleName": "ReactJS on Stack Overflow",
+            "text": "ReactJS on Stack Overflow",
+            "href": "https://stackoverflow.com/questions/tagged/reactjs",
+            "candidates": [
+              {
+                "strategy": "role",
+                "weight": 92,
+                "role": "link",
+                "name": "ReactJS on Stack Overflow",
+                "exact": true
+              },
+              {
+                "strategy": "role",
+                "weight": 82,
+                "role": "link",
+                "name": "ReactJS on Stack Overflow",
+                "exact": false
+              },
+              {
+                "strategy": "href",
+                "weight": 72,
+                "value": "https://stackoverflow.com/questions/tagged/reactjs"
+              },
+              {
+                "strategy": "text",
+                "weight": 60,
+                "value": "ReactJS on Stack Overflow",
+                "exact": true
+              },
+              {
+                "strategy": "css",
+                "weight": 35,
+                "selector": "body > aside > ul:nth-of-type(2) > li > a"
+              }
+            ]
+          },
+          "fields": []
+        },
+        {
+          "id": "9d8b9b6cd1ac",
+          "pageUrl": "http://127.0.0.1:37281/examples/react/dist/",
+          "label": "let us know",
+          "activation": "click",
+          "kind": "navigation",
+          "intent": "navigate",
+          "risk": "safe",
+          "fingerprint": {
+            "selector": "body > aside > footer > em > a",
+            "tag": "a",
+            "ordinal": 9,
+            "role": "link",
+            "accessibleName": "let us know",
+            "text": "let us know",
+            "href": "https://github.com/tastejs/todomvc/issues",
+            "candidates": [
+              {
+                "strategy": "role",
+                "weight": 92,
+                "role": "link",
+                "name": "let us know",
+                "exact": true
+              },
+              {
+                "strategy": "role",
+                "weight": 82,
+                "role": "link",
+                "name": "let us know",
+                "exact": false
+              },
+              {
+                "strategy": "href",
+                "weight": 72,
+                "value": "https://github.com/tastejs/todomvc/issues"
+              },
+              {
+                "strategy": "text",
+                "weight": 60,
+                "value": "let us know",
+                "exact": true
+              },
+              {
+                "strategy": "css",
+                "weight": 35,
+                "selector": "body > aside > footer > em > a"
+              }
+            ]
+          },
+          "fields": []
+        },
+        {
+          "id": "bc3124709ecf",
+          "pageUrl": "http://127.0.0.1:37281/examples/react/dist/",
           "label": "New Todo Input",
           "activation": "enter",
           "kind": "mutation",
@@ -55,7 +565,7 @@
           "fingerprint": {
             "selector": "[data-testid=\"text-input\"]",
             "tag": "input",
-            "ordinal": 0,
+            "ordinal": 10,
             "role": "textbox",
             "accessibleName": "New Todo Input",
             "testId": "text-input",
@@ -101,8 +611,8 @@
           ]
         },
         {
-          "id": "d4cf8b35943a",
-          "pageUrl": "http://127.0.0.1:37127/",
+          "id": "15c861c63aff",
+          "pageUrl": "http://127.0.0.1:37281/examples/react/dist/",
           "label": "TodoMVC",
           "activation": "click",
           "kind": "navigation",
@@ -111,7 +621,163 @@
           "fingerprint": {
             "selector": "body > footer > p:nth-of-type(3) > a",
             "tag": "a",
+            "ordinal": 11,
+            "role": "link",
+            "accessibleName": "TodoMVC",
+            "text": "TodoMVC",
+            "href": "http://todomvc.com/",
+            "candidates": [
+              {
+                "strategy": "role",
+                "weight": 92,
+                "role": "link",
+                "name": "TodoMVC",
+                "exact": true
+              },
+              {
+                "strategy": "role",
+                "weight": 82,
+                "role": "link",
+                "name": "TodoMVC",
+                "exact": false
+              },
+              {
+                "strategy": "href",
+                "weight": 72,
+                "value": "http://todomvc.com/"
+              },
+              {
+                "strategy": "text",
+                "weight": 60,
+                "value": "TodoMVC",
+                "exact": true
+              },
+              {
+                "strategy": "css",
+                "weight": 35,
+                "selector": "body > footer > p:nth-of-type(3) > a"
+              }
+            ]
+          },
+          "fields": []
+        }
+      ]
+    },
+    {
+      "url": "http://127.0.0.1:37281/examples/typescript-react/#/",
+      "title": "React • TodoMVC",
+      "actions": [
+        {
+          "id": "9f2414f5f8f0",
+          "pageUrl": "http://127.0.0.1:37281/examples/typescript-react/#/",
+          "label": "What needs to be done?",
+          "activation": "enter",
+          "kind": "mutation",
+          "intent": "submit",
+          "risk": "safe",
+          "fingerprint": {
+            "selector": "body > section > div > header > input",
+            "tag": "input",
+            "ordinal": 0,
+            "role": "textbox",
+            "accessibleName": "What needs to be done?",
+            "type": "text",
+            "candidates": [
+              {
+                "strategy": "role",
+                "weight": 92,
+                "role": "textbox",
+                "name": "What needs to be done?",
+                "exact": true
+              },
+              {
+                "strategy": "role",
+                "weight": 82,
+                "role": "textbox",
+                "name": "What needs to be done?",
+                "exact": false
+              },
+              {
+                "strategy": "css",
+                "weight": 35,
+                "selector": "body > section > div > header > input"
+              }
+            ]
+          },
+          "fields": [
+            {
+              "selector": "body > section > div > header > input",
+              "tag": "input",
+              "type": "text",
+              "required": false,
+              "disabled": false,
+              "placeholder": "What needs to be done?"
+            }
+          ]
+        },
+        {
+          "id": "292678b6efda",
+          "pageUrl": "http://127.0.0.1:37281/examples/typescript-react/#/",
+          "label": "Remo H. Jansen",
+          "activation": "click",
+          "kind": "navigation",
+          "intent": "navigate",
+          "risk": "safe",
+          "fingerprint": {
+            "selector": "body > footer > p:nth-of-type(2) > a",
+            "tag": "a",
             "ordinal": 1,
+            "role": "link",
+            "accessibleName": "Remo H. Jansen",
+            "text": "Remo H. Jansen",
+            "href": "http://github.com/remojansen/",
+            "candidates": [
+              {
+                "strategy": "role",
+                "weight": 92,
+                "role": "link",
+                "name": "Remo H. Jansen",
+                "exact": true
+              },
+              {
+                "strategy": "role",
+                "weight": 82,
+                "role": "link",
+                "name": "Remo H. Jansen",
+                "exact": false
+              },
+              {
+                "strategy": "href",
+                "weight": 72,
+                "value": "http://github.com/remojansen/"
+              },
+              {
+                "strategy": "text",
+                "weight": 60,
+                "value": "Remo H. Jansen",
+                "exact": true
+              },
+              {
+                "strategy": "css",
+                "weight": 35,
+                "selector": "body > footer > p:nth-of-type(2) > a"
+              }
+            ]
+          },
+          "fields": []
+        },
+        {
+          "id": "89af6cc813cd",
+          "pageUrl": "http://127.0.0.1:37281/examples/typescript-react/#/",
+          "label": "TodoMVC",
+          "activation": "click",
+          "kind": "navigation",
+          "intent": "navigate",
+          "risk": "safe",
+          "fingerprint": {
+            "selector": "body > footer > p:nth-of-type(3) > a",
+            "tag": "a",
+            "ordinal": 2,
             "role": "link",
             "accessibleName": "TodoMVC",
             "text": "TodoMVC",
@@ -158,8 +824,321 @@
     {
       "id": "RD-001",
       "action": {
-        "id": "92f9d29fabad",
-        "pageUrl": "http://127.0.0.1:37127/",
+        "id": "371506dd6bc1",
+        "pageUrl": "http://127.0.0.1:37281/examples/react/dist/",
+        "label": "Demo",
+        "activation": "click",
+        "kind": "navigation",
+        "intent": "navigate",
+        "risk": "safe",
+        "fingerprint": {
+          "selector": "body > aside > header > span > a:nth-of-type(2)",
+          "tag": "a",
+          "ordinal": 1,
+          "role": "link",
+          "accessibleName": "Demo",
+          "text": "Demo",
+          "href": "http://127.0.0.1:37281/examples/typescript-react",
+          "candidates": [
+            {
+              "strategy": "role",
+              "weight": 92,
+              "role": "link",
+              "name": "Demo",
+              "exact": true
+            },
+            {
+              "strategy": "role",
+              "weight": 82,
+              "role": "link",
+              "name": "Demo",
+              "exact": false
+            },
+            {
+              "strategy": "href",
+              "weight": 72,
+              "value": "http://127.0.0.1:37281/examples/typescript-react"
+            },
+            {
+              "strategy": "text",
+              "weight": 60,
+              "value": "Demo",
+              "exact": true
+            },
+            {
+              "strategy": "css",
+              "weight": 35,
+              "selector": "body > aside > header > span > a:nth-of-type(2)"
+            }
+          ]
+        },
+        "fields": []
+      },
+      "evidence": {
+        "startedAt": "2026-07-26T08:13:11.675Z",
+        "durationMs": 2118,
+        "canary": "RD_TEST_63DDA0",
+        "network": [
+          {
+            "id": "net-1",
+            "method": "GET",
+            "url": "http://127.0.0.1:37281/examples/typescript-react",
+            "resourceType": "document",
+            "startedAt": 1130,
+            "status": 301,
+            "ok": false,
+            "finishedAt": 1134,
+            "location": "http://127.0.0.1:37281/examples/typescript-react/",
+            "resourceTypeHint": "typescript-react"
+          },
+          {
+            "id": "net-2",
+            "method": "GET",
+            "url": "http://127.0.0.1:37281/examples/typescript-react/",
+            "resourceType": "document",
+            "startedAt": 1134,
+            "status": 200,
+            "ok": true,
+            "contentType": "text/html",
+            "resourceTypeHint": "typescript-react",
+            "finishedAt": 1144
+          },
+          {
+            "id": "net-3",
+            "method": "GET",
+            "url": "http://127.0.0.1:37281/examples/typescript-react/node_modules/todomvc-common/base.css",
+            "resourceType": "stylesheet",
+            "startedAt": 1141,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 1152,
+            "contentType": "text/css",
+            "resourceTypeHint": "base.css"
+          },
+          {
+            "id": "net-4",
+            "method": "GET",
+            "url": "http://127.0.0.1:37281/examples/typescript-react/node_modules/todomvc-app-css/index.css",
+            "resourceType": "stylesheet",
+            "startedAt": 1142,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 1153,
+            "contentType": "text/css",
+            "resourceTypeHint": "index.css"
+          },
+          {
+            "id": "net-5",
+            "method": "GET",
+            "url": "http://127.0.0.1:37281/examples/typescript-react/node_modules/director/build/director.js",
+            "resourceType": "script",
+            "startedAt": 1142,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 1157,
+            "contentType": "application/javascript",
+            "resourceTypeHint": "director.js"
+          },
+          {
+            "id": "net-6",
+            "method": "GET",
+            "url": "http://127.0.0.1:37281/examples/typescript-react/js/bundle.js",
+            "resourceType": "script",
+            "startedAt": 1144,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 1168,
+            "contentType": "application/javascript",
+            "resourceTypeHint": "bundle.js"
+          }
+        ],
+        "console": [],
+        "pageErrors": [],
+        "uiClaims": [],
+        "filledFields": [],
+        "dialogs": [],
+        "downloads": [],
+        "downloadEvidence": [],
+        "uploads": [],
+        "popupUrls": [],
+        "locatorResolution": {
+          "attempts": [
+            {
+              "strategy": "role",
+              "weight": 92,
+              "matchCount": 1,
+              "visibleCount": 1,
+              "elapsedMs": 8
+            }
+          ],
+          "chosenStrategy": "role",
+          "chosenWeight": 92,
+          "retryCount": 0
+        },
+        "before": {
+          "at": 1081,
+          "url": "http://127.0.0.1:37281/examples/react/dist/",
+          "title": "TodoMVC: React",
+          "domHash": "84ea4bd670111ab8",
+          "canaryPresent": false,
+          "bodyCanaryPresent": false,
+          "temporaryBlobUrls": 0,
+          "auth": {
+            "artifacts": 0,
+            "expiredArtifacts": 0,
+            "privateContent": false,
+            "adminContent": false,
+            "accessDenied": false
+          },
+          "semanticDom": {
+            "textHash": "d9d20fd10aa4a889",
+            "visualHash": "8cc759f885a5de0f",
+            "text": "React React Source TypeScript + React Demo, Source React is a JavaScript library for building user interfaces. You compose UI from function components and describe state with hooks; React handles the rendering and keeps the UI in sync as state changes. The modern ecosystem (createRoot, Suspense, Server Components) builds on the same component model. React Official Resources Quick Start API Reference Philosophy React Community Community ReactJS on Stack Overflow If you have other helpful links to share, or find any of the links above no longer work, please let us know. todos Double-click to edit a todo Created by the TodoMVC Team Part of TodoMVC",
+            "controls": [
+              {
+                "tag": "input",
+                "type": "text",
+                "valueHash": "e3b0c44298fc1c14",
+                "checked": false,
+                "disabled": false,
+                "visible": true
+              },
+              {
+                "tag": "input",
+                "type": "checkbox",
+                "valueHash": "b8d31e852725afb1",
+                "checked": false,
+                "disabled": false,
+                "visible": false
+              },
+              {
+                "tag": "button",
+                "type": "submit",
+                "valueHash": "e3b0c44298fc1c14",
+                "disabled": false,
+                "visible": false
+              }
+            ]
+          },
+          "busyControls": 0,
+          "disabledControls": 0,
+          "storage": {
+            "local": [],
+            "session": [],
+            "cookieNames": [],
+            "cookies": [],
+            "indexedDb": []
+          }
+        },
+        "beforeAction": {
+          "at": 1095,
+          "url": "http://127.0.0.1:37281/examples/react/dist/",
+          "title": "TodoMVC: React",
+          "domHash": "84ea4bd670111ab8",
+          "canaryPresent": false,
+          "bodyCanaryPresent": false,
+          "temporaryBlobUrls": 0,
+          "auth": {
+            "artifacts": 0,
+            "expiredArtifacts": 0,
+            "privateContent": false,
+            "adminContent": false,
+            "accessDenied": false
+          },
+          "semanticDom": {
+            "textHash": "d9d20fd10aa4a889",
+            "visualHash": "8cc759f885a5de0f",
+            "text": "React React Source TypeScript + React Demo, Source React is a JavaScript library for building user interfaces. You compose UI from function components and describe state with hooks; React handles the rendering and keeps the UI in sync as state changes. The modern ecosystem (createRoot, Suspense, Server Components) builds on the same component model. React Official Resources Quick Start API Reference Philosophy React Community Community ReactJS on Stack Overflow If you have other helpful links to share, or find any of the links above no longer work, please let us know. todos Double-click to edit a todo Created by the TodoMVC Team Part of TodoMVC",
+            "controls": [
+              {
+                "tag": "input",
+                "type": "text",
+                "valueHash": "e3b0c44298fc1c14",
+                "checked": false,
+                "disabled": false,
+                "visible": true
+              },
+              {
+                "tag": "input",
+                "type": "checkbox",
+                "valueHash": "b8d31e852725afb1",
+                "checked": false,
+                "disabled": false,
+                "visible": false
+              },
+              {
+                "tag": "button",
+                "type": "submit",
+                "valueHash": "e3b0c44298fc1c14",
+                "disabled": false,
+                "visible": false
+              }
+            ]
+          },
+          "busyControls": 0,
+          "disabledControls": 0,
+          "storage": {
+            "local": [],
+            "session": [],
+            "cookieNames": [],
+            "cookies": [],
+            "indexedDb": []
+          }
+        },
+        "networkSettled": true,
+        "after": {
+          "at": 2107,
+          "url": "http://127.0.0.1:37281/examples/typescript-react/#/",
+          "title": "React • TodoMVC",
+          "domHash": "12538a75df36416c",
+          "canaryPresent": false,
+          "bodyCanaryPresent": false,
+          "temporaryBlobUrls": 0,
+          "auth": {
+            "artifacts": 0,
+            "expiredArtifacts": 0,
+            "privateContent": false,
+            "adminContent": false,
+            "accessDenied": false
+          },
+          "semanticDom": {
+            "textHash": "01b43f96abda52a7",
+            "visualHash": "12e0ca1e152bfcf5",
+            "text": "todos Double-click to edit a todo Created by Remo H. Jansen Part of TodoMVC",
+            "controls": [
+              {
+                "tag": "input",
+                "type": "text",
+                "valueHash": "e3b0c44298fc1c14",
+                "checked": false,
+                "disabled": false,
+                "visible": true
+              }
+            ]
+          },
+          "busyControls": 0,
+          "disabledControls": 0,
+          "storage": {
+            "local": [],
+            "session": [],
+            "cookieNames": [],
+            "cookies": [],
+            "indexedDb": []
+          }
+        },
+        "trace": "traces/371506dd6bc1.zip",
+        "snapshotIndex": "snapshots/RD-001.index.json"
+      },
+      "verdict": "VERIFIED",
+      "evidenceLevel": 2,
+      "reason": "The action produced an observable effect.",
+      "detectorMatches": []
+    },
+    {
+      "id": "RD-002",
+      "action": {
+        "id": "bc3124709ecf",
+        "pageUrl": "http://127.0.0.1:37281/examples/react/dist/",
         "label": "New Todo Input",
         "activation": "enter",
         "kind": "mutation",
@@ -168,7 +1147,7 @@
         "fingerprint": {
           "selector": "[data-testid=\"text-input\"]",
           "tag": "input",
-          "ordinal": 0,
+          "ordinal": 10,
           "role": "textbox",
           "accessibleName": "New Todo Input",
           "testId": "text-input",
@@ -214,128 +1193,128 @@
         ]
       },
       "evidence": {
-        "startedAt": "2026-07-23T14:53:12.871Z",
-        "durationMs": 5219,
-        "canary": "RD_TEST_F0587F",
+        "startedAt": "2026-07-26T08:13:13.828Z",
+        "durationMs": 5427,
+        "canary": "RD_TEST_848118",
         "network": [
           {
             "id": "net-1",
             "method": "GET",
-            "url": "http://127.0.0.1:37127/",
+            "url": "http://127.0.0.1:37281/examples/react/dist/",
             "resourceType": "document",
-            "startedAt": 2015,
+            "startedAt": 2018,
             "status": 200,
             "ok": true,
             "contentType": "text/html",
-            "resourceTypeHint": "resource",
-            "finishedAt": 2023
+            "resourceTypeHint": "dist",
+            "finishedAt": 2028
           },
           {
             "id": "net-2",
             "method": "GET",
-            "url": "http://127.0.0.1:37127/app.bundle.js",
+            "url": "http://127.0.0.1:37281/examples/react/dist/app.bundle.js",
             "resourceType": "script",
-            "startedAt": 2021,
+            "startedAt": 2027,
             "status": 200,
             "ok": true,
-            "finishedAt": 2031,
-            "contentType": "text/javascript",
+            "finishedAt": 2046,
+            "contentType": "application/javascript",
             "resourceTypeHint": "app.bundle.js"
           },
           {
             "id": "net-3",
             "method": "GET",
-            "url": "http://127.0.0.1:37127/app.css",
+            "url": "http://127.0.0.1:37281/examples/react/dist/app.css",
             "resourceType": "stylesheet",
-            "startedAt": 2022,
+            "startedAt": 2027,
             "status": 200,
             "ok": true,
+            "finishedAt": 2055,
             "contentType": "text/css",
-            "resourceTypeHint": "app.css",
-            "finishedAt": 2026
+            "resourceTypeHint": "app.css"
           },
           {
             "id": "net-4",
             "method": "GET",
-            "url": "http://127.0.0.1:37127/base.js",
+            "url": "http://127.0.0.1:37281/examples/react/dist/base.js",
             "resourceType": "script",
-            "startedAt": 2022,
+            "startedAt": 2028,
             "status": 200,
             "ok": true,
-            "finishedAt": 2028,
-            "contentType": "text/javascript",
+            "finishedAt": 2056,
+            "contentType": "application/javascript",
             "resourceTypeHint": "base.js"
           },
           {
             "id": "net-5",
             "method": "GET",
-            "url": "http://127.0.0.1:37127/learn.json",
+            "url": "http://127.0.0.1:37281/learn.json",
             "resourceType": "xhr",
-            "startedAt": 2028,
+            "startedAt": 2056,
             "status": 200,
             "ok": true,
-            "finishedAt": 2034,
-            "contentType": "text/html",
+            "finishedAt": 2065,
+            "contentType": "application/json",
             "resourceTypeHint": "learn.json"
           },
           {
             "id": "net-6",
             "method": "GET",
-            "url": "http://127.0.0.1:37127/",
+            "url": "http://127.0.0.1:37281/examples/react/dist/",
             "resourceType": "document",
-            "startedAt": 2794,
+            "startedAt": 2849,
             "status": 200,
             "ok": true,
             "contentType": "text/html",
-            "resourceTypeHint": "resource",
-            "finishedAt": 2802
+            "resourceTypeHint": "dist",
+            "finishedAt": 2859
           },
           {
             "id": "net-7",
             "method": "GET",
-            "url": "http://127.0.0.1:37127/app.bundle.js",
+            "url": "http://127.0.0.1:37281/examples/react/dist/app.bundle.js",
             "resourceType": "script",
-            "startedAt": 2801,
+            "startedAt": 2857,
             "status": 200,
             "ok": true,
-            "finishedAt": 2812,
-            "contentType": "text/javascript",
+            "finishedAt": 2877,
+            "contentType": "application/javascript",
             "resourceTypeHint": "app.bundle.js"
           },
           {
             "id": "net-8",
             "method": "GET",
-            "url": "http://127.0.0.1:37127/app.css",
+            "url": "http://127.0.0.1:37281/examples/react/dist/app.css",
             "resourceType": "stylesheet",
-            "startedAt": 2801,
+            "startedAt": 2858,
             "status": 200,
             "ok": true,
-            "finishedAt": 2807,
+            "finishedAt": 2872,
             "contentType": "text/css",
             "resourceTypeHint": "app.css"
           },
           {
             "id": "net-9",
             "method": "GET",
-            "url": "http://127.0.0.1:37127/base.js",
+            "url": "http://127.0.0.1:37281/examples/react/dist/base.js",
             "resourceType": "script",
-            "startedAt": 2801,
+            "startedAt": 2858,
             "status": 200,
             "ok": true,
-            "finishedAt": 2807,
-            "contentType": "text/javascript",
+            "finishedAt": 2873,
+            "contentType": "application/javascript",
             "resourceTypeHint": "base.js"
           },
           {
             "id": "net-10",
             "method": "GET",
-            "url": "http://127.0.0.1:37127/learn.json",
+            "url": "http://127.0.0.1:37281/learn.json",
             "resourceType": "xhr",
-            "startedAt": 2808,
+            "startedAt": 2873,
             "status": 200,
             "ok": true,
-            "finishedAt": 2811,
-            "contentType": "text/html",
+            "finishedAt": 2889,
+            "contentType": "application/json",
             "resourceTypeHint": "learn.json"
           }
         ],
@@ -347,7 +1326,7 @@
             "selector": "[data-testid=\"text-input\"]",
             "name": "New Todo Input",
             "type": "text",
-            "value": "RD_TEST_F0587F_1",
+            "value": "RD_TEST_848118_1",
             "redacted": false
           }
         ],
@@ -363,7 +1342,7 @@
               "weight": 100,
               "matchCount": 1,
               "visibleCount": 1,
-              "elapsedMs": 7
+              "elapsedMs": 5
             }
           ],
           "chosenStrategy": "testid",
@@ -371,10 +1350,10 @@
           "retryCount": 0
         },
         "before": {
-          "at": 1027,
-          "url": "http://127.0.0.1:37127/",
+          "at": 1009,
+          "url": "http://127.0.0.1:37281/examples/react/dist/",
           "title": "TodoMVC: React",
-          "domHash": "ae0b39f9384e021f",
+          "domHash": "84ea4bd670111ab8",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -386,9 +1365,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "4bd82bc5bab9db84",
-            "visualHash": "1e7593f064775c91",
-            "text": "todos Double-click to edit a todo Created by the TodoMVC Team Part of TodoMVC",
+            "textHash": "d9d20fd10aa4a889",
+            "visualHash": "8cc759f885a5de0f",
+            "text": "React React Source TypeScript + React Demo, Source React is a JavaScript library for building user interfaces. You compose UI from function components and describe state with hooks; React handles the rendering and keeps the UI in sync as state changes. The modern ecosystem (createRoot, Suspense, Server Components) builds on the same component model. React Official Resources Quick Start API Reference Philosophy React Community Community ReactJS on Stack Overflow If you have other helpful links to share, or find any of the links above no longer work, please let us know. todos Double-click to edit a todo Created by the TodoMVC Team Part of TodoMVC",
             "controls": [
               {
                 "tag": "input",
@@ -426,10 +1405,10 @@
           }
         },
         "beforeAction": {
-          "at": 1055,
-          "url": "http://127.0.0.1:37127/",
+          "at": 1035,
+          "url": "http://127.0.0.1:37281/examples/react/dist/",
           "title": "TodoMVC: React",
-          "domHash": "c91223991b5818e2",
+          "domHash": "2de441e4ba4d8d9d",
           "canaryPresent": true,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -441,14 +1420,14 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "4bd82bc5bab9db84",
-            "visualHash": "1e7593f064775c91",
-            "text": "todos Double-click to edit a todo Created by the TodoMVC Team Part of TodoMVC",
+            "textHash": "d9d20fd10aa4a889",
+            "visualHash": "8cc759f885a5de0f",
+            "text": "React React Source TypeScript + React Demo, Source React is a JavaScript library for building user interfaces. You compose UI from function components and describe state with hooks; React handles the rendering and keeps the UI in sync as state changes. The modern ecosystem (createRoot, Suspense, Server Components) builds on the same component model. React Official Resources Quick Start API Reference Philosophy React Community Community ReactJS on Stack Overflow If you have other helpful links to share, or find any of the links above no longer work, please let us know. todos Double-click to edit a todo Created by the TodoMVC Team Part of TodoMVC",
             "controls": [
               {
                 "tag": "input",
                 "type": "text",
-                "valueHash": "cadd3904b2560dab",
+                "valueHash": "e3316bb4a662a1a6",
                 "checked": false,
                 "disabled": false,
                 "visible": true
@@ -484,10 +1463,10 @@
         "networkSettled": true,
         "targetBusyAfter": false,
         "after": {
-          "at": 1967,
-          "url": "http://127.0.0.1:37127/",
+          "at": 1949,
+          "url": "http://127.0.0.1:37281/examples/react/dist/",
           "title": "TodoMVC: React",
-          "domHash": "6d0a83e1d3433021",
+          "domHash": "dd1d56c59868eeb8",
           "canaryPresent": true,
           "bodyCanaryPresent": true,
           "temporaryBlobUrls": 0,
@@ -499,9 +1478,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "c457a05531621c00",
-            "visualHash": "aae86d0598993262",
-            "text": "todos Toggle All Input RD_TEST_F0587F_1 1 item left! AllActiveCompleted Double-click to edit a todo Created by the TodoMVC Team Part of TodoMVC",
+            "textHash": "7c9137f4727ad3af",
+            "visualHash": "95e7119833ff437e",
+            "text": "React React Source TypeScript + React Demo, Source React is a JavaScript library for building user interfaces. You compose UI from function components and describe state with hooks; React handles the rendering and keeps the UI in sync as state changes. The modern ecosystem (createRoot, Suspense, Server Components) builds on the same component model. React Official Resources Quick Start API Reference Philosophy React Community Community ReactJS on Stack Overflow If you have other helpful links to share, or find any of the links above no longer work, please let us know. todos Toggle All Input RD_TEST_848118_1 1 item left! AllActiveCompleted Double-click to edit a todo Created by the TodoMVC Team Part of TodoMVC",
             "controls": [
               {
                 "tag": "input",
@@ -553,12 +1532,12 @@
             "indexedDb": []
           }
         },
-        "screenshot": "screenshots/92f9d29fabad-after.png",
+        "screenshot": "screenshots/bc3124709ecf-after.png",
         "afterRefresh": {
-          "at": 2757,
-          "url": "http://127.0.0.1:37127/",
+          "at": 2782,
+          "url": "http://127.0.0.1:37281/examples/react/dist/",
           "title": "TodoMVC: React",
-          "domHash": "ae0b39f9384e021f",
+          "domHash": "84ea4bd670111ab8",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -570,9 +1549,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "4bd82bc5bab9db84",
-            "visualHash": "1e7593f064775c91",
-            "text": "todos Double-click to edit a todo Created by the TodoMVC Team Part of TodoMVC",
+            "textHash": "d9d20fd10aa4a889",
+            "visualHash": "8cc759f885a5de0f",
+            "text": "React React Source TypeScript + React Demo, Source React is a JavaScript library for building user interfaces. You compose UI from function components and describe state with hooks; React handles the rendering and keeps the UI in sync as state changes. The modern ecosystem (createRoot, Suspense, Server Components) builds on the same component model. React Official Resources Quick Start API Reference Philosophy React Community Community ReactJS on Stack Overflow If you have other helpful links to share, or find any of the links above no longer work, please let us know. todos Double-click to edit a todo Created by the TodoMVC Team Part of TodoMVC",
             "controls": [
               {
                 "tag": "input",
@@ -609,12 +1588,12 @@
             "indexedDb": []
           }
         },
-        "refreshScreenshot": "screenshots/92f9d29fabad-refresh.png",
+        "refreshScreenshot": "screenshots/bc3124709ecf-refresh.png",
         "afterHardRefresh": {
-          "at": 3537,
-          "url": "http://127.0.0.1:37127/",
+          "at": 3621,
+          "url": "http://127.0.0.1:37281/examples/react/dist/",
           "title": "TodoMVC: React",
-          "domHash": "ae0b39f9384e021f",
+          "domHash": "84ea4bd670111ab8",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -626,9 +1605,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "4bd82bc5bab9db84",
-            "visualHash": "1e7593f064775c91",
-            "text": "todos Double-click to edit a todo Created by the TodoMVC Team Part of TodoMVC",
+            "textHash": "d9d20fd10aa4a889",
+            "visualHash": "8cc759f885a5de0f",
+            "text": "React React Source TypeScript + React Demo, Source React is a JavaScript library for building user interfaces. You compose UI from function components and describe state with hooks; React handles the rendering and keeps the UI in sync as state changes. The modern ecosystem (createRoot, Suspense, Server Components) builds on the same component model. React Official Resources Quick Start API Reference Philosophy React Community Community ReactJS on Stack Overflow If you have other helpful links to share, or find any of the links above no longer work, please let us know. todos Double-click to edit a todo Created by the TodoMVC Team Part of TodoMVC",
             "controls": [
               {
                 "tag": "input",
@@ -666,10 +1645,10 @@
           }
         },
         "afterNewTab": {
-          "at": 4384,
-          "url": "http://127.0.0.1:37127/",
+          "at": 4498,
+          "url": "http://127.0.0.1:37281/examples/react/dist/",
           "title": "TodoMVC: React",
-          "domHash": "ae0b39f9384e021f",
+          "domHash": "84ea4bd670111ab8",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -681,9 +1660,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "4bd82bc5bab9db84",
-            "visualHash": "1e7593f064775c91",
-            "text": "todos Double-click to edit a todo Created by the TodoMVC Team Part of TodoMVC",
+            "textHash": "d9d20fd10aa4a889",
+            "visualHash": "8cc759f885a5de0f",
+            "text": "React React Source TypeScript + React Demo, Source React is a JavaScript library for building user interfaces. You compose UI from function components and describe state with hooks; React handles the rendering and keeps the UI in sync as state changes. The modern ecosystem (createRoot, Suspense, Server Components) builds on the same component model. React Official Resources Quick Start API Reference Philosophy React Community Community ReactJS on Stack Overflow If you have other helpful links to share, or find any of the links above no longer work, please let us know. todos Double-click to edit a todo Created by the TodoMVC Team Part of TodoMVC",
             "controls": [
               {
                 "tag": "input",
@@ -721,10 +1700,10 @@
           }
         },
         "afterNewContext": {
-          "at": 5215,
-          "url": "http://127.0.0.1:37127/",
+          "at": 5423,
+          "url": "http://127.0.0.1:37281/examples/react/dist/",
           "title": "TodoMVC: React",
-          "domHash": "ae0b39f9384e021f",
+          "domHash": "84ea4bd670111ab8",
           "canaryPresent": false,
           "bodyCanaryPresent": false,
           "temporaryBlobUrls": 0,
@@ -736,9 +1715,9 @@
             "accessDenied": false
           },
           "semanticDom": {
-            "textHash": "4bd82bc5bab9db84",
-            "visualHash": "1e7593f064775c91",
-            "text": "todos Double-click to edit a todo Created by the TodoMVC Team Part of TodoMVC",
+            "textHash": "d9d20fd10aa4a889",
+            "visualHash": "8cc759f885a5de0f",
+            "text": "React React Source TypeScript + React Demo, Source React is a JavaScript library for building user interfaces. You compose UI from function components and describe state with hooks; React handles the rendering and keeps the UI in sync as state changes. The modern ecosystem (createRoot, Suspense, Server Components) builds on the same component model. React Official Resources Quick Start API Reference Philosophy React Community Community ReactJS on Stack Overflow If you have other helpful links to share, or find any of the links above no longer work, please let us know. todos Double-click to edit a todo Created by the TodoMVC Team Part of TodoMVC",
             "controls": [
               {
                 "tag": "input",
@@ -776,8 +1755,8 @@
           }
         },
         "persistenceScope": "MEMORY_ONLY",
-        "trace": "traces/92f9d29fabad.zip",
-        "snapshotIndex": "snapshots/RD-001.index.json"
+        "trace": "traces/bc3124709ecf.zip",
+        "snapshotIndex": "snapshots/RD-002.index.json"
       },
       "verdict": "EPHEMERAL",
       "evidenceLevel": 1,
@@ -801,10 +1780,1327 @@
       ]
     },
     {
-      "id": "RD-002",
+      "id": "RD-003",
       "action": {
-        "id": "d4cf8b35943a",
-        "pageUrl": "http://127.0.0.1:37127/",
+        "id": "9f2414f5f8f0",
+        "pageUrl": "http://127.0.0.1:37281/examples/typescript-react/#/",
+        "label": "What needs to be done?",
+        "activation": "enter",
+        "kind": "mutation",
+        "intent": "submit",
+        "risk": "safe",
+        "fingerprint": {
+          "selector": "body > section > div > header > input",
+          "tag": "input",
+          "ordinal": 0,
+          "role": "textbox",
+          "accessibleName": "What needs to be done?",
+          "type": "text",
+          "candidates": [
+            {
+              "strategy": "role",
+              "weight": 92,
+              "role": "textbox",
+              "name": "What needs to be done?",
+              "exact": true
+            },
+            {
+              "strategy": "role",
+              "weight": 82,
+              "role": "textbox",
+              "name": "What needs to be done?",
+              "exact": false
+            },
+            {
+              "strategy": "css",
+              "weight": 35,
+              "selector": "body > section > div > header > input"
+            }
+          ]
+        },
+        "fields": [
+          {
+            "selector": "body > section > div > header > input",
+            "tag": "input",
+            "type": "text",
+            "required": false,
+            "disabled": false,
+            "placeholder": "What needs to be done?"
+          }
+        ]
+      },
+      "evidence": {
+        "startedAt": "2026-07-26T08:13:19.323Z",
+        "durationMs": 5476,
+        "canary": "RD_TEST_02A394",
+        "network": [
+          {
+            "id": "net-1",
+            "method": "GET",
+            "url": "http://127.0.0.1:37281/examples/typescript-react/",
+            "resourceType": "document",
+            "startedAt": 2047,
+            "status": 200,
+            "ok": true,
+            "contentType": "text/html",
+            "resourceTypeHint": "typescript-react",
+            "finishedAt": 2056
+          },
+          {
+            "id": "net-2",
+            "method": "GET",
+            "url": "http://127.0.0.1:37281/examples/typescript-react/node_modules/todomvc-common/base.css",
+            "resourceType": "stylesheet",
+            "startedAt": 2054,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 2060,
+            "contentType": "text/css",
+            "resourceTypeHint": "base.css"
+          },
+          {
+            "id": "net-3",
+            "method": "GET",
+            "url": "http://127.0.0.1:37281/examples/typescript-react/node_modules/todomvc-app-css/index.css",
+            "resourceType": "stylesheet",
+            "startedAt": 2054,
+            "status": 200,
+            "ok": true,
+            "contentType": "text/css",
+            "resourceTypeHint": "index.css",
+            "finishedAt": 2071
+          },
+          {
+            "id": "net-4",
+            "method": "GET",
+            "url": "http://127.0.0.1:37281/examples/typescript-react/node_modules/director/build/director.js",
+            "resourceType": "script",
+            "startedAt": 2055,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 2072,
+            "contentType": "application/javascript",
+            "resourceTypeHint": "director.js"
+          },
+          {
+            "id": "net-5",
+            "method": "GET",
+            "url": "http://127.0.0.1:37281/examples/typescript-react/js/bundle.js",
+            "resourceType": "script",
+            "startedAt": 2055,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 2094,
+            "contentType": "application/javascript",
+            "resourceTypeHint": "bundle.js"
+          },
+          {
+            "id": "net-6",
+            "method": "GET",
+            "url": "http://127.0.0.1:37281/examples/typescript-react/",
+            "resourceType": "document",
+            "startedAt": 2898,
+            "status": 200,
+            "ok": true,
+            "contentType": "text/html",
+            "resourceTypeHint": "typescript-react",
+            "finishedAt": 2907
+          },
+          {
+            "id": "net-7",
+            "method": "GET",
+            "url": "http://127.0.0.1:37281/examples/typescript-react/node_modules/todomvc-common/base.css",
+            "resourceType": "stylesheet",
+            "startedAt": 2905,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 2911,
+            "contentType": "text/css",
+            "resourceTypeHint": "base.css"
+          },
+          {
+            "id": "net-8",
+            "method": "GET",
+            "url": "http://127.0.0.1:37281/examples/typescript-react/node_modules/todomvc-app-css/index.css",
+            "resourceType": "stylesheet",
+            "startedAt": 2906,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 2914,
+            "contentType": "text/css",
+            "resourceTypeHint": "index.css"
+          },
+          {
+            "id": "net-9",
+            "method": "GET",
+            "url": "http://127.0.0.1:37281/examples/typescript-react/node_modules/director/build/director.js",
+            "resourceType": "script",
+            "startedAt": 2906,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 2919,
+            "contentType": "application/javascript",
+            "resourceTypeHint": "director.js"
+          },
+          {
+            "id": "net-10",
+            "method": "GET",
+            "url": "http://127.0.0.1:37281/examples/typescript-react/js/bundle.js",
+            "resourceType": "script",
+            "startedAt": 2907,
+            "status": 200,
+            "ok": true,
+            "finishedAt": 2927,
+            "contentType": "application/javascript",
+            "resourceTypeHint": "bundle.js"
+          }
+        ],
+        "console": [],
+        "pageErrors": [],
+        "uiClaims": [],
+        "filledFields": [
+          {
+            "selector": "body > section > div > header > input",
+            "name": "What needs to be done?",
+            "type": "text",
+            "value": "RD_TEST_02A394_1",
+            "redacted": false
+          }
+        ],
+        "dialogs": [],
+        "downloads": [],
+        "downloadEvidence": [],
+        "uploads": [],
+        "popupUrls": [],
+        "locatorResolution": {
+          "attempts": [
+            {
+              "strategy": "role",
+              "weight": 92,
+              "matchCount": 1,
+              "visibleCount": 1,
+              "elapsedMs": 5
+            }
+          ],
+          "chosenStrategy": "role",
+          "chosenWeight": 92,
+          "retryCount": 0
+        },
+        "before": {
+          "at": 1082,
+          "url": "http://127.0.0.1:37281/examples/typescript-react/#/",
+          "title": "React • TodoMVC",
+          "domHash": "12538a75df36416c",
+          "canaryPresent": false,
+          "bodyCanaryPresent": false,
+          "temporaryBlobUrls": 0,
+          "auth": {
+            "artifacts": 0,
+            "expiredArtifacts": 0,
+            "privateContent": false,
+            "adminContent": false,
+            "accessDenied": false
+          },
+          "semanticDom": {
+            "textHash": "01b43f96abda52a7",
+            "visualHash": "12e0ca1e152bfcf5",
+            "text": "todos Double-click to edit a todo Created by Remo H. Jansen Part of TodoMVC",
+            "controls": [
+              {
+                "tag": "input",
+                "type": "text",
+                "valueHash": "e3b0c44298fc1c14",
+                "checked": false,
+                "disabled": false,
+                "visible": true
+              }
+            ]
+          },
+          "busyControls": 0,
+          "disabledControls": 0,
+          "storage": {
+            "local": [],
+            "session": [],
+            "cookieNames": [],
+            "cookies": [],
+            "indexedDb": []
+          }
+        },
+        "beforeAction": {
+          "at": 1105,
+          "url": "http://127.0.0.1:37281/examples/typescript-react/#/",
+          "title": "React • TodoMVC",
+          "domHash": "df6a8ef80ec3e428",
+          "canaryPresent": true,
+          "bodyCanaryPresent": false,
+          "temporaryBlobUrls": 0,
+          "auth": {
+            "artifacts": 0,
+            "expiredArtifacts": 0,
+            "privateContent": false,
+            "adminContent": false,
+            "accessDenied": false
+          },
+          "semanticDom": {
+            "textHash": "01b43f96abda52a7",
+            "visualHash": "12e0ca1e152bfcf5",
+            "text": "todos Double-click to edit a todo Created by Remo H. Jansen Part of TodoMVC",
+            "controls": [
+              {
+                "tag": "input",
+                "type": "text",
+                "valueHash": "0bec6eac64c7aa6f",
+                "checked": false,
+                "disabled": false,
+                "visible": true
+              }
+            ]
+          },
+          "busyControls": 0,
+          "disabledControls": 0,
+          "storage": {
+            "local": [],
+            "session": [],
+            "cookieNames": [],
+            "cookies": [],
+            "indexedDb": []
+          }
+        },
+        "targetDisabledAfter": false,
+        "networkSettled": true,
+        "targetBusyAfter": false,
+        "after": {
+          "at": 2007,
+          "url": "http://127.0.0.1:37281/examples/typescript-react/#/",
+          "title": "React • TodoMVC",
+          "domHash": "e35ed0ff08316dd8",
+          "canaryPresent": true,
+          "bodyCanaryPresent": true,
+          "temporaryBlobUrls": 0,
+          "auth": {
+            "artifacts": 0,
+            "expiredArtifacts": 0,
+            "privateContent": false,
+            "adminContent": false,
+            "accessDenied": false
+          },
+          "semanticDom": {
+            "textHash": "22cabfbc912bb5f7",
+            "visualHash": "23536a708be967a8",
+            "text": "todos Mark all as complete RD_TEST_02A394_1 1 item left All Active Completed Double-click to edit a todo Created by Remo H. Jansen Part of TodoMVC",
+            "controls": [
+              {
+                "tag": "input",
+                "type": "text",
+                "valueHash": "e3b0c44298fc1c14",
+                "checked": false,
+                "disabled": false,
+                "visible": true
+              },
+              {
+                "tag": "input",
+                "type": "checkbox",
+                "valueHash": "b8d31e852725afb1",
+                "checked": false,
+                "disabled": false,
+                "visible": false
+              },
+              {
+                "tag": "input",
+                "type": "checkbox",
+                "valueHash": "b8d31e852725afb1",
+                "checked": false,
+                "disabled": false,
+                "visible": false
+              },
+              {
+                "tag": "button",
+                "type": "submit",
+                "valueHash": "e3b0c44298fc1c14",
+                "disabled": false,
+                "visible": false
+              },
+              {
+                "tag": "input",
+                "type": "text",
+                "valueHash": "0bec6eac64c7aa6f",
+                "checked": false,
+                "disabled": false,
+                "visible": false
+              }
+            ]
+          },
+          "busyControls": 0,
+          "disabledControls": 0,
+          "storage": {
+            "local": [
+              {
+                "key": "react-todos",
+                "valueHash": "f6d2b84d1a820f09",
+                "containsCanary": true
+              }
+            ],
+            "session": [],
+            "cookieNames": [],
+            "cookies": [],
+            "indexedDb": []
+          }
+        },
+        "screenshot": "screenshots/9f2414f5f8f0-after.png",
+        "afterRefresh": {
+          "at": 2861,
+          "url": "http://127.0.0.1:37281/examples/typescript-react/#/",
+          "title": "React • TodoMVC",
+          "domHash": "e35ed0ff08316dd8",
+          "canaryPresent": true,
+          "bodyCanaryPresent": true,
+          "temporaryBlobUrls": 0,
+          "auth": {
+            "artifacts": 0,
+            "expiredArtifacts": 0,
+            "privateContent": false,
+            "adminContent": false,
+            "accessDenied": false
+          },
+          "semanticDom": {
+            "textHash": "22cabfbc912bb5f7",
+            "visualHash": "23536a708be967a8",
+            "text": "todos Mark all as complete RD_TEST_02A394_1 1 item left All Active Completed Double-click to edit a todo Created by Remo H. Jansen Part of TodoMVC",
+            "controls": [
+              {
+                "tag": "input",
+                "type": "text",
+                "valueHash": "e3b0c44298fc1c14",
+                "checked": false,
+                "disabled": false,
+                "visible": true
+              },
+              {
+                "tag": "input",
+                "type": "checkbox",
+                "valueHash": "b8d31e852725afb1",
+                "checked": false,
+                "disabled": false,
+                "visible": false
+              },
+              {
+                "tag": "input",
+                "type": "checkbox",
+                "valueHash": "b8d31e852725afb1",
+                "checked": false,
+                "disabled": false,
+                "visible": false
+              },
+              {
+                "tag": "button",
+                "type": "submit",
+                "valueHash": "e3b0c44298fc1c14",
+                "disabled": false,
+                "visible": false
+              },
+              {
+                "tag": "input",
+                "type": "text",
+                "valueHash": "0bec6eac64c7aa6f",
+                "checked": false,
+                "disabled": false,
+                "visible": false
+              }
+            ]
+          },
+          "busyControls": 0,
+          "disabledControls": 0,
+          "storage": {
+            "local": [
+              {
+                "key": "react-todos",
+                "valueHash": "f6d2b84d1a820f09",
+                "containsCanary": true
+              }
+            ],
+            "session": [],
+            "cookieNames": [],
+            "cookies": [],
+            "indexedDb": []
+          }
+        },
+        "refreshScreenshot": "screenshots/9f2414f5f8f0-refresh.png",
+        "afterHardRefresh": {
+          "at": 3698,
+          "url": "http://127.0.0.1:37281/examples/typescript-react/#/",
+          "title": "React • TodoMVC",
+          "domHash": "e35ed0ff08316dd8",
+          "canaryPresent": true,
+          "bodyCanaryPresent": true,
+          "temporaryBlobUrls": 0,
+          "auth": {
+            "artifacts": 0,
+            "expiredArtifacts": 0,
+            "privateContent": false,
+            "adminContent": false,
+            "accessDenied": false
+          },
+          "semanticDom": {
+            "textHash": "22cabfbc912bb5f7",
+            "visualHash": "23536a708be967a8",
+            "text": "todos Mark all as complete RD_TEST_02A394_1 1 item left All Active Completed Double-click to edit a todo Created by Remo H. Jansen Part of TodoMVC",
+            "controls": [
+              {
+                "tag": "input",
+                "type": "text",
+                "valueHash": "e3b0c44298fc1c14",
+                "checked": false,
+                "disabled": false,
+                "visible": true
+              },
+              {
+                "tag": "input",
+                "type": "checkbox",
+                "valueHash": "b8d31e852725afb1",
+                "checked": false,
+                "disabled": false,
+                "visible": false
+              },
+              {
+                "tag": "input",
+                "type": "checkbox",
+                "valueHash": "b8d31e852725afb1",
+                "checked": false,
+                "disabled": false,
+                "visible": false
+              },
+              {
+                "tag": "button",
+                "type": "submit",
+                "valueHash": "e3b0c44298fc1c14",
+                "disabled": false,
+                "visible": false
+              },
+              {
+                "tag": "input",
+                "type": "text",
+                "valueHash": "0bec6eac64c7aa6f",
+                "checked": false,
+                "disabled": false,
+                "visible": false
+              }
+            ]
+          },
+          "busyControls": 0,
+          "disabledControls": 0,
+          "storage": {
+            "local": [
+              {
+                "key": "react-todos",
+                "valueHash": "f6d2b84d1a820f09",
+                "containsCanary": true
+              }
+            ],
+            "session": [],
+            "cookieNames": [],
+            "cookies": [],
+            "indexedDb": []
+          }
+        },
+        "afterNewTab": {
+          "at": 4657,
+          "url": "http://127.0.0.1:37281/examples/typescript-react/#/",
+          "title": "React • TodoMVC",
+          "domHash": "e35ed0ff08316dd8",
+          "canaryPresent": true,
+          "bodyCanaryPresent": true,
+          "temporaryBlobUrls": 0,
+          "auth": {
+            "artifacts": 0,
+            "expiredArtifacts": 0,
+            "privateContent": false,
+            "adminContent": false,
+            "accessDenied": false
+          },
+          "semanticDom": {
+            "textHash": "22cabfbc912bb5f7",
+            "visualHash": "23536a708be967a8",
+            "text": "todos Mark all as complete RD_TEST_02A394_1 1 item left All Active Completed Double-click to edit a todo Created by Remo H. Jansen Part of TodoMVC",
+            "controls": [
+              {
+                "tag": "input",
+                "type": "text",
+                "valueHash": "e3b0c44298fc1c14",
+                "checked": false,
+                "disabled": false,
+                "visible": true
+              },
+              {
+                "tag": "input",
+                "type": "checkbox",
+                "valueHash": "b8d31e852725afb1",
+                "checked": false,
+                "disabled": false,
+                "visible": false
+              },
+              {
+                "tag": "input",
+                "type": "checkbox",
+                "valueHash": "b8d31e852725afb1",
+                "checked": false,
+                "disabled": false,
+                "visible": false
+              },
+              {
+                "tag": "button",
+                "type": "submit",
+                "valueHash": "e3b0c44298fc1c14",
+                "disabled": false,
+                "visible": false
+              },
+              {
+                "tag": "input",
+                "type": "text",
+                "valueHash": "0bec6eac64c7aa6f",
+                "checked": false,
+                "disabled": false,
+                "visible": false
+              }
+            ]
+          },
+          "busyControls": 0,
+          "disabledControls": 0,
+          "storage": {
+            "local": [
+              {
+                "key": "react-todos",
+                "valueHash": "f6d2b84d1a820f09",
+                "containsCanary": true
+              }
+            ],
+            "session": [],
+            "cookieNames": [],
+            "cookies": [],
+            "indexedDb": []
+          }
+        },
+        "afterNewContext": {
+          "at": 5473,
+          "url": "http://127.0.0.1:37281/examples/typescript-react/#/",
+          "title": "React • TodoMVC",
+          "domHash": "12538a75df36416c",
+          "canaryPresent": false,
+          "bodyCanaryPresent": false,
+          "temporaryBlobUrls": 0,
+          "auth": {
+            "artifacts": 0,
+            "expiredArtifacts": 0,
+            "privateContent": false,
+            "adminContent": false,
+            "accessDenied": false
+          },
+          "semanticDom": {
+            "textHash": "01b43f96abda52a7",
+            "visualHash": "12e0ca1e152bfcf5",
+            "text": "todos Double-click to edit a todo Created by Remo H. Jansen Part of TodoMVC",
+            "controls": [
+              {
+                "tag": "input",
+                "type": "text",
+                "valueHash": "e3b0c44298fc1c14",
+                "checked": false,
+                "disabled": false,
+                "visible": true
+              }
+            ]
+          },
+          "busyControls": 0,
+          "disabledControls": 0,
+          "storage": {
+            "local": [],
+            "session": [],
+            "cookieNames": [],
+            "cookies": [],
+            "indexedDb": []
+          }
+        },
+        "persistenceScope": "BROWSER_LOCAL",
+        "trace": "traces/9f2414f5f8f0.zip",
+        "snapshotIndex": "snapshots/RD-003.index.json"
+      },
+      "verdict": "BROWSER_LOCAL",
+      "evidenceLevel": 5,
+      "reason": "The result survived reload in the current browser context but was absent in a fresh context.",
+      "detectorMatches": [
+        {
+          "code": "RD102",
+          "title": "Browser-local persistence",
+          "detail": "The result survived reload in the current browser context but was absent in a fresh context."
+        },
+        {
+          "code": "RD103",
+          "title": "New-session disappearance",
+          "detail": "A new browser session could not observe the result confirmed in the original session."
+        }
+      ]
+    },
+    {
+      "id": "RD-004",
+      "action": {
+        "id": "a648a1fe4475",
+        "pageUrl": "http://127.0.0.1:37281/examples/react/dist/",
+        "label": "Source",
+        "activation": "click",
+        "kind": "navigation",
+        "intent": "navigate",
+        "risk": "safe",
+        "fingerprint": {
+          "selector": "body > aside > header > span > a:nth-of-type(1)",
+          "tag": "a",
+          "ordinal": 0,
+          "role": "link",
+          "accessibleName": "Source",
+          "text": "Source",
+          "href": "https://github.com/tastejs/todomvc/tree/gh-pages/examples/react",
+          "candidates": [
+            {
+              "strategy": "role",
+              "weight": 92,
+              "role": "link",
+              "name": "Source",
+              "exact": true
+            },
+            {
+              "strategy": "role",
+              "weight": 82,
+              "role": "link",
+              "name": "Source",
+              "exact": false
+            },
+            {
+              "strategy": "href",
+              "weight": 72,
+              "value": "https://github.com/tastejs/todomvc/tree/gh-pages/examples/react"
+            },
+            {
+              "strategy": "text",
+              "weight": 60,
+              "value": "Source",
+              "exact": true
+            },
+            {
+              "strategy": "css",
+              "weight": 35,
+              "selector": "body > aside > header > span > a:nth-of-type(1)"
+            }
+          ]
+        },
+        "fields": []
+      },
+      "verdict": "SKIPPED",
+      "evidenceLevel": 0,
+      "reason": "Cross-origin navigation blocked by the default safety policy. Use --allow-external explicitly.",
+      "skippedReason": "Cross-origin navigation blocked by the default safety policy. Use --allow-external explicitly.",
+      "detectorMatches": [],
+      "evidence": {
+        "startedAt": "",
+        "durationMs": 0,
+        "canary": "",
+        "network": [],
+        "console": [],
+        "pageErrors": [],
+        "uiClaims": [],
+        "filledFields": [],
+        "dialogs": [],
+        "downloads": [],
+        "popupUrls": [],
+        "snapshotIndex": "snapshots/RD-004.index.json"
+      }
+    },
+    {
+      "id": "RD-005",
+      "action": {
+        "id": "0c21eea9d35a",
+        "pageUrl": "http://127.0.0.1:37281/examples/react/dist/",
+        "label": "Source",
+        "activation": "click",
+        "kind": "navigation",
+        "intent": "navigate",
+        "risk": "safe",
+        "fingerprint": {
+          "selector": "body > aside > header > span > a:nth-of-type(3)",
+          "tag": "a",
+          "ordinal": 2,
+          "role": "link",
+          "accessibleName": "Source",
+          "text": "Source",
+          "href": "https://github.com/tastejs/todomvc/tree/gh-pages/examples/typescript-react",
+          "candidates": [
+            {
+              "strategy": "role",
+              "weight": 92,
+              "role": "link",
+              "name": "Source",
+              "exact": true
+            },
+            {
+              "strategy": "role",
+              "weight": 82,
+              "role": "link",
+              "name": "Source",
+              "exact": false
+            },
+            {
+              "strategy": "href",
+              "weight": 72,
+              "value": "https://github.com/tastejs/todomvc/tree/gh-pages/examples/typescript-react"
+            },
+            {
+              "strategy": "text",
+              "weight": 60,
+              "value": "Source",
+              "exact": true
+            },
+            {
+              "strategy": "css",
+              "weight": 35,
+              "selector": "body > aside > header > span > a:nth-of-type(3)"
+            }
+          ]
+        },
+        "fields": []
+      },
+      "verdict": "SKIPPED",
+      "evidenceLevel": 0,
+      "reason": "Cross-origin navigation blocked by the default safety policy. Use --allow-external explicitly.",
+      "skippedReason": "Cross-origin navigation blocked by the default safety policy. Use --allow-external explicitly.",
+      "detectorMatches": [],
+      "evidence": {
+        "startedAt": "",
+        "durationMs": 0,
+        "canary": "",
+        "network": [],
+        "console": [],
+        "pageErrors": [],
+        "uiClaims": [],
+        "filledFields": [],
+        "dialogs": [],
+        "downloads": [],
+        "popupUrls": [],
+        "snapshotIndex": "snapshots/RD-005.index.json"
+      }
+    },
+    {
+      "id": "RD-006",
+      "action": {
+        "id": "138fd677a27c",
+        "pageUrl": "http://127.0.0.1:37281/examples/react/dist/",
+        "label": "React",
+        "activation": "click",
+        "kind": "navigation",
+        "intent": "navigate",
+        "risk": "safe",
+        "fingerprint": {
+          "selector": "body > aside > blockquote > footer > a",
+          "tag": "a",
+          "ordinal": 3,
+          "role": "link",
+          "accessibleName": "React",
+          "text": "React",
+          "href": "http://facebook.github.io/react",
+          "candidates": [
+            {
+              "strategy": "role",
+              "weight": 92,
+              "role": "link",
+              "name": "React",
+              "exact": true
+            },
+            {
+              "strategy": "role",
+              "weight": 82,
+              "role": "link",
+              "name": "React",
+              "exact": false
+            },
+            {
+              "strategy": "href",
+              "weight": 72,
+              "value": "http://facebook.github.io/react"
+            },
+            {
+              "strategy": "text",
+              "weight": 60,
+              "value": "React",
+              "exact": true
+            },
+            {
+              "strategy": "css",
+              "weight": 35,
+              "selector": "body > aside > blockquote > footer > a"
+            }
+          ]
+        },
+        "fields": []
+      },
+      "verdict": "SKIPPED",
+      "evidenceLevel": 0,
+      "reason": "Cross-origin navigation blocked by the default safety policy. Use --allow-external explicitly.",
+      "skippedReason": "Cross-origin navigation blocked by the default safety policy. Use --allow-external explicitly.",
+      "detectorMatches": [],
+      "evidence": {
+        "startedAt": "",
+        "durationMs": 0,
+        "canary": "",
+        "network": [],
+        "console": [],
+        "pageErrors": [],
+        "uiClaims": [],
+        "filledFields": [],
+        "dialogs": [],
+        "downloads": [],
+        "popupUrls": [],
+        "snapshotIndex": "snapshots/RD-006.index.json"
+      }
+    },
+    {
+      "id": "RD-007",
+      "action": {
+        "id": "2b3591622da9",
+        "pageUrl": "http://127.0.0.1:37281/examples/react/dist/",
+        "label": "Quick Start",
+        "activation": "click",
+        "kind": "navigation",
+        "intent": "navigate",
+        "risk": "safe",
+        "fingerprint": {
+          "selector": "body > aside > ul:nth-of-type(1) > li:nth-of-type(1) > a",
+          "tag": "a",
+          "ordinal": 4,
+          "role": "link",
+          "accessibleName": "Quick Start",
+          "text": "Quick Start",
+          "href": "https://react.dev/learn",
+          "candidates": [
+            {
+              "strategy": "role",
+              "weight": 92,
+              "role": "link",
+              "name": "Quick Start",
+              "exact": true
+            },
+            {
+              "strategy": "role",
+              "weight": 82,
+              "role": "link",
+              "name": "Quick Start",
+              "exact": false
+            },
+            {
+              "strategy": "href",
+              "weight": 72,
+              "value": "https://react.dev/learn"
+            },
+            {
+              "strategy": "text",
+              "weight": 60,
+              "value": "Quick Start",
+              "exact": true
+            },
+            {
+              "strategy": "css",
+              "weight": 35,
+              "selector": "body > aside > ul:nth-of-type(1) > li:nth-of-type(1) > a"
+            }
+          ]
+        },
+        "fields": []
+      },
+      "verdict": "SKIPPED",
+      "evidenceLevel": 0,
+      "reason": "Cross-origin navigation blocked by the default safety policy. Use --allow-external explicitly.",
+      "skippedReason": "Cross-origin navigation blocked by the default safety policy. Use --allow-external explicitly.",
+      "detectorMatches": [],
+      "evidence": {
+        "startedAt": "",
+        "durationMs": 0,
+        "canary": "",
+        "network": [],
+        "console": [],
+        "pageErrors": [],
+        "uiClaims": [],
+        "filledFields": [],
+        "dialogs": [],
+        "downloads": [],
+        "popupUrls": [],
+        "snapshotIndex": "snapshots/RD-007.index.json"
+      }
+    },
+    {
+      "id": "RD-008",
+      "action": {
+        "id": "fb1a8a81551a",
+        "pageUrl": "http://127.0.0.1:37281/examples/react/dist/",
+        "label": "API Reference",
+        "activation": "click",
+        "kind": "navigation",
+        "intent": "navigate",
+        "risk": "safe",
+        "fingerprint": {
+          "selector": "body > aside > ul:nth-of-type(1) > li:nth-of-type(2) > a",
+          "tag": "a",
+          "ordinal": 5,
+          "role": "link",
+          "accessibleName": "API Reference",
+          "text": "API Reference",
+          "href": "https://react.dev/reference/react",
+          "candidates": [
+            {
+              "strategy": "role",
+              "weight": 92,
+              "role": "link",
+              "name": "API Reference",
+              "exact": true
+            },
+            {
+              "strategy": "role",
+              "weight": 82,
+              "role": "link",
+              "name": "API Reference",
+              "exact": false
+            },
+            {
+              "strategy": "href",
+              "weight": 72,
+              "value": "https://react.dev/reference/react"
+            },
+            {
+              "strategy": "text",
+              "weight": 60,
+              "value": "API Reference",
+              "exact": true
+            },
+            {
+              "strategy": "css",
+              "weight": 35,
+              "selector": "body > aside > ul:nth-of-type(1) > li:nth-of-type(2) > a"
+            }
+          ]
+        },
+        "fields": []
+      },
+      "verdict": "SKIPPED",
+      "evidenceLevel": 0,
+      "reason": "Cross-origin navigation blocked by the default safety policy. Use --allow-external explicitly.",
+      "skippedReason": "Cross-origin navigation blocked by the default safety policy. Use --allow-external explicitly.",
+      "detectorMatches": [],
+      "evidence": {
+        "startedAt": "",
+        "durationMs": 0,
+        "canary": "",
+        "network": [],
+        "console": [],
+        "pageErrors": [],
+        "uiClaims": [],
+        "filledFields": [],
+        "dialogs": [],
+        "downloads": [],
+        "popupUrls": [],
+        "snapshotIndex": "snapshots/RD-008.index.json"
+      }
+    },
+    {
+      "id": "RD-009",
+      "action": {
+        "id": "537ea2ada93c",
+        "pageUrl": "http://127.0.0.1:37281/examples/react/dist/",
+        "label": "Philosophy",
+        "activation": "click",
+        "kind": "navigation",
+        "intent": "navigate",
+        "risk": "safe",
+        "fingerprint": {
+          "selector": "body > aside > ul:nth-of-type(1) > li:nth-of-type(3) > a",
+          "tag": "a",
+          "ordinal": 6,
+          "role": "link",
+          "accessibleName": "Philosophy",
+          "text": "Philosophy",
+          "href": "https://petehuntsposts.quora.com/React-Under-the-Hood",
+          "candidates": [
+            {
+              "strategy": "role",
+              "weight": 92,
+              "role": "link",
+              "name": "Philosophy",
+              "exact": true
+            },
+            {
+              "strategy": "role",
+              "weight": 82,
+              "role": "link",
+              "name": "Philosophy",
+              "exact": false
+            },
+            {
+              "strategy": "href",
+              "weight": 72,
+              "value": "https://petehuntsposts.quora.com/React-Under-the-Hood"
+            },
+            {
+              "strategy": "text",
+              "weight": 60,
+              "value": "Philosophy",
+              "exact": true
+            },
+            {
+              "strategy": "css",
+              "weight": 35,
+              "selector": "body > aside > ul:nth-of-type(1) > li:nth-of-type(3) > a"
+            }
+          ]
+        },
+        "fields": []
+      },
+      "verdict": "SKIPPED",
+      "evidenceLevel": 0,
+      "reason": "Cross-origin navigation blocked by the default safety policy. Use --allow-external explicitly.",
+      "skippedReason": "Cross-origin navigation blocked by the default safety policy. Use --allow-external explicitly.",
+      "detectorMatches": [],
+      "evidence": {
+        "startedAt": "",
+        "durationMs": 0,
+        "canary": "",
+        "network": [],
+        "console": [],
+        "pageErrors": [],
+        "uiClaims": [],
+        "filledFields": [],
+        "dialogs": [],
+        "downloads": [],
+        "popupUrls": [],
+        "snapshotIndex": "snapshots/RD-009.index.json"
+      }
+    },
+    {
+      "id": "RD-010",
+      "action": {
+        "id": "195cf1362372",
+        "pageUrl": "http://127.0.0.1:37281/examples/react/dist/",
+        "label": "React Community",
+        "activation": "click",
+        "kind": "navigation",
+        "intent": "navigate",
+        "risk": "safe",
+        "fingerprint": {
+          "selector": "body > aside > ul:nth-of-type(1) > li:nth-of-type(4) > a",
+          "tag": "a",
+          "ordinal": 7,
+          "role": "link",
+          "accessibleName": "React Community",
+          "text": "React Community",
+          "href": "https://react.dev/community",
+          "candidates": [
+            {
+              "strategy": "role",
+              "weight": 92,
+              "role": "link",
+              "name": "React Community",
+              "exact": true
+            },
+            {
+              "strategy": "role",
+              "weight": 82,
+              "role": "link",
+              "name": "React Community",
+              "exact": false
+            },
+            {
+              "strategy": "href",
+              "weight": 72,
+              "value": "https://react.dev/community"
+            },
+            {
+              "strategy": "text",
+              "weight": 60,
+              "value": "React Community",
+              "exact": true
+            },
+            {
+              "strategy": "css",
+              "weight": 35,
+              "selector": "body > aside > ul:nth-of-type(1) > li:nth-of-type(4) > a"
+            }
+          ]
+        },
+        "fields": []
+      },
+      "verdict": "SKIPPED",
+      "evidenceLevel": 0,
+      "reason": "Cross-origin navigation blocked by the default safety policy. Use --allow-external explicitly.",
+      "skippedReason": "Cross-origin navigation blocked by the default safety policy. Use --allow-external explicitly.",
+      "detectorMatches": [],
+      "evidence": {
+        "startedAt": "",
+        "durationMs": 0,
+        "canary": "",
+        "network": [],
+        "console": [],
+        "pageErrors": [],
+        "uiClaims": [],
+        "filledFields": [],
+        "dialogs": [],
+        "downloads": [],
+        "popupUrls": [],
+        "snapshotIndex": "snapshots/RD-010.index.json"
+      }
+    },
+    {
+      "id": "RD-011",
+      "action": {
+        "id": "e590eb6c9f2e",
+        "pageUrl": "http://127.0.0.1:37281/examples/react/dist/",
+        "label": "ReactJS on Stack Overflow",
+        "activation": "click",
+        "kind": "navigation",
+        "intent": "navigate",
+        "risk": "safe",
+        "fingerprint": {
+          "selector": "body > aside > ul:nth-of-type(2) > li > a",
+          "tag": "a",
+          "ordinal": 8,
+          "role": "link",
+          "accessibleName": "ReactJS on Stack Overflow",
+          "text": "ReactJS on Stack Overflow",
+          "href": "https://stackoverflow.com/questions/tagged/reactjs",
+          "candidates": [
+            {
+              "strategy": "role",
+              "weight": 92,
+              "role": "link",
+              "name": "ReactJS on Stack Overflow",
+              "exact": true
+            },
+            {
+              "strategy": "role",
+              "weight": 82,
+              "role": "link",
+              "name": "ReactJS on Stack Overflow",
+              "exact": false
+            },
+            {
+              "strategy": "href",
+              "weight": 72,
+              "value": "https://stackoverflow.com/questions/tagged/reactjs"
+            },
+            {
+              "strategy": "text",
+              "weight": 60,
+              "value": "ReactJS on Stack Overflow",
+              "exact": true
+            },
+            {
+              "strategy": "css",
+              "weight": 35,
+              "selector": "body > aside > ul:nth-of-type(2) > li > a"
+            }
+          ]
+        },
+        "fields": []
+      },
+      "verdict": "SKIPPED",
+      "evidenceLevel": 0,
+      "reason": "Cross-origin navigation blocked by the default safety policy. Use --allow-external explicitly.",
+      "skippedReason": "Cross-origin navigation blocked by the default safety policy. Use --allow-external explicitly.",
+      "detectorMatches": [],
+      "evidence": {
+        "startedAt": "",
+        "durationMs": 0,
+        "canary": "",
+        "network": [],
+        "console": [],
+        "pageErrors": [],
+        "uiClaims": [],
+        "filledFields": [],
+        "dialogs": [],
+        "downloads": [],
+        "popupUrls": [],
+        "snapshotIndex": "snapshots/RD-011.index.json"
+      }
+    },
+    {
+      "id": "RD-012",
+      "action": {
+        "id": "9d8b9b6cd1ac",
+        "pageUrl": "http://127.0.0.1:37281/examples/react/dist/",
+        "label": "let us know",
+        "activation": "click",
+        "kind": "navigation",
+        "intent": "navigate",
+        "risk": "safe",
+        "fingerprint": {
+          "selector": "body > aside > footer > em > a",
+          "tag": "a",
+          "ordinal": 9,
+          "role": "link",
+          "accessibleName": "let us know",
+          "text": "let us know",
+          "href": "https://github.com/tastejs/todomvc/issues",
+          "candidates": [
+            {
+              "strategy": "role",
+              "weight": 92,
+              "role": "link",
+              "name": "let us know",
+              "exact": true
+            },
+            {
+              "strategy": "role",
+              "weight": 82,
+              "role": "link",
+              "name": "let us know",
+              "exact": false
+            },
+            {
+              "strategy": "href",
+              "weight": 72,
+              "value": "https://github.com/tastejs/todomvc/issues"
+            },
+            {
+              "strategy": "text",
+              "weight": 60,
+              "value": "let us know",
+              "exact": true
+            },
+            {
+              "strategy": "css",
+              "weight": 35,
+              "selector": "body > aside > footer > em > a"
+            }
+          ]
+        },
+        "fields": []
+      },
+      "verdict": "SKIPPED",
+      "evidenceLevel": 0,
+      "reason": "Cross-origin navigation blocked by the default safety policy. Use --allow-external explicitly.",
+      "skippedReason": "Cross-origin navigation blocked by the default safety policy. Use --allow-external explicitly.",
+      "detectorMatches": [],
+      "evidence": {
+        "startedAt": "",
+        "durationMs": 0,
+        "canary": "",
+        "network": [],
+        "console": [],
+        "pageErrors": [],
+        "uiClaims": [],
+        "filledFields": [],
+        "dialogs": [],
+        "downloads": [],
+        "popupUrls": [],
+        "snapshotIndex": "snapshots/RD-012.index.json"
+      }
+    },
+    {
+      "id": "RD-013",
+      "action": {
+        "id": "15c861c63aff",
+        "pageUrl": "http://127.0.0.1:37281/examples/react/dist/",
         "label": "TodoMVC",
         "activation": "click",
         "kind": "navigation",
@@ -813,7 +3109,7 @@
         "fingerprint": {
           "selector": "body > footer > p:nth-of-type(3) > a",
           "tag": "a",
-          "ordinal": 1,
+          "ordinal": 11,
           "role": "link",
           "accessibleName": "TodoMVC",
           "text": "TodoMVC",
@@ -870,38 +3166,212 @@
         "dialogs": [],
         "downloads": [],
         "popupUrls": [],
-        "snapshotIndex": "snapshots/RD-002.index.json"
+        "snapshotIndex": "snapshots/RD-013.index.json"
+      }
+    },
+    {
+      "id": "RD-014",
+      "action": {
+        "id": "292678b6efda",
+        "pageUrl": "http://127.0.0.1:37281/examples/typescript-react/#/",
+        "label": "Remo H. Jansen",
+        "activation": "click",
+        "kind": "navigation",
+        "intent": "navigate",
+        "risk": "safe",
+        "fingerprint": {
+          "selector": "body > footer > p:nth-of-type(2) > a",
+          "tag": "a",
+          "ordinal": 1,
+          "role": "link",
+          "accessibleName": "Remo H. Jansen",
+          "text": "Remo H. Jansen",
+          "href": "http://github.com/remojansen/",
+          "candidates": [
+            {
+              "strategy": "role",
+              "weight": 92,
+              "role": "link",
+              "name": "Remo H. Jansen",
+              "exact": true
+            },
+            {
+              "strategy": "role",
+              "weight": 82,
+              "role": "link",
+              "name": "Remo H. Jansen",
+              "exact": false
+            },
+            {
+              "strategy": "href",
+              "weight": 72,
+              "value": "http://github.com/remojansen/"
+            },
+            {
+              "strategy": "text",
+              "weight": 60,
+              "value": "Remo H. Jansen",
+              "exact": true
+            },
+            {
+              "strategy": "css",
+              "weight": 35,
+              "selector": "body > footer > p:nth-of-type(2) > a"
+            }
+          ]
+        },
+        "fields": []
+      },
+      "verdict": "SKIPPED",
+      "evidenceLevel": 0,
+      "reason": "Cross-origin navigation blocked by the default safety policy. Use --allow-external explicitly.",
+      "skippedReason": "Cross-origin navigation blocked by the default safety policy. Use --allow-external explicitly.",
+      "detectorMatches": [],
+      "evidence": {
+        "startedAt": "",
+        "durationMs": 0,
+        "canary": "",
+        "network": [],
+        "console": [],
+        "pageErrors": [],
+        "uiClaims": [],
+        "filledFields": [],
+        "dialogs": [],
+        "downloads": [],
+        "popupUrls": [],
+        "snapshotIndex": "snapshots/RD-014.index.json"
+      }
+    },
+    {
+      "id": "RD-015",
+      "action": {
+        "id": "89af6cc813cd",
+        "pageUrl": "http://127.0.0.1:37281/examples/typescript-react/#/",
+        "label": "TodoMVC",
+        "activation": "click",
+        "kind": "navigation",
+        "intent": "navigate",
+        "risk": "safe",
+        "fingerprint": {
+          "selector": "body > footer > p:nth-of-type(3) > a",
+          "tag": "a",
+          "ordinal": 2,
+          "role": "link",
+          "accessibleName": "TodoMVC",
+          "text": "TodoMVC",
+          "href": "http://todomvc.com/",
+          "candidates": [
+            {
+              "strategy": "role",
+              "weight": 92,
+              "role": "link",
+              "name": "TodoMVC",
+              "exact": true
+            },
+            {
+              "strategy": "role",
+              "weight": 82,
+              "role": "link",
+              "name": "TodoMVC",
+              "exact": false
+            },
+            {
+              "strategy": "href",
+              "weight": 72,
+              "value": "http://todomvc.com/"
+            },
+            {
+              "strategy": "text",
+              "weight": 60,
+              "value": "TodoMVC",
+              "exact": true
+            },
+            {
+              "strategy": "css",
+              "weight": 35,
+              "selector": "body > footer > p:nth-of-type(3) > a"
+            }
+          ]
+        },
+        "fields": []
+      },
+      "verdict": "SKIPPED",
+      "evidenceLevel": 0,
+      "reason": "Cross-origin navigation blocked by the default safety policy. Use --allow-external explicitly.",
+      "skippedReason": "Cross-origin navigation blocked by the default safety policy. Use --allow-external explicitly.",
+      "detectorMatches": [],
+      "evidence": {
+        "startedAt": "",
+        "durationMs": 0,
+        "canary": "",
+        "network": [],
+        "console": [],
+        "pageErrors": [],
+        "uiClaims": [],
+        "filledFields": [],
+        "dialogs": [],
+        "downloads": [],
+        "popupUrls": [],
+        "snapshotIndex": "snapshots/RD-015.index.json"
       }
     }
   ],
   "environment": {
     "status": "VALID",
-    "checkedAt": "2026-07-23T14:53:10.582Z",
-    "durationMs": 1310,
-    "targetUrl": "http://127.0.0.1:37127/",
+    "checkedAt": "2026-07-26T08:13:07.778Z",
+    "durationMs": 1826,
+    "targetUrl": "http://127.0.0.1:37281/examples/react/dist/",
     "mainDocument": {
       "status": 200,
       "contentType": "text/html"
     },
     "assets": {
-      "checked": 3,
-      "scripts": 2,
-      "stylesheets": 1,
+      "checked": 7,
+      "scripts": 4,
+      "stylesheets": 3,
       "failed": 0
     },
     "render": {
-      "bodyTextLength": 77,
-      "visibleElements": 9,
-      "interactiveElements": 2,
+      "bodyTextLength": 652,
+      "visibleElements": 42,
+      "interactiveElements": 12,
       "ready": true
     },
     "findings": [],
     "acceptedRisk": false,
-    "routesChecked": 1,
+    "routesChecked": 2,
     "invalidRoutes": 0
   },
   "completeness": {
     "truncated": false,
-    "reasons": []
+    "reasons": [],
+    "selection": {
+      "strategy": "coverage-balanced-v1",
+      "eligibleActions": 15,
+      "selectedActions": 15,
+      "omittedActions": 0,
+      "eligiblePages": 2,
+      "selectedPages": 2,
+      "eligibleKinds": [
+        "mutation",
+        "navigation"
+      ],
+      "selectedKinds": [
+        "mutation",
+        "navigation"
+      ],
+      "eligibleIntents": [
+        "create",
+        "submit",
+        "navigate"
+      ],
+      "selectedIntents": [
+        "create",
+        "submit",
+        "navigate"
+      ],
+      "deniedEligibleActions": 12,
+      "deniedSelectedActions": 12
+    }
   }
 }

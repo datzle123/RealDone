@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
-  "runId": "20260723T151518Z-7a66",
-  "baselineFile": "F:\\RealDone\\work\\requalification-20260723-215217\\mcp-agent-baseline.json",
-  "generatedAt": "2026-07-23T15:15:20.342Z",
+  "runId": "20260726T081932Z-0ea9",
+  "baselineFile": "F:\\RealDone\\work\\phase-i-qualification\\pocket-ledger\\.realdone\\baseline.json",
+  "generatedAt": "2026-07-26T08:19:35.245Z",
   "passed": false,
   "selectedContracts": 1,
   "regressions": 1,
@@ -32,8 +32,8 @@
             false
           ],
           "verificationId": [
-            "20260723T151025Z-80fc",
-            "20260723T151518Z-eae4"
+            "20260726T081354Z-345d",
+            "20260726T081932Z-86b6"
           ],
           "steps": {
             "1": {

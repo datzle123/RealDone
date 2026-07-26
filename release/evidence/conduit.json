@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-07-23T15:17:09.809Z",
-  "engineFingerprint": "68d4a8cb4b087d702df15d609d0ee0f7c92efaf731fdccd0d726b462a9878abe",
+  "generatedAt": "2026-07-26T08:45:00.000Z",
+  "engineFingerprint": "f3f65840e53777056fed4fc770853a522da85c46626f5bc910853515c266cc1a",
   "case": {
     "name": "Conduit RealWorld (SQLite)",
     "repository": "TonyMckes/conduit-realworld-example-app",
@@ -14,9 +14,9 @@
     ]
   },
   "scan": {
-    "scanId": "20260723T145644Z-dcea",
+    "scanId": "20260726T084136Z-1c78",
     "sourceArtifact": "release/evidence/raw/conduit.scan.json",
-    "sourceSha256": "eb853846cbf4f27a89579f1eaffdfa932159d1f9899483ecf849e68bd3eeb98c",
+    "sourceSha256": "eed642ab71f6f155bee6373cca80bad029ac4584e032553a61cd3d446803d4aa",
     "environmentStatus": "VALID",
     "truncated": false,
     "pagesDiscovered": 3,
