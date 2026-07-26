@@ -6,6 +6,7 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 
 ### Added
 
+- Configured classic branch protection for `main` with the strict/up-to-date GitHub Actions check `normative release gates (15/15)`, administrator enforcement, required conversation resolution, and disabled force-push/deletion; the aggregate now fails closed when a prerequisite fails, is cancelled, or is skipped.
 - Fresh Phase L qualification at fingerprint `3663ff0c…` across TodoMVC, Actual Budget, Conduit SQLite/PostgreSQL 17/Supabase Data API and Pocket Ledger, including PostgreSQL CRUD cleanup, authenticated Level 7 visual suppression and a new Codex RD901 regression/repair cycle.
 - Pre-capture visual privacy for automatic scans and contract/role verification: known-sensitive inputs, `secretEnv` and auth-state contexts now suppress screenshot/video binaries while safe controls retain them, with additive value-free report metadata.
 - Fresh Phase K qualification at fingerprint `4625a9cc…` across TodoMVC, Actual Budget, Conduit SQLite/PostgreSQL 17/Supabase Data API and Pocket Ledger, including PostgreSQL CRUD cleanup, 6/6 visible Pocket Ledger actions, Level 7 roles and a new Codex MCP RD901 regression/repair cycle.

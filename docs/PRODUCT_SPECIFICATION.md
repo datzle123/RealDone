@@ -1331,6 +1331,8 @@ Repository phải có:
 * pull request;
 * code review;
 * CI;
+* nhánh mặc định `main` được bảo vệ bằng pull request và exact required GitHub Actions check `normative release gates (15/15)` ở strict/up-to-date mode, áp dụng cả cho administrator;
+* unresolved conversation chặn merge; force-push và branch deletion trên `main` bị vô hiệu hóa;
 * test riêng cho detector;
 * fixture lỗi;
 * correct control;
@@ -1346,6 +1348,8 @@ Không được:
 * thay public interface không migration;
 * thêm plugin SDK trước khi có implementation thật;
 * benchmark chỉ kiểm tra discovery mà bỏ verdict correctness.
+* merge vào `main` khi aggregate 15/15 bị thiếu, skipped, cancelled, pending, stale hoặc failed;
+* dùng một main-branch push xanh sau merge để thay thế required pre-merge aggregate.
 
 ---
 
@@ -1368,6 +1372,8 @@ Một release chỉ được phát hành khi:
 13. Report schema backward-compatible.
 14. Không có secret trong artifact; trace bị phát hiện không an toàn hoặc không kiểm tra được phải bị xóa và không được liên kết trong report; screenshot/video của known-sensitive hoặc authenticated context phải bị chặn trước capture và chỉ để lại value-free suppression metadata.
 15. Case study bên ngoài không regression nghiêm trọng.
+
+Mười lăm gate phải được tổng hợp bởi job `normative release gates (15/15)`. GitHub branch protection của `main` phải yêu cầu exact GitHub Actions check này ở strict mode trên current pull-request head và phải áp dụng cho administrator. Các job platform là dependency của aggregate; chúng không thay thế aggregate. Aggregate phải chạy và fail closed khi dependency fail hoặc bị hủy; chỉ trạng thái `success` của exact required check mới cho phép merge.
 
 Không được release chỉ vì:
 

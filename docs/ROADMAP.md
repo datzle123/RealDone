@@ -193,3 +193,15 @@ Gate:
 - Typecheck, unit, browser, audit, package, fresh fingerprint-bound real-project and hosted 15/15 gates pass across Linux, macOS and Windows without retrying a product defect.
 
 Fingerprint `3663ff0c…` adds the CLI/MCP option, managed-scan boundary, process diagnostics, dynamic-port smoke and delayed broken/control coverage. Local check (144 pass, 2 expected service-dependent skips), audit, full Chromium smoke, pack and installed-tarball smoke passed. Fresh TodoMVC `20260726T134853Z-47e8`, Actual Budget `20260726T135032Z-94f7`, Conduit SQLite `20260726T140120Z-f665`, Conduit PostgreSQL + Supabase `20260726T140645Z-88ef`, Pocket Ledger `20260726T135405Z-d811`, PostgreSQL CRUD/cleanup, Level 7 roles and Codex regression/repair artifacts are SHA-256-bound and validate with no artifact secret findings. PR run `30205895718` and main run [`30206231697`](https://github.com/datzle123/RealDone/actions/runs/30206231697) passed 15/15 on their first attempt across Linux, macOS and Windows; Windows Node 22 passed the delayed managed-runtime smoke without retry. GitHub signed the main aggregate for merge `badd3a9`, and `gh attestation verify` accepted both artifacts.
+
+## Phase M — enforced aggregate main-branch merge gate (in progress)
+
+Contributes evidence to: §28–29, §32.
+
+Gate:
+
+- Classic branch protection on `main` requires the exact GitHub Actions check `normative release gates (15/15)`, pinned to the GitHub Actions app.
+- Required status checks use strict/up-to-date mode and apply to administrators; force-push and branch deletion are disabled, and unresolved conversations block merge.
+- The aggregate always runs its prerequisite guard, so a failed, skipped or cancelled dependency cannot become an accepted skipped required check.
+- A missing, pending, stale or failed aggregate remains unmergeable and leaves the `main` SHA unchanged; the current control merges normally only after the aggregate is green.
+- The protection API snapshot, blocked merge attempt, required PR run and resulting signed `main` 15/15 run are recorded with real IDs before the phase is marked complete.

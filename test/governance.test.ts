@@ -1,6 +1,10 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { spawnSync } from "node:child_process";
+import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
 import test from "node:test";
+import { fileURLToPath } from "node:url";
 
 const root = new URL("../", import.meta.url);
 
@@ -69,4 +73,43 @@ test("normative product truth is linked, consistent, and shipped", async () => {
     assert.ok(shipped, `${file} must ship in the package`);
   }
   assert.match(workflow, /pnpm smoke:package/);
+});
+
+test("repository governance rejects a weakened policy and accepts the protected-main control", async () => {
+  const directory = await mkdtemp(path.join(os.tmpdir(), "realdone-governance-"));
+  const script = fileURLToPath(new URL("../scripts/check-repository-governance.mjs", import.meta.url));
+  const workflow = fileURLToPath(new URL("../.github/workflows/ci.yml", import.meta.url));
+  const actualManifest = JSON.parse(await read(".github/repository-governance.json")) as Record<string, unknown>;
+  const brokenManifest = path.join(directory, "broken.json");
+
+  try {
+    await writeFile(brokenManifest, JSON.stringify({ ...actualManifest, strict: false, enforceAdmins: false }));
+    const broken = spawnSync(process.execPath, [script, "--manifest", brokenManifest, "--workflow", workflow], { encoding: "utf8" });
+    assert.equal(broken.status, 1);
+    assert.match(broken.stdout, /GOV006/);
+    assert.match(broken.stdout, /GOV007/);
+
+    const control = spawnSync(process.execPath, [script], { cwd: fileURLToPath(root), encoding: "utf8" });
+    assert.equal(control.status, 0, control.stderr || control.stdout);
+    assert.match(control.stdout, /"passed": true/);
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+});
+
+test("aggregate release prerequisite guard fails closed and accepts the all-success control", () => {
+  const script = fileURLToPath(new URL("../scripts/check-release-prerequisites.mjs", import.meta.url));
+  const broken = spawnSync(process.execPath, [script], {
+    encoding: "utf8",
+    env: { ...process.env, REALDONE_CHECK_RESULT: "failure", REALDONE_COMPATIBILITY_RESULT: "success" },
+  });
+  assert.equal(broken.status, 1);
+  assert.match(broken.stdout, /"passed":false/);
+
+  const control = spawnSync(process.execPath, [script], {
+    encoding: "utf8",
+    env: { ...process.env, REALDONE_CHECK_RESULT: "success", REALDONE_COMPATIBILITY_RESULT: "success" },
+  });
+  assert.equal(control.status, 0, control.stderr || control.stdout);
+  assert.match(control.stdout, /"passed":true/);
 });
