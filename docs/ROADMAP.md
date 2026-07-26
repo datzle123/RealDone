@@ -166,7 +166,7 @@ Gate:
 
 Fingerprint `0b39d542…` passed the local type/unit/build, audit, full Chromium and installed-tarball gates. Fresh pinned runs cover TodoMVC, Actual Budget, Conduit SQLite, Conduit PostgreSQL 17 + Supabase Data API, PostgreSQL create/update/delete cleanup, Pocket Ledger Level 7 and a new Codex MCP baseline → RD901 → repair cycle. Hosted PR run `30199694271` passed all 15 gates after one transient Windows runner startup retry. Main run [`30200299159`](https://github.com/datzle123/RealDone/actions/runs/30200299159) repeated 15/15 across Linux, macOS and Windows for merge `6d736d5`; GitHub signed the aggregate evidence and gate report, and `gh attestation verify` accepted both artifacts.
 
-## Phase K — private visual retention (release candidate)
+## Phase K — private visual retention (complete)
 
 Contributes evidence to: §12–13, §21, §25, §29–30.
 
@@ -178,4 +178,4 @@ Gate:
 - Unauthenticated non-sensitive automatic and contract controls still retain screenshot/video evidence.
 - Typecheck, unit, real-browser, audit, package, schema, cleanup, fresh real-project and hosted 15/15 gates pass without weakening RG14.
 
-Candidate fingerprint `4625a9cc…` has fresh repository-bound TodoMVC, Actual Budget, Conduit SQLite, Conduit PostgreSQL 17 + Supabase Data API, PostgreSQL CRUD and Pocket Ledger runs. Pocket Ledger verified 6/6 visible actions, Level 7 roles, authenticated visual suppression and a real Codex MCP baseline → RD901 regression → repair cycle. Local check (142 pass, 2 expected service-dependent skips), audit, full Chromium smoke, pack and installed-tarball smoke passed. Phase K remains a candidate until the hosted cross-platform aggregate is signed.
+Fingerprint `4625a9cc…` has fresh repository-bound TodoMVC, Actual Budget, Conduit SQLite, Conduit PostgreSQL 17 + Supabase Data API, PostgreSQL CRUD and Pocket Ledger runs. Pocket Ledger verified 6/6 visible actions, Level 7 roles, authenticated visual suppression and a real Codex MCP baseline → RD901 regression → repair cycle. Local check (142 pass, 2 expected service-dependent skips), audit, full Chromium smoke, pack and installed-tarball smoke passed. PR run `30202575079` and main run [`30203185815`](https://github.com/datzle123/RealDone/actions/runs/30203185815) passed 15/15 across Linux, macOS and Windows; Windows Node 22 required one managed-runtime startup retry in both runs. GitHub signed the main aggregate for merge `ca9e9db`, and `gh attestation verify` accepted both artifacts.
