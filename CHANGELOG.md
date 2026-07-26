@@ -6,12 +6,15 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 
 ### Added
 
+- Pre-capture visual privacy for automatic scans and contract/role verification: known-sensitive inputs, `secretEnv` and auth-state contexts now suppress screenshot/video binaries while safe controls retain them, with additive value-free report metadata.
+- Fresh Phase K qualification at fingerprint `4625a9cc…` across TodoMVC, Actual Budget, Conduit SQLite/PostgreSQL 17/Supabase Data API and Pocket Ledger, including PostgreSQL CRUD cleanup, 6/6 visible Pocket Ledger actions, Level 7 roles and a new Codex MCP RD901 regression/repair cycle.
 - Fail-closed per-trace retention for automatic scans and contract/MCP verification: bounded ZIP inspection now checks generated sensitive fields, contract `secretEnv`, opaque Playwright auth-state cookies/tokens and generic credential patterns before report linkage, with additive value-free suppression metadata for deleted unsafe or unscannable traces.
 - Fresh fingerprint-bound Phase J qualification across TodoMVC, Actual Budget, Conduit SQLite/PostgreSQL 17/Supabase Data API and Pocket Ledger, including PostgreSQL CRUD cleanup, Level 7 roles and a new Codex MCP RD901 regression/repair cycle.
 - Coverage-balanced quick-scan scheduling that represents more routes, action kinds, intents, and keyboard/submit activation paths within the same finite action budget, while placing known policy/environment denials after runnable actions.
 - Additive action-selection telemetry in JSON and HTML reports, including eligible/selected/omitted counts, route coverage, semantic coverage, denial counts, the deterministic strategy version, and an explicit partial-scan explanation.
 - Fresh fingerprint-bound qualification across TodoMVC, Actual Budget, Conduit/SQLite, Conduit/PostgreSQL 17 + Supabase Data API, and Codex-generated Pocket Ledger, including PostgreSQL create/update/delete cleanup, Level 7 roles, and a real Codex MCP baseline → RD901 regression → repair cycle.
 - Hosted main run `30195945498` passed and signed all 15 normative gates across Linux, Windows and macOS for the Phase I fingerprint and installed-package path.
+- Hosted main run `30200299159` passed and signed all 15 normative gates across Linux, Windows and macOS for the Phase J fingerprint; both aggregate artifacts verified against merge `6d736d5`.
 
 ### Fixed
 

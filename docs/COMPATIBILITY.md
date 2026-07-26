@@ -6,6 +6,8 @@ Unreleased main fingerprint `f3f65840…` preserved the same matrix and package 
 
 The subsequent Phase I status merge `42006c4` independently repeated the full matrix and signed 15/15 in hosted main run [`30196808460`](https://github.com/datzle123/RealDone/actions/runs/30196808460).
 
+Phase J fingerprint `0b39d542…` repeated the matrix in hosted main run [`30200299159`](https://github.com/datzle123/RealDone/actions/runs/30200299159). GitHub signed both aggregate artifacts for merge `6d736d5`, and `gh attestation verify` accepted their Linux/macOS/Windows provenance.
+
 | Surface | Release gate |
 | --- | --- |
 | Node.js | 20 and 22 |
@@ -30,3 +32,5 @@ Codex and Claude Code integrations are command presets, not embedded SDKs. RealD
 Coverage-balanced action selection adds an optional `completeness.selection` object to `scan.json`. Existing `schemaVersion: "1.0"` fields and meanings are unchanged, old reports remain readable, and validators use passthrough/additive compatibility. Consumers may ignore the new telemetry or use it to distinguish discovered, selected, omitted, and route-represented action coverage.
 
 Secret-safe trace retention adds optional `evidence.traceSuppression` on scan findings and optional `artifacts.traceSuppressions` on contract verification. Existing trace paths are unchanged when a ZIP passes inspection; rejected traces are absent by design. Consumers that ignore the new metadata continue to read schema `1.0`, while Windows, macOS and Linux use the same bounded `fflate` ZIP inspection path.
+
+Private visual retention adds optional `evidence.visualSuppressions` on scan findings and optional `artifacts.visualSuppressions` on contract verification. Each entry contains only `artifact` (`screenshot` or `video`) and a bounded `reason` (`sensitive-input` or `authenticated-context`). Existing screenshot/video paths remain unchanged for safe contexts, old reports remain readable, and consumers may ignore the additive fields under schema `1.0`.

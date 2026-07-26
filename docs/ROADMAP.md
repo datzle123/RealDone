@@ -152,7 +152,7 @@ Gate:
 
 Phase I is complete for fingerprint `f3f65840…`: typecheck/unit/build passed 140 tests with 2 expected service-dependent skips, dependency audit reported no known vulnerabilities, full Chromium smoke passed the real three-route budget control, and pack plus installed-tarball package smoke passed. Fresh SHA-256-bound runs cover TodoMVC, Actual Budget, Conduit/SQLite, Conduit/PostgreSQL 17 + Supabase Data API, PostgreSQL CRUD cleanup, Level 7 roles, and a Codex MCP baseline → RD901 regression → repair cycle. Hosted main run [`30195945498`](https://github.com/datzle123/RealDone/actions/runs/30195945498) passed all 15 gates across Linux, macOS and Windows, Node 20/22, PostgreSQL 17, MongoDB 8 and installed-package smoke. GitHub signed the aggregate evidence and gate report, and `gh attestation verify` accepted both artifacts.
 
-## Phase J — secret-safe trace retention (release candidate)
+## Phase J — secret-safe trace retention (complete)
 
 Contributes evidence to: §12–13, §21, §25, §29–30.
 
@@ -164,4 +164,18 @@ Gate:
 - A real-browser sensitive-field broken case loses its trace, a non-sensitive trace control remains available, invalid/limit unit controls fail closed, and the final aggregate artifact secret scan remains green.
 - Typecheck, unit, browser, audit, package, schema, cleanup and hosted cross-platform release gates pass without weakening RG14.
 
-Candidate fingerprint `0b39d542…` passed the local type/unit/build, audit, full Chromium and installed-tarball gates. Fresh pinned runs cover TodoMVC, Actual Budget, Conduit SQLite, Conduit PostgreSQL 17 + Supabase Data API, PostgreSQL create/update/delete cleanup, Pocket Ledger Level 7 and a new Codex MCP baseline → RD901 → repair cycle. Hosted run `30198005122` passed every cross-platform browser/package job and correctly rejected stale Phase I real-case evidence; after the rerun, the refreshed inputs plus its six platform attestations passed 15/15 locally. Phase J is not complete until GitHub repeats and signs the refreshed aggregate.
+Fingerprint `0b39d542…` passed the local type/unit/build, audit, full Chromium and installed-tarball gates. Fresh pinned runs cover TodoMVC, Actual Budget, Conduit SQLite, Conduit PostgreSQL 17 + Supabase Data API, PostgreSQL create/update/delete cleanup, Pocket Ledger Level 7 and a new Codex MCP baseline → RD901 → repair cycle. Hosted PR run `30199694271` passed all 15 gates after one transient Windows runner startup retry. Main run [`30200299159`](https://github.com/datzle123/RealDone/actions/runs/30200299159) repeated 15/15 across Linux, macOS and Windows for merge `6d736d5`; GitHub signed the aggregate evidence and gate report, and `gh attestation verify` accepted both artifacts.
+
+## Phase K — private visual retention (release candidate)
+
+Contributes evidence to: §12–13, §21, §25, §29–30.
+
+Gate:
+
+- Automatic actions with known sensitive fields never create standalone/trace screenshots or video files; auth-state scans suppress the same binary artifacts before capture.
+- Contract contexts with `secretEnv` or configured auth state never start trace screenshot or video recording, including role, matrix, baseline, CI and MCP entry points that share the verifier.
+- JSON/HTML reports expose only additive artifact/reason suppression metadata with no values, fingerprints, selectors or rejected paths.
+- Unauthenticated non-sensitive automatic and contract controls still retain screenshot/video evidence.
+- Typecheck, unit, real-browser, audit, package, schema, cleanup, fresh real-project and hosted 15/15 gates pass without weakening RG14.
+
+Candidate fingerprint `4625a9cc…` has fresh repository-bound TodoMVC, Actual Budget, Conduit SQLite, Conduit PostgreSQL 17 + Supabase Data API, PostgreSQL CRUD and Pocket Ledger runs. Pocket Ledger verified 6/6 visible actions, Level 7 roles, authenticated visual suppression and a real Codex MCP baseline → RD901 regression → repair cycle. Local check (142 pass, 2 expected service-dependent skips), audit, full Chromium smoke, pack and installed-tarball smoke passed. Phase K remains a candidate until the hosted cross-platform aggregate is signed.

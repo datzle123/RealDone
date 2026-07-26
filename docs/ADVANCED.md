@@ -75,7 +75,7 @@ Capture full debugging artifacts explicitly when needed:
 realdone verify flow.json --deep --trace --video
 ```
 
-Trace ZIPs and browser videos are linked from local HTML/JSON evidence. They can contain application content, so keep them under the ignored `.realdone/` tree and review them before sharing.
+Trace ZIPs and browser videos are linked from local HTML/JSON evidence. Retained traces pass bounded secret inspection; screenshot/video capture is suppressed for known-sensitive and authenticated contexts because binary inspection cannot prove rendered content safe. Other visual artifacts can still contain application content, so keep them under the ignored `.realdone/` tree and review them before sharing.
 
 Attach read-only, value-free source snapshots to every executed mutation when source-of-truth change evidence is needed:
 
