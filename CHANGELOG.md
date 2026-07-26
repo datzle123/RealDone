@@ -12,6 +12,7 @@ All notable changes are documented here. RealDone follows semantic versioning wh
 
 ### Fixed
 
+- Cross-platform release smoke now gives the valid fragment-navigation control a full environment budget and keeps browser portability checks separate from the independently gated Chromium performance budget.
 - Initial page reads and socket handshakes no longer become evidence for the first clicked action.
 - WebSockets opened only during persistence reloads and unrelated background GET polling no longer make a no-op mutation look effective.
 - Discovery/actionability false positives found by the real-project batch, including nested, covered, selected, script-anchor, visual-state, local-search, clipboard, session-order, and cross-origin cases.

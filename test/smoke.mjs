@@ -331,7 +331,7 @@ try {
     outputRoot: path.join(outputRoot, "fragment-navigation"),
     maxPages: 1,
     maxActions: 1,
-    environmentTimeoutMs: 3_000,
+    environmentTimeoutMs: 10_000,
   });
   assert.equal(fragmentNavigation.exitCode, 0);
   assert.equal(fragmentNavigation.report.summary.verdicts.VERIFIED, 1);
@@ -911,8 +911,9 @@ try {
   assert.equal(agentGate.report.changedFiles.length, 0);
   assert.equal(agentGate.report.evidencePolicy, "agent-output-is-not-verification-evidence");
   if (process.env.REALDONE_BROWSER_MATRIX === "1") {
+    const { performanceBudgetFile: _performanceBudgetFile, ...matrixVerifyOptions } = verifyOptions;
     const matrix = await runBrowserMatrix(recording.contractFile, ["chromium", "firefox", "webkit"], {
-      ...verifyOptions,
+      ...matrixVerifyOptions,
       outputRoot: path.join(outputRoot, "matrix"),
     });
     assert.equal(matrix.exitCode, 0, JSON.stringify(matrix.report.entries, null, 2));
