@@ -8,6 +8,8 @@ The subsequent Phase I status merge `42006c4` independently repeated the full ma
 
 Phase J fingerprint `0b39d542…` repeated the matrix in hosted main run [`30200299159`](https://github.com/datzle123/RealDone/actions/runs/30200299159). GitHub signed both aggregate artifacts for merge `6d736d5`, and `gh attestation verify` accepted their Linux/macOS/Windows provenance.
 
+Phase K fingerprint `4625a9cc…` repeated the matrix in hosted main run [`30203185815`](https://github.com/datzle123/RealDone/actions/runs/30203185815). All 15 gates passed after one Windows Node 22 managed-runtime startup retry, GitHub signed both aggregate artifacts for merge `ca9e9db`, and `gh attestation verify` accepted their provenance.
+
 | Surface | Release gate |
 | --- | --- |
 | Node.js | 20 and 22 |
